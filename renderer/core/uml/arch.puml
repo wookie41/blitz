@@ -1,0 +1,26 @@
+@startuml
+
+[Device] ---> [Context]: creates
+[Device] ---> [Window]: creates
+[Window] -> [Context]: references
+
+[Context] --> [Shareable resources]: creates
+[Window] --> [Non-shareable resources]: creates
+[RenderCommand] --> Window: issued to
+[RenderState] --> Window: set
+
+package "Shareable resources" {
+    [Shader]
+    [Texture]
+    [RenderBuffer]
+    [VertexBuffer]
+    [ElementBuffer]
+
+}
+
+package "Non-shareable resources" {
+    [VertexArrayObject]
+    [FrameBuffer]
+}
+
+@enduml

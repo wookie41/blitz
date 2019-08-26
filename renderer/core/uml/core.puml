@@ -1,0 +1,55 @@
+@startuml
+
+interface Device {
+    - config DeviceConfiguration
+    +createWindow(WindowDef, Context?)
+    +createContext(Window)
+}
+
+abstract class Context {
+    - attachedWindows List<Window>
+    - Shaders, VBOs, Textures Managers...
+    +createShader(ShaderDef)
+    +createVBO(VBODef)
+    +createTexture(TextureDef)
+    +createRenderBuffer(RBODef)
+    +createElementBuffer(EBODef)
+}
+
+abstract class Window {
+    - context Context
+    - renderState RenderState
+    - commands Collection<RenderCommand>
+    +setContext(Context)
+    +setRenderState(RenderState)
+    +issue(DrawCommand)
+    +render()
+}
+
+class RenderCommand {
+    - VAO
+    - Shader
+    - Uniforms
+    - Textures
+}
+
+class RenderState {
+    - ViewPort
+    - Blending
+    - Depth
+    - Stencil
+    - ClearColor
+    - DepthColor
+    - CullMode
+}
+
+RenderCommand   <|-- Window
+RenderState     <|- Window
+
+Window      <|--- Context
+Context     <|--- Window
+
+Device <|--- Context
+Device <|--- Window
+
+@enduml
