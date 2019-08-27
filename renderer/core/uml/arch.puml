@@ -2,12 +2,16 @@
 
 [Device] ---> [Context]: creates
 [Device] ---> [Window]: creates
+[Context] --> [Shareable resources]: creates
+
+[Window] --> [Non-shareable resources]: creates
+[Window] <--- [RenderPass]
 [Window] -> [Context]: references
 
-[Context] --> [Shareable resources]: creates
-[Window] --> [Non-shareable resources]: creates
-[RenderCommand] --> Window: issued to
-[RenderState] --> Window: set
+package "RenderPass" {
+    [RenderCommands]
+    [RenderState]
+}
 
 package "Shareable resources" {
     [Shader]

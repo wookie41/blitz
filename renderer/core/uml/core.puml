@@ -1,13 +1,6 @@
 @startuml
 
-interface Device {
-    - config DeviceConfiguration
-    +createWindow(WindowDef, Context?)
-    +createContext(Window)
-}
-
 abstract class Context {
-    - attachedWindows List<Window>
     - Shaders, VBOs, Textures Managers...
     +createShader(ShaderDef)
     +createVBO(VBODef)
@@ -17,12 +10,10 @@ abstract class Context {
 }
 
 abstract class Window {
-    - context Context
-    - renderState RenderState
-    - commands Collection<RenderCommand>
+    - Context
+    - Collection<RenderPass>
     +setContext(Context)
-    +setRenderState(RenderState)
-    +issue(DrawCommand)
+    +issue(RenderPass)
     +render()
 }
 
@@ -43,13 +34,14 @@ class RenderState {
     - CullMode
 }
 
-RenderCommand   <|-- Window
-RenderState     <|- Window
+class RenderPass {
+    - RenderState
+    - Collection<RenderCommand>
+}
 
-Window      <|--- Context
-Context     <|--- Window
-
-Device <|--- Context
-Device <|--- Window
+RenderPass <|-- Window
+Context     <|- Window
+RenderState <|--  RenderPass
+RenderCommand <|--  RenderPass
 
 @enduml
