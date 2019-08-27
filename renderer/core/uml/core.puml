@@ -1,0 +1,47 @@
+@startuml
+
+abstract class Context {
+    - Shaders, VBOs, Textures Managers...
+    +createShader(ShaderDef)
+    +createVBO(VBODef)
+    +createTexture(TextureDef)
+    +createRenderBuffer(RBODef)
+    +createElementBuffer(EBODef)
+}
+
+abstract class Window {
+    - Context
+    - Collection<RenderPass>
+    +setContext(Context)
+    +issue(RenderPass)
+    +render()
+}
+
+class RenderCommand {
+    - VAO
+    - Shader
+    - Uniforms
+    - Textures
+}
+
+class RenderState {
+    - ViewPort
+    - Blending
+    - Depth
+    - Stencil
+    - ClearColor
+    - DepthColor
+    - CullMode
+}
+
+class RenderPass {
+    - RenderState
+    - Collection<RenderCommand>
+}
+
+RenderPass <|-- Window
+Context     <|- Window
+RenderState <|--  RenderPass
+RenderCommand <|--  RenderPass
+
+@enduml
