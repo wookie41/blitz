@@ -8,3 +8,22 @@ To install all the above dependencies, run:
 ```
 git submodule update --init --recursive
 ```
+
+# Coding conventions
+
+### [Core] Renderer
+
+The renderer should be as simple (and as fast) as it can be. It's job is to provide
+an abstraction over the underlying OS and graphics API so the same code can draw stuff on Linux, 
+Mac and Window (Windows was named last for a reason).
+
+Having this in mind, even tho it's written in C++, it shouldn't make use of any of 
+the fancy C++ stuff, like smart pointers, STL and etc.
+
+###### Smart Pointers
+No smart pointers usage is allowed in the core of the renderer.
+Define ownership using a raw pointer. Whoever creates an object is also responsible
+for deleting it.
+
+Only the owner should use the pointer, if there is a need to share the object, just
+use a reference.

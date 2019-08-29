@@ -1,27 +1,13 @@
-cmake_minimum_required(VERSION 3.12)
-project(blitz-renderer-core)
-set(CMAKE_CXX_STANDARD 17)
+project (renderer-core)
 
-add_library(blitz-renderer-core src/Device.cpp)
+add_library(${PROJECT_NAME} STATIC src/Device.cpp)
+add_library(blitz::renderer-core ALIAS ${PROJECT_NAME})
 
-target_include_directories(blitz-renderer-core PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-        $<INSTALL_INTERFACE:include>
-        PRIVATE src)
+target_include_directories( ${PROJECT_NAME}
+        PUBLIC ${PROJECT_SOURCE_DIR}/include
+        )
 
-target_link_libraries(blitz-renderer-core PRIVATE mathfu)
-target_link_libraries(blitz-renderer-core PRIVATE sdl2)
-
-install(TARGETS blitz-renderer-core EXPORT BlitzRendererCoreConfig
-        ARCHIVE  DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        LIBRARY  DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME  DESTINATION ${CMAKE_INSTALL_BINDIR})  # This is for Windows
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-
-install(EXPORT BlitzRendererCoreConfig
-        DESTINATION share/blitz-renderer-core/cmake)
-
-export(TARGETS blitz-renderer-core FILE BlitzRendererCoreConfig.cmake)
+target_link_libraries(renderer-core blitz::common)
 
 ##add_executable(blitz-renderer-core-tests) #TODO
 #target_link_libraries(blitz-renderer-core-tests blitz-renderer-core)
