@@ -17,18 +17,19 @@
 
 #include "mathfu/constants.h"
 
-#include "core/Context.h"
-#include "core/Window.h.h"
+#include "Context.h"
+#include "Window.h.h"
 
 namespace blitz
 {
     class Device : private NonCopyable
     {
-        virtual Context* createContext() = 0;
-
+      public:
         virtual Window* createWindow(const WindowDef& windowDef) = 0;
 
+        virtual Context* createContext(const Window& window) = 0;
+
         virtual Window* createWindowWithContext(const WindowDef& windowDef,
-                                                const Context& context) = 0;
+                                                const Context& contextToShare) = 0;
     };
 } // namespace blitz

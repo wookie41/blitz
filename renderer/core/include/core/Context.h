@@ -4,7 +4,8 @@
 
 namespace blitz
 {
-    class Context: private NonCopyable
+    class Context : private NonCopyable
     {
+
     };
-}
+} // namespace blitz
