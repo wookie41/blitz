@@ -1,17 +1,4 @@
-#include "core/Device.h"
-#include "core/Logger.h"
+//
+// Created by wookie on 31.08.19.
+//
 
-#include <iostream>
-
-extern const blitz::Device* BLITZ_DEVICE;
-
-int main(int argc, char** argv)
-{
-    blitz::Logger::init(argc, argv);
-    auto windowDef = blitz::WindowDef {0, 0, 400, 400, "test"};
-    auto window = BLITZ_DEVICE->createWindow(windowDef);
-    window->hide();
-    std::string s;
-    std::cin >> s;
-    return 0;
-}
