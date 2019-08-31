@@ -7,29 +7,34 @@
 //
 // To avoid performance penalty, there is an static instance of the Device
 // crated in file Globals.h
-// You can change the Device's implementation using build the build flag:
-//
-// TODO
 
 #pragma once
 
 #include "blitzcommon/Utils.h"
 
-#include "mathfu/constants.h"
-
 #include "Context.h"
-#include "Window.h.h"
+#include "Window.h"
 
 namespace blitz
 {
+    enum class DeviceErrorCode
+    {
+        NO_ERROR,
+
+        //SDL2Device error codes
+        SDL_INIT_ERROR,
+        GLEW_INIT_ERROR
+    };
+
+
     class Device : private NonCopyable
     {
       public:
-        virtual Window* createWindow(const WindowDef& windowDef) = 0;
 
-        virtual Context* createContext(const Window& window) = 0;
+        virtual Window* createWindow(const WindowDef& windowDef) const = 0;
 
-        virtual Window* createWindowWithContext(const WindowDef& windowDef,
-                                                const Context& contextToShare) = 0;
+        virtual Window* createWindow(const WindowDef &windowDef,
+                                     Context* contextToShare) const = 0;
+        virtual ~Device() = default;
     };
 } // namespace blitz

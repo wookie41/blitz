@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 namespace blitz
 {
     struct Color
@@ -7,8 +9,6 @@ namespace blitz
         uint8_t red;
         uint8_t green;
         uint8_t blue;
-
-      private:
-        uint8_t _padding
+        uint8_t alpha;
     };
 } // namespace blitz

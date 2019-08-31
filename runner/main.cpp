@@ -1,7 +1,17 @@
+#include "core/Device.h"
+#include "core/Logger.h"
+
 #include <iostream>
 
-int main()
+extern const blitz::Device* BLITZ_DEVICE;
+
+int main(int argc, char** argv)
 {
-    std::cout << "Hello, World!" << std::endl;
+    blitz::Logger::init(argc, argv);
+    auto windowDef = blitz::WindowDef {0, 0, 400, 400, "test"};
+    auto window = BLITZ_DEVICE->createWindow(windowDef);
+    window->hide();
+    std::string s;
+    std::cin >> s;
     return 0;
 }
