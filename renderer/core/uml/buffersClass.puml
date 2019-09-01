@@ -1,0 +1,55 @@
+@startuml
+
+enum UsageHint {
+    STREAM
+    STATIC
+    IMMUTABLE
+    ...
+}
+
+class BufferDef {
+    + int size
+    + BufferType type
+    + UsageHint usageHint
+    + void* data //nullable
+    ...
+}
+
+class BufferLock {
+    + unlockTarget()
+}
+
+interface Buffer {
+    + int getSize()
+    + void put(void* data)
+    + void get(void* destination)
+    + BufferLock bind(BufferBindTarget target)
+}
+
+class GLStreamBuffer implements Buffer {
+    + int getSize()
+    + put(void* data)
+    + get(void* destination)
+}
+
+class GLStaticBuffer implements Buffer {
+    + int getSize()
+    + put(void* data)
+    + get(void* destination)
+}
+
+class GLImmutableBuffer implements Buffer {
+    + int getSize()
+    + put(void* data)
+    + get(void* destination)
+}
+
+interface Context {
+    + Buffer createBuffer(Bufferdef)
+    + BufferLock[] lockBuffers(Buffer... buffers)
+    - Map<BufferBindTarget, Lock> bufferLocks
+}
+
+BufferDef *-- UsageHint
+
+@enduml

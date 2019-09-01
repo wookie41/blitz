@@ -1,0 +1,31 @@
+@startuml
+
+node Device {
+    [DeviceBuffer]
+    [DeviceBuffer_1]
+    [DeviceBuffer_2]
+    [VertexBufferTarget]
+    [ElementBufferTarget]
+}
+
+node BufferFactory {
+    [FileBufferLoader]
+    [MemoryLoader]
+}
+
+BufferFactory ----> Device :create buffer object
+FileBufferLoader --> [FileReader]: getFile
+[FileReader] -> [File] :read/map
+[Buffer] --> DeviceBuffer :transfer
+[Buffer] --> DeviceBuffer_1 :transfer
+[Buffer] --> DeviceBuffer_2 :transfer
+
+
+
+[Context]
+[RendererCode]
+
+RendererCode -> Context: create buffers
+Context --> BufferFactory: create buffer
+BufferFactory -> Buffer: upload data/preallocate space
+@enduml
