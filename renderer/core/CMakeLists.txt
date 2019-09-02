@@ -7,6 +7,7 @@ add_library(${PROJECT_NAME} STATIC
         src/core/sdl2/SDL2Window.cpp
         src/core/sdl2/SDL2Context.cpp
         src/core/Globals.cpp
+        src/core/ogl/OpenGLContext.cpp
         )
 
 set_target_properties(${PROJECT_NAME}

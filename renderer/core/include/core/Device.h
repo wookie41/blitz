@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include "blitzcommon/Utils.h"
+#include "blitzcommon/NonCopyable.h"
 
 #include "Window.h"
 

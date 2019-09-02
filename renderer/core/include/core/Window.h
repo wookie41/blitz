@@ -3,7 +3,7 @@
 #include <cstdint>
 
 #include "Context.h"
-#include "blitzcommon/Utils.h"
+#include "blitzcommon/NonCopyable.h"
 
 class RenderPass;
 

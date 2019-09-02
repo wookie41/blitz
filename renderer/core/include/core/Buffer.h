@@ -4,6 +4,8 @@
 
 namespace blitz
 {
+    const uint8_t NUM_OF_BUFFER_BIND_TARGETS = 2;
+
     enum class BufferBindTarget
     {
         VERTEX,
