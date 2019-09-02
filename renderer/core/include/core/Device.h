@@ -12,11 +12,13 @@
 
 #include "blitzcommon/Utils.h"
 
-#include "Context.h"
 #include "Window.h"
 
 namespace blitz
 {
+
+    class Context;
+
     enum class DeviceErrorCode
     {
         NO_ERROR,

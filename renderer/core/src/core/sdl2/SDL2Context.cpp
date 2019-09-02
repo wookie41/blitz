@@ -1,6 +1,5 @@
-
-#include "core/sdl2/SDL2Context.h"
 #include "SDL2/SDL.h"
+#include "core/sdl2/SDL2Context.h"
 
 namespace blitz
 {
