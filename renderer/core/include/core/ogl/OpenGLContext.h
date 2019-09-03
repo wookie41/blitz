@@ -7,17 +7,29 @@
 
 namespace blitz
 {
+    class OpenGLBufferFiller;
+
     class OpenGLContext : public Context
     {
       public:
         explicit OpenGLContext();
-        ContextLock bindBuffers(const std::vector<BufferBinding>& bindings) override;
+
+        const BufferFiller* getBufferFiller() override;
+
+        Buffer* createBuffer(BufferSpec bufferSpec) override;
+
+        ContextLock bindBuffers(std::vector<BufferBinding>& bindings) override;
+
+        ~OpenGLContext() override;
 
       protected:
         std::mutex contextMutex;
 
       private:
-        std::unordered_map<void*, GLuint> buffersMapping;
+
+        std::mutex selfMutex;
         std::unordered_map<BufferBindTarget, uint16_t, EnumClassHash> targetsMapping;
+
+        OpenGLBufferFiller* bufferFiller;
     };
 } // namespace blitz

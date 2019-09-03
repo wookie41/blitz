@@ -9,14 +9,31 @@ namespace blitz
     enum class BufferBindTarget
     {
         VERTEX,
-        ELEMENT
+        ELEMENT,
+        WRITE
+    };
+
+    enum class UsageHint
+    {
+        STATIC,
+        STREAM,
+        IMMUTABLE
+    };
+
+    struct BufferSpec
+    {
+        UsageHint usageHint;
+        std::size_t multiBuffersCount;
     };
 
     class Buffer
     {
       public:
-        virtual uint64_t getSize() const;
-        virtual void put(void* data, const uint64_t len);
-        virtual void get(void* buffer, const uint64_t len);
+        Buffer(const UsageHint& usageHint);
+        UsageHint getUsageHint() const;
+        virtual ~Buffer() = default;
+
+      private:
+        UsageHint usageHint;
     };
 } // namespace blitz
