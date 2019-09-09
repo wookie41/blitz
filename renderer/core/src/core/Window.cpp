@@ -1,6 +1,3 @@
-
-#include <core/Window.h>
-
 #include "core/Window.h"
 
 namespace blitz

@@ -10,13 +10,15 @@
 
 #pragma once
 
-#include "blitzcommon/Utils.h"
+#include "blitzcommon/NonCopyable.h"
 
-#include "Context.h"
 #include "Window.h"
 
 namespace blitz
 {
+
+    class Context;
+
     enum class DeviceErrorCode
     {
         NO_ERROR,
