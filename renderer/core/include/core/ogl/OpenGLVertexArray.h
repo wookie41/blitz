@@ -22,6 +22,8 @@ namespace blitz
 
         void setVertexAttribute(const VertexAttributeDef& vertexAttributeDef) override;
 
+        ~OpenGLVertexArray() override;
+
       private:
         explicit OpenGLVertexArray(GLuint vaoIdx, OpenGLContext* openGLContext);
 

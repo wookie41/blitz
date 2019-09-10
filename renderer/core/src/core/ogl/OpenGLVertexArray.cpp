@@ -49,24 +49,23 @@ namespace blitz
 
     void OpenGLVertexArray::setVertexAttribute(const VertexAttributeDef& vertexAttributeDef)
     {
-        openGLContext->run([this, &vertexAttributeDef](Context* context)
-        {
+        openGLContext->run([this, &vertexAttributeDef](Context* context) {
             glBindVertexArray(this->vaoIdx);
 
-            switch(vertexAttributeDef.dataType)
+            switch (vertexAttributeDef.dataType)
             {
-                case DataType::INT_32:
-                    bindIntAttribute(vertexAttributeDef, GL_INT);
-                    break;
-                case DataType::UINT_32:
-                    bindIntAttribute(vertexAttributeDef, GL_UNSIGNED_INT);
-                    break;
-                case DataType::FLOAT:
-                    bindFloatAttribute(vertexAttributeDef, GL_FLOAT);
-                    break;
-                case DataType::DOUBLE:
-                    bindDoubleAttribute(vertexAttributeDef);
-                    break;
+            case DataType::INT_32:
+                bindIntAttribute(vertexAttributeDef, GL_INT);
+                break;
+            case DataType::UINT_32:
+                bindIntAttribute(vertexAttributeDef, GL_UNSIGNED_INT);
+                break;
+            case DataType::FLOAT:
+                bindFloatAttribute(vertexAttributeDef, GL_FLOAT);
+                break;
+            case DataType::DOUBLE:
+                bindDoubleAttribute(vertexAttributeDef);
+                break;
             }
 
             glBindVertexArray(0);
@@ -76,4 +75,18 @@ namespace blitz
     void OpenGLVertexArray::bind() { glBindVertexArray(vaoIdx); }
 
     void OpenGLVertexArray::unbind() { glBindVertexArray(0); }
+
+
+    OpenGLVertexArray::~OpenGLVertexArray()
+    {
+        if (vertexBuffer != nullptr)
+        {
+            delete vertexBuffer;
+        }
+        if (elementBuffer != nullptr)
+        {
+            delete elementBuffer;
+        }
+        glDeleteVertexArrays(1, &vaoIdx);
+    }
 } // namespace blitz
