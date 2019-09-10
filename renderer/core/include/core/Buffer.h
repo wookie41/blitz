@@ -26,11 +26,17 @@ namespace blitz
         std::size_t multiBuffersCount;
     };
 
+    class Context;
+
     class Buffer
     {
       public:
         Buffer(const UsageHint& usageHint);
+
+        virtual void bind(const BufferBindTarget& bindTarget) = 0;
+
         UsageHint getUsageHint() const;
+
         virtual ~Buffer() = default;
 
       private:

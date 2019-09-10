@@ -30,12 +30,10 @@ namespace blitz
             exit(OPENGL_UNSUPPORTED_BUFFER_OPERATION);
         }
 
-        DLOG_F(INFO, "[OpenGL] Filling buffer with id %d with %d bytes, starting from address %x",
-                buffer->getId(), fillArgs.dataSize, fillArgs.data);
+        DLOG_F(INFO, "[OpenGL] Filling buffer with id %d with %d bytes, starting from address %x", buffer->getId(),
+               fillArgs.dataSize, fillArgs.data);
 
 
-        std::vector<BufferBinding> writeBinding { { buffer, BufferBindTarget::WRITE } };
-        auto contextLock = glContext->bindBuffers(writeBinding);
         GLuint usageHint;
 
         switch (buffer->getUsageHint())
@@ -49,16 +47,18 @@ namespace blitz
             break;
         }
 
-        if (fillArgs.shouldInvalidate)
-        {
-            GLint bufferSize;
-            glGetBufferParameteriv(GL_COPY_WRITE_BUFFER, GL_BUFFER_SIZE, &bufferSize);
-            DLOG_F(INFO, "[OpenGL] Orhpaning buffer with id %d, size = %d", buffer->getId(), bufferSize);
-            glBufferData(GL_COPY_WRITE_BUFFER, buffer->getId(), NULL, usageHint);
-        }
+        glContext->run([buffer, &fillArgs, &usageHint](Context* context) {
+            if (fillArgs.shouldInvalidate)
+            {
+                GLint bufferSize;
+                glGetBufferParameteriv(GL_COPY_WRITE_BUFFER, GL_BUFFER_SIZE, &bufferSize);
+                DLOG_F(INFO, "[OpenGL] Orhpaning buffer with id %d, size = %d", buffer->getId(), bufferSize);
+                glBufferData(GL_COPY_WRITE_BUFFER, buffer->getId(), NULL, usageHint);
+            }
 
-        glBufferData(GL_COPY_WRITE_BUFFER, fillArgs.dataSize, fillArgs.data, usageHint);
+            glBufferData(GL_COPY_WRITE_BUFFER, fillArgs.dataSize, fillArgs.data, usageHint);
+        });
+
         DLOG_F(INFO, "[OpenGL] Buffer with id %d filled", buffer->getId());
-
     }
 } // namespace blitz
