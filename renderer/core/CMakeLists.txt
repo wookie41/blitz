@@ -4,6 +4,7 @@ add_library(${PROJECT_NAME} STATIC
         src/core/Logger.cpp
         src/core/Buffer.cpp
         src/core/Window.cpp
+        src/core/VertexArray.cpp
         src/core/sdl2/SDL2Device.cpp
         src/core/sdl2/SDL2Window.cpp
         src/core/sdl2/SDL2Context.cpp
