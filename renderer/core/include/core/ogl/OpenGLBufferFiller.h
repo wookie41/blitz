@@ -12,10 +12,11 @@ namespace blitz
     class OpenGLBufferFiller :public BufferFiller
     {
     public:
-        OpenGLBufferFiller(OpenGLContext* glContext);
-
         void fill(Buffer *buffer, const FillArgs &fillArgs) override;
     private:
+        friend class OpenGLContext;
+        OpenGLBufferFiller(OpenGLContext* glContext);
+
 
         void simpleFill(SimpleOpenGLBuffer* buffer, const FillArgs& fillArgs);
 

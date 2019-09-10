@@ -7,7 +7,8 @@ namespace blitz
 {
     class SimpleOpenGLBuffer : public OpenGLBuffer
     {
-      public:
+      private:
+        friend class OpenGLContext;
         SimpleOpenGLBuffer(const GLuint& id, const UsageHint& usageHint);
     };
 } // namespace blitz

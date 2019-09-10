@@ -8,10 +8,12 @@ namespace blitz
     class OpenGLBuffer: public Buffer
     {
     public:
-        OpenGLBuffer(const GLuint& id, const UsageHint& usageHint);
         GLuint getId() const;
         virtual ~OpenGLBuffer();
     protected:
         GLuint id;
+    private:
+        friend class SDL2Device;
+        OpenGLBuffer(const GLuint& id, const UsageHint& usageHint);
     };
 }
