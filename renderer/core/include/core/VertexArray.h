@@ -14,9 +14,7 @@ namespace blitz
         uint16_t size;
         bool normalize;
         uint64_t stride;
-
-        bool isDirty;
-        bool shouldCheckDirty;
+        uint64_t offset;
     };
 
     class Buffer;
@@ -25,6 +23,9 @@ namespace blitz
     {
       public:
         VertexArray() = default;
+
+        virtual void bind() = 0;
+        virtual void unbind() = 0;
 
         virtual void bindVertexBuffer(Buffer* buffer) = 0;
         virtual void bindElementBuffer(Buffer* buffer) = 0;
@@ -35,7 +36,7 @@ namespace blitz
 
         virtual ~VertexArray() = default;
 
-      private:
+    protected:
         Buffer* vertexBuffer;
         Buffer* elementBuffer;
     };

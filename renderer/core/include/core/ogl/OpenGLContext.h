@@ -2,6 +2,8 @@
 #include "blitzcommon/EnumClassHash.h"
 #include "core/Buffer.h"
 #include "core/Context.h"
+#include "OpenGLVertexArray.h"
+
 
 namespace blitz
 {
