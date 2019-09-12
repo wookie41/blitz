@@ -17,15 +17,19 @@ namespace blitz
         void unbind() override;
 
         void bindVertexBuffer(Buffer* buffer) override;
-
         void bindElementBuffer(Buffer* buffer) override;
 
-        void setVertexAttribute(const VertexAttributeDef& vertexAttributeDef) override;
+        void bindAttribute(const hash& nameHash) override;
+
+        void enable(const hash& nameHash) override;
+        void disable(const hash& nameHash) override;
 
         ~OpenGLVertexArray() override;
 
       private:
         explicit OpenGLVertexArray(GLuint vaoIdx, OpenGLContext* openGLContext);
+
+        GLuint queryAttributeLocationByHash(const hash& nameHash) const;
 
         GLuint vaoIdx;
         OpenGLContext* openGLContext;

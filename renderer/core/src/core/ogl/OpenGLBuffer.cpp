@@ -1,7 +1,7 @@
 #include <loguru.hpp>
 #include <unordered_map>
 
-#include <blitzcommon/EnumClassHash.h>
+#include <blitzcommon/HashUtils.h>
 #include <core/Context.h>
 #include <core/RendererErrorCode.h>
 #include <core/ogl/OpenGLBuffer.h>

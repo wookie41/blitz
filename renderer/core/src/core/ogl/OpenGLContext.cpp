@@ -21,7 +21,7 @@ namespace blitz
     {
         if (bufferSpec.multiBuffersCount > 0)
         {
-            exit(RendererErrorCode::OPENGL_MULTI_BUFFERING_NO_SUPPORRTED);
+            exit(RendererErrorCode::OPENGL_MULTI_BUFFERING_NOT_SUPPORTED);
         }
 
         auto selfLock = std::lock_guard(selfMutex);

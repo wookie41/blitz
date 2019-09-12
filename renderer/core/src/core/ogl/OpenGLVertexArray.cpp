@@ -1,5 +1,7 @@
 #include <core/ogl/OpenGLContext.h>
 #include <core/ogl/OpenGLVertexArray.h>
+
+#include <core/RendererErrorCode.h>
 #include <loguru.hpp>
 
 
@@ -15,24 +17,56 @@ namespace blitz
         glBindVertexArray(0);
     }
 
-    OpenGLVertexArray::OpenGLVertexArray(GLuint vaoIdx, OpenGLContext* openGLContext)
+    blitz::OpenGLVertexArray::OpenGLVertexArray(GLuint vaoIdx, OpenGLContext* openGLContext)
     : vaoIdx(vaoIdx), openGLContext(openGLContext)
     {
     }
 
-    void bindIntAttribute(const VertexAttributeDef& def, GLenum type)
+    GLint queryGLShaderID()
     {
-        glVertexAttribIPointer(def.index, def.size, type, def.stride, (void*)def.offset);
+        GLint shaderID;
+        glGetIntegerv(GL_CURRENT_PROGRAM, &shaderID);
+
+        if (shaderID)
+        {
+            exit(RendererErrorCode::OPENGL_NO_SHADER_BOUND);
+        }
+
+        return shaderID;
     }
 
-    void bindFloatAttribute(const VertexAttributeDef& def, GLenum type)
+    GLuint queryAttributeLocation(const GLint& shaderID, const char const* name)
     {
-        glVertexAttribPointer(def.index, def.size, type, def.stride, (void*)def.offset);
+        GLuint attributeIdx = static_cast<GLuint>(glGetAttribLocation(shaderID, name));
+
+        if (attributeIdx == -1)
+        {
+            exit(RendererErrorCode::OPENGL_ATTRIBUTE_LOCATION_QUERY_FAILED);
+        }
+
+        return attributeIdx;
     }
 
-    void bindDoubleAttribute(const VertexAttributeDef& def)
+    GLuint OpenGLVertexArray::queryAttributeLocationByHash(const hash& nameHash) const
     {
-        glVertexAttribLPointer(def.index, def.size, GL_DOUBLE, def.stride, (void*)def.offset);
+        const auto& vertexAttributeDef = getAttribute(nameHash);
+        const auto shaderID = queryGLShaderID();
+        return queryAttributeLocation(shaderID, vertexAttributeDef.name.c_str());
+    }
+
+    inline void bindIntAttribute(GLuint index, const VertexAttributeDef& def, GLenum type)
+    {
+        glVertexAttribIPointer(index, def.size, type, def.stride, (void*)def.offset);
+    }
+
+    inline void bindFloatAttribute(GLuint index, const VertexAttributeDef& def, GLenum type)
+    {
+        glVertexAttribPointer(index, def.size, type, def.normalize, def.stride, (void*)def.offset);
+    }
+
+    inline void bindDoubleAttribute(GLuint index, const VertexAttributeDef& def)
+    {
+        glVertexAttribLPointer(index, def.size, GL_DOUBLE, def.stride, (void*)def.offset);
     }
 
     void OpenGLVertexArray::bindVertexBuffer(Buffer* buffer)
@@ -47,46 +81,46 @@ namespace blitz
         openGLContext->run([this](Context* context) { bindBuffer(vaoIdx, elementBuffer, BufferBindTarget::ELEMENT); });
     }
 
-    void OpenGLVertexArray::setVertexAttribute(const VertexAttributeDef& vertexAttributeDef)
-    {
-        openGLContext->run([this, &vertexAttributeDef](Context* context) {
-            glBindVertexArray(this->vaoIdx);
-
-            switch (vertexAttributeDef.dataType)
-            {
-            case DataType::INT_32:
-                bindIntAttribute(vertexAttributeDef, GL_INT);
-                break;
-            case DataType::UINT_32:
-                bindIntAttribute(vertexAttributeDef, GL_UNSIGNED_INT);
-                break;
-            case DataType::FLOAT:
-                bindFloatAttribute(vertexAttributeDef, GL_FLOAT);
-                break;
-            case DataType::DOUBLE:
-                bindDoubleAttribute(vertexAttributeDef);
-                break;
-            }
-
-            glBindVertexArray(0);
-        });
-    }
-
     void OpenGLVertexArray::bind() { glBindVertexArray(vaoIdx); }
 
     void OpenGLVertexArray::unbind() { glBindVertexArray(0); }
 
-
-    OpenGLVertexArray::~OpenGLVertexArray()
+    void OpenGLVertexArray::bindAttribute(const hash& nameHash)
     {
-        if (vertexBuffer != nullptr)
+        const auto& vertexAttributeDef = getAttribute(nameHash);
+        const auto shaderID = queryGLShaderID();
+        const auto attributeID = queryAttributeLocation(shaderID, vertexAttributeDef.name.c_str());
+
+        glBindVertexArray(this->vaoIdx);
+        switch (vertexAttributeDef.dataType)
         {
-            delete vertexBuffer;
+        case DataType::INT_32:
+            bindIntAttribute(attributeID, vertexAttributeDef, GL_INT);
+            break;
+        case DataType::UINT_32:
+            bindIntAttribute(attributeID, vertexAttributeDef, GL_UNSIGNED_INT);
+            break;
+        case DataType::FLOAT:
+            bindFloatAttribute(attributeID, vertexAttributeDef, GL_FLOAT);
+            break;
+        case DataType::DOUBLE:
+            bindDoubleAttribute(attributeID, vertexAttributeDef);
+            break;
         }
-        if (elementBuffer != nullptr)
-        {
-            delete elementBuffer;
-        }
-        glDeleteVertexArrays(1, &vaoIdx);
+
+        glBindVertexArray(0);
     }
+
+    void OpenGLVertexArray::enable(const hash& nameHash)
+    {
+        glEnableVertexAttribArray(queryAttributeLocationByHash(nameHash));
+    }
+
+    void OpenGLVertexArray::disable(const hash& nameHash)
+    {
+        glDisableVertexAttribArray(queryAttributeLocationByHash(nameHash));
+    }
+
+    OpenGLVertexArray::~OpenGLVertexArray() { glDeleteVertexArrays(1, &vaoIdx); }
+
 } // namespace blitz

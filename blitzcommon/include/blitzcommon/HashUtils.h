@@ -1,6 +1,6 @@
 #pragma once
 #include <cstddef>
-
+#include <functional>
 namespace blitz
 {
     struct EnumClassHash
@@ -11,4 +11,7 @@ namespace blitz
             return static_cast<std::size_t>(t);
         }
     };
+
+    using hash = std::size_t;
+    const auto hashString = std::hash<std::string>{};
 }

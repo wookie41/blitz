@@ -1,8 +1,7 @@
 #include "GL/glew.h"
-#include "blitzcommon/EnumClassHash.h"
+#include "blitzcommon/HashUtils.h"
 #include "core/Buffer.h"
 #include "core/Context.h"
-#include "OpenGLVertexArray.h"
 
 
 namespace blitz
