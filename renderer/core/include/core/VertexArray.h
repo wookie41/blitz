@@ -5,8 +5,8 @@
 
 #include <core/DataType.h>
 
-#include <blitzcommon/NonCopyable.h>
 #include <blitzcommon/HashUtils.h>
+#include <blitzcommon/NonCopyable.h>
 
 namespace blitz
 {
@@ -21,12 +21,12 @@ namespace blitz
     };
 
     class Buffer;
+    class OpenGLContext;
 
     class VertexArray : NonCopyable
     {
       public:
-        VertexArray();
-
+        VertexArray() = default;
         virtual void bind() = 0;
         virtual void unbind() = 0;
 
@@ -45,8 +45,9 @@ namespace blitz
 
         virtual ~VertexArray() = default;
 
-    protected:
+      private:
 
+      protected:
         const VertexAttributeDef& getAttribute(const hash& nameHash) const;
 
         Buffer* vertexBuffer;

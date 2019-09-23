@@ -1,12 +1,11 @@
 #include "loguru.hpp"
 #include "GL/glew.h"
 
-#include "core/RendererErrorCode.h"
-#include "core/ogl/OpenGLBufferFiller.h"
-#include "core/ogl/SimpleOpenGLBuffer.h"
-#include "core/ogl/OpenGLContext.h"
-
-
+#include <core/RendererErrorCode.h>
+#include <core/ogl/OpenGLBufferFiller.h>
+#include <core/ogl/SimpleOpenGLBuffer.h>
+#include <core/ogl/OpenGLContext.h>
+#include <core/ogl/OpenGLVertexArray.h>
 
 namespace blitz
 {
@@ -17,7 +16,7 @@ namespace blitz
 
     OpenGLContext::~OpenGLContext() { delete (bufferFiller); }
 
-    Buffer* OpenGLContext::createBuffer(BufferSpec bufferSpec)
+    Buffer* OpenGLContext::createBuffer(const BufferSpec& bufferSpec)
     {
         if (bufferSpec.multiBuffersCount > 0)
         {
@@ -35,5 +34,10 @@ namespace blitz
 
     const BufferFiller* OpenGLContext::getBufferFiller() { return bufferFiller; }
 
-
+    VertexArray *OpenGLContext::createVertexArray()
+    {
+        GLuint vaoIdx;
+        glGenVertexArrays(1, &vaoIdx);
+        return new OpenGLVertexArray(vaoIdx, this);
+    }
 } // namespace blitz

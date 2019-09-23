@@ -13,14 +13,14 @@ namespace blitz
       public:
         explicit OpenGLContext();
 
-        const BufferFiller* getBufferFiller() override;
+        Buffer* createBuffer(const BufferSpec& bufferSpec) override;
+        VertexArray* createVertexArray() override;
 
-        Buffer* createBuffer(BufferSpec bufferSpec) override;
+        const BufferFiller* getBufferFiller() override;
 
         ~OpenGLContext() override;
 
       private:
-
         OpenGLBufferFiller* bufferFiller;
     };
 } // namespace blitz

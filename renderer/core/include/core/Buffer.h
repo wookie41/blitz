@@ -2,6 +2,11 @@
 
 #include <cstdint>
 
+
+//TODO
+// 1. Consider adding some inner lock, as the Buffer can be shared between several contextes
+// The above might not be necessary if RenderCommands are executed properly.
+
 namespace blitz
 {
     const uint8_t NUM_OF_BUFFER_BIND_TARGETS = 2;

@@ -17,7 +17,7 @@ namespace blitz
         glBindVertexArray(0);
     }
 
-    blitz::OpenGLVertexArray::OpenGLVertexArray(GLuint vaoIdx, OpenGLContext* openGLContext)
+    OpenGLVertexArray::OpenGLVertexArray(GLuint vaoIdx, OpenGLContext* openGLContext)
     : vaoIdx(vaoIdx), openGLContext(openGLContext)
     {
     }
@@ -35,7 +35,7 @@ namespace blitz
         return shaderID;
     }
 
-    GLuint queryAttributeLocation(const GLint& shaderID, const char const* name)
+    GLuint queryAttributeLocation(const GLint& shaderID, const char* name)
     {
         GLuint attributeIdx = static_cast<GLuint>(glGetAttribLocation(shaderID, name));
 
@@ -81,9 +81,17 @@ namespace blitz
         openGLContext->run([this](Context* context) { bindBuffer(vaoIdx, elementBuffer, BufferBindTarget::ELEMENT); });
     }
 
-    void OpenGLVertexArray::bind() { glBindVertexArray(vaoIdx); }
+    void OpenGLVertexArray::bind()
+    {
+        DLOG_F(INFO, "[OpenGL] Binding VAO %d", vaoIdx);
+        glBindVertexArray(vaoIdx);
+    }
 
-    void OpenGLVertexArray::unbind() { glBindVertexArray(0); }
+    void OpenGLVertexArray::unbind()
+    {
+        DLOG_F(INFO, "[OpenGL] Unbinding VAO %d", vaoIdx);
+        glBindVertexArray(0);
+    }
 
     void OpenGLVertexArray::bindAttribute(const hash& nameHash)
     {

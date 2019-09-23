@@ -30,7 +30,7 @@ namespace blitz
             exit(OPENGL_UNSUPPORTED_BUFFER_OPERATION);
         }
 
-        DLOG_F(INFO, "[OpenGL] Filling buffer with id %d with %d bytes, starting from address %x", buffer->getId(),
+        DLOG_F(INFO, "[OpenGL] Filling buffer with id %d with %ld bytes, starting from address %p", buffer->getId(),
                fillArgs.dataSize, fillArgs.data);
 
 

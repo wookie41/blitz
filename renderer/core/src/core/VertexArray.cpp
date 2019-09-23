@@ -16,7 +16,7 @@ namespace blitz
     const VertexAttributeDef& VertexArray::getAttribute(const hash& nameHash) const
     {
         const auto attribIt = attributes.find(nameHash);
-        DCHECK_F(attribIt != attributes.end(), "VAO doesn't have attribute '%d'", nameHash);
+        DCHECK_F(attribIt != attributes.end(), "VAO doesn't have attribute '%ld'", nameHash);
         return attribIt->second;
     }
 } // namespace blitz

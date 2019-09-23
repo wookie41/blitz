@@ -28,7 +28,7 @@ namespace blitz
         const auto targetIt = targetsMapping.find(bindTarget);
         if (targetIt == targetsMapping.end())
         {
-            DLOG_F(ERROR, "[OpenGL] Unknown buffer target: %d", targetIt);
+            DLOG_F(ERROR, "[OpenGL] Unknown buffer target: %d", bindTarget);
             exit(OPENGL_UNKNWON_BUFFER_TARGET);
         }
 
