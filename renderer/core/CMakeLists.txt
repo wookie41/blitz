@@ -4,6 +4,8 @@ add_library(${PROJECT_NAME} STATIC
         src/core/Logger.cpp
         src/core/Buffer.cpp
         src/core/Window.cpp
+        src/core/Context.cpp
+        src/core/VertexArray.cpp
         src/core/sdl2/SDL2Device.cpp
         src/core/sdl2/SDL2Window.cpp
         src/core/sdl2/SDL2Context.cpp
@@ -11,7 +13,8 @@ add_library(${PROJECT_NAME} STATIC
         src/core/ogl/OpenGLContext.cpp
         src/core/ogl/OpenGLBuffer.cpp
         src/core/ogl/SimpleOpenGLBuffer.cpp
-        src/core/ogl/OpenGLBufferFiller.cpp)
+        src/core/ogl/OpenGLBufferFiller.cpp
+        src/core/ogl/OpenGLVertexArray.cpp)
 
 set_target_properties(${PROJECT_NAME}
         PROPERTIES

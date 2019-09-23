@@ -1,24 +1,27 @@
 #pragma once
 
-#include <cstdint>
-#include <core/Context.h>
 #include "core/BufferFiller.h"
+#include <core/Context.h>
+#include <cstdint>
 
 namespace blitz
 {
     class SimpleOpenGLBuffer;
     class OpenGLContext;
 
-    class OpenGLBufferFiller :public BufferFiller
+    class OpenGLBufferFiller : public BufferFiller
     {
-    public:
+        friend class OpenGLContext;
+
+      public:
+        void fill(Buffer* buffer, const FillArgs& fillArgs) override;
+
+      private:
         OpenGLBufferFiller(OpenGLContext* glContext);
 
-        void fill(Buffer *buffer, const FillArgs &fillArgs) override;
-    private:
 
         void simpleFill(SimpleOpenGLBuffer* buffer, const FillArgs& fillArgs);
 
         OpenGLContext* glContext;
     };
-}
+} // namespace blitz

@@ -7,7 +7,7 @@ namespace blitz
     {
     }
 
-    const Context& Window::getContext() const { return *context; }
+    Context& Window::getContext() const { return *context; }
 
     Window::~Window()
     {

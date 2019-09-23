@@ -20,7 +20,7 @@ namespace blitz
     {
       public:
         explicit Window(Context* context, bool isContextOwner);
-        const Context& getContext() const;
+        Context& getContext() const;
 
         // issue just adds the RenderPass to the window's queue
         // it doesn't result in any draw calls

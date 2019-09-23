@@ -5,13 +5,20 @@
 
 namespace blitz
 {
-    class OpenGLBuffer: public Buffer
+    class OpenGLBuffer : public Buffer
     {
-    public:
-        OpenGLBuffer(const GLuint& id, const UsageHint& usageHint);
+        friend class SDL2Device;
+
+      public:
         GLuint getId() const;
+
+        void bind(const BufferBindTarget& bindTarget) override;
+
         virtual ~OpenGLBuffer();
-    protected:
+
+      protected:
+        OpenGLBuffer(const GLuint& id, const UsageHint& usageHint);
+
         GLuint id;
     };
-}
+} // namespace blitz
