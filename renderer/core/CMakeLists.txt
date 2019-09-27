@@ -14,7 +14,7 @@ add_library(${PROJECT_NAME} STATIC
         src/core/ogl/OpenGLBuffer.cpp
         src/core/ogl/SimpleOpenGLBuffer.cpp
         src/core/ogl/OpenGLBufferFiller.cpp
-        src/core/ogl/OpenGLVertexArray.cpp)
+        src/core/ogl/OpenGLVertexArray.cpp src/core/ogl/OpenGLShader.cpp include/core/ogl/OpenGLShader.h src/core/Shader.cpp)
 
 set_target_properties(${PROJECT_NAME}
         PROPERTIES
