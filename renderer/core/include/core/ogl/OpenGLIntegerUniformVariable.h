@@ -10,13 +10,11 @@ namespace blitz
       public:
         OpenGLIntegerUniformVariable(const GLint& variableLocation,
                                      const uint32_t& value,
-                                     const hash& nameHash,
-                                     const std::string& name,
-                                     const UniformVariableWatcher& watcher);
+                                     const std::string& name);
 
         void bind() override;
 
-        UniformVariableType& getType() const override;
+        UniformVariableType getType() const override;
 
     private:
         GLint variableLocation;

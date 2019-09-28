@@ -14,7 +14,7 @@ namespace blitz
         void use() override;
 
       private:
-        OpenGLShader(GLuint shaderID, std::unordered_map<hash, IUniformVariable*> uniforms);
+        OpenGLShader(GLuint shaderID, const std::unordered_map<hash, IUniformVariable*>& uniforms);
 
         GLuint shaderID;
     };

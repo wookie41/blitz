@@ -4,21 +4,21 @@
 #include <unordered_set>
 
 #include <blitzcommon/NonCopyable.h>
-#include <core/UniformVariable.h>
 #include <core/RendererErrorCode.h>
-class VertexArray;
+#include <core/UniformVariable.h>
 
 namespace blitz
 {
+    class VertexArray;
+
     class Shader : NonCopyable
     {
       public:
-
         explicit Shader(const std::unordered_map<hash, IUniformVariable*>& uniforms);
 
         virtual void use() = 0;
 
-        virtual void attach(VertexArray* vertexArray);
+        void attach(VertexArray* array);
 
         template <typename T>
         UniformVariable<T>* getUniformVariable(const hash& nameHash);
@@ -26,8 +26,10 @@ namespace blitz
         template <typename T>
         UniformVariable<T>* getUniformVariable(const std::string& name);
 
+        virtual ~Shader() = default;
+
       protected:
-        void markUniformAsDirty(const hash& nameHash);
+        void markAsDirty(hash uniformNameHash);
         void bindDirtyVariables();
 
         VertexArray* vertexArray;
@@ -53,20 +55,5 @@ namespace blitz
     UniformVariable<T>* Shader::getUniformVariable(const std::string& name)
     {
         return getUniformVariable<T>(hashString(name));
-    }
-
-    void Shader::markUniformAsDirty(const hash &nameHash)
-    {
-        dirtyUniforms.insert(nameHash);
-    }
-
-    void Shader::bindDirtyVariables()
-    {
-        for (const auto uniformHash : dirtyUniforms)
-        {
-            uniformVariables[uniformHash]->bind();
-        }
-
-        dirtyUniforms.clear();
     }
 } // namespace blitz

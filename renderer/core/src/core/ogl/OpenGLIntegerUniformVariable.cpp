@@ -10,10 +10,8 @@ namespace blitz
 
     OpenGLIntegerUniformVariable::OpenGLIntegerUniformVariable(const GLint& variableLocation,
                                                                const uint32_t& value,
-                                                               const hash& nameHash,
-                                                               const std::string& name,
-                                                               const UniformVariableWatcher& watcher)
-    : UniformVariable<uint32_t>(value, name, watcher), variableLocation(variableLocation)
+                                                               const std::string& name)
+    : UniformVariable<uint32_t>(value, name), variableLocation(variableLocation)
     {
     }
 } // namespace blitz

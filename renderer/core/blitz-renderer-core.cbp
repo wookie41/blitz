@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="blitz-renderer-core"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="clang"/>
+		<Option virtualFolders="CMake Files\;CMake Files\vendor\;CMake Files\vendor\mathfu\;CMake Files\vendor\mathfu\cmake\;CMake Files\vendor\mathfu\dependencies\;CMake Files\vendor\mathfu\dependencies\fplutil\;CMake Files\vendor\mathfu\dependencies\fplutil\buildutil\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\usr\;CMake Files\..\..\..\..\usr\lib\;CMake Files\..\..\..\..\usr\lib\x86_64-linux-gnu\;CMake Files\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\;CMake Files\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\SDL2\;CMake Files\blitzcommon\;CMake Files\renderer\;CMake Files\renderer\core\;CMake Files\runner\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/wookie/Projects/blitz/renderer/core"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/wookie/Projects/blitz/renderer/core/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/wookie/Projects/blitz/renderer/core/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/wookie/Projects/blitz/renderer/core/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/wookie/Projects/blitz/renderer/core/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="blitz-renderer-core">
+				<Option output="/home/wookie/Projects/blitz/renderer/core/libblitz-renderer-core.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/wookie/Projects/blitz/renderer/core"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/home/wookie/Projects/blitz/renderer/core/include"/>
+					<Add directory="/home/wookie/Projects/blitz/renderer/core/include/sdl2"/>
+					<Add directory="/home/wookie/Projects/blitz/vendor/mathfu/include"/>
+					<Add directory="/home/wookie/Projects/blitz/vendor/mathfu/dependencies/vectorial/include"/>
+					<Add directory="/home/wookie/Projects/blitz/vendor/loguru"/>
+					<Add directory="/home/wookie/Projects/blitz/blitzcommon/include"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/7.4.0/../../../../include/c++/7.4.0"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/7.4.0/../../../../include/x86_64-linux-gnu/c++/7.4.0"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/7.4.0/../../../../include/c++/7.4.0/backward"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/clang/7.0.0/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/wookie/Projects/blitz/renderer/core/Makefile&quot;  VERBOSE=1 blitz-renderer-core"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/wookie/Projects/blitz/renderer/core/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/wookie/Projects/blitz/renderer/core/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/wookie/Projects/blitz/renderer/core/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="blitz-renderer-core/fast">
+				<Option output="/home/wookie/Projects/blitz/renderer/core/libblitz-renderer-core.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/wookie/Projects/blitz/renderer/core"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/home/wookie/Projects/blitz/renderer/core/include"/>
+					<Add directory="/home/wookie/Projects/blitz/renderer/core/include/sdl2"/>
+					<Add directory="/home/wookie/Projects/blitz/vendor/mathfu/include"/>
+					<Add directory="/home/wookie/Projects/blitz/vendor/mathfu/dependencies/vectorial/include"/>
+					<Add directory="/home/wookie/Projects/blitz/vendor/loguru"/>
+					<Add directory="/home/wookie/Projects/blitz/blitzcommon/include"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/7.4.0/../../../../include/c++/7.4.0"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/7.4.0/../../../../include/x86_64-linux-gnu/c++/7.4.0"/>
+					<Add directory="/usr/bin/../lib/gcc/x86_64-linux-gnu/7.4.0/../../../../include/c++/7.4.0/backward"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/clang/7.0.0/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/wookie/Projects/blitz/renderer/core/Makefile&quot;  VERBOSE=1 blitz-renderer-core/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/wookie/Projects/blitz/renderer/core/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/wookie/Projects/blitz/renderer/core/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/wookie/Projects/blitz/renderer/core/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/wookie/Projects/blitz/renderer/core/src/core/Buffer.cpp">
+			<Option target="blitz-renderer-core"/>
+		</Unit>
+		<Unit filename="/home/wookie/Projects/blitz/renderer/core/src/core/Context.cpp">
+			<Option target="blitz-renderer-core"/>
+		</Unit>
+		<Unit filename="/home/wookie/Projects/blitz/renderer/core/src/core/Globals.cpp">
+			<Option target="blitz-renderer-core"/>
+		</Unit>
+		<Unit filename="/home/wookie/Projects/blitz/renderer/core/src/core/Logger.cpp">
+			<Option target="blitz-renderer-core"/>
+		</Unit>
+		<Unit filename="/home/wookie/Projects/blitz/renderer/core/src/core/Shader.cpp">
+			<Option target="blitz-renderer-core"/>
+		</Unit>
+		<Unit filename="/home/wookie/Projects/blitz/renderer/core/src/core/UniformVariable.cpp">
+			<Option target="blitz-renderer-core"/>
+		</Unit>
+		<Unit filename="/home/wookie/Projects/blitz/renderer/core/src/core/VertexArray.cpp">
+			<Option target="blitz-renderer-core"/>
+		</Unit>
+		<Unit filename="/home/wookie/Projects/blitz/renderer/core/src/core/Window.cpp">
+			<Option target="blitz-renderer-core"/>
+		</Unit>
+		<Unit filename="/home/wookie/Projects/blitz/renderer/core/src/core/ogl/OpenGLBuffer.cpp">
+			<Option target="blitz-renderer-core"/>
+		</Unit>
+		<Unit filename="/home/wookie/Projects/blitz/renderer/core/src/core/ogl/OpenGLBufferFiller.cpp">
+			<Option target="blitz-renderer-core"/>
+		</Unit>
+		<Unit filename="/home/wookie/Projects/blitz/renderer/core/src/core/ogl/OpenGLContext.cpp">
+			<Option target="blitz-renderer-core"/>
+		</Unit>
+		<Unit filename="/home/wookie/Projects/blitz/renderer/core/src/core/ogl/OpenGLDevice.cpp">
+			<Option target="blitz-renderer-core"/>
+		</Unit>
+		<Unit filename="/home/wookie/Projects/blitz/renderer/core/src/core/ogl/OpenGLIntegerUniformVariable.cpp">
+			<Option target="blitz-renderer-core"/>
+		</Unit>
+		<Unit filename="/home/wookie/Projects/blitz/renderer/core/src/core/ogl/OpenGLShader.cpp">
+			<Option target="blitz-renderer-core"/>
+		</Unit>
+		<Unit filename="/home/wookie/Projects/blitz/renderer/core/src/core/ogl/OpenGLShaderCompiler.cpp">
+			<Option target="blitz-renderer-core"/>
+		</Unit>
+		<Unit filename="/home/wookie/Projects/blitz/renderer/core/src/core/ogl/OpenGLShaderFactory.cpp">
+			<Option target="blitz-renderer-core"/>
+		</Unit>
+		<Unit filename="/home/wookie/Projects/blitz/renderer/core/src/core/ogl/OpenGLShaderInspector.cpp">
+			<Option target="blitz-renderer-core"/>
+		</Unit>
+		<Unit filename="/home/wookie/Projects/blitz/renderer/core/src/core/ogl/OpenGLVertexArray.cpp">
+			<Option target="blitz-renderer-core"/>
+		</Unit>
+		<Unit filename="/home/wookie/Projects/blitz/renderer/core/src/core/ogl/SimpleOpenGLBuffer.cpp">
+			<Option target="blitz-renderer-core"/>
+		</Unit>
+		<Unit filename="/home/wookie/Projects/blitz/renderer/core/src/core/sdl2/SDL2Context.cpp">
+			<Option target="blitz-renderer-core"/>
+		</Unit>
+		<Unit filename="/home/wookie/Projects/blitz/renderer/core/src/core/sdl2/SDL2Device.cpp">
+			<Option target="blitz-renderer-core"/>
+		</Unit>
+		<Unit filename="/home/wookie/Projects/blitz/renderer/core/src/core/sdl2/SDL2Window.cpp">
+			<Option target="blitz-renderer-core"/>
+		</Unit>
+		<Unit filename="/home/wookie/Projects/blitz/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/home/wookie/Projects/blitz/vendor/mathfu/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\vendor\mathfu\"/>
+		</Unit>
+		<Unit filename="/home/wookie/Projects/blitz/vendor/mathfu/cmake/find_fplutil.cmake">
+			<Option virtualFolder="CMake Files\vendor\mathfu\cmake\"/>
+		</Unit>
+		<Unit filename="/home/wookie/Projects/blitz/vendor/mathfu/dependencies/fplutil/buildutil/cmake_common.txt">
+			<Option virtualFolder="CMake Files\vendor\mathfu\dependencies\fplutil\buildutil\"/>
+		</Unit>
+		<Unit filename="/home/wookie/Projects/blitz/../../../../usr/lib/x86_64-linux-gnu/cmake/SDL2/sdl2-config.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\SDL2\"/>
+		</Unit>
+		<Unit filename="/home/wookie/Projects/blitz/blitzcommon/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\blitzcommon\"/>
+		</Unit>
+		<Unit filename="/home/wookie/Projects/blitz/renderer/core/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\renderer\core\"/>
+		</Unit>
+		<Unit filename="/home/wookie/Projects/blitz/runner/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\runner\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

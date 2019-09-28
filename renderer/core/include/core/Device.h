@@ -10,33 +10,24 @@
 
 #pragma once
 
-#include "blitzcommon/NonCopyable.h"
-
-#include "Window.h"
+#include <blitzcommon/NonCopyable.h>
+#include <core/ShaderSource.h>
+#include <core/Window.h>
 
 namespace blitz
 {
-
     class Context;
-
-    enum class DeviceErrorCode
-    {
-        NO_ERROR,
-
-        //SDL2Device error codes
-        SDL_INIT_ERROR,
-        GLEW_INIT_ERROR
-    };
-
+    class Shader;
 
     class Device : private NonCopyable
     {
       public:
-
         virtual Window* createWindow(const WindowDef& windowDef) const = 0;
 
-        virtual Window* createWindow(const WindowDef &windowDef,
-                                     Context* contextToShare) const = 0;
+        virtual Window* createWindow(const WindowDef& windowDef, Context* contextToShare) const = 0;
+
+        virtual Shader* createShader(const ShaderSource& shaderSource) const = 0;
+
         virtual ~Device() = default;
     };
 } // namespace blitz

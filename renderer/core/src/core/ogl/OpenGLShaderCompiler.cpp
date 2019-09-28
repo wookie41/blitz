@@ -33,7 +33,7 @@ namespace blitz
     {
         glShaderSource(shaderID, 1, &shaderSource,  NULL);
         glCompileShader(shaderID);
-#ifdef NDEBUG
+#ifndef NDEBUG
         checkCompileErrors(shaderID, type);
 #endif
         glAttachShader(shaderProgramID, shaderID);
@@ -57,7 +57,7 @@ namespace blitz
         }
 
         glLinkProgram(shaderProgramID);
-#ifdef NDEBUG
+#ifndef NDEBUG
 
         checkCompileErrors(shaderProgramID, "PROGRAM");
 #endif
@@ -69,7 +69,7 @@ namespace blitz
         {
             glDeleteShader(geometryShader);
         }
-        
+
         return shaderProgramID;
     }
 } // namespace blitz

@@ -4,7 +4,7 @@
 
 namespace blitz
 {
-    OpenGLShader::OpenGLShader(GLuint shaderID, std::unordered_map<hash, IUniformVariable*> uniforms)
+    OpenGLShader::OpenGLShader(GLuint shaderID, const std::unordered_map<hash, IUniformVariable*>& uniforms)
     : Shader(uniforms), shaderID(shaderID)
     {
     }
