@@ -19,7 +19,7 @@ add_library(${PROJECT_NAME} STATIC
         src/core/ogl/OpenGLShader.cpp
         src/core/ogl/OpenGLIntegerUniformVariable.cpp
         src/core/ShaderSource.cpp
-        src/core/ogl/OpenGLShaderFactory.cpp )
+        src/core/ogl/OpenGLShaderFactory.cpp src/core/ogl/OpenGLShaderCompiler.cpp)
 
 set_target_properties(${PROJECT_NAME}
         PROPERTIES
