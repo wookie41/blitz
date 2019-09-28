@@ -13,9 +13,12 @@ namespace blitz
     class Shader : NonCopyable
     {
       public:
+
+        explicit Shader(const std::unordered_map<hash, IUniformVariable*>& uniforms);
+
         virtual void use() = 0;
 
-        void attach(VertexArray* vertexArray);
+        virtual void attach(VertexArray* vertexArray);
 
         template <typename T>
         UniformVariable<T>* getUniformVariable(const hash& nameHash);

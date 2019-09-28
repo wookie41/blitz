@@ -50,8 +50,8 @@ namespace blitz
       protected:
         const VertexAttributeDef& getAttribute(const hash& nameHash) const;
 
-        Buffer* vertexBuffer;
-        Buffer* elementBuffer;
+        Buffer* vertexBuffer = nullptr;
+        Buffer* elementBuffer = nullptr;
         std::unordered_map<hash, VertexAttributeDef> attributes;
     };
 
