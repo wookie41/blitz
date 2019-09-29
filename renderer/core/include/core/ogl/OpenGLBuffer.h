@@ -12,13 +12,16 @@ namespace blitz
       public:
         GLuint getId() const;
 
-        void bind(const BufferBindTarget& bindTarget) override;
+        void bind(const BindTarget& bindTarget) override;
 
-        virtual ~OpenGLBuffer();
+        void bindIndexed(const IndexedBindTarget& bindTarget, uint16_t index) override;
+        void bindIndexedRange(const IndexedBindTarget& bindTarget, uint16_t index, const Range& range) override;
+
+        ~OpenGLBuffer() override;
 
       protected:
         OpenGLBuffer(const GLuint& id, const UsageHint& usageHint);
 
-        GLuint id;
+        GLuint glBufferID;
     };
 } // namespace blitz

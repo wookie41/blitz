@@ -7,7 +7,7 @@
 
 namespace blitz
 {
-    void bindBuffer(GLuint vaoIdx, Buffer* buffer, const BufferBindTarget& target)
+    void bindBuffer(GLuint vaoIdx, Buffer* buffer, const BindTarget& target)
     {
         DLOG_F(ERROR, "[OpenGL] Binding VAO: %d", vaoIdx);
         glBindVertexArray(vaoIdx);
@@ -72,13 +72,13 @@ namespace blitz
     void OpenGLVertexArray::bindVertexBuffer(Buffer* buffer)
     {
         vertexBuffer = buffer;
-        openGLContext->run([this](Context* context) { bindBuffer(vaoIdx, vertexBuffer, BufferBindTarget::VERTEX); });
+        openGLContext->run([this](Context* context) { bindBuffer(vaoIdx, vertexBuffer, BindTarget::VERTEX); });
     }
 
     void OpenGLVertexArray::bindElementBuffer(Buffer* buffer)
     {
         elementBuffer = buffer;
-        openGLContext->run([this](Context* context) { bindBuffer(vaoIdx, elementBuffer, BufferBindTarget::ELEMENT); });
+        openGLContext->run([this](Context* context) { bindBuffer(vaoIdx, elementBuffer, BindTarget::ELEMENT); });
     }
 
     void OpenGLVertexArray::bind()

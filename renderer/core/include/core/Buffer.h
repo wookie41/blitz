@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <core/Range.h>
 
 
 //TODO
@@ -9,13 +10,16 @@
 
 namespace blitz
 {
-    const uint8_t NUM_OF_BUFFER_BIND_TARGETS = 2;
-
-    enum class BufferBindTarget
+    enum class BindTarget
     {
         VERTEX,
         ELEMENT,
         WRITE
+    };
+
+    enum class IndexedBindTarget
+    {
+        UNIFORM_BLOCK
     };
 
     enum class UsageHint
@@ -36,9 +40,13 @@ namespace blitz
     class Buffer
     {
       public:
-        Buffer(const UsageHint& usageHint);
+        explicit Buffer(const UsageHint& usageHint);
 
-        virtual void bind(const BufferBindTarget& bindTarget) = 0;
+        virtual void bind(const BindTarget& bindTarget) = 0;
+        virtual void bindRange(const BindTarget& bindTarget, const Range& range) = 0;
+
+        virtual void bindIndexed(const IndexedBindTarget& bindTarget, uint16_t index) = 0;
+        virtual void bindIndexedRange(const IndexedBindTarget& bindTarget, uint16_t index, const Range& range) = 0;
 
         UsageHint getUsageHint() const;
 

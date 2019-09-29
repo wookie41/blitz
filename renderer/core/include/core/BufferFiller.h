@@ -1,7 +1,7 @@
 #pragma once
 
-#include <cstddef>
-#include "blitzcommon/NonCopyable.h"
+#include <cstdint>
+#include <blitzcommon/NonCopyable.h>
 
 namespace blitz
 {
