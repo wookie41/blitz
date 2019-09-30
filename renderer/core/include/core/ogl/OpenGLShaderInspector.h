@@ -7,11 +7,13 @@
 
 namespace blitz
 {
+    class UniformBlock;
     class IUniformVariable;
 
     class OpenGLShaderInspector :NonCopyable
     {
     public:
         std::unordered_map<hash, IUniformVariable*> extractUniformVariables(GLuint shaderID);
+        std::unordered_map<hash, UniformBlock*> extractUniformBlocks(GLuint shaderID);
     };
 }

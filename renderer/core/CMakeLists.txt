@@ -22,7 +22,7 @@ add_library(${PROJECT_NAME} STATIC
         src/core/ogl/OpenGLShaderCompiler.cpp
         src/core/ogl/OpenGLShaderInspector.cpp
         src/core/ogl/OpenGLDevice.cpp
-        src/core/UniformVariable.cpp include/core/Range.h)
+        src/core/UniformVariable.cpp include/core/Range.h include/core/UniformBlock.h include/core/Max.h include/core/ogl/DataType.h src/core/ogl/DataType.cpp)
 
 set_target_properties(${PROJECT_NAME}
         PROPERTIES
