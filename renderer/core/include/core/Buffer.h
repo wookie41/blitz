@@ -75,7 +75,8 @@ namespace blitz
       protected:
         std::uint32_t size;
         BindHint bindHint;
-        bool isReadable, bool isWriteable;
+        bool isReadable;
+        bool isWriteable;
         UsageHint usageHint;
     };
 } // namespace blitz

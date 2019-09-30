@@ -10,8 +10,8 @@ namespace blitz
     struct FillArgs
     {
         void* data;
-        std::size_t offset;
-        std::size_t dataSize;
+        std::uint32_t offset;
+        std::uint32_t dataSize;
         bool shouldInvalidate;
     };
 
