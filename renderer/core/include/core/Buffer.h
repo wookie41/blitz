@@ -56,11 +56,7 @@ namespace blitz
 
         virtual void bind(const BindTarget& bindTarget) = 0;
 
-        virtual void bindIndexed(const IndexedBindTarget& bindTarget, uint16_t index) = 0;
-        virtual void bindIndexedRange(const IndexedBindTarget& bindTarget, uint16_t index, const Range& range) = 0;
-
         UsageHint getUsageHint() const;
-
 
         uint32_t getSize() const;
 

@@ -14,9 +14,6 @@ namespace blitz
 
         void bind(const BindTarget& bindTarget) override;
 
-        void bindIndexed(const IndexedBindTarget& bindTarget, uint16_t index) override;
-        void bindIndexedRange(const IndexedBindTarget& bindTarget, uint16_t index, const Range& range) override;
-
         ~OpenGLBuffer() override;
 
       protected:
