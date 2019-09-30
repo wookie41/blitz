@@ -1,15 +1,12 @@
 #pragma once
 
+#include <core/DataType.h>
 #include <blitzcommon/HashUtils.h>
 #include <functional>
 
 namespace blitz
 {
 
-    enum class UniformVariableType
-    {
-        INTEGER
-    };
 
     using UniformVariableWatcher = std::function<void(hash)>;
     const auto noopWatcher = [](hash h) {};
@@ -20,7 +17,7 @@ namespace blitz
         IUniformVariable(const IUniformVariable& rhs);
 
         virtual void bind() = 0;
-        virtual UniformVariableType getType() const = 0;
+        virtual DataType getType() const = 0;
 
         hash getNameHash() const;
         const std::string& getName() const;

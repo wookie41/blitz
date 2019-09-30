@@ -6,7 +6,7 @@ namespace blitz
 {
     void OpenGLIntegerUniformVariable::bind() { glUniform1i(variableLocation, value); }
 
-    UniformVariableType OpenGLIntegerUniformVariable::getType() const { return UniformVariableType::INTEGER; }
+    DataType OpenGLIntegerUniformVariable::getType() const { return DataType::INT; }
 
     OpenGLIntegerUniformVariable::OpenGLIntegerUniformVariable(const GLint& variableLocation,
                                                                const uint32_t& value,

@@ -2,9 +2,12 @@ namespace blitz
 {
     enum class DataType
     {
-        INT_32,
-        UINT_32,
+        INT,
+        UINT,
         FLOAT,
-        DOUBLE
+        DOUBLE,
+        //FVEC3
+        //FVEC4
+        //etc
     };
 }

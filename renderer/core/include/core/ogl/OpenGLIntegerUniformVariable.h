@@ -2,6 +2,7 @@
 
 #include <GL/glew.h>
 #include <core/UniformVariable.h>
+#include <core/DataType.h>
 
 namespace blitz
 {
@@ -14,7 +15,7 @@ namespace blitz
 
         void bind() override;
 
-        UniformVariableType getType() const override;
+        DataType getType() const override;
 
     private:
         GLint variableLocation;

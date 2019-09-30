@@ -102,10 +102,10 @@ namespace blitz
         glBindVertexArray(this->vaoIdx);
         switch (vertexAttributeDef.dataType)
         {
-        case DataType::INT_32:
+        case DataType::INT:
             bindIntAttribute(attributeID, vertexAttributeDef, GL_INT);
             break;
-        case DataType::UINT_32:
+        case DataType::UINT:
             bindIntAttribute(attributeID, vertexAttributeDef, GL_UNSIGNED_INT);
             break;
         case DataType::FLOAT:
