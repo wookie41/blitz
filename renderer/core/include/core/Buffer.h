@@ -1,10 +1,10 @@
 #pragma once
 
-#include <cstdint>
 #include <core/Range.h>
+#include <cstdint>
 
 
-//TODO
+// TODO
 // 1. Consider adding some inner lock, as the Buffer can be shared between several contextes
 // The above might not be necessary if RenderCommands are executed properly.
 
@@ -61,9 +61,21 @@ namespace blitz
 
         UsageHint getUsageHint() const;
 
+
+        uint32_t getSize() const;
+
+        bool IsReadable() const;
+
+        bool IsWriteable() const;
+
+        void setSize(const uint32_t& size);
+
         virtual ~Buffer() = default;
 
-      private:
+      protected:
+        std::uint32_t size;
+        BindHint bindHint;
+        bool isReadable, bool isWriteable;
         UsageHint usageHint;
     };
 } // namespace blitz

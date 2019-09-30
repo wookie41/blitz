@@ -64,6 +64,7 @@ namespace blitz
             glBufferData(GL_COPY_WRITE_BUFFER, fillArgs.dataSize, fillArgs.data, usageHint);
         });
 
+        buffer->setSize(fillArgs.dataSize);
         DLOG_F(INFO, "[OpenGL] Buffer with id %d filled", buffer->getId());
     }
 } // namespace blitz
