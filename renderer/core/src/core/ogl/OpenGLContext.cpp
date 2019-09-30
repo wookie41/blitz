@@ -18,9 +18,15 @@ namespace blitz
 
     Buffer* OpenGLContext::createBuffer(const BufferSpec& bufferSpec)
     {
+        if (bufferSpec.initialData != nullptr && bufferSpec.size == 0)
+        {
+            DLOG_F(ERROR, "[OpenGL] Initial data specified, but the size in buffer spec i 0");
+            return nullptr;
+        }
         if (bufferSpec.multiBuffersCount > 0)
         {
-            exit(RendererErrorCode::OPENGL_MULTI_BUFFERING_NOT_SUPPORTED);
+            DLOG_F(ERROR, "[OpenGL] Multi-buffering not supported");
+            return nullptr;
         }
 
         auto selfLock = std::lock_guard(selfMutex);
@@ -28,8 +34,21 @@ namespace blitz
         GLuint bufferId;
         glGenBuffers(1, &bufferId);
 
+
+        auto buffer = new SimpleOpenGLBuffer(bufferId, bufferSpec.usageHint, bufferSpec.readable, bufferSpec.writeable);
+        if (bufferSpec.size > 0)
+        {
+            if (bufferSpec.writeable)
+            {
+                delete buffer;
+                return nullptr;
+            }
+
+            bufferFiller->fill(buffer, {nullptr, 0, bufferSpec.size, false});
+        }
+
         DLOG_F(INFO, "[OpenGL] Buffer with id %d created", bufferId);
-        return new SimpleOpenGLBuffer(bufferId, bufferSpec.usageHint);
+        return buffer;
     }
 
     const BufferFiller* OpenGLContext::getBufferFiller() { return bufferFiller; }

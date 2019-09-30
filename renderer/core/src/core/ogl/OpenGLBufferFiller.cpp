@@ -30,9 +30,14 @@ namespace blitz
             exit(OPENGL_UNSUPPORTED_BUFFER_OPERATION);
         }
 
+        if (!buffer->isIsWriteable())
+        {
+            DLOG_F(ERROR, "[OpenGL] Can't fill buffer with id %d - it's not writeable", buffer->getId());
+            return;
+        }
+
         DLOG_F(INFO, "[OpenGL] Filling buffer with id %d with %ld bytes, starting from address %p", buffer->getId(),
                fillArgs.dataSize, fillArgs.data);
-
 
         GLuint usageHint;
 

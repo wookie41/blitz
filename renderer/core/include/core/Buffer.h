@@ -29,10 +29,22 @@ namespace blitz
         IMMUTABLE
     };
 
+    enum class BindHint
+    {
+        INDEX,
+        VERTEX,
+        UNIFORM
+    };
+
     struct BufferSpec
     {
+        std::uint32_t size;
         UsageHint usageHint;
         std::size_t multiBuffersCount;
+        BindHint bindHint;
+        void* initialData;
+        bool readable;
+        bool writeable;
     };
 
     class Context;
@@ -43,7 +55,6 @@ namespace blitz
         explicit Buffer(const UsageHint& usageHint);
 
         virtual void bind(const BindTarget& bindTarget) = 0;
-        virtual void bindRange(const BindTarget& bindTarget, const Range& range) = 0;
 
         virtual void bindIndexed(const IndexedBindTarget& bindTarget, uint16_t index) = 0;
         virtual void bindIndexedRange(const IndexedBindTarget& bindTarget, uint16_t index, const Range& range) = 0;

@@ -9,7 +9,14 @@ namespace blitz
     {
         friend class OpenGLContext;
 
-      private:
-        SimpleOpenGLBuffer(const GLuint& id, const UsageHint& usageHint);
+    public:
+        bool isIsReadable() const;
+
+        bool isIsWriteable() const;
+
+    private:
+        SimpleOpenGLBuffer(const GLuint& id, const UsageHint& usageHint, bool isWriteable, bool isReadable);
+        bool isReadable;
+        bool isWriteable;
     };
 } // namespace blitz
