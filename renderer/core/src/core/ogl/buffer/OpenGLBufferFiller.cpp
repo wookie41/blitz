@@ -1,9 +1,9 @@
 #include "loguru.hpp"
 
 #include "core/RendererErrorCode.h"
-#include "core/ogl/OpenGLBufferFiller.h"
+#include "core/ogl/buffer/OpenGLBufferFiller.h"
 #include "core/ogl/OpenGLContext.h"
-#include "core/ogl/SimpleOpenGLBuffer.h"
+#include "core/ogl/buffer/SimpleOpenGLBuffer.h"
 
 namespace blitz
 {

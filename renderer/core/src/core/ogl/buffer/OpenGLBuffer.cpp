@@ -1,7 +1,7 @@
 #include <blitzcommon/HashUtils.h>
 #include <core/Context.h>
 #include <core/RendererErrorCode.h>
-#include <core/ogl/OpenGLBuffer.h>
+#include <core/ogl/buffer/OpenGLBuffer.h>
 #include <cstdint>
 #include <loguru.hpp>
 #include <unordered_map>

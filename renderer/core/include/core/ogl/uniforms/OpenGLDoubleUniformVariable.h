@@ -3,14 +3,15 @@
 #include <GL/glew.h>
 #include <core/UniformVariable.h>
 #include <core/DataType.h>
+#include <mathfu/vector.h>
 
 namespace blitz
 {
-    class OpenGLIntegerUniformVariable : public UniformVariable<uint32_t>
+    class OpenGLDoubleUniformVariable : public UniformVariable<GLdouble>
     {
       public:
-        OpenGLIntegerUniformVariable(const GLint& variableLocation,
-                                     const uint32_t& value,
+        OpenGLDoubleUniformVariable(const GLint& variableLocation,
+                                     const GLdouble& value,
                                      const std::string& name);
 
         void bind() override;

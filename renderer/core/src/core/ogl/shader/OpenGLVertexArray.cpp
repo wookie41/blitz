@@ -1,5 +1,5 @@
 #include <core/ogl/OpenGLContext.h>
-#include <core/ogl/OpenGLVertexArray.h>
+#include <core/ogl/shader/OpenGLVertexArray.h>
 
 #include <core/RendererErrorCode.h>
 #include <loguru.hpp>

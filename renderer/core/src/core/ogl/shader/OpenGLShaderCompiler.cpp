@@ -1,4 +1,4 @@
-#include <core/ogl/OpenGLShaderCompiler.h>
+#include <core/ogl/shader/OpenGLShaderCompiler.h>
 #include <loguru.hpp>
 #include <string>
 

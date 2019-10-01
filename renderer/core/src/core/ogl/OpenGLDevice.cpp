@@ -1,5 +1,5 @@
 #include <core/ogl/OpenGLDevice.h>
-#include <core/ogl/OpenGLShaderFactory.h>
+#include <core/ogl/shader/OpenGLShaderFactory.h>
 
 namespace blitz
 {

@@ -1,4 +1,4 @@
-#include "core/ogl/SimpleOpenGLBuffer.h"
+#include "core/ogl/buffer/SimpleOpenGLBuffer.h"
 
 namespace blitz
 {

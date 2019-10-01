@@ -1,3 +1,5 @@
+#pragma once
+
 namespace blitz
 {
     enum class DataType
@@ -6,8 +8,9 @@ namespace blitz
         UINT,
         FLOAT,
         DOUBLE,
-        //FVEC3
-        //FVEC4
-        //etc
+        VECTOR3F,
+        VECTOR4F,
+        MATRIX3F,
+        MATRIX4F
     };
 }

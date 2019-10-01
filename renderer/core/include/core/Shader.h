@@ -1,5 +1,6 @@
 #pragma once
 
+#include <loguru.hpp>
 #include <unordered_map>
 #include <unordered_set>
 
@@ -9,12 +10,16 @@
 
 namespace blitz
 {
+    class Buffer;
+    class UniformBlock;
     class VertexArray;
 
     class Shader : NonCopyable
     {
       public:
-        explicit Shader(const std::unordered_map<hash, IUniformVariable*>& uniforms);
+        explicit Shader(const std::string& name,
+                        const std::unordered_map<hash, IUniformVariable*>& uniforms,
+                        const std::unordered_map<hash, UniformBlock*>& uniformBlocks);
 
         virtual void use() = 0;
 
@@ -26,6 +31,8 @@ namespace blitz
         template <typename T>
         UniformVariable<T>* getUniformVariable(const std::string& name);
 
+        virtual void bindUniformBlock(const std::string& blockName, Buffer* buffer) = 0;
+
         virtual ~Shader() = default;
 
       protected:
@@ -34,8 +41,10 @@ namespace blitz
 
         VertexArray* vertexArray;
 
+        std::string shaderName;
         std::unordered_map<hash, IUniformVariable*> uniformVariables;
         std::unordered_set<hash> dirtyUniforms;
+        std::unordered_map<hash, UniformBlock*> uniformBlocks;
     };
 
     template <typename T>
@@ -44,7 +53,8 @@ namespace blitz
         const auto variableIt = uniformVariables.find(nameHash);
         if (variableIt == uniformVariables.end())
         {
-            exit(RendererErrorCode::UNKNOWN_SHADER_UNIFORM_VARIABLE);
+            DLOG_F(ERROR, "Shader '%s' doesn't have uniform with hash %lld", shaderName.c_str(), nameHash);
+            return nullptr;
         }
 
         auto uniformVariable = variableIt->second;

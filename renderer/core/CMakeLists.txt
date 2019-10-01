@@ -12,17 +12,24 @@ add_library(${PROJECT_NAME} STATIC
         src/core/sdl2/SDL2Context.cpp
         src/core/Globals.cpp
         src/core/ogl/OpenGLContext.cpp
-        src/core/ogl/OpenGLBuffer.cpp
-        src/core/ogl/SimpleOpenGLBuffer.cpp
-        src/core/ogl/OpenGLBufferFiller.cpp
-        src/core/ogl/OpenGLVertexArray.cpp 
-        src/core/ogl/OpenGLShader.cpp
-        src/core/ogl/OpenGLIntegerUniformVariable.cpp
-        src/core/ogl/OpenGLShaderFactory.cpp
-        src/core/ogl/OpenGLShaderCompiler.cpp
-        src/core/ogl/OpenGLShaderInspector.cpp
+        src/core/ogl/buffer/OpenGLBuffer.cpp
+        src/core/ogl/buffer/SimpleOpenGLBuffer.cpp
+        src/core/ogl/buffer/OpenGLBufferFiller.cpp
+        src/core/ogl/shader/OpenGLVertexArray.cpp
+        src/core/ogl/shader/OpenGLShader.cpp
+        src/core/ogl/uniforms/OpenGLIntegerUniformVariable.cpp
+        src/core/ogl/uniforms/OpenGLFloatUniformVariable.cpp
+        src/core/ogl/uniforms/OpenGLDoubleUniformVariable.cpp
+        src/core/ogl/uniforms/OpenGLVec3UniformVariable.cpp
+        src/core/ogl/uniforms/OpenGLVec4UniformVariable.cpp
+        src/core/ogl/uniforms/OpenGLMat3UniformVariable.cpp
+        src/core/ogl/uniforms/OpenGLMat4UniformVariable.cpp
+        src/core/ogl/shader/OpenGLShaderFactory.cpp
+        src/core/ogl/shader/OpenGLShaderCompiler.cpp
+        src/core/ogl/shader/OpenGLShaderInspector.cpp
         src/core/ogl/OpenGLDevice.cpp
-        src/core/UniformVariable.cpp include/core/Range.h include/core/UniformBlock.h include/core/Max.h include/core/ogl/DataType.h src/core/ogl/DataType.cpp)
+        src/core/UniformVariable.cpp
+        src/core/ogl/DataType.cpp)
 
 set_target_properties(${PROJECT_NAME}
         PROPERTIES

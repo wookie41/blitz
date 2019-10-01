@@ -3,7 +3,10 @@
 
 namespace blitz
 {
-    Shader::Shader(const std::unordered_map<hash, IUniformVariable*>& uniforms) : uniformVariables(uniforms)
+    Shader::Shader(const std::string& name,
+                   const std::unordered_map<hash, IUniformVariable*>& uniforms,
+                   const std::unordered_map<hash, UniformBlock*>& uniformBlocks)
+    : shaderName(name), uniformVariables(uniforms), uniformBlocks(uniformBlocks)
     {
         for (const auto& uniform : uniformVariables)
         {

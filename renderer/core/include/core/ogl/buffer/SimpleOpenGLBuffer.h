@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GL/glew.h"
-#include "core/ogl/OpenGLBuffer.h"
+#include "OpenGLBuffer.h"
 
 namespace blitz
 {
