@@ -7,6 +7,7 @@
 #include <cstring>
 #include <unordered_set>
 
+#include <core/ogl/shader/OpenGLUniformBlockBinding.h>
 #include <core/ogl/uniforms/OpenGLDoubleUniformVariable.h>
 #include <core/ogl/uniforms/OpenGLFloatUniformVariable.h>
 #include <core/ogl/uniforms/OpenGLIntegerUniformVariable.h>
@@ -107,7 +108,6 @@ namespace blitz
 
             const auto uniformBlockIndex = glGetUniformBlockIndex(shaderID, uniformBlockName);
 
-
             if (uniformBlockIndex != GL_INVALID_INDEX)
             {
                 const auto nameHash = hashString(uniformBlockName);
@@ -123,6 +123,9 @@ namespace blitz
                 int* uniformsIndices = new int[activeUniformsInBlock];
                 glGetActiveUniformBlockiv(shaderID, uniformBlockIndex, GL_UNIFORM_BLOCK_ACTIVE_UNIFORM_INDICES, uniformsIndices);
 
+                GLint binding = 999;
+                glGetActiveUniformBlockiv(shaderID, uniformBlockIndex, GL_UNIFORM_BLOCK_BINDING, &binding);
+                DLOG_F(INFO, "SELECTED BINDING %d", binding);
                 for (uint i = 0; i < activeUniformsInBlock; ++i)
                 {
                     const uint& index = (uint)uniformsIndices[i];
@@ -143,6 +146,39 @@ namespace blitz
         }
 
         return uniformBlocks;
+    }
+
+    std::unordered_map<hash, GLuint>
+    createBindingPoints(const GLuint shaderID, const std::unordered_map<hash, UniformBlock*>& uniformBlocks)
+    {
+        GLint freeBinding = 0;
+        std::unordered_map<hash, GLuint> bindings;
+        for (const auto& it : uniformBlocks)
+        {
+            const auto block = it.second;
+            GLint bindingPoint = -1;
+            const auto uniformBlockIndex = glGetUniformBlockIndex(shaderID, block->name);
+
+            if (uniformBlockIndex == GL_INVALID_INDEX)
+            {
+                DLOG_F(ERROR, "[OpenGL] Shader %d doesn't declare a uniform block named %s", shaderID, block->name);
+                continue;
+            }
+
+            glGetActiveUniformBlockiv(shaderID, uniformBlockIndex, GL_UNIFORM_BLOCK_BINDING, &bindingPoint);
+            if (bindingPoint == -1)
+            {
+                DLOG_F(ERROR, "[OpenGL] Failed to query for binding of uniform block %d in shader %s", block->name, shaderID);
+                continue;
+            }
+
+            bindingPoint = bindingPoint == 0 ? freeBinding++ : bindingPoint;
+            glUniformBlockBinding(shaderID, uniformBlockIndex, static_cast<GLuint>(bindingPoint));
+
+            bindings[hash(block->name)] = static_cast<GLuint>(bindingPoint);
+        }
+
+        return bindings;
     }
 
 } // namespace blitz

@@ -1,3 +1,4 @@
+#include <core/UniformBlock.h>
 #include <core/VertexArray.h>
 #include <core/ogl/shader/OpenGLShader.h>
 #include <loguru.hpp>
@@ -7,14 +8,10 @@ namespace blitz
     OpenGLShader::OpenGLShader(const std::string& name,
                                GLuint shaderID,
                                const std::unordered_map<hash, IUniformVariable*>& uniforms,
-                               const std::unordered_map<hash, UniformBlock*>& unifomBlocks)
-    : Shader(name, uniforms, unifomBlocks), shaderID(shaderID)
+                               const std::unordered_map<hash, UniformBlock*>& unifomBlocks,
+                               const std::unordered_map<hash, GLuint>& uniformBlockBindings)
+    : Shader(name, uniforms, unifomBlocks), shaderID(shaderID), uniformBlockBindings(uniformBlockBindings)
     {
-        GLuint bindingPoint = 0;
-        while (bindingPoint++ < GL_MAX_UNIFORM_BUFFER_BINDINGS)
-        {
-            availableBindingPoints.push_back(bindingPoint);
-        }
     }
 
     void OpenGLShader::use()
@@ -25,6 +22,7 @@ namespace blitz
         bindDirtyVariables();
     }
 
-    void OpenGLShader::bindUniformBlock(const std::string& blockName, Buffer* buffer) {}
-
+    void OpenGLShader::bindUniformBlock(const std::string& blockName, Buffer* buffer)
+    {
+    }
 } // namespace blitz

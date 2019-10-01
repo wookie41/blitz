@@ -15,5 +15,6 @@ namespace blitz
     public:
         std::unordered_map<hash, IUniformVariable*> extractUniformVariables(GLuint shaderID, const std::unordered_map<hash, UniformBlock*>& uniformBlocks);
         std::unordered_map<hash, UniformBlock*> extractUniformBlocks(GLuint shaderID);
+        std::unordered_map<hash, GLuint> createBindingPoints(const GLuint shaderID, const std::unordered_map<hash, UniformBlock *>& uniformBlocks);
     };
 }

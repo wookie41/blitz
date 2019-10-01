@@ -20,10 +20,12 @@ namespace blitz
         OpenGLShader(const std::string& name,
                      GLuint shaderID,
                      const std::unordered_map<hash, IUniformVariable*>& uniforms,
-                     const std::unordered_map<hash, UniformBlock*>& unifomBlocks);
+                     const std::unordered_map<hash, UniformBlock*>& unifomBlocks,
+                     const std::unordered_map<hash, GLuint>& uniformBlockBindings);
 
         GLuint shaderID;
-        std::mutex mx;
-        std::vector<GLuint> availableBindingPoints;
+        std::unordered_map<hash, GLuint> uniformBlockBindings;
+        std::unordered_map<hash, Buffer*> uniformBlocksBuffers;
+
     };
 } // namespace blitz
