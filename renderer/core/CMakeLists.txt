@@ -1,6 +1,8 @@
 project(blitz-renderer-core C CXX)
 
 add_library(${PROJECT_NAME} STATIC
+        src/core/DataType.cpp
+        src/core/Globals.cpp
         src/core/Logger.cpp
         src/core/Buffer.cpp
         src/core/Window.cpp
@@ -10,7 +12,6 @@ add_library(${PROJECT_NAME} STATIC
         src/core/sdl2/SDL2Device.cpp
         src/core/sdl2/SDL2Window.cpp
         src/core/sdl2/SDL2Context.cpp
-        src/core/Globals.cpp
         src/core/ogl/OpenGLContext.cpp
         src/core/ogl/buffer/OpenGLBuffer.cpp
         src/core/ogl/buffer/SimpleOpenGLBuffer.cpp
@@ -29,7 +30,7 @@ add_library(${PROJECT_NAME} STATIC
         src/core/ogl/shader/OpenGLShaderInspector.cpp
         src/core/ogl/OpenGLDevice.cpp
         src/core/UniformVariable.cpp
-        src/core/ogl/DataType.cpp)
+        src/core/ogl/GLDataType.cpp)
 
 set_target_properties(${PROJECT_NAME}
         PROPERTIES
@@ -40,8 +41,7 @@ target_compile_features(${PROJECT_NAME} PUBLIC cxx_override)
 
 target_include_directories(${PROJECT_NAME}
         PUBLIC ${PROJECT_SOURCE_DIR}/include
-        PRIVATE ${PROJECT_SOURCE_DIR}/include/sdl2
-)
+        )
 
 if(WITH_DEBUG_TOOLS)
     target_link_libraries(${PROJECT_NAME} loguru)

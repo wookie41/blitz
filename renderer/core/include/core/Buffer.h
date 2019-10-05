@@ -1,8 +1,7 @@
 #pragma once
 
 #include <core/Range.h>
-#include <cstdint>
-
+#include <core/DataType.h>
 
 // TODO
 // 1. Consider adding some inner lock, as the Buffer can be shared between several contextes
@@ -38,9 +37,9 @@ namespace blitz
 
     struct BufferSpec
     {
-        std::uint32_t size;
+        uint32 size;
         UsageHint usageHint;
-        std::size_t multiBuffersCount;
+        size_t multiBuffersCount;
         BindHint bindHint;
         void* initialData;
         bool readable;
@@ -58,18 +57,18 @@ namespace blitz
 
         UsageHint getUsageHint() const;
 
-        uint32_t getSize() const;
+        uint32 getSize() const;
 
         bool IsReadable() const;
 
         bool IsWriteable() const;
 
-        void setSize(const uint32_t& size);
+        void setSize(const uint32& size);
 
         virtual ~Buffer() = default;
 
       protected:
-        std::uint32_t size;
+        int32 size;
         BindHint bindHint;
         bool isReadable;
         bool isWriteable;

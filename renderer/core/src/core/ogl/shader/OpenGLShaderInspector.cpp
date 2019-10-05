@@ -3,11 +3,10 @@
 
 #include <core/Max.h>
 #include <core/UniformBlock.h>
-#include <core/ogl/DataType.h>
+#include <core/ogl/GLDataType.h>
 #include <cstring>
 #include <unordered_set>
 
-#include <core/ogl/shader/OpenGLUniformBlockBinding.h>
 #include <core/ogl/uniforms/OpenGLDoubleUniformVariable.h>
 #include <core/ogl/uniforms/OpenGLFloatUniformVariable.h>
 #include <core/ogl/uniforms/OpenGLIntegerUniformVariable.h>
@@ -18,7 +17,6 @@
 
 namespace blitz
 {
-    // TODO THIS SHOULD ACCEPT A COLLECTION OF UNIFORMS THAT BELONG TO A UNIFORM BLOCK SO THEY CEN SKIPPED
     std::unordered_map<hash, IUniformVariable*>
     OpenGLShaderInspector::extractUniformVariables(GLuint shaderID, const std::unordered_map<hash, UniformBlock*>& uniformBlocks)
     {
@@ -100,7 +98,8 @@ namespace blitz
         {
             nameLength = 0;
 
-            glGetActiveUniformBlockName(shaderID, uniformBlockIdx, MAX_UNIFORM_BLOCK_FIELD_NAME_LENGTH, &nameLength, uniformBlockName);
+            memset(uniformBlockName, 0, MAX_UNIFORM_BLOCK_NAME_LENGTH);
+            glGetActiveUniformBlockName(shaderID, uniformBlockIdx, MAX_UNIFORM_BLOCK_NAME_LENGTH, &nameLength, uniformBlockName);
             if (nameLength == 0)
             {
                 return uniformBlocks;
@@ -114,6 +113,7 @@ namespace blitz
                 uniformBlocks[nameHash] = new UniformBlock();
 
                 const auto& uniformBlock = uniformBlocks[nameHash];
+                uniformBlock->index = uniformBlockIndex;
                 strncpy(uniformBlock->name, uniformBlockName, nameLength);
 
                 int activeUniformsInBlock;
@@ -125,7 +125,6 @@ namespace blitz
 
                 GLint binding = 999;
                 glGetActiveUniformBlockiv(shaderID, uniformBlockIndex, GL_UNIFORM_BLOCK_BINDING, &binding);
-                DLOG_F(INFO, "SELECTED BINDING %d", binding);
                 for (uint i = 0; i < activeUniformsInBlock; ++i)
                 {
                     const uint& index = (uint)uniformsIndices[i];
@@ -149,7 +148,7 @@ namespace blitz
     }
 
     std::unordered_map<hash, GLuint>
-    createBindingPoints(const GLuint shaderID, const std::unordered_map<hash, UniformBlock*>& uniformBlocks)
+    OpenGLShaderInspector::createBindingPoints(const GLuint shaderID, const std::unordered_map<hash, UniformBlock*>& uniformBlocks)
     {
         GLint freeBinding = 0;
         std::unordered_map<hash, GLuint> bindings;
@@ -168,17 +167,16 @@ namespace blitz
             glGetActiveUniformBlockiv(shaderID, uniformBlockIndex, GL_UNIFORM_BLOCK_BINDING, &bindingPoint);
             if (bindingPoint == -1)
             {
-                DLOG_F(ERROR, "[OpenGL] Failed to query for binding of uniform block %d in shader %s", block->name, shaderID);
+                DLOG_F(ERROR, "[OpenGL] Failed to query for binding of uniform block %s in shader %d", block->name, shaderID);
                 continue;
             }
 
             bindingPoint = bindingPoint == 0 ? freeBinding++ : bindingPoint;
             glUniformBlockBinding(shaderID, uniformBlockIndex, static_cast<GLuint>(bindingPoint));
 
-            bindings[hash(block->name)] = static_cast<GLuint>(bindingPoint);
+            bindings[it.first] = static_cast<GLuint>(bindingPoint);
         }
 
         return bindings;
     }
-
 } // namespace blitz

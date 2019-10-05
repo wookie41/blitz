@@ -1,8 +1,7 @@
 #pragma once
 
-#include "core/BufferFiller.h"
+#include <core/BufferFiller.h>
 #include <core/Context.h>
-#include <cstdint>
 
 namespace blitz
 {

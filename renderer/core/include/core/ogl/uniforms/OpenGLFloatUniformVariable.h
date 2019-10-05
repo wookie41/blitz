@@ -6,11 +6,11 @@
 
 namespace blitz
 {
-    class OpenGLFloatUniformVariable : public UniformVariable<GLfloat>
+    class OpenGLFloatUniformVariable : public UniformVariable<float>
     {
       public:
         OpenGLFloatUniformVariable(const GLint& variableLocation,
-                                     const GLfloat& value,
+                                     const float& value,
                                      const std::string& name);
 
         void bind() override;

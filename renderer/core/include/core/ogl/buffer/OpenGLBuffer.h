@@ -14,7 +14,7 @@ namespace blitz
 
         void bind(const BindTarget& bindTarget) override;
 
-        ~OpenGLBuffer() override;
+        virtual ~OpenGLBuffer();
 
       protected:
         OpenGLBuffer(const GLuint& id, const UsageHint& usageHint);

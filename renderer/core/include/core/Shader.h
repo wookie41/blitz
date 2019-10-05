@@ -13,6 +13,7 @@ namespace blitz
     class Buffer;
     class UniformBlock;
     class VertexArray;
+    class BufferRange;
 
     class Shader : NonCopyable
     {
@@ -31,7 +32,7 @@ namespace blitz
         template <typename T>
         UniformVariable<T>* getUniformVariable(const std::string& name);
 
-        virtual void bindUniformBlock(const std::string& blockName, Buffer* buffer) = 0;
+        virtual void bindUniformBlock(const std::string& blockName, const BufferRange* bufferRange) = 0;
 
         virtual ~Shader() = default;
 
@@ -39,7 +40,7 @@ namespace blitz
         void markAsDirty(hash uniformNameHash);
         void bindDirtyVariables();
 
-        VertexArray* vertexArray;
+        VertexArray* vertexArray = nullptr;
 
         std::string shaderName;
         std::unordered_map<hash, IUniformVariable*> uniformVariables;

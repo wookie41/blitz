@@ -2,7 +2,6 @@
 
 #include <GL/glew.h>
 #include <core/DataType.h>
-#include <core/Math.h>
 #include <core/UniformVariable.h>
 
 namespace blitz

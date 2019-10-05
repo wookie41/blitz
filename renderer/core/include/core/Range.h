@@ -1,12 +1,12 @@
 #pragma once
 
-#include <cstdint>
+#include <core/DataType.h>
 
 namespace blitz
 {
     struct Range
     {
-        std::size_t offset;
-        std::size_t size;
+        size_t offset;
+        size_t size;
     };
 }

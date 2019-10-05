@@ -2,13 +2,12 @@
 #include <core/Context.h>
 #include <core/RendererErrorCode.h>
 #include <core/ogl/buffer/OpenGLBuffer.h>
-#include <cstdint>
 #include <loguru.hpp>
 #include <unordered_map>
 
 namespace blitz
 {
-    static std::unordered_map<BindTarget, std::uint16_t, EnumClassHash> targetsMapping = { { BindTarget::VERTEX, GL_ARRAY_BUFFER },
+    static std::unordered_map<BindTarget, uint16, EnumClassHash> targetsMapping = { { BindTarget::VERTEX, GL_ARRAY_BUFFER },
                                                                                            { BindTarget::ELEMENT,
                                                                                              GL_ELEMENT_ARRAY_BUFFER } };
 

@@ -1,8 +1,8 @@
 #include "loguru.hpp"
 
 #include "core/RendererErrorCode.h"
-#include "core/ogl/buffer/OpenGLBufferFiller.h"
 #include "core/ogl/OpenGLContext.h"
+#include "core/ogl/buffer/OpenGLBufferFiller.h"
 #include "core/ogl/buffer/SimpleOpenGLBuffer.h"
 
 namespace blitz
@@ -52,17 +52,15 @@ namespace blitz
             break;
         }
 
-        glContext->run([buffer, &fillArgs, &usageHint](Context* context) {
-            if (fillArgs.shouldInvalidate)
-            {
-                GLint bufferSize;
-                glGetBufferParameteriv(GL_COPY_WRITE_BUFFER, GL_BUFFER_SIZE, &bufferSize);
-                DLOG_F(INFO, "[OpenGL] Orhpaning buffer with id %d, size = %d", buffer->getId(), bufferSize);
-                glBufferData(GL_COPY_WRITE_BUFFER, buffer->getId(), NULL, usageHint);
-            }
+        if (fillArgs.shouldInvalidate)
+        {
+            GLint bufferSize;
+            glGetBufferParameteriv(GL_COPY_WRITE_BUFFER, GL_BUFFER_SIZE, &bufferSize);
+            DLOG_F(INFO, "[OpenGL] Orhpaning buffer with id %d, size = %d", buffer->getId(), bufferSize);
+            glBufferData(GL_COPY_WRITE_BUFFER, buffer->getId(), NULL, usageHint);
+        }
 
-            glBufferData(GL_COPY_WRITE_BUFFER, fillArgs.dataSize, fillArgs.data, usageHint);
-        });
+        glBufferData(GL_COPY_WRITE_BUFFER, fillArgs.dataSize, fillArgs.data, usageHint);
 
         buffer->setSize(fillArgs.dataSize);
         DLOG_F(INFO, "[OpenGL] Buffer with id %d filled", buffer->getId());

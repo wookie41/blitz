@@ -29,22 +29,13 @@ namespace blitz
             return nullptr;
         }
 
-        auto selfLock = std::lock_guard(selfMutex);
-
         GLuint bufferId;
         glGenBuffers(1, &bufferId);
-
 
         auto buffer = new SimpleOpenGLBuffer(bufferId, bufferSpec.usageHint, bufferSpec.readable, bufferSpec.writeable);
         if (bufferSpec.size > 0)
         {
-            if (bufferSpec.writeable)
-            {
-                delete buffer;
-                return nullptr;
-            }
-
-            bufferFiller->fill(buffer, {nullptr, 0, bufferSpec.size, false});
+            bufferFiller->fill(buffer, {bufferSpec.initialData, 0, bufferSpec.size, false});
         }
 
         DLOG_F(INFO, "[OpenGL] Buffer with id %d created", bufferId);

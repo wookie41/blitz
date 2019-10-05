@@ -6,10 +6,10 @@
 
 namespace blitz
 {
-    class OpenGLIntegerUniformVariable : public UniformVariable<GLint>
+    class OpenGLIntegerUniformVariable : public UniformVariable<int32>
     {
       public:
-        OpenGLIntegerUniformVariable(const GLint& variableLocation, const GLint& value, const std::string& name);
+        OpenGLIntegerUniformVariable(const GLint& variableLocation, const int32& value, const std::string& name);
 
         void bind() override;
 

@@ -14,6 +14,7 @@ namespace blitz
 
     struct UniformBlock
     {
+        std::uint16_t index;
         char name[MAX_UNIFORM_BLOCK_NAME_LENGTH];
         UniformBlockField fields[MAX_NUMBER_OF_FIELDS_IN_UNIFORM];
         std::uint16_t numberOfFields;

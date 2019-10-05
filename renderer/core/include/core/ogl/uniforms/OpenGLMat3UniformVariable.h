@@ -1,12 +1,9 @@
 #pragma once
 
-#include <core/Math.h>
 #include <GL/glew.h>
 #include <core/UniformVariable.h>
 #include <core/DataType.h>
 #include <mathfu/matrix.h>
-
-
 
 namespace blitz
 {

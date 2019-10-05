@@ -6,7 +6,6 @@
 
 #include <core/Buffer.h>
 #include <blitzcommon/NonCopyable.h>
-
 namespace blitz
 {
     class Context;

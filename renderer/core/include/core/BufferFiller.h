@@ -1,6 +1,6 @@
 #pragma once
 
-#include <cstdint>
+#include <core/DataType.h>
 #include <blitzcommon/NonCopyable.h>
 
 namespace blitz
@@ -10,8 +10,8 @@ namespace blitz
     struct FillArgs
     {
         void* data;
-        std::uint32_t offset;
-        std::uint32_t dataSize;
+        uint32 offset;
+        uint32 dataSize;
         bool shouldInvalidate;
     };
 

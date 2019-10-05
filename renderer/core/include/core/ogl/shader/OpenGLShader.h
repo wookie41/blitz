@@ -14,7 +14,7 @@ namespace blitz
       public:
         void use() override;
 
-        void bindUniformBlock(const std::string& blockName, Buffer* buffer) override;
+        void bindUniformBlock(const std::string& blockName, const BufferRange* bufferRange) override;
 
       private:
         OpenGLShader(const std::string& name,
@@ -23,9 +23,10 @@ namespace blitz
                      const std::unordered_map<hash, UniformBlock*>& unifomBlocks,
                      const std::unordered_map<hash, GLuint>& uniformBlockBindings);
 
-        GLuint shaderID;
-        std::unordered_map<hash, GLuint> uniformBlockBindings;
-        std::unordered_map<hash, Buffer*> uniformBlocksBuffers;
+        void bindUniformBlocks() const;
 
+        GLuint shaderID;
+        std::unordered_map<hash, GLuint> glBindPoints;
+        std::unordered_map<hash, const BufferRange*> uniformBlocksBuffers;
     };
 } // namespace blitz

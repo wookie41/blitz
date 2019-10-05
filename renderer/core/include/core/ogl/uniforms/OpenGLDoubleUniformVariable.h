@@ -7,11 +7,11 @@
 
 namespace blitz
 {
-    class OpenGLDoubleUniformVariable : public UniformVariable<GLdouble>
+    class OpenGLDoubleUniformVariable : public UniformVariable<double>
     {
       public:
         OpenGLDoubleUniformVariable(const GLint& variableLocation,
-                                     const GLdouble& value,
+                                     const double& value,
                                      const std::string& name);
 
         void bind() override;
