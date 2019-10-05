@@ -8,8 +8,13 @@
 
 namespace blitz
 {
+    class Buffer;
+    class OpenGLContext;
+
+
     struct VertexAttributeDef
     {
+        Buffer* buffer;
         std::string name;
         DataType dataType;
         uint16 size;
@@ -17,9 +22,6 @@ namespace blitz
         uint32 stride;
         uint64 offset;
     };
-
-    class Buffer;
-    class OpenGLContext;
 
     class VertexArray : NonCopyable
     {
@@ -35,8 +37,8 @@ namespace blitz
 
         virtual void bindAttribute(const hash& nameHash) = 0;
 
-        virtual void enable(const hash& nameHash) = 0;
-        virtual void disable(const hash& nameHash) = 0;
+        virtual void enableAttribute(const hash &nameHash) = 0;
+        virtual void disableAttribute(const hash &nameHash) = 0;
 
         Buffer* getBoundVertexBuffer() const;
         Buffer* getBoundElementBuffer() const;

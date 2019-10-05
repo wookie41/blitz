@@ -2,6 +2,7 @@
 #include <core/ogl/shader/OpenGLVertexArray.h>
 
 #include <core/RendererErrorCode.h>
+#include <core/ogl/buffer/OpenGLBuffer.h>
 #include <loguru.hpp>
 
 
@@ -100,6 +101,8 @@ namespace blitz
         const auto attributeID = queryAttributeLocation(shaderID, vertexAttributeDef.name.c_str());
 
         glBindVertexArray(this->vaoIdx);
+        vertexAttributeDef.buffer->bind(BindTarget::VERTEX);
+
         switch (vertexAttributeDef.dataType)
         {
         case DataType::INT:
@@ -117,14 +120,15 @@ namespace blitz
         }
 
         glBindVertexArray(0);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 
-    void OpenGLVertexArray::enable(const hash& nameHash)
+    void OpenGLVertexArray::enableAttribute(const hash& nameHash)
     {
         glEnableVertexAttribArray(queryAttributeLocationByHash(nameHash));
     }
 
-    void OpenGLVertexArray::disable(const hash& nameHash)
+    void OpenGLVertexArray::disableAttribute(const hash& nameHash)
     {
         glDisableVertexAttribArray(queryAttributeLocationByHash(nameHash));
     }

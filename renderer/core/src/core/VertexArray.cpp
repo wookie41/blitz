@@ -10,7 +10,9 @@ namespace blitz
 
     void VertexArray::addAttribute(const VertexAttributeDef &vertexAttributeDef)
     {
-        attributes[hashString(vertexAttributeDef.name)] = vertexAttributeDef;
+        const auto nameHash = hashString(vertexAttributeDef.name);
+        attributes[nameHash] = vertexAttributeDef;
+        bindAttribute(nameHash);
     }
 
     const VertexAttributeDef& VertexArray::getAttribute(const hash& nameHash) const

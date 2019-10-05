@@ -21,8 +21,8 @@ namespace blitz
 
         void bindAttribute(const hash& nameHash) override;
 
-        void enable(const hash& nameHash) override;
-        void disable(const hash& nameHash) override;
+        void enableAttribute(const hash &nameHash) override;
+        void disableAttribute(const hash &nameHash) override;
 
         ~OpenGLVertexArray() override;
 
