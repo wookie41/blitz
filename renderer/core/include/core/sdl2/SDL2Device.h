@@ -1,12 +1,12 @@
 #pragma once
 
-#include "core/Device.h"
+#include <core/ogl/OpenGLDevice.h>
 
 struct SDL_Window;
 
 namespace blitz
 {
-    class SDL2Device : public Device
+    class SDL2Device : public OpenGLDevice
     {
       public:
 
@@ -17,7 +17,7 @@ namespace blitz
         Window* createWindow(const WindowDef &windowDef,
                              Context* contextToShare) const override;
 
-        ~SDL2Device();
+        ~SDL2Device() override;
     private:
 
         SDL_Window* createSDLWindow(const WindowDef &windowDef) const;

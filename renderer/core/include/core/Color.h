@@ -1,14 +1,13 @@
 #pragma once
 
-#include <cstdint>
-
+#include <core/DataType.h>
 namespace blitz
 {
     struct Color
     {
-        uint8_t red;
-        uint8_t green;
-        uint8_t blue;
-        uint8_t alpha;
+        uint8 red;
+        uint8 green;
+        uint8 blue;
+        uint8 alpha;
     };
 } // namespace blitz

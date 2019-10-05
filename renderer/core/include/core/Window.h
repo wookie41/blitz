@@ -1,9 +1,8 @@
 #pragma once
 
-#include <cstdint>
-
-#include "Context.h"
-#include "blitzcommon/NonCopyable.h"
+#include <core/DataType.h>
+#include <core/Context.h>
+#include <blitzcommon/NonCopyable.h>
 
 class RenderPass;
 
@@ -11,8 +10,8 @@ namespace blitz
 {
     struct WindowDef
     {
-        uint32_t x, y;
-        uint32_t width, height;
+        uint32 x, y;
+        uint32 width, height;
         const char* title;
     };
 

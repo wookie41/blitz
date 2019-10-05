@@ -4,18 +4,10 @@
 #include <vector>
 #include <functional>
 
-#include "Buffer.h"
-#include "blitzcommon/NonCopyable.h"
-
-
+#include <core/Buffer.h>
+#include <blitzcommon/NonCopyable.h>
 namespace blitz
 {
-    struct BufferBinding
-    {
-        Buffer* buffer;
-        const BufferBindTarget target;
-    };
-
     class Context;
 
     typedef std::function<void(Context*)> ContextOperation;

@@ -1,10 +1,8 @@
 #pragma once
 
-#include <cstdint>
 #include <unordered_map>
 
 #include <core/DataType.h>
-
 #include <blitzcommon/HashUtils.h>
 #include <blitzcommon/NonCopyable.h>
 
@@ -14,10 +12,10 @@ namespace blitz
     {
         std::string name;
         DataType dataType;
-        uint16_t size;
+        uint16 size;
         bool normalize;
-        uint32_t stride;
-        uint64_t offset;
+        uint32 stride;
+        uint64 offset;
     };
 
     class Buffer;
@@ -50,8 +48,8 @@ namespace blitz
       protected:
         const VertexAttributeDef& getAttribute(const hash& nameHash) const;
 
-        Buffer* vertexBuffer;
-        Buffer* elementBuffer;
+        Buffer* vertexBuffer = nullptr;
+        Buffer* elementBuffer = nullptr;
         std::unordered_map<hash, VertexAttributeDef> attributes;
     };
 

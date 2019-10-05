@@ -7,4 +7,5 @@ set_target_properties(${PROJECT_NAME}
         CMAKE_CXX_STANDARD 17
         LINKER_LANGUAGE CXX)
 
+mathfu_configure_flags(${PROJECT_NAME})
 target_link_libraries(${PROJECT_NAME} blitz-renderer-core)
