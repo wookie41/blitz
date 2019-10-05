@@ -21,6 +21,7 @@ namespace blitz
         bool normalize;
         uint32 stride;
         uint64 offset;
+        uint16 updateDivisor;
     };
 
     class VertexArray : NonCopyable
