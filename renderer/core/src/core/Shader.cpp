@@ -5,8 +5,9 @@ namespace blitz
 {
     Shader::Shader(const std::string& name,
                    const std::unordered_map<hash, IUniformVariable*>& uniforms,
-                   const std::unordered_map<hash, UniformBlock*>& uniformBlocks)
-    : shaderName(name), uniformVariables(uniforms), uniformBlocks(uniformBlocks)
+                   const std::unordered_map<hash, UniformBlock*>& uniformBlocks,
+                   const std::vector<ShaderOutput>& outputs)
+    : shaderName(name), uniformVariables(uniforms), uniformBlocks(uniformBlocks), shaderOutputs(outputs)
     {
         for (const auto& uniform : uniformVariables)
         {
@@ -27,4 +28,6 @@ namespace blitz
 
         dirtyUniforms.clear();
     }
+
+    const std::vector<ShaderOutput>& Shader::getShaderOutputs() const { return shaderOutputs; }
 } // namespace blitz

@@ -21,7 +21,8 @@ namespace blitz
                      GLuint shaderID,
                      const std::unordered_map<hash, IUniformVariable*>& uniforms,
                      const std::unordered_map<hash, UniformBlock*>& unifomBlocks,
-                     const std::unordered_map<hash, GLuint>& uniformBlockBindings);
+                     const std::unordered_map<hash, GLuint>& uniformBlockBindings,
+                     const std::vector<ShaderOutput>& outputs);
 
         void bindUniformBlocks() const;
 

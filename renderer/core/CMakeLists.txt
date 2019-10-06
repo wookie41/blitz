@@ -30,7 +30,7 @@ add_library(${PROJECT_NAME} STATIC
         src/core/ogl/shader/OpenGLShaderInspector.cpp
         src/core/ogl/OpenGLDevice.cpp
         src/core/UniformVariable.cpp
-        src/core/ogl/GLDataType.cpp)
+        src/core/ogl/GLDataType.cpp include/core/ShaderOutput.h)
 
 set_target_properties(${PROJECT_NAME}
         PROPERTIES
