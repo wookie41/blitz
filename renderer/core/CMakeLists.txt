@@ -32,7 +32,7 @@ add_library(${PROJECT_NAME} STATIC
         src/core/UniformVariable.cpp
         src/core/ogl/GLDataType.cpp
         src/core/TextureSampler.cpp
-        src/core/Texture.cpp)
+        src/core/Texture.cpp include/core/ogl/texture/GLTexture.h src/core/ogl/texture/GLTexture.cpp)
 
 set_target_properties(${PROJECT_NAME}
         PROPERTIES
