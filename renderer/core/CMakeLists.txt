@@ -30,7 +30,9 @@ add_library(${PROJECT_NAME} STATIC
         src/core/ogl/shader/OpenGLShaderInspector.cpp
         src/core/ogl/OpenGLDevice.cpp
         src/core/UniformVariable.cpp
-        src/core/ogl/GLDataType.cpp include/core/ShaderOutput.h)
+        src/core/ogl/GLDataType.cpp
+        src/core/TextureSampler.cpp
+        src/core/Texture.cpp)
 
 set_target_properties(${PROJECT_NAME}
         PROPERTIES
