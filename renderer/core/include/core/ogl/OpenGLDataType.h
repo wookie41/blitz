@@ -5,7 +5,7 @@
 
 namespace blitz
 {
-    GLint mapToGLDataType(const DataType& dataType);
-    DataType mapToBlitzDataType(const GLint& dataType);
+    GLenum mapToGLDataType(const DataType& dataType);
+    DataType mapToBlitzDataType(const GLenum & dataType);
     const char* typeToName(GLenum type);
 }

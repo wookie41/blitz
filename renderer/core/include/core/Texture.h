@@ -26,10 +26,6 @@ namespace blitz
     protected:
         explicit Texture(const TextureSpec& textureSpec);
 
-        TextureType textureType;
-        Vector3f dimensions;
-        uint8 mipmapLevel;
-        ColorType colorType;
-        DataType dataType;
+        TextureSpec textureSpec;
     };
 } // namespace blitz

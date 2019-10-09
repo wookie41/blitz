@@ -9,6 +9,8 @@ namespace blitz
 {
     enum class DataType
     {
+        BYTE,
+        UBYTE,
         INT,
         UINT,
         FLOAT,

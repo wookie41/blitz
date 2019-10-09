@@ -3,7 +3,7 @@
 
 #include <core/Max.h>
 #include <core/UniformBlock.h>
-#include <core/ogl/GLDataType.h>
+#include <core/ogl/OpenGLDataType.h>
 #include <cstring>
 #include <unordered_set>
 
