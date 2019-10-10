@@ -12,12 +12,21 @@ namespace blitz
         THREE_DIMENSIONAL
     };
 
+    enum class TextureFormat
+    {
+        RGB,
+        RGBA,
+        STENCIL,
+        DEPTH,
+        DEPTH_STENCIL
+    };
+
     struct TextureSpec
     {
         TextureType textureType;
-        Vector3i dimensions;
+        Vector3l dimensions;
         uint8 mipmapLevel;
-        ColorType colorType;
+        TextureFormat textureFormat;
         DataType dataType;
         bool isAsyncTransferEnabled;
         bool isReadable;

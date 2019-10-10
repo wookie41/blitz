@@ -13,6 +13,8 @@ namespace blitz
 
         Shader* createShader(const ShaderSource& shaderSource) const override;
 
+        Texture *createTexture(const TextureSpec &textureSpec) const override;
+
         virtual ~OpenGLDevice();
 
       private:

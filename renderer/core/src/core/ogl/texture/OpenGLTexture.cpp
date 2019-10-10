@@ -1,6 +1,8 @@
+#include <core/ogl/OpenGLDataType.h>
 #include <core/ogl/texture/OpenGLTexture.h>
-#include <loguru.hpp>
 #include <core/ogl/texture/OpenGLTextureCreator.h>
+#include <core/ogl/texture/OpenGLTextureUtils.h>
+#include <loguru.hpp>
 
 #ifndef NDEBUG
 static char ABSTRACT_TEXTURE_ERROR[] = "[OpenGL] Texture %d is not readable and writeable!";
@@ -9,22 +11,28 @@ static char ABSTRACT_TEXTURE_ERROR[] = "[OpenGL] Texture %d is not readable and 
 namespace blitz
 {
     OpenGLTexture::OpenGLTexture(const GLuint& textureID, const TextureSpec& textureSpec)
-    : textureID(textureID), Texture(textureSpec)
+    : textureID(textureID), glTextureFormat(toGLTextureFormat(textureSpec.textureFormat)),
+      glTextureType(toGLTextureType(textureSpec.textureType)), Texture(textureSpec)
     {
     }
 
-    OpenGLTexture::OpenGLTexture(const OpenGLTexture& rhs) : Texture::Texture(rhs.textureSpec) { glGenTextures(1, &textureID); }
+    OpenGLTexture::OpenGLTexture(const OpenGLTexture& rhs) : Texture::Texture(rhs.textureSpec)
+    {
+        textureID = OpenGLTextureCreator::create(textureSpec);
+    }
 
     OpenGLTexture::OpenGLTexture(OpenGLTexture&& rhs) noexcept : Texture(rhs.textureSpec)
     {
-        this->textureID = rhs.textureID;
+        textureID = rhs.textureID;
         rhs.textureID = UINT32_MAX;
     }
 
     OpenGLTexture& OpenGLTexture::operator=(OpenGLTexture&& rhs) noexcept
     {
-        this->textureID = rhs.textureID;
-        this->textureSpec = std::move(rhs.textureSpec);
+        textureID = rhs.textureID;
+        textureSpec = std::move(rhs.textureSpec);
+        glTextureType = rhs.glTextureType;
+        glTextureFormat = rhs.glTextureFormat;
         rhs.textureID = UINT32_MAX;
         return *this;
     }
@@ -33,7 +41,9 @@ namespace blitz
     {
         glDeleteTextures(1, &textureID);
         textureSpec = rhs.textureSpec;
-        textureID = GLTextureCreator::create(textureSpec);
+        textureID = OpenGLTextureCreator::create(textureSpec);
+        glTextureType = rhs.glTextureType;
+        glTextureFormat = rhs.glTextureFormat;
         return *this;
     }
 
@@ -56,9 +66,9 @@ namespace blitz
         glBindTexture(glBindTarget, textureID);
     }
 
-    void OpenGLTexture::upload(void* data, size_t length) { DLOG_F(ERROR, ABSTRACT_TEXTURE_ERROR, textureID); }
+    void OpenGLTexture::upload(void* data) { DLOG_F(ERROR, ABSTRACT_TEXTURE_ERROR, textureID); }
 
-    void* OpenGLTexture::download(void* destination)
+    void* OpenGLTexture::download(void* destination, uint8 mipmapLevel)
     {
         DLOG_F(ERROR, ABSTRACT_TEXTURE_ERROR, textureID);
         return nullptr;
@@ -75,6 +85,20 @@ namespace blitz
         if (textureId != UINT32_MAX)
         {
             glDeleteTextures(1, &textureID);
+        }
+    }
+
+    uint64 OpenGLTexture::getSizeInBytes()
+    {
+        const auto& sizeInBytes = getSizeInBytesFor(textureSpec.dataType);
+        switch (textureSpec.textureType)
+        {
+        case TextureType::ONE_DIMENSIONAL:
+            return textureSpec.dimensions.x * sizeInBytes;
+        case TextureType::TWO_DIMENSIONAL:
+            return textureSpec.dimensions.x * textureSpec.dimensions.y * sizeInBytes;
+        case TextureType::THREE_DIMENSIONAL:
+            return textureSpec.dimensions.x * textureSpec.dimensions.y * textureSpec.dimensions.z * sizeInBytes;
         }
     }
 } // namespace blitz

@@ -5,26 +5,32 @@
 
 namespace blitz
 {
-    class OpenGLTexture : Texture
+    class OpenGLTexture : public Texture
     {
-        void upload(void* data, size_t length) override;
-        void* download(void* destination) override;
-        bool isReadyToRead() const override;
-
-        void bind() override;
-
+      public:
         OpenGLTexture(const OpenGLTexture& rhs);
         OpenGLTexture(OpenGLTexture&& rhs) noexcept;
 
         OpenGLTexture& operator=(const OpenGLTexture& rhs);
         OpenGLTexture& operator=(OpenGLTexture&& rhs) noexcept;
 
-      public:
+        uint64 getSizeInBytes() override;
+
         ~OpenGLTexture() override;
 
       protected:
         OpenGLTexture(const GLuint& textureID, const TextureSpec& textureSpec);
+
         GLuint textureID = UINT32_MAX;
+        GLenum glTextureType;
+        GLenum glTextureFormat;
+
+      private:
+        void upload(void* data) override;
+        void* download(void* destination, uint8 mipMapLevel) override;
+        bool isReadyToRead() const override;
+
+        void bind() override;
     };
 
 } // namespace blitz

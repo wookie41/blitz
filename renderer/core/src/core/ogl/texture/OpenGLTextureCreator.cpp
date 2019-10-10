@@ -1,16 +1,17 @@
-#include <core/ogl/OpenGLDataType.h>
 #include <core/ogl/texture/OpenGLTextureCreator.h>
+#include <core/ogl/texture/OpenGLTextureUtils.h>
+#include <core/ogl/OpenGLDataType.h>
 
 namespace blitz
 {
 
-    GLuint GLTextureCreator::create(const TextureSpec& textureSpec)
+    GLuint OpenGLTextureCreator::create(const TextureSpec& textureSpec)
     {
         GLuint textureID;
         glGenTextures(1, &textureID);
 
         const auto glTextureType = toGLTextureType(textureSpec.textureType);
-        const auto internalFormat = textureSpec.colorType == ColorType::RGB ? GL_RGB : GL_RGBA;
+        const auto internalFormat = toGLTextureFormat(textureSpec.textureFormat);
         const auto dataType = mapToGLDataType(textureSpec.dataType);
 
         glBindTexture(glTextureType, textureID);
@@ -35,18 +36,5 @@ namespace blitz
 
         glGenerateMipmap(glTextureType);
         glBindTexture(glTextureType, 0);
-    }
-
-    GLenum GLTextureCreator::toGLTextureType(const TextureType& textureType)
-    {
-        switch (textureType)
-        {
-        case TextureType::ONE_DIMENSIONAL:
-            return GL_TEXTURE_1D;
-        case TextureType::TWO_DIMENSIONAL:
-            return GL_TEXTURE_2D;
-        case TextureType::THREE_DIMENSIONAL:
-            return GL_TEXTURE_3D;
-        }
     }
 } // namespace blitz

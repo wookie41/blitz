@@ -7,18 +7,15 @@
 namespace blitz
 {
     class OpenGLTexture;
-    class OpenGLContext;
+    class OpenGLDevice;
 
-    class GLTextureCreator : NonCopyable
+    class OpenGLTextureCreator : NonCopyable
     {
       public:
-        static GLenum toGLTextureType(const TextureType& textureType);
 
       private:
         friend class OpenGLTexture;
-        friend class OpenGLContext;
-        friend class OpenGLContext;
-
+        friend class OpenGLDevice;
 
         static GLuint create(const TextureSpec& textureSpec);
     };
