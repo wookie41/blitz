@@ -15,12 +15,13 @@ namespace blitz
         OpenGLSyncReadTexture& operator=(const OpenGLSyncReadTexture& rhs) = default;
         OpenGLSyncReadTexture& operator=(OpenGLSyncReadTexture&& rhs) = default;
 
-      private:
         void* download(void* destination, uint8 mipmapLevel) override;
+        void* download(void* destination, uint8 mipmapLevel, const Range3& range) override;
 
         bool isReadyToRead() const override;
 
       protected:
+        void* readTexture(void* destination, uint8 mipmapLevel, const Range3& range);
         OpenGLSyncReadTexture(const GLuint& textureID, const TextureSpec& textureSpec);
     };
 } // namespace blitz

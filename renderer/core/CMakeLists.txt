@@ -35,7 +35,7 @@ add_library(${PROJECT_NAME} STATIC
         src/core/Texture.cpp
         src/core/ogl/texture/OpenGLTexture.cpp
         src/core/ogl/texture/OpenGLTextureCreator.cpp
-        src/core/ogl/texture/OpenGLSyncReadTexture.cpp include/core/ogl/texture/OpenGLTextureUtils.h src/core/ogl/texture/OpenGLTextureUtils.cpp)
+        src/core/ogl/texture/OpenGLSyncReadTexture.cpp include/core/ogl/texture/OpenGLTextureUtils.h src/core/ogl/texture/OpenGLTextureUtils.cpp src/core/ogl/texture/OpenGLSyncWriteTexture.cpp include/core/ogl/texture/OpenGLSyncReadWriteTexture.h src/core/ogl/texture/OpenGLSyncReadWriteTexture.cpp)
 
 set_target_properties(${PROJECT_NAME}
         PROPERTIES

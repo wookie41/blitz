@@ -49,29 +49,27 @@ namespace blitz
 
     void OpenGLTexture::bind()
     {
-        GLenum glBindTarget;
-        switch (textureSpec.textureType)
-        {
-        case TextureType::ONE_DIMENSIONAL:
-            glBindTarget = GL_TEXTURE_1D;
-            break;
-        case TextureType::TWO_DIMENSIONAL:
-            glBindTarget = GL_TEXTURE_2D;
-            break;
-        case TextureType::THREE_DIMENSIONAL:
-            glBindTarget = GL_TEXTURE_3D;
-            break;
-        }
+        glBindTexture(glTextureType, textureID);
+    }
 
-        glBindTexture(glBindTarget, textureID);
+
+    void OpenGLTexture::unbind()
+    {
+        glBindTexture(glTextureType, 0);
     }
 
     void OpenGLTexture::upload(void* data) { DLOG_F(ERROR, ABSTRACT_TEXTURE_ERROR, textureID); }
+    void OpenGLTexture::upload(void* data, const Range3& range) { upload(data); }
 
     void* OpenGLTexture::download(void* destination, uint8 mipmapLevel)
     {
         DLOG_F(ERROR, ABSTRACT_TEXTURE_ERROR, textureID);
         return nullptr;
+    }
+
+    void* OpenGLTexture::download(void* destination, uint8 mipmapLevel, const Range3& range)
+    {
+        return download(destination, mipmapLevel);
     }
 
     bool OpenGLTexture::isReadyToRead() const

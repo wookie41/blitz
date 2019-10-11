@@ -18,7 +18,10 @@ namespace blitz
 
         ~OpenGLTexture() override;
 
-      protected:
+        void bind() override;
+        void unbind() override;
+
+    protected:
         OpenGLTexture(const GLuint& textureID, const TextureSpec& textureSpec);
 
         GLuint textureID = UINT32_MAX;
@@ -27,10 +30,11 @@ namespace blitz
 
       private:
         void upload(void* data) override;
+        void upload(void* data, const Range3& range) override;
+
         void* download(void* destination, uint8 mipMapLevel) override;
+        void* download(void* destination, uint8 mipMapLevel, const Range3& range) override;
+
         bool isReadyToRead() const override;
-
-        void bind() override;
     };
-
 } // namespace blitz
