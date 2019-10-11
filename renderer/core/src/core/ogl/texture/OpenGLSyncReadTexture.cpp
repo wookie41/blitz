@@ -39,7 +39,7 @@ namespace blitz
 
         bind();
         glGetTextureSubImage(glTextureType, mipmapLevel, range.offsetX, range.offsetY, range.offsetZ, range.sizeX,
-                             range.offsetY, range.sizeZ, glTextureFormat, mapToGLDataType(textureSpec.dataType), getSizeInBytes());
+                             range.offsetY, range.sizeZ, glTextureFormat, mapToGLDataType(textureSpec.dataType), getSizeInBytes(), destination);
         unbind();
 
         return destination;

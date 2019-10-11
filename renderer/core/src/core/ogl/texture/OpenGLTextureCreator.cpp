@@ -25,7 +25,7 @@ namespace blitz
 
         case GL_TEXTURE_2D:
             glTexImage2D(GL_TEXTURE_2D, textureSpec.mipmapLevel, internalFormat,
-                         textureSpec.dimensions.x.textureSpec.dimensions.y, 0, internalFormat, dataType, textureSpec.data);
+                         textureSpec.dimensions.x, textureSpec.dimensions.y, 0, internalFormat, dataType, textureSpec.data);
             break;
 
         case GL_TEXTURE_3D:

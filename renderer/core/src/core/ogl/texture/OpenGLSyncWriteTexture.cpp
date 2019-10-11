@@ -1,4 +1,5 @@
 #include <core/ogl/texture/OpenGLSyncWriteTexture.h>
+#include <core/ogl/OpenGLDataType.h>
 #include <loguru.hpp>
 
 namespace blitz
@@ -25,15 +26,15 @@ namespace blitz
         {
         case TextureType::ONE_DIMENSIONAL:
             glTexSubImage1D(glTextureType, textureSpec.mipmapLevel, range.offsetX, range.sizeX, glTextureFormat,
-                            mapToGLDataType(textureSpec.data), data);
+                            mapToGLDataType(textureSpec.dataType), data);
             break;
         case TextureType::TWO_DIMENSIONAL:
             glTexSubImage2D(glTextureType, textureSpec.mipmapLevel, range.offsetX, range.sizeX, range.offsetY,
-                            range.sizeY, glTextureFormat, mapToGLDataType(textureSpec.data), data);
+                            range.sizeY, glTextureFormat, mapToGLDataType(textureSpec.dataType), data);
             break;
         case TextureType::THREE_DIMENSIONAL:
             glTexSubImage3D(glTextureType, textureSpec.mipmapLevel, range.offsetX, range.sizeX, range.offsetY, range.sizeY,
-                            range.offsetZ, range.sizeZ, glTextureFormat, mapToGLDataType(textureSpec.data), data);
+                            range.offsetZ, range.sizeZ, glTextureFormat, mapToGLDataType(textureSpec.dataType), data);
             break;
         }
         unbind();

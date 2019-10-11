@@ -80,7 +80,7 @@ namespace blitz
 
     OpenGLTexture::~OpenGLTexture()
     {
-        if (textureId != UINT32_MAX)
+        if (textureID != UINT32_MAX)
         {
             glDeleteTextures(1, &textureID);
         }
