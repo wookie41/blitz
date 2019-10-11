@@ -17,11 +17,11 @@ namespace blitz
         if (data == nullptr)
         {
             DLOG_F(ERROR, "[OpenGL] Can't upload to texture %d, the data pointer is null", textureID);
-
             return;
         }
 
         bind();
+
         switch (textureSpec.textureType)
         {
         case TextureType::ONE_DIMENSIONAL:
@@ -37,6 +37,8 @@ namespace blitz
                             range.offsetZ, range.sizeZ, glTextureFormat, mapToGLDataType(textureSpec.dataType), data);
             break;
         }
+
+        glGenerateMipmap(glTextureType);
         unbind();
     }
 } // namespace blitz

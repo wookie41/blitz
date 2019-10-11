@@ -6,8 +6,10 @@
 
 namespace blitz
 {
-    class OpenGLSyncReadWriteTexture: public OpenGLSyncWriteTexture, public OpenGLSyncReadTexture
+    class OpenGLSyncReadWriteTexture: public OpenGLTexture
     {
+        friend class OpenGLDevice;
+
     public:
         OpenGLSyncReadWriteTexture(OpenGLSyncReadWriteTexture&& rhs) = default;
         OpenGLSyncReadWriteTexture(const OpenGLSyncReadWriteTexture& rhs) = default;
@@ -22,7 +24,11 @@ namespace blitz
 
         bool isReadyToRead() const override;
 
+        virtual ~OpenGLSyncReadWriteTexture();
+
     private:
+        OpenGLSyncReadTexture readInterface;
+        OpenGLSyncWriteTexture writeInterface;
         OpenGLSyncReadWriteTexture(GLuint textureID, const TextureSpec& textureSpec);
     };
 } // namespace blitz

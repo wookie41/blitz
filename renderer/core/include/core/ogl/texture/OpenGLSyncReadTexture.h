@@ -6,7 +6,8 @@ namespace blitz
 {
     class OpenGLSyncReadTexture : public OpenGLTexture
     {
-        friend class OpenGLContext;
+        friend class OpenGLDevice;
+        friend class OpenGLSyncReadWriteTexture;
 
       public:
         OpenGLSyncReadTexture(OpenGLSyncReadTexture&& rhs) = default;
