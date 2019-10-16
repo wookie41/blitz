@@ -17,7 +17,8 @@ namespace blitz
         LINEAR,
         NEAREST_MIPMAP_NEAREST,
         NEAREST_MIPMAP_LINEAR,
-        LINEAR_MIPMAP_NEAREST_LINEAR_MIPMAP_LINEAR,
+        LINEAR_MIPMAP_NEAREST,
+        LINEAR_MIPMAP_LINEAR,
     };
 
     class Texture;
@@ -25,6 +26,10 @@ namespace blitz
     class TextureSampler : NonCopyable
     {
       public:
+
+        virtual void bind() = 0;
+        virtual void unbind() = 0;
+
         virtual void setTextureWrapHorizontal(const TextureWrap& textureWrap) = 0;
         virtual void setTextureWrapVertical(const TextureWrap& textureWrap) = 0;
         virtual void setMagFilter(const TextureFilter& textureFilter) = 0;
@@ -33,7 +38,7 @@ namespace blitz
         virtual ~TextureSampler() = default;
 
       protected:
-        explicit TextureSampler(Texture* t);
+        explicit TextureSampler(Texture* texture);
 
         Texture* texture;
     };

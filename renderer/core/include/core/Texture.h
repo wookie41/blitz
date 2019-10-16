@@ -29,6 +29,8 @@ namespace blitz
 
         virtual ~Texture() = default;
 
+        const TextureType& getTextureType() const;
+
     protected:
         explicit Texture(const TextureSpec& textureSpec);
 

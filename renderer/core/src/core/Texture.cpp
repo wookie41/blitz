@@ -11,4 +11,6 @@ namespace blitz
         fullSizeRange.sizeY = textureSpec.dimensions.y;
         fullSizeRange.sizeZ = textureSpec.dimensions.z;
     }
+
+    const TextureType& Texture::getTextureType() const { return textureSpec.textureType; }
 } // namespace blitz

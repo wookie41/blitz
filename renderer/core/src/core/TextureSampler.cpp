@@ -2,5 +2,5 @@
 
 namespace blitz
 {
-    TextureSampler::TextureSampler(Texture* t) : texture(t) {}
+    TextureSampler::TextureSampler(Texture* texture) : texture(texture) {}
 } // namespace blitz
