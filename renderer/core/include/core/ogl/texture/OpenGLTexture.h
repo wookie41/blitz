@@ -8,6 +8,7 @@ namespace blitz
     class OpenGLTexture : public Texture
     {
       public:
+
         OpenGLTexture(const OpenGLTexture& rhs);
         OpenGLTexture(OpenGLTexture&& rhs) noexcept;
 
@@ -15,6 +16,7 @@ namespace blitz
         OpenGLTexture& operator=(OpenGLTexture&& rhs) noexcept;
 
         uint64 getSizeInBytes() override;
+        GLuint getTextureID() const;
 
         ~OpenGLTexture() override;
 
