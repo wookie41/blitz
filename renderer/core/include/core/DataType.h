@@ -19,7 +19,10 @@ namespace blitz
         VECTOR3F,
         VECTOR4F,
         MATRIX3F,
-        MATRIX4F
+        MATRIX4F,
+        SAMPLER1D,
+        SAMPLER2D,
+        SAMPLER3D
     };
 
     using int8 = std::int8_t;

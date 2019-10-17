@@ -25,9 +25,11 @@ namespace blitz
                      const std::vector<ShaderOutput>& outputs);
 
         void bindUniformBlocks() const;
+        void bindSamplers();
 
         GLuint shaderID;
         std::unordered_map<hash, GLuint> glBindPoints;
         std::unordered_map<hash, const BufferRange*> uniformBlocksBuffers;
+
     };
 } // namespace blitz

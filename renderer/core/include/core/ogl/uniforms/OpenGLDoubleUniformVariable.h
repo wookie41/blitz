@@ -4,10 +4,11 @@
 #include <core/UniformVariable.h>
 #include <core/DataType.h>
 #include <mathfu/vector.h>
+#include <core/ogl/uniforms/OpenGLUniformVariable.h>
 
 namespace blitz
 {
-    class OpenGLDoubleUniformVariable : public UniformVariable<double>
+    class OpenGLDoubleUniformVariable : public UniformVariable<double>, public OpenGLUniformVariable
     {
       public:
         OpenGLDoubleUniformVariable(const GLint& variableLocation,
@@ -17,9 +18,5 @@ namespace blitz
         void bind() override;
 
         DataType getType() const override;
-
-    private:
-        GLint variableLocation;
-
     };
 } // namespace blitz

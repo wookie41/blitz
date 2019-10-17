@@ -3,10 +3,11 @@
 #include <GL/glew.h>
 #include <core/DataType.h>
 #include <core/UniformVariable.h>
+#include <core/ogl/uniforms/OpenGLUniformVariable.h>
 
 namespace blitz
 {
-    class OpenGLVec4UniformVariable : public UniformVariable<Vector4f>
+    class OpenGLVec4UniformVariable : public UniformVariable<Vector4f>, public OpenGLUniformVariable
     {
       public:
         OpenGLVec4UniformVariable(const GLint& variableLocation, const Vector4f& value, const std::string& name);
@@ -14,8 +15,5 @@ namespace blitz
         void bind() override;
 
         DataType getType() const override;
-
-      private:
-        GLint variableLocation;
     };
 } // namespace blitz

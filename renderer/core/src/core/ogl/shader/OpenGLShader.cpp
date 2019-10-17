@@ -1,9 +1,12 @@
-#include <core/ogl/shader/OpenGLShader.h>
+#include <core/BufferRange.h>
 #include <core/UniformBlock.h>
+#include <core/UniformVariable.h>
 #include <core/VertexArray.h>
 #include <core/ogl/buffer/OpenGLBuffer.h>
-#include <core/BufferRange.h>
+#include <core/ogl/shader/OpenGLShader.h>
+#include <core/ogl/uniforms/OpenGLUniformVariable.h>
 #include <loguru.hpp>
+#include <utility>
 
 namespace blitz
 {
@@ -30,9 +33,11 @@ namespace blitz
         {
             vertexArray->bind();
         }
+
         glUseProgram(shaderID);
         bindDirtyVariables();
         bindUniformBlocks();
+        bindSamplers();
     }
 
     void OpenGLShader::bindUniformBlock(const std::string& blockName, const BufferRange* bufferRange)
@@ -87,6 +92,23 @@ namespace blitz
             }
 
             currentUniformBlockBindings[glBindPoint.first] = glBuffer;
+        }
+    }
+
+    void OpenGLShader::bindSamplers()
+    {
+        auto textureCount = 0;
+        auto textureCounter = GL_TEXTURE0;
+
+        OpenGLUniformVariable* glVariable;
+        for (const auto sampler : samplers)
+        {
+            glVariable = dynamic_cast<OpenGLUniformVariable*>(sampler);
+            if (glVariable == nullptr)
+                continue;
+            glActiveTexture(textureCounter++);
+            glUniform1i(glVariable->getVariableLocation(), textureCount++);
+            sampler->bind();
         }
     }
 } // namespace blitz

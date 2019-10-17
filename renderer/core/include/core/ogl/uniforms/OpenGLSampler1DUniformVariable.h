@@ -3,16 +3,19 @@
 #include <GL/glew.h>
 #include <core/UniformVariable.h>
 #include <core/DataType.h>
-#include <mathfu/matrix.h>
+#include <mathfu/vector.h>
+#include <core/TextureSpec.h>
 #include <core/ogl/uniforms/OpenGLUniformVariable.h>
 
 namespace blitz
 {
-    class OpenGLMat3UniformVariable : public UniformVariable<Matrix3f>, public OpenGLUniformVariable
+    class TextureSampler;
+
+    class OpenGLSampler1DUniformVariable : public UniformVariable<TextureSampler*>, public OpenGLUniformVariable
     {
       public:
-        OpenGLMat3UniformVariable(const GLint& variableLocation,
-                                     const Matrix3f& value,
+        OpenGLSampler1DUniformVariable(const GLint& variableLocation,
+                                     TextureSampler* value,
                                      const std::string& name);
 
         void bind() override;

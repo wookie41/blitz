@@ -11,6 +11,11 @@ namespace blitz
     {
         for (const auto& uniform : uniformVariables)
         {
+            const auto sampler = dynamic_cast<UniformVariable<TextureSampler*>*>(uniform.second);
+            if (sampler != nullptr)
+            {
+                samplers.push_back(sampler);
+            }
             uniform.second->setWatcher([this](hash h) { this->markAsDirty(h); });
         }
     }

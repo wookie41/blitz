@@ -8,7 +8,7 @@ namespace blitz
     DataType OpenGLVec3UniformVariable::getType() const { return DataType::VECTOR3F; }
 
     OpenGLVec3UniformVariable::OpenGLVec3UniformVariable(const GLint& variableLocation, const Vector3f& value, const std::string& name)
-    : UniformVariable<Vector3f>(value, name), variableLocation(variableLocation)
+    : UniformVariable<Vector3f>(value, name), OpenGLUniformVariable(variableLocation)
     {
     }
 } // namespace blitz

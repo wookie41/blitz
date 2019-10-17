@@ -12,6 +12,9 @@
 #include <core/ogl/uniforms/OpenGLIntegerUniformVariable.h>
 #include <core/ogl/uniforms/OpenGLMat3UniformVariable.h>
 #include <core/ogl/uniforms/OpenGLMat4UniformVariable.h>
+#include <core/ogl/uniforms/OpenGLSampler1DUniformVariable.h>
+#include <core/ogl/uniforms/OpenGLSampler2DUniformVariable.h>
+#include <core/ogl/uniforms/OpenGLSampler3DUniformVariable.h>
 #include <core/ogl/uniforms/OpenGLVec3UniformVariable.h>
 #include <core/ogl/uniforms/OpenGLVec4UniformVariable.h>
 
@@ -74,6 +77,15 @@ namespace blitz
                 break;
             case GL_FLOAT_MAT4:
                 uniforms[nameHash] = new OpenGLMat4UniformVariable(variableLocation, {}, name);
+                break;
+            case GL_SAMPLER_1D:
+                uniforms[nameHash] = new OpenGLSampler1DUniformVariable(variableLocation, nullptr, name);
+                break;
+            case GL_SAMPLER_2D:
+                uniforms[nameHash] = new OpenGLSampler2DUniformVariable(variableLocation, nullptr, name);
+                break;
+            case GL_SAMPLER_3D:
+                uniforms[nameHash] = new OpenGLSampler3DUniformVariable(variableLocation, nullptr, name);
                 break;
 
             default:
@@ -189,7 +201,7 @@ namespace blitz
         glGetProgramInterfaceiv(shaderID, GL_PROGRAM_OUTPUT, GL_ACTIVE_RESOURCES, &outputsCount);
 
         int outputNameLength;
-        std::vector<ShaderOutput> outputs (outputsCount);
+        std::vector<ShaderOutput> outputs(outputsCount);
 
         GLint type;
         for (GLuint outputIdx = 0; outputIdx < outputsCount; ++outputIdx)
@@ -202,15 +214,15 @@ namespace blitz
             glGetProgramResourceiv(shaderID, GL_PROGRAM_OUTPUT, outputIdx, 1, typeProperty, 1, nullptr, &type);
             switch (type)
             {
-                case GL_FLOAT_VEC3:
-                    output.type = DataType::VECTOR3F;
-                    break;
-                case GL_FLOAT_VEC4:
-                    output.type = DataType::VECTOR4F;
-                    break;
-                default:
-                    DLOG_F(ERROR, "[OpenGL] Unknown shader output type %s", typeToName(type));
-                    continue;
+            case GL_FLOAT_VEC3:
+                output.type = DataType::VECTOR3F;
+                break;
+            case GL_FLOAT_VEC4:
+                output.type = DataType::VECTOR4F;
+                break;
+            default:
+                DLOG_F(ERROR, "[OpenGL] Unknown shader output type %s", typeToName(type));
+                continue;
             }
 
             DLOG_F(ERROR, "[OpenGL] Shader output %d is named '%s' and is of type %s", outputIdx, output.name, typeToName(type));
@@ -224,4 +236,6 @@ namespace blitz
 
         return outputs;
     }
+
+    std::unordered_map<hash, GLuint> OpenGLShaderInspector::extractSamplersMapping(GLuint shaderID) {}
 } // namespace blitz

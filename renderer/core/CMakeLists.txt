@@ -25,6 +25,9 @@ add_library(${PROJECT_NAME} STATIC
         src/core/ogl/uniforms/OpenGLVec4UniformVariable.cpp
         src/core/ogl/uniforms/OpenGLMat3UniformVariable.cpp
         src/core/ogl/uniforms/OpenGLMat4UniformVariable.cpp
+        src/core/ogl/uniforms/OpenGLSampler1DUniformVariable.cpp
+        src/core/ogl/uniforms/OpenGLSampler2DUniformVariable.cpp
+        src/core/ogl/uniforms/OpenGLSampler3DUniformVariable.cpp
         src/core/ogl/shader/OpenGLShaderFactory.cpp
         src/core/ogl/shader/OpenGLShaderCompiler.cpp
         src/core/ogl/shader/OpenGLShaderInspector.cpp
@@ -39,7 +42,8 @@ add_library(${PROJECT_NAME} STATIC
         src/core/ogl/texture/OpenGLTextureUtils.cpp
         src/core/ogl/texture/OpenGLSyncWriteTexture.cpp
         src/core/ogl/texture/OpenGLSyncReadWriteTexture.cpp
-        src/core/ogl/texture/OpenGLTextureSampler.cpp)
+        src/core/ogl/texture/OpenGLTextureSampler.cpp
+        src/core/ogl/uniforms/OpenGLUniformVariable.cpp)
 
 set_target_properties(${PROJECT_NAME}
         PROPERTIES

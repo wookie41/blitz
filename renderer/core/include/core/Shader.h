@@ -13,11 +13,12 @@
 namespace blitz
 {
     class Buffer;
+    class TextureSampler;
     class UniformBlock;
     class VertexArray;
     class BufferRange;
 
-    class Shader : NonCopyable
+    class Shader :public NonCopyable
     {
       public:
         explicit Shader(const std::string& name,
@@ -52,6 +53,7 @@ namespace blitz
         std::unordered_set<hash> dirtyUniforms;
         std::unordered_map<hash, UniformBlock*> uniformBlocks;
         std::vector<ShaderOutput> shaderOutputs;
+        std::vector<IUniformVariable*> samplers;
     };
 
     template <typename T>

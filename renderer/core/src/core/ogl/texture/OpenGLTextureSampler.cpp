@@ -24,6 +24,7 @@ namespace blitz
         {
             glTexParameteri(glTextureType, GL_TEXTURE_MAG_FILTER, magFilter);
         }
+
         isDirty = 0;
         texture->bind();
     }

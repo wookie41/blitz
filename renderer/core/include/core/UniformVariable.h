@@ -1,21 +1,18 @@
 #pragma once
 
-#include <core/DataType.h>
 #include <blitzcommon/HashUtils.h>
+#include <core/DataType.h>
 #include <functional>
+#include <blitzcommon/NonCopyable.h>
 
 namespace blitz
 {
-
-
     using UniformVariableWatcher = std::function<void(hash)>;
     const auto noopWatcher = [](hash h) {};
 
-    class IUniformVariable
+    class IUniformVariable : public NonCopyable
     {
       public:
-        IUniformVariable(const IUniformVariable& rhs);
-
         virtual void bind() = 0;
         virtual DataType getType() const = 0;
 
@@ -24,7 +21,6 @@ namespace blitz
 
         void setWatcher(const UniformVariableWatcher& newWatcher);
 
-        IUniformVariable& operator=(const IUniformVariable& rhs);
 
       protected:
         explicit IUniformVariable(const std::string& name);
@@ -38,8 +34,9 @@ namespace blitz
     class UniformVariable : public IUniformVariable
     {
       public:
-        UniformVariable(const T& value, const std::string& name);
+        UniformVariable(T value, const std::string& name);
         UniformVariable& operator=(const T& newValue);
+        T* operator*();
 
       protected:
         T value;
@@ -54,8 +51,13 @@ namespace blitz
     }
 
     template <typename T>
-    UniformVariable<T>::UniformVariable(const T& value, const std::string& name) : IUniformVariable(name), value(value)
+    UniformVariable<T>::UniformVariable(T value, const std::string& name) : IUniformVariable(name), value(value)
     {
     }
 
+    template <typename T>
+    T* UniformVariable<T>::operator*()
+    {
+        return &value;
+    }
 } // namespace blitz
