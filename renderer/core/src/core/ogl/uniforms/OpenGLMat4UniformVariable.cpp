@@ -8,7 +8,7 @@ namespace blitz
     DataType OpenGLMat4UniformVariable::getType() const { return DataType::INT; }
 
     OpenGLMat4UniformVariable::OpenGLMat4UniformVariable(const GLint& variableLocation, const Matrix4f& value, const std::string& name)
-    : UniformVariable<Matrix4f>(value, name), variableLocation(variableLocation)
+    : UniformVariable<Matrix4f>(value, name), OpenGLUniformVariable(variableLocation)
     {
     }
 } // namespace blitz

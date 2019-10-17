@@ -9,7 +9,7 @@
 #include <vector>
 #include <core/BufferRange.h>
 
-char* v = "#version 420 core\n"
+char* v = "#version 430 core\n"
           "layout (location = 0) in vec3 aPos;   // the position variable has attribute position 0\n"
           "layout (location = 1) in vec3 aColor; // the color variable has attribute position 1\n"
           "  \n"
@@ -36,8 +36,8 @@ char* v = "#version 420 core\n"
           "}";
 
 
-char* f = "#version 330 core\n"
-          "out vec4 FragColor;  \n"
+char* f = "#version 430 core\n"
+          "layout (location = 0) out vec4 FragColor;  \n"
           "in vec3 ourColor;\n"
           "  \n"
           "void main()\n"

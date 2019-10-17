@@ -5,7 +5,7 @@
 namespace blitz
 {
     OpenGLMat3UniformVariable::OpenGLMat3UniformVariable(const GLint& variableLocation, const Matrix3f& value, const std::string& name)
-    : UniformVariable<Matrix3f>(value, name), variableLocation(variableLocation)
+    : UniformVariable<Matrix3f>(value, name), OpenGLUniformVariable(variableLocation)
     {
     }
 

@@ -5,11 +5,17 @@ namespace blitz
 {
     Shader::Shader(const std::string& name,
                    const std::unordered_map<hash, IUniformVariable*>& uniforms,
-                   const std::unordered_map<hash, UniformBlock*>& uniformBlocks)
-    : shaderName(name), uniformVariables(uniforms), uniformBlocks(uniformBlocks)
+                   const std::unordered_map<hash, UniformBlock*>& uniformBlocks,
+                   const std::vector<ShaderOutput>& outputs)
+    : shaderName(name), uniformVariables(uniforms), uniformBlocks(uniformBlocks), shaderOutputs(outputs)
     {
         for (const auto& uniform : uniformVariables)
         {
+            const auto sampler = dynamic_cast<UniformVariable<TextureSampler*>*>(uniform.second);
+            if (sampler != nullptr)
+            {
+                samplers.push_back(sampler);
+            }
             uniform.second->setWatcher([this](hash h) { this->markAsDirty(h); });
         }
     }
@@ -27,4 +33,6 @@ namespace blitz
 
         dirtyUniforms.clear();
     }
+
+    const std::vector<ShaderOutput>& Shader::getShaderOutputs() const { return shaderOutputs; }
 } // namespace blitz

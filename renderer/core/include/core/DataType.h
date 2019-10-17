@@ -9,6 +9,9 @@ namespace blitz
 {
     enum class DataType
     {
+        UNKNOWN,
+        BYTE,
+        UBYTE,
         INT,
         UINT,
         FLOAT,
@@ -16,7 +19,10 @@ namespace blitz
         VECTOR3F,
         VECTOR4F,
         MATRIX3F,
-        MATRIX4F
+        MATRIX4F,
+        SAMPLER1D,
+        SAMPLER2D,
+        SAMPLER3D
     };
 
     using int8 = std::int8_t;
@@ -32,6 +38,8 @@ namespace blitz
     using Vector3f = mathfu::Vector<float, 3>;
     using Vector4f = mathfu::Vector<float, 4>;
     using Vector3i = mathfu::Vector<uint32, 3>;
+    using Vector3l = mathfu::Vector<uint64, 3>;
+    using Vector4l = mathfu::Vector<uint64, 4>;
     using Vector4i = mathfu::Vector<uint32, 4>;
     using Matrix3f = mathfu::Matrix<float, 3>;
     using Matrix4f = mathfu::Matrix<float, 4>;

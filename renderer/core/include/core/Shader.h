@@ -3,24 +3,28 @@
 #include <loguru.hpp>
 #include <unordered_map>
 #include <unordered_set>
+#include <vector>
 
 #include <blitzcommon/NonCopyable.h>
 #include <core/RendererErrorCode.h>
+#include <core/ShaderOutput.h>
 #include <core/UniformVariable.h>
 
 namespace blitz
 {
     class Buffer;
+    class TextureSampler;
     class UniformBlock;
     class VertexArray;
     class BufferRange;
 
-    class Shader : NonCopyable
+    class Shader :public NonCopyable
     {
       public:
         explicit Shader(const std::string& name,
                         const std::unordered_map<hash, IUniformVariable*>& uniforms,
-                        const std::unordered_map<hash, UniformBlock*>& uniformBlocks);
+                        const std::unordered_map<hash, UniformBlock*>& uniformBlocks,
+                        const std::vector<ShaderOutput>& outputs);
 
         virtual void use() = 0;
 
@@ -31,6 +35,8 @@ namespace blitz
 
         template <typename T>
         UniformVariable<T>* getUniformVariable(const std::string& name);
+
+        const std::vector<ShaderOutput>& getShaderOutputs() const;
 
         virtual void bindUniformBlock(const std::string& blockName, const BufferRange* bufferRange) = 0;
 
@@ -46,6 +52,8 @@ namespace blitz
         std::unordered_map<hash, IUniformVariable*> uniformVariables;
         std::unordered_set<hash> dirtyUniforms;
         std::unordered_map<hash, UniformBlock*> uniformBlocks;
+        std::vector<ShaderOutput> shaderOutputs;
+        std::vector<IUniformVariable*> samplers;
     };
 
     template <typename T>

@@ -119,7 +119,7 @@ namespace blitz
             break;
         }
 
-        glVertexAttribDivisor(attributeID, static_cast<GLuint>(vertexAttributeDef.updateDivisor);
+        glVertexAttribDivisor(attributeID, static_cast<GLuint>(vertexAttributeDef.updateDivisor));
         glBindVertexArray(0);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }

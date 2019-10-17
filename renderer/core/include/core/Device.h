@@ -13,11 +13,12 @@
 #include <blitzcommon/NonCopyable.h>
 #include <core/ShaderSource.h>
 #include <core/Window.h>
-
+#include <core/TextureSpec.h>
 namespace blitz
 {
     class Context;
     class Shader;
+    class Texture;
 
     class Device : private NonCopyable
     {
@@ -27,6 +28,8 @@ namespace blitz
         virtual Window* createWindow(const WindowDef& windowDef, Context* contextToShare) const = 0;
 
         virtual Shader* createShader(const ShaderSource& shaderSource) const = 0;
+
+        virtual Texture* createTexture(const TextureSpec& textureSpec) const = 0;
 
         virtual ~Device() = default;
     };

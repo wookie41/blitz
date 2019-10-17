@@ -15,14 +15,4 @@ namespace blitz
     {
         IUniformVariable::watcher = newWatcher;
     }
-
-    IUniformVariable& IUniformVariable::operator=(const IUniformVariable& rhs)
-    {
-        this->name = rhs.name;
-        this->nameHash = rhs.nameHash;
-        this->watcher = noopWatcher;
-        return *this;
-    }
-
-    IUniformVariable::IUniformVariable(const IUniformVariable& rhs) : IUniformVariable(rhs.name) {}
 } // namespace blitz

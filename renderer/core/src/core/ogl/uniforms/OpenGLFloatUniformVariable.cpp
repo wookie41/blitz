@@ -8,7 +8,7 @@ namespace blitz
     DataType OpenGLFloatUniformVariable ::getType() const { return DataType::INT; }
 
     OpenGLFloatUniformVariable ::OpenGLFloatUniformVariable(const GLint& variableLocation, const GLfloat& value, const std::string& name)
-    : UniformVariable<GLfloat>(value, name), variableLocation(variableLocation)
+    : UniformVariable<GLfloat>(value, name), OpenGLUniformVariable(variableLocation)
     {
     }
 } // namespace blitz
