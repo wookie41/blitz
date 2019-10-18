@@ -20,7 +20,9 @@ namespace blitz
         // color attachment idx starts with 0
         void setColorAttachment(uint16 colorAttachmentIdx, FramebufferAttachment* colorAttachment);
 
-      protected:
+        virtual ~Framebuffer();
+
+    protected:
         Framebuffer() = default;
 
         uint8 dirtyFields = 0;

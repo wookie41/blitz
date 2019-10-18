@@ -1,4 +1,5 @@
 #include <core/Framebuffer.h>
+#include <core/FramebufferAttachment.h>
 
 static auto depthAttachmentDirty = 0b00000001;
 static auto stencilAttachmentDirty = 0b00000010;
@@ -27,5 +28,15 @@ namespace blitz
     void Framebuffer::setColorAttachment(uint16 colorAttachmentIdx, FramebufferAttachment* colorAttachment)
     {
         colorAttachments[colorAttachmentIdx] = colorAttachment;
+    }
+
+    Framebuffer::~Framebuffer()
+    {
+        delete depthAttachment;
+        delete stencilAttachment;
+        delete depthStencilAttachment;
+
+        for (const auto& colorAttachment : colorAttachments)
+            delete colorAttachment.second;
     }
 } // namespace blitz

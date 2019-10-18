@@ -23,5 +23,6 @@ namespace blitz
     {
       public:
         virtual void bind(const FramebufferAttachmentSpec& attachmentSpec) = 0;
+        virtual ~FramebufferAttachment() = default;
     };
 } // namespace blitz
