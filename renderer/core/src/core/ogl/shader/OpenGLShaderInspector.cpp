@@ -193,49 +193,57 @@ namespace blitz
         return bindings;
     }
 
-    std::vector<ShaderOutput> OpenGLShaderInspector::extractShaderOutputs(GLuint shaderID)
+    std::unordered_map<hash, ShaderOutput*> OpenGLShaderInspector::extractShaderOutputs(GLuint shaderID)
     {
-        static const GLenum typeProperty[] = { GL_TYPE };
+        static const GLenum propertiesToQuery[] = { GL_TYPE, GL_LOCATION };
+        static char outputName[MAX_FRAGMENT_OUTPUT_NAME_LENGTH];
+
+        std::unordered_map<hash, ShaderOutput*> outputs = {};
 
         GLint outputsCount;
         glGetProgramInterfaceiv(shaderID, GL_PROGRAM_OUTPUT, GL_ACTIVE_RESOURCES, &outputsCount);
 
-        int outputNameLength;
-        std::vector<ShaderOutput> outputs(outputsCount);
 
-        GLint type;
+        GLint properties[2];
+        int outputNameLength;
+
         for (GLuint outputIdx = 0; outputIdx < outputsCount; ++outputIdx)
         {
-            ShaderOutput& output = outputs[outputIdx];
-            memset(output.name, 0, MAX_UNIFORM_BLOCK_NAME_LENGTH);
+            memset(outputName, 0, MAX_UNIFORM_BLOCK_NAME_LENGTH);
             glGetProgramResourceName(shaderID, GL_PROGRAM_OUTPUT, outputIdx, MAX_FRAGMENT_OUTPUT_NAME_LENGTH,
-                                     &outputNameLength, output.name);
+                                     &outputNameLength, outputName);
 
-            glGetProgramResourceiv(shaderID, GL_PROGRAM_OUTPUT, outputIdx, 1, typeProperty, 1, nullptr, &type);
-            switch (type)
+            const auto hash = hashString(outputName);
+            outputs[hash] = new ShaderOutput();
+            ShaderOutput* output = outputs[hash];
+
+            strncpy(output->name, outputName, static_cast<size_t>(outputNameLength));
+            output->texture = nullptr;
+
+            glGetProgramResourceiv(shaderID, GL_PROGRAM_OUTPUT, outputIdx, 2, propertiesToQuery, 2, nullptr, properties);
+            output->outputIdx = static_cast<uint16>(properties[1]);
+
+            switch (properties[0])
             {
             case GL_FLOAT_VEC3:
-                output.type = DataType::VECTOR3F;
+                output->textureFormat = TextureFormat::RGB;
                 break;
             case GL_FLOAT_VEC4:
-                output.type = DataType::VECTOR4F;
+                output->textureFormat = TextureFormat::RGBA;
                 break;
             default:
-                DLOG_F(ERROR, "[OpenGL] Unknown shader output type %s", typeToName(type));
+                DLOG_F(ERROR, "[OpenGL] Unknown shader output type %s", typeToName(properties[0]));
                 continue;
             }
 
-            DLOG_F(ERROR, "[OpenGL] Shader output %d is named '%s' and is of type %s", outputIdx, output.name, typeToName(type));
+            DLOG_F(ERROR, "[OpenGL] Shader output %d is named '%s' and is of type %s", outputIdx, output->name, typeToName(properties[0]));
             if (outputNameLength > MAX_FRAGMENT_OUTPUT_NAME_LENGTH)
             {
                 DLOG_F(ERROR, "[OpenGL] Output number %d has too long of a name", outputIdx);
             }
         }
-
         DLOG_F(INFO, "[OpenGL] Shader %d has %d outputs", shaderID, outputsCount);
 
         return outputs;
     }
-
-    std::unordered_map<hash, GLuint> OpenGLShaderInspector::extractSamplersMapping(GLuint shaderID) {}
 } // namespace blitz
