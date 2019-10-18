@@ -2,7 +2,7 @@
 
 #include <core/Device.h>
 
-namespace blitz
+namespace blitz::ogl
 {
     class OpenGLShaderFactory;
 
@@ -20,4 +20,4 @@ namespace blitz
       private:
         OpenGLShaderFactory* shaderFactory;
     };
-} // namespace blitz
+} // namespace blitz::ogl

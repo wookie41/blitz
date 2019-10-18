@@ -3,7 +3,7 @@
 #include <GL/glew.h>
 #include <core/Texture.h>
 
-namespace blitz
+namespace blitz::ogl
 {
     class OpenGLTexture : public Texture
     {
@@ -39,4 +39,4 @@ namespace blitz
 
         bool isReadyToRead() const override;
     };
-} // namespace blitz
+} // namespace blitz::ogl

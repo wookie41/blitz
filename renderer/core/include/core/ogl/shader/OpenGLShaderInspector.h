@@ -10,7 +10,10 @@ namespace blitz
 {
     class UniformBlock;
     class IUniformVariable;
+}
 
+namespace blitz::ogl
+{
     class OpenGLShaderInspector : NonCopyable
     {
       public:
@@ -20,4 +23,4 @@ namespace blitz
         std::unordered_map<hash, GLuint> createBindingPoints(GLuint shaderID, const std::unordered_map<hash, UniformBlock*>& uniformBlocks);
         std::unordered_map<hash, ShaderOutput*> extractShaderOutputs(GLuint shaderID);
     };
-} // namespace blitz
+} // namespace blitz::ogl

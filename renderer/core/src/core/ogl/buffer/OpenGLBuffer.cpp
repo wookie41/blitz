@@ -5,7 +5,7 @@
 #include <loguru.hpp>
 #include <unordered_map>
 
-namespace blitz
+namespace blitz::ogl
 {
     static std::unordered_map<BindTarget, uint16, EnumClassHash> targetsMapping = { { BindTarget::VERTEX, GL_ARRAY_BUFFER },
                                                                                            { BindTarget::ELEMENT,
@@ -34,4 +34,4 @@ namespace blitz
         DLOG_F(INFO, "[OpenGL] Binding buffer %d to target %d", glBufferID, glTarget);
         glBindBuffer(glTarget, glBufferID);
     }
-} // namespace blitz
+} // namespace blitz::ogl

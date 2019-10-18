@@ -5,7 +5,7 @@
 #include <core/ogl/texture/OpenGLSyncReadTexture.h>
 
 
-namespace blitz
+namespace blitz::ogl
 {
     class OpenGLBufferFiller;
 
@@ -24,4 +24,4 @@ namespace blitz
       private:
         OpenGLBufferFiller* bufferFiller;
     };
-} // namespace blitz
+} // namespace blitz::ogl

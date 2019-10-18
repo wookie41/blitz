@@ -5,7 +5,7 @@
 #include <core/ogl/texture/OpenGLSyncWriteTexture.h>
 #include <core/ogl/texture/OpenGLSyncReadWriteTexture.h>
 
-namespace blitz
+namespace blitz::ogl
 {
 
     OpenGLDevice::OpenGLDevice() { shaderFactory = new OpenGLShaderFactory(); }
@@ -33,4 +33,4 @@ namespace blitz
 
         return new OpenGLSyncReadWriteTexture(textureID, textureSpec);
     }
-} // namespace blitz
+} // namespace blitz::ogl

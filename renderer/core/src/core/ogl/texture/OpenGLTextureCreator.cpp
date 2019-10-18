@@ -2,7 +2,7 @@
 #include <core/ogl/texture/OpenGLTextureUtils.h>
 #include <core/ogl/OpenGLDataType.h>
 
-namespace blitz
+namespace blitz::ogl
 {
 
     GLuint OpenGLTextureCreator::create(const TextureSpec& textureSpec)
@@ -37,4 +37,4 @@ namespace blitz
         glGenerateMipmap(glTextureType);
         glBindTexture(glTextureType, 0);
     }
-} // namespace blitz
+} // namespace blitz::ogl

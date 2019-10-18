@@ -3,7 +3,7 @@
 #include <GL/glew.h>
 #include <blitzcommon/NonCopyable.h>
 
-namespace blitz
+namespace blitz::ogl
 {
     class OpenGLUniformVariable : NonCopyable
     {
@@ -14,4 +14,4 @@ namespace blitz
       protected:
         GLint variableLocation;
     };
-} // namespace blitz
+} // namespace blitz::ogl

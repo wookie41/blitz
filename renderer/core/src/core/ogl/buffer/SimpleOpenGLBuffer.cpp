@@ -1,6 +1,6 @@
 #include "core/ogl/buffer/SimpleOpenGLBuffer.h"
 
-namespace blitz
+namespace blitz::ogl
 {
     SimpleOpenGLBuffer::SimpleOpenGLBuffer(const GLuint& id, const UsageHint& usageHint, bool isWriteable, bool isReadable)
     : OpenGLBuffer(id, usageHint), isWriteable(isWriteable), isReadable(isReadable)
@@ -10,4 +10,4 @@ namespace blitz
     bool SimpleOpenGLBuffer::isIsReadable() const { return isReadable; }
 
     bool SimpleOpenGLBuffer::isIsWriteable() const { return isWriteable; }
-} // namespace blitz
+} // namespace blitz::ogl

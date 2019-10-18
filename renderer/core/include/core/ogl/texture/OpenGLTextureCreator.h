@@ -4,7 +4,7 @@
 #include <blitzcommon/NonCopyable.h>
 #include <core/TextureSpec.h>
 
-namespace blitz
+namespace blitz::ogl
 {
     class OpenGLTexture;
     class OpenGLDevice;
@@ -19,4 +19,4 @@ namespace blitz
 
         static GLuint create(const TextureSpec& textureSpec);
     };
-} // namespace blitz
+} // namespace blitz::ogl

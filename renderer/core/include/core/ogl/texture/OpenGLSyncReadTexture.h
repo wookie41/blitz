@@ -2,7 +2,7 @@
 
 #include <core/ogl/texture/OpenGLTexture.h>
 
-namespace blitz
+namespace blitz::ogl
 {
     class OpenGLSyncReadTexture : public OpenGLTexture
     {
@@ -25,4 +25,4 @@ namespace blitz
         void* readTexture(void* destination, uint8 mipmapLevel, const Range3& range);
         OpenGLSyncReadTexture(const GLuint& textureID, const TextureSpec& textureSpec);
     };
-} // namespace blitz
+} // namespace blitz::ogl

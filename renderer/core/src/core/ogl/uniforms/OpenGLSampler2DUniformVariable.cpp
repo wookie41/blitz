@@ -2,7 +2,7 @@
 #include <core/TextureSampler.h>
 #include <core/ogl/uniforms/OpenGLSampler2DUniformVariable.h>
 
-namespace blitz
+namespace blitz::ogl
 {
     OpenGLSampler2DUniformVariable::OpenGLSampler2DUniformVariable(const GLint& variableLocation,
                                                                    TextureSampler* value,
@@ -20,4 +20,4 @@ namespace blitz
     }
 
     DataType OpenGLSampler2DUniformVariable::getType() const { return DataType::SAMPLER2D; }
-} // namespace blitz
+} // namespace blitz::ogl

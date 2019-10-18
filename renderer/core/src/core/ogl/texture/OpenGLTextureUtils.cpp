@@ -1,6 +1,6 @@
 #include <core/ogl/texture/OpenGLTextureUtils.h>
 
-namespace blitz
+namespace blitz::ogl
 {
     GLenum toGLTextureType(const TextureType& textureType)
     {

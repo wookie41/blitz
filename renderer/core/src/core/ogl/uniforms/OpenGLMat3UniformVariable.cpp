@@ -2,7 +2,7 @@
 #include <core/ogl/uniforms/OpenGLMat3UniformVariable.h>
 #include <core/DataType.h>
 
-namespace blitz
+namespace blitz::ogl
 {
     OpenGLMat3UniformVariable::OpenGLMat3UniformVariable(const GLint& variableLocation, const Matrix3f& value, const std::string& name)
     : UniformVariable<Matrix3f>(value, name), OpenGLUniformVariable(variableLocation)
@@ -15,4 +15,4 @@ namespace blitz
     }
 
     DataType OpenGLMat3UniformVariable::getType() const { return DataType::MATRIX3F; }
-} // namespace blitz
+} // namespace blitz::ogl

@@ -2,7 +2,7 @@
 #include <core/ogl/OpenGLDataType.h>
 #include <loguru.hpp>
 
-namespace blitz
+namespace blitz::ogl
 {
     OpenGLSyncWriteTexture::OpenGLSyncWriteTexture(const GLuint& textureID, const TextureSpec& textureSpec)
     : OpenGLTexture(textureID, textureSpec)
@@ -41,4 +41,4 @@ namespace blitz
         glGenerateMipmap(glTextureType);
         unbind();
     }
-} // namespace blitz
+} // namespace blitz::ogl

@@ -1,7 +1,7 @@
 #include <core/ogl/OpenGLDataType.h>
 #include <loguru.hpp>
 
-namespace blitz
+namespace blitz::ogl
 {
     GLenum mapToGLDataType(const DataType& dataType)
     {
@@ -146,4 +146,4 @@ namespace blitz
     }
 
 #endif
-} // namespace blitz
+} // namespace blitz::ogl

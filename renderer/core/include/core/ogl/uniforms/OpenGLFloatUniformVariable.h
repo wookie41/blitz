@@ -5,7 +5,7 @@
 #include <core/DataType.h>
 #include <core/ogl/uniforms/OpenGLUniformVariable.h>
 
-namespace blitz
+namespace blitz::ogl
 {
     class OpenGLFloatUniformVariable : public UniformVariable<float>, public OpenGLUniformVariable
     {
@@ -18,4 +18,4 @@ namespace blitz
 
         DataType getType() const override;
     };
-} // namespace blitz
+} // namespace blitz::ogl

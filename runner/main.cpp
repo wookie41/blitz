@@ -37,12 +37,13 @@ char* v = "#version 430 core\n"
 
 
 char* f = "#version 430 core\n"
-          "layout (location = 0) out vec4 FragColor;  \n"
+          "layout (location = 3) out vec4 FragColor;  \n"
           "in vec3 ourColor;\n"
+          "uniform sampler2D tex;\n"
           "  \n"
           "void main()\n"
           "{\n"
-          "    FragColor = vec4(ourColor, 1.0);\n"
+          "    FragColor = vec4(ourColor, 1.0) +  texture(tex, vec2(1, 1));\n"
           "}";
 
 extern const blitz::Device* BLITZ_DEVICE;
@@ -76,8 +77,8 @@ int main(int argc, char** argv)
     shader1->bindUniformBlock("Matrices2", &range2);
 
     shader->attach(array);
-    shader->use();
-    shader1->use();
+    shader->use(nullptr);
+    shader1->use(nullptr);
     int x;
     std::cin >> x;
 

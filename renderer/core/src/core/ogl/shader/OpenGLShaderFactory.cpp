@@ -1,10 +1,9 @@
 #include <core/ogl/shader/OpenGLShaderFactory.h>
-
 #include <core/ogl/shader/OpenGLShader.h>
 #include <core/ogl/shader/OpenGLShaderCompiler.h>
 #include <core/ogl/shader/OpenGLShaderInspector.h>
 
-namespace blitz
+namespace blitz::ogl
 {
     OpenGLShaderFactory::OpenGLShaderFactory()
     {
@@ -27,4 +26,4 @@ namespace blitz
         const auto outputs = inspector->extractShaderOutputs(shaderID);
         return new OpenGLShader(shaderSource.name, shaderID, uniformVariables, uniformBlocks, bindingPoints, outputs);
     }
-} // namespace blitz
+} // namespace blitz::ogl

@@ -7,7 +7,7 @@
 #include <core/ogl/OpenGLContext.h>
 #include <core/ogl/shader/OpenGLVertexArray.h>
 
-namespace blitz
+namespace blitz::ogl
 {
     OpenGLContext::OpenGLContext() : Context()
     {
@@ -50,4 +50,4 @@ namespace blitz
         glGenVertexArrays(1, &vaoIdx);
         return new OpenGLVertexArray(vaoIdx, this);
     }
-} // namespace blitz
+} // namespace blitz::ogl

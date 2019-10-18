@@ -7,6 +7,10 @@
 namespace blitz
 {
     class Shader;
+}
+
+namespace blitz::ogl
+{
     class OpenGLShaderCompiler :NonCopyable
     {
     public:

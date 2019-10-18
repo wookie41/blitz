@@ -19,7 +19,7 @@
 #include <core/ogl/uniforms/OpenGLVec4UniformVariable.h>
 
 
-namespace blitz
+namespace blitz::ogl
 {
     std::unordered_map<hash, IUniformVariable*>
     OpenGLShaderInspector::extractUniformVariables(GLuint shaderID, const std::unordered_map<hash, UniformBlock*>& uniformBlocks)
@@ -246,4 +246,4 @@ namespace blitz
 
         return outputs;
     }
-} // namespace blitz
+} // namespace blitz::ogl

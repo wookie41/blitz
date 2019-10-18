@@ -13,6 +13,7 @@
 namespace blitz
 {
     class Buffer;
+    class Framebuffer;
     class TextureSampler;
     class UniformBlock;
     class VertexArray;
@@ -26,7 +27,7 @@ namespace blitz
                         const std::unordered_map<hash, UniformBlock*>& uniformBlocks,
                         const std::unordered_map<hash, ShaderOutput*>& outputs);
 
-        virtual void use() = 0;
+        virtual void use(Framebuffer* targetFramebuffer) = 0;
 
         void attach(VertexArray* array);
 
@@ -36,11 +37,11 @@ namespace blitz
         template <typename T>
         UniformVariable<T>* getUniformVariable(const std::string& name);
 
-        const std::unordered_map<hash, ShaderOutput *> &getShaderOutputs() const;
+        virtual const std::unordered_map<hash, ShaderOutput *> &getShaderOutputs() const;
 
         virtual void bindUniformBlock(const std::string& blockName, const BufferRange* bufferRange) = 0;
 
-        void setOutputTarget(const hash& outputNameHash, Texture* targetTexture);
+        virtual void setOutputTarget(const hash& outputNameHash, Texture* targetTexture);
 
         virtual ~Shader();
 

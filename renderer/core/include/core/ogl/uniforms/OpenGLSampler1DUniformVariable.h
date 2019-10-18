@@ -10,7 +10,10 @@
 namespace blitz
 {
     class TextureSampler;
+}
 
+namespace blitz::ogl
+{
     class OpenGLSampler1DUniformVariable : public UniformVariable<TextureSampler*>, public OpenGLUniformVariable
     {
       public:
@@ -22,4 +25,4 @@ namespace blitz
 
         DataType getType() const override;
     };
-} // namespace blitz
+} // namespace blitz::ogl

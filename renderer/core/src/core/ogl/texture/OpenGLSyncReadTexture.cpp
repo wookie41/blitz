@@ -4,7 +4,7 @@
 #include <core/ogl/OpenGLDataType.h>
 #include <loguru.hpp>
 
-namespace blitz
+namespace blitz::ogl
 {
     OpenGLSyncReadTexture::OpenGLSyncReadTexture(const GLuint& textureID, const TextureSpec& textureSpec)
     : OpenGLTexture(textureID, textureSpec)
@@ -44,4 +44,4 @@ namespace blitz
 
         return destination;
     }
-} // namespace blitz
+} // namespace blitz::ogl

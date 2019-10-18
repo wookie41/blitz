@@ -1,6 +1,6 @@
 #include <core/ogl/texture/OpenGLSyncReadWriteTexture.h>
 
-namespace blitz
+namespace blitz::ogl
 {
 
     OpenGLSyncReadWriteTexture::OpenGLSyncReadWriteTexture(GLuint textureID, const TextureSpec& textureSpec)
@@ -28,4 +28,4 @@ namespace blitz
     {
         readInterface.textureID = writeInterface.textureID = UINT32_MAX;
     }
-} // namespace blitz
+} // namespace blitz::ogl

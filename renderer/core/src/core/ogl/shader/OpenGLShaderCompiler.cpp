@@ -2,7 +2,7 @@
 #include <loguru.hpp>
 #include <string>
 
-namespace blitz
+namespace blitz::ogl
 {
     static char infoLog[1024];
 
@@ -72,4 +72,4 @@ namespace blitz
 
         return shaderProgramID;
     }
-} // namespace blitz
+} // namespace blitz::ogl

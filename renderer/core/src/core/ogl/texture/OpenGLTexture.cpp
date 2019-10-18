@@ -8,7 +8,7 @@
 static char ABSTRACT_TEXTURE_ERROR[] = "[OpenGL] Texture %d is not readable and writeable!";
 #endif
 
-namespace blitz
+namespace blitz::ogl
 {
     OpenGLTexture::OpenGLTexture(const GLuint& textureID, const TextureSpec& textureSpec)
     : textureID(textureID), glTextureFormat(toGLTextureFormat(textureSpec.textureFormat)),
@@ -95,4 +95,4 @@ namespace blitz
     }
 
     GLuint OpenGLTexture::getTextureID() const { return textureID; }
-} // namespace blitz
+} // namespace blitz::ogl

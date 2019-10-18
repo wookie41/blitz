@@ -3,7 +3,7 @@
 #include <GL/glew.h>
 #include <core/VertexArray.h>
 
-namespace blitz
+namespace blitz::ogl
 {
     class OpenGLContext;
 
@@ -34,4 +34,4 @@ namespace blitz
         GLuint vaoIdx;
         OpenGLContext* openGLContext;
     };
-} // namespace blitz
+} // namespace blitz::ogl

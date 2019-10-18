@@ -1,7 +1,7 @@
 #include <core/ogl/uniforms/OpenGLVec4UniformVariable.h>
 
 #include "GL/glew.h"
-namespace blitz
+namespace blitz::ogl
 {
     void OpenGLVec4UniformVariable::bind() { glUniform4f(variableLocation, value.x, value.y, value.z, value.w); }
 
@@ -11,4 +11,4 @@ namespace blitz
     : UniformVariable<Vector4f>(value, name), OpenGLUniformVariable(variableLocation)
     {
     }
-} // namespace blitz
+} // namespace blitz::ogl

@@ -3,7 +3,7 @@
 #include <core/BufferFiller.h>
 #include <core/Context.h>
 
-namespace blitz
+namespace blitz::ogl
 {
     class SimpleOpenGLBuffer;
     class OpenGLContext;
@@ -23,4 +23,4 @@ namespace blitz
 
         OpenGLContext* glContext;
     };
-} // namespace blitz
+} // namespace blitz::ogl
