@@ -15,7 +15,7 @@ namespace blitz
     struct FramebufferAttachmentSpec
     {
         // 0 for stencil and depth
-        uint8 attachmentIdx;
+        uint16 attachmentIdx;
         FramebufferAttachmentTarget target;
     };
 

@@ -128,6 +128,8 @@ namespace blitz::ogl
         if (targetFramebuffer == lastFrameBuffer && newlyAddedOutputs.empty())
             return;
 
+        targetFramebuffer->bind(AccessOption::READ_WRITE);
+
         if (targetFramebuffer != lastFrameBuffer)
         {
             for (const auto& output : shaderOutputs)
@@ -144,5 +146,7 @@ namespace blitz::ogl
         }
 
         newlyAddedOutputs.clear();
+
+        targetFramebuffer->unbind();
     }
 } // namespace blitz::ogl

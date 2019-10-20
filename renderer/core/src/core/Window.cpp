@@ -2,8 +2,8 @@
 
 namespace blitz
 {
-    Window::Window(Context* context, bool isContextOwner)
-    : context(context), isContextOwner(isContextOwner)
+    Window::Window(Context* context, bool isContextOwner, Framebuffer* defaultFramebuffer)
+    : context(context), isContextOwner(isContextOwner), framebuffer(defaultFramebuffer)
     {
     }
 

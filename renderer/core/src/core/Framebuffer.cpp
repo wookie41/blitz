@@ -28,6 +28,7 @@ namespace blitz
     void Framebuffer::setColorAttachment(uint16 colorAttachmentIdx, FramebufferAttachment* colorAttachment)
     {
         colorAttachments[colorAttachmentIdx] = colorAttachment;
+        newlyAddedAttachments.push_back(colorAttachmentIdx);
     }
 
     Framebuffer::~Framebuffer()
