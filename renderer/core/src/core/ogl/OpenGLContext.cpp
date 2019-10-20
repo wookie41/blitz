@@ -6,6 +6,7 @@
 #include <core/ogl/buffer/SimpleOpenGLBuffer.h>
 #include <core/ogl/OpenGLContext.h>
 #include <core/ogl/shader/OpenGLVertexArray.h>
+#include <core/ogl/framebuffer/OpenGLFramebuffer.h>
 
 namespace blitz::ogl
 {
@@ -20,7 +21,7 @@ namespace blitz::ogl
     {
         if (bufferSpec.initialData != nullptr && bufferSpec.size == 0)
         {
-            DLOG_F(ERROR, "[OpenGL] Initial data specified, but the size in buffer spec i 0");
+            DLOG_F(ERROR, "[OpenGL] Initial data specified, but the size in buffer spec is 0");
             return nullptr;
         }
         if (bufferSpec.multiBuffersCount > 0)
@@ -49,5 +50,17 @@ namespace blitz::ogl
         GLuint vaoIdx;
         glGenVertexArrays(1, &vaoIdx);
         return new OpenGLVertexArray(vaoIdx, this);
+    }
+
+    Framebuffer *OpenGLContext::createFramebuffer()
+    {
+        GLuint framebufferID;
+        glCreateFramebuffers(1, &framebufferID);
+        if (framebufferID <= 0)
+        {
+            DLOG_F(ERROR, "Failed to create GL framebuffer");
+            return nullptr;
+        }
+        return new OpenGLFramebuffer(framebufferID);
     }
 } // namespace blitz::ogl

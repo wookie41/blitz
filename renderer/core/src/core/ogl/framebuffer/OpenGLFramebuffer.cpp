@@ -1,8 +1,11 @@
 #include <core/FramebufferAttachment.h>
 #include <core/ogl/framebuffer/OpenGLFramebuffer.h>
+#include <loguru.hpp>
 
 namespace blitz::ogl
 {
+    OpenGLFramebuffer::OpenGLFramebuffer(GLuint id) : framebufferID(id) {}
+
     void OpenGLFramebuffer::bind(const AccessOption& accessOption)
     {
         GLenum framebufferTarget;
@@ -14,13 +17,20 @@ namespace blitz::ogl
         case AccessOption::WRITE:
             framebufferTarget = GL_DRAW_FRAMEBUFFER;
             break;
-        case AccessOption ::READ_WRITE:
+        case AccessOption::READ_WRITE:
             framebufferTarget = GL_FRAMEBUFFER;
             break;
         }
 
         lastBindTarget = framebufferTarget;
         glBindFramebuffer(framebufferTarget, framebufferID);
+
+        if (glCheckFramebufferStatus(framebufferTarget) != GL_FRAMEBUFFER_COMPLETE)
+        {
+            DLOG_F(ERROR, "[OpenGL] Framebuffer %d is incomplete", framebufferID);
+            glBindFramebuffer(framebufferTarget, 0);
+            return;
+        }
 
         for (const auto& colorAttachmentIdx : newlyAddedAttachments)
         {
@@ -49,4 +59,6 @@ namespace blitz::ogl
     }
 
     void OpenGLFramebuffer::unbind() { glBindFramebuffer(lastBindTarget, 0); }
+
+    OpenGLFramebuffer::~OpenGLFramebuffer() { glDeleteFramebuffers(1, &framebufferID); }
 } // namespace blitz::ogl

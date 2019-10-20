@@ -9,8 +9,12 @@ namespace blitz::ogl
     {
       public:
 
+        OpenGLFramebuffer(GLuint id);
+
         void bind(const AccessOption& accessOption) override;
         void unbind() override;
+
+        virtual ~OpenGLFramebuffer();
 
     private:
         GLuint framebufferID;

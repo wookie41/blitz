@@ -16,6 +16,8 @@ namespace blitz::ogl
 
         Buffer* createBuffer(const BufferSpec& bufferSpec) override;
         VertexArray* createVertexArray() override;
+        Framebuffer *createFramebuffer() override;
+
 
         const BufferFiller* getBufferFiller() override;
 
