@@ -128,7 +128,7 @@ namespace blitz::ogl
         if (targetFramebuffer == lastFrameBuffer && newlyAddedOutputs.empty())
             return;
 
-        targetFramebuffer->bind(AccessOption::READ_WRITE);
+        targetFramebuffer->bind();
 
         if (targetFramebuffer != lastFrameBuffer)
         {
@@ -141,8 +141,10 @@ namespace blitz::ogl
         for (const auto& outputNameHash : newlyAddedOutputs)
         {
             const auto output = shaderOutputs[outputNameHash];
-            targetFramebuffer->setColorAttachment(output->outputIdx,
-                                                  new OpenGLTextureAttachment(dynamic_cast<OpenGLTexture*>(output->texture)));
+            const auto glTexture = dynamic_cast<OpenGLTexture*>(output->texture);
+            const auto glTextureAttachment = new OpenGLTextureAttachment(glTexture, GL_COLOR_ATTACHMENT0, false);
+
+            targetFramebuffer->setColorAttachment(output->outputIdx, glTextureAttachment);
         }
 
         newlyAddedOutputs.clear();

@@ -17,6 +17,6 @@ namespace blitz::ogl
         friend class OpenGLTexture;
         friend class OpenGLDevice;
 
-        static GLuint create(const TextureSpec& textureSpec);
+        static GLuint createGLTexture(const TextureSpec &textureSpec);
     };
 } // namespace blitz::ogl

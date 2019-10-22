@@ -9,15 +9,23 @@ namespace blitz::ogl
 
     class OpenGLTextureAttachment: public FramebufferAttachment
     {
+        friend class OpenGLDevice;
+        friend class OpenGLShader;
+
     public:
 
-        explicit OpenGLTextureAttachment(OpenGLTexture* texture, const GLenum& attachmenType);
-        void bind(const AttachmentBindSpec &attachmentSpec);
-
+        void bind(const AttachmentBindSpec &attachmentSpec) override;
         void *getData() override;
 
+        ~OpenGLTextureAttachment() override;
+
+
     private:
+
+        explicit OpenGLTextureAttachment(OpenGLTexture* texture, const GLenum& attachmenType, bool isTextureOwner);
+
         OpenGLTexture* texture;
         GLenum attachmentType;
+        bool isTextureOwner;
     };
 }

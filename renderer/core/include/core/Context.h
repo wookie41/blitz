@@ -25,7 +25,6 @@ namespace blitz
         virtual Buffer* createBuffer(const BufferSpec& bufferSpec) = 0;
         virtual VertexArray* createVertexArray() = 0;
         virtual Framebuffer* createFramebuffer() = 0;
-
         virtual const BufferFiller* getBufferFiller() = 0;
 
         virtual ~Context() = default;

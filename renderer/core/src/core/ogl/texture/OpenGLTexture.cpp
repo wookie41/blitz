@@ -18,7 +18,7 @@ namespace blitz::ogl
 
     OpenGLTexture::OpenGLTexture(const OpenGLTexture& rhs) : Texture::Texture(rhs.textureSpec)
     {
-        textureID = OpenGLTextureCreator::create(textureSpec);
+        textureID = OpenGLTextureCreator::createGLTexture(textureSpec);
     }
 
     OpenGLTexture::OpenGLTexture(OpenGLTexture&& rhs) noexcept : Texture(rhs.textureSpec)
@@ -41,7 +41,7 @@ namespace blitz::ogl
     {
         glDeleteTextures(1, &textureID);
         textureSpec = rhs.textureSpec;
-        textureID = OpenGLTextureCreator::create(textureSpec);
+        textureID = OpenGLTextureCreator::createGLTexture(textureSpec);
         glTextureType = rhs.glTextureType;
         glTextureFormat = rhs.glTextureFormat;
         return *this;

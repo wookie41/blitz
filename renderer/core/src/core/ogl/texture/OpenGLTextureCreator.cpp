@@ -5,7 +5,7 @@
 namespace blitz::ogl
 {
 
-    GLuint OpenGLTextureCreator::create(const TextureSpec& textureSpec)
+    GLuint OpenGLTextureCreator::createGLTexture(const TextureSpec &textureSpec)
     {
         GLuint textureID;
         glGenTextures(1, &textureID);

@@ -4,8 +4,8 @@
 
 namespace blitz::ogl
 {
-    OpenGLTextureAttachment::OpenGLTextureAttachment(OpenGLTexture* texture, const GLenum& attachmentType)
-    : texture(texture), attachmentType(attachmentType)
+    OpenGLTextureAttachment::OpenGLTextureAttachment(OpenGLTexture* texture, const GLenum& attachmentType, bool isTextureOwner)
+    : texture(texture), attachmentType(attachmentType), isTextureOwner(isTextureOwner)
     {
     }
 
@@ -34,8 +34,11 @@ namespace blitz::ogl
         }
     }
 
-    void *OpenGLTextureAttachment::getData()
+    void* OpenGLTextureAttachment::getData() { return texture->download(nullptr, 0); }
+
+    OpenGLTextureAttachment::~OpenGLTextureAttachment()
     {
-        return texture->download(nullptr, 0);
+        if (isTextureOwner)
+            delete texture;
     }
 } // namespace blitz::ogl
