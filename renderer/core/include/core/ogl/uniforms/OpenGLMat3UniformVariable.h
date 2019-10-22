@@ -6,7 +6,7 @@
 #include <mathfu/matrix.h>
 #include <core/ogl/uniforms/OpenGLUniformVariable.h>
 
-namespace blitz
+namespace blitz::ogl
 {
     class OpenGLMat3UniformVariable : public UniformVariable<Matrix3f>, public OpenGLUniformVariable
     {
@@ -19,4 +19,4 @@ namespace blitz
 
         DataType getType() const override;
     };
-} // namespace blitz
+} // namespace blitz::ogl

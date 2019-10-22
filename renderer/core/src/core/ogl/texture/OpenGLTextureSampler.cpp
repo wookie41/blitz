@@ -2,7 +2,7 @@
 #include <core/ogl/texture/OpenGLTextureSampler.h>
 #include <core/ogl/texture/OpenGLTextureUtils.h>
 
-namespace blitz
+namespace blitz::ogl
 {
     void OpenGLTextureSampler::bind()
     {
@@ -98,4 +98,4 @@ namespace blitz
         isDirty |= dirty;
     }
 
-} // namespace blitz
+} // namespace blitz::ogl

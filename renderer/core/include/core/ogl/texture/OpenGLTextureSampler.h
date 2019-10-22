@@ -4,7 +4,7 @@
 #include <core/DataType.h>
 #include <core/TextureSampler.h>
 
-namespace blitz
+namespace blitz::ogl
 {
     class OpenGLTextureSampler : public TextureSampler
     {
@@ -33,4 +33,4 @@ namespace blitz
 
         explicit OpenGLTextureSampler(Texture* texture);
     };
-} // namespace blitz
+} // namespace blitz::ogl

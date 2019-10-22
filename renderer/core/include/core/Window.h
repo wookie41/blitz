@@ -4,10 +4,11 @@
 #include <core/Context.h>
 #include <blitzcommon/NonCopyable.h>
 
-class RenderPass;
-
 namespace blitz
 {
+    class RenderPass;
+    class Framebuffer;
+
     struct WindowDef
     {
         uint32 x, y;
@@ -18,7 +19,7 @@ namespace blitz
     class Window : private NonCopyable
     {
       public:
-        explicit Window(Context* context, bool isContextOwner);
+        explicit Window(Context* context, bool isContextOwner, Framebuffer* defaultFramebuffer);
         Context& getContext() const;
 
         // issue just adds the RenderPass to the window's queue
@@ -40,5 +41,6 @@ namespace blitz
       private:
         Context* context;
         bool isContextOwner;
+        Framebuffer* framebuffer;
     };
 } // namespace blitz

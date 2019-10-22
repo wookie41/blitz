@@ -1,4 +1,5 @@
 #include <core/Shader.h>
+#include <core/UniformBlock.h>
 #include <core/VertexArray.h>
 
 namespace blitz
@@ -6,7 +7,7 @@ namespace blitz
     Shader::Shader(const std::string& name,
                    const std::unordered_map<hash, IUniformVariable*>& uniforms,
                    const std::unordered_map<hash, UniformBlock*>& uniformBlocks,
-                   const std::vector<ShaderOutput>& outputs)
+                   const std::unordered_map<hash, ShaderOutput*>& outputs)
     : shaderName(name), uniformVariables(uniforms), uniformBlocks(uniformBlocks), shaderOutputs(outputs)
     {
         for (const auto& uniform : uniformVariables)
@@ -34,5 +35,26 @@ namespace blitz
         dirtyUniforms.clear();
     }
 
-    const std::vector<ShaderOutput>& Shader::getShaderOutputs() const { return shaderOutputs; }
+    void Shader::setOutputTarget(const hash& outputNameHash, Texture* targetTexture)
+    {
+        const auto& outputIt = shaderOutputs.find(outputNameHash);
+        if (outputIt == shaderOutputs.end())
+            return;
+
+        outputIt->second->texture = targetTexture;
+    }
+
+    Shader::~Shader()
+    {
+        for (const auto& uniformVariable : uniformVariables)
+            delete uniformVariable.second;
+
+        for (const auto& uniformBlock : uniformBlocks)
+            delete uniformBlock.second;
+
+        for (const auto& output : shaderOutputs)
+            delete output.second;
+    }
+
+    const std::unordered_map<hash, ShaderOutput*>& Shader::getShaderOutputs() const { return shaderOutputs; }
 } // namespace blitz

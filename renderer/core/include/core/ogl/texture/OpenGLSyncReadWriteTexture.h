@@ -4,7 +4,7 @@
 #include <core/ogl/texture/OpenGLSyncReadTexture.h>
 #include <core/ogl/texture/OpenGLSyncWriteTexture.h>
 
-namespace blitz
+namespace blitz::ogl
 {
     class OpenGLSyncReadWriteTexture: public OpenGLTexture
     {
@@ -31,4 +31,4 @@ namespace blitz
         OpenGLSyncWriteTexture writeInterface;
         OpenGLSyncReadWriteTexture(GLuint textureID, const TextureSpec& textureSpec);
     };
-} // namespace blitz
+} // namespace blitz::ogl

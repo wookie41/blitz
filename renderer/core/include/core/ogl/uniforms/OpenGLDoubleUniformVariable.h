@@ -6,7 +6,7 @@
 #include <mathfu/vector.h>
 #include <core/ogl/uniforms/OpenGLUniformVariable.h>
 
-namespace blitz
+namespace blitz::ogl
 {
     class OpenGLDoubleUniformVariable : public UniformVariable<double>, public OpenGLUniformVariable
     {
@@ -19,4 +19,4 @@ namespace blitz
 
         DataType getType() const override;
     };
-} // namespace blitz
+} // namespace blitz::ogl

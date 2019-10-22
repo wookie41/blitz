@@ -24,7 +24,7 @@ namespace blitz
     struct TextureSpec
     {
         TextureType textureType;
-        Vector3l dimensions;
+        Vector3i dimensions;
         uint8 mipmapLevel;
         TextureFormat textureFormat;
         DataType dataType;

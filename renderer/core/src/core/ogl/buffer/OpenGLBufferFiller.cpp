@@ -5,7 +5,7 @@
 #include "core/ogl/buffer/OpenGLBufferFiller.h"
 #include "core/ogl/buffer/SimpleOpenGLBuffer.h"
 
-namespace blitz
+namespace blitz::ogl
 {
 
     OpenGLBufferFiller::OpenGLBufferFiller(OpenGLContext* glContext) : glContext(glContext) {}
@@ -65,4 +65,4 @@ namespace blitz
         buffer->setSize(fillArgs.dataSize);
         DLOG_F(INFO, "[OpenGL] Buffer with id %d filled", buffer->getId());
     }
-} // namespace blitz
+} // namespace blitz::ogl

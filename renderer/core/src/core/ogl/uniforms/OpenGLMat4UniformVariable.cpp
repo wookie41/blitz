@@ -1,7 +1,7 @@
 #include <core/ogl/uniforms/OpenGLMat4UniformVariable.h>
 
 #include "GL/glew.h"
-namespace blitz
+namespace blitz::ogl
 {
     void OpenGLMat4UniformVariable::bind() { glUniformMatrix4fv(variableLocation, 1, GL_FALSE, value.data_->data_); }
 
@@ -11,4 +11,4 @@ namespace blitz
     : UniformVariable<Matrix4f>(value, name), OpenGLUniformVariable(variableLocation)
     {
     }
-} // namespace blitz
+} // namespace blitz::ogl

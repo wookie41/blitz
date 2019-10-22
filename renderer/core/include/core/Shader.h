@@ -5,14 +5,15 @@
 #include <unordered_set>
 #include <vector>
 
+#include <core/ShaderOutput.h>
 #include <blitzcommon/NonCopyable.h>
 #include <core/RendererErrorCode.h>
-#include <core/ShaderOutput.h>
 #include <core/UniformVariable.h>
 
 namespace blitz
 {
     class Buffer;
+    class Framebuffer;
     class TextureSampler;
     class UniformBlock;
     class VertexArray;
@@ -24,9 +25,9 @@ namespace blitz
         explicit Shader(const std::string& name,
                         const std::unordered_map<hash, IUniformVariable*>& uniforms,
                         const std::unordered_map<hash, UniformBlock*>& uniformBlocks,
-                        const std::vector<ShaderOutput>& outputs);
+                        const std::unordered_map<hash, ShaderOutput*>& outputs);
 
-        virtual void use() = 0;
+        virtual void use(Framebuffer* targetFramebuffer) = 0;
 
         void attach(VertexArray* array);
 
@@ -36,11 +37,13 @@ namespace blitz
         template <typename T>
         UniformVariable<T>* getUniformVariable(const std::string& name);
 
-        const std::vector<ShaderOutput>& getShaderOutputs() const;
+        virtual const std::unordered_map<hash, ShaderOutput *> &getShaderOutputs() const;
 
         virtual void bindUniformBlock(const std::string& blockName, const BufferRange* bufferRange) = 0;
 
-        virtual ~Shader() = default;
+        virtual void setOutputTarget(const hash& outputNameHash, Texture* targetTexture);
+
+        virtual ~Shader();
 
       protected:
         void markAsDirty(hash uniformNameHash);
@@ -52,7 +55,7 @@ namespace blitz
         std::unordered_map<hash, IUniformVariable*> uniformVariables;
         std::unordered_set<hash> dirtyUniforms;
         std::unordered_map<hash, UniformBlock*> uniformBlocks;
-        std::vector<ShaderOutput> shaderOutputs;
+        std::unordered_map<hash, ShaderOutput*> shaderOutputs;
         std::vector<IUniformVariable*> samplers;
     };
 

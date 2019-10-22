@@ -16,7 +16,7 @@ package "RenderPass" {
 package "Shareable resources" {
     [Shader]
     [Texture]
-    [RenderBuffer]~
+    [RenderBuffer]
     [VertexBuffer]
     [ElementBuffer]
 

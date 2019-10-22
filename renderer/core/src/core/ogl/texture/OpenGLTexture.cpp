@@ -8,7 +8,7 @@
 static char ABSTRACT_TEXTURE_ERROR[] = "[OpenGL] Texture %d is not readable and writeable!";
 #endif
 
-namespace blitz
+namespace blitz::ogl
 {
     OpenGLTexture::OpenGLTexture(const GLuint& textureID, const TextureSpec& textureSpec)
     : textureID(textureID), glTextureFormat(toGLTextureFormat(textureSpec.textureFormat)),
@@ -18,7 +18,7 @@ namespace blitz
 
     OpenGLTexture::OpenGLTexture(const OpenGLTexture& rhs) : Texture::Texture(rhs.textureSpec)
     {
-        textureID = OpenGLTextureCreator::create(textureSpec);
+        textureID = OpenGLTextureCreator::createGLTexture(textureSpec);
     }
 
     OpenGLTexture::OpenGLTexture(OpenGLTexture&& rhs) noexcept : Texture(rhs.textureSpec)
@@ -41,22 +41,16 @@ namespace blitz
     {
         glDeleteTextures(1, &textureID);
         textureSpec = rhs.textureSpec;
-        textureID = OpenGLTextureCreator::create(textureSpec);
+        textureID = OpenGLTextureCreator::createGLTexture(textureSpec);
         glTextureType = rhs.glTextureType;
         glTextureFormat = rhs.glTextureFormat;
         return *this;
     }
 
-    void OpenGLTexture::bind()
-    {
-        glBindTexture(glTextureType, textureID);
-    }
+    void OpenGLTexture::bind() { glBindTexture(glTextureType, textureID); }
 
 
-    void OpenGLTexture::unbind()
-    {
-        glBindTexture(glTextureType, 0);
-    }
+    void OpenGLTexture::unbind() { glBindTexture(glTextureType, 0); }
 
     void OpenGLTexture::upload(void* data) { DLOG_F(ERROR, ABSTRACT_TEXTURE_ERROR, textureID); }
     void OpenGLTexture::upload(void* data, const Range3& range) { upload(data); }
@@ -99,4 +93,6 @@ namespace blitz
             return textureSpec.dimensions.x * textureSpec.dimensions.y * textureSpec.dimensions.z * sizeInBytes;
         }
     }
-} // namespace blitz
+
+    GLuint OpenGLTexture::getTextureID() const { return textureID; }
+} // namespace blitz::ogl

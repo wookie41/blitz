@@ -2,7 +2,7 @@
 
 #include <core/ogl/texture/OpenGLTexture.h>
 
-namespace blitz
+namespace blitz::ogl
 {
     class OpenGLSyncWriteTexture: public OpenGLTexture
     {

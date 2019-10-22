@@ -3,7 +3,7 @@
 #include "GL/glew.h"
 #include "core/Buffer.h"
 
-namespace blitz
+namespace blitz::ogl
 {
     class OpenGLBuffer : public Buffer
     {
@@ -21,4 +21,4 @@ namespace blitz
 
         GLuint glBufferID;
     };
-} // namespace blitz
+} // namespace blitz::ogl

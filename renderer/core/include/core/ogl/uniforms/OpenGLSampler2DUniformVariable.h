@@ -4,12 +4,16 @@
 #include <core/DataType.h>
 #include <core/TextureSpec.h>
 #include <core/UniformVariable.h>
-#include <mathfu/vector.h>
 #include <core/ogl/uniforms/OpenGLUniformVariable.h>
+#include <mathfu/vector.h>
 
 namespace blitz
 {
     class TextureSampler;
+}
+
+namespace blitz::ogl
+{
 
     class OpenGLSampler2DUniformVariable : public UniformVariable<TextureSampler*>, public OpenGLUniformVariable
     {
@@ -20,4 +24,4 @@ namespace blitz
 
         DataType getType() const override;
     };
-} // namespace blitz
+} // namespace blitz::ogl

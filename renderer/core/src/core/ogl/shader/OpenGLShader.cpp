@@ -1,14 +1,18 @@
 #include <core/BufferRange.h>
+#include <core/Framebuffer.h>
 #include <core/UniformBlock.h>
 #include <core/UniformVariable.h>
 #include <core/VertexArray.h>
 #include <core/ogl/buffer/OpenGLBuffer.h>
+#include <core/ogl/framebuffer/OpenGLTextureAttachment.h>
 #include <core/ogl/shader/OpenGLShader.h>
+#include <core/ogl/texture/OpenGLTexture.h>
 #include <core/ogl/uniforms/OpenGLUniformVariable.h>
+
 #include <loguru.hpp>
 #include <utility>
 
-namespace blitz
+namespace blitz::ogl
 {
     static std::unordered_map<hash, Buffer*> currentUniformBlockBindings;
 
@@ -17,12 +21,12 @@ namespace blitz
                                const std::unordered_map<hash, IUniformVariable*>& uniforms,
                                const std::unordered_map<hash, UniformBlock*>& unifomBlocks,
                                const std::unordered_map<hash, GLuint>& uniformBlockBindings,
-                               const std::vector<ShaderOutput>& outputs)
+                               const std::unordered_map<hash, ShaderOutput*>& outputs)
     : Shader(name, uniforms, unifomBlocks, outputs), shaderID(shaderID), glBindPoints(uniformBlockBindings)
     {
     }
 
-    void OpenGLShader::use()
+    void OpenGLShader::use(Framebuffer* framebuffer)
     {
         DLOG_F(INFO, "[OpenGL] Using shader %d", shaderID);
         if (vertexArray == nullptr)
@@ -38,6 +42,7 @@ namespace blitz
         bindDirtyVariables();
         bindUniformBlocks();
         bindSamplers();
+        setupOutputs(framebuffer);
     }
 
     void OpenGLShader::bindUniformBlock(const std::string& blockName, const BufferRange* bufferRange)
@@ -111,4 +116,39 @@ namespace blitz
             sampler->bind();
         }
     }
-} // namespace blitz
+
+    void OpenGLShader::setOutputTarget(const hash& outputNameHash, Texture* targetTexture)
+    {
+        Shader::setOutputTarget(outputNameHash, targetTexture);
+        newlyAddedOutputs.push_back(outputNameHash);
+    }
+
+    void OpenGLShader::setupOutputs(Framebuffer* targetFramebuffer)
+    {
+        if (targetFramebuffer == lastFrameBuffer && newlyAddedOutputs.empty())
+            return;
+
+        targetFramebuffer->bind();
+
+        if (targetFramebuffer != lastFrameBuffer)
+        {
+            for (const auto& output : shaderOutputs)
+                newlyAddedOutputs.push_back(output.first);
+        }
+
+        lastFrameBuffer = targetFramebuffer;
+
+        for (const auto& outputNameHash : newlyAddedOutputs)
+        {
+            const auto output = shaderOutputs[outputNameHash];
+            const auto glTexture = dynamic_cast<OpenGLTexture*>(output->texture);
+            const auto glTextureAttachment = new OpenGLTextureAttachment(glTexture, GL_COLOR_ATTACHMENT0, false);
+
+            targetFramebuffer->setColorAttachment(output->outputIdx, glTextureAttachment);
+        }
+
+        newlyAddedOutputs.clear();
+
+        targetFramebuffer->unbind();
+    }
+} // namespace blitz::ogl

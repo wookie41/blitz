@@ -21,6 +21,7 @@ namespace blitz
 
         void setWatcher(const UniformVariableWatcher& newWatcher);
 
+        virtual ~IUniformVariable() = default;
 
       protected:
         explicit IUniformVariable(const std::string& name);

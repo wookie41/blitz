@@ -6,7 +6,7 @@
 #include <loguru.hpp>
 
 
-namespace blitz
+namespace blitz::ogl
 {
     void bindBuffer(GLuint vaoIdx, Buffer* buffer, const BindTarget& target)
     {
@@ -136,4 +136,4 @@ namespace blitz
 
     OpenGLVertexArray::~OpenGLVertexArray() { glDeleteVertexArrays(1, &vaoIdx); }
 
-} // namespace blitz
+} // namespace blitz::ogl

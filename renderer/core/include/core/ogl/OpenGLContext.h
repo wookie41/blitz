@@ -5,7 +5,7 @@
 #include <core/ogl/texture/OpenGLSyncReadTexture.h>
 
 
-namespace blitz
+namespace blitz::ogl
 {
     class OpenGLBufferFiller;
 
@@ -16,6 +16,8 @@ namespace blitz
 
         Buffer* createBuffer(const BufferSpec& bufferSpec) override;
         VertexArray* createVertexArray() override;
+        Framebuffer *createFramebuffer() override;
+
 
         const BufferFiller* getBufferFiller() override;
 
@@ -24,4 +26,4 @@ namespace blitz
       private:
         OpenGLBufferFiller* bufferFiller;
     };
-} // namespace blitz
+} // namespace blitz::ogl

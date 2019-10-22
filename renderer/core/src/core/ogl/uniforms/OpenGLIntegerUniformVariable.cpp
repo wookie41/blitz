@@ -1,7 +1,7 @@
 #include <core/ogl/uniforms/OpenGLIntegerUniformVariable.h>
 
 #include "GL/glew.h"
-namespace blitz
+namespace blitz::ogl
 {
     void OpenGLIntegerUniformVariable::bind() { glUniform1i(variableLocation, value); }
 
@@ -11,4 +11,4 @@ namespace blitz
     : UniformVariable<GLint>(value, name), OpenGLUniformVariable(variableLocation)
     {
     }
-} // namespace blitz
+} // namespace blitz::ogl

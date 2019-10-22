@@ -3,7 +3,7 @@
 #include "GL/glew.h"
 #include "OpenGLBuffer.h"
 
-namespace blitz
+namespace blitz::ogl
 {
     class SimpleOpenGLBuffer : public OpenGLBuffer
     {
@@ -19,4 +19,4 @@ namespace blitz
         bool isReadable;
         bool isWriteable;
     };
-} // namespace blitz
+} // namespace blitz::ogl

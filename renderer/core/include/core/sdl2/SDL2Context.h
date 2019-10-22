@@ -6,16 +6,14 @@ typedef void* SDL_GLContext;
 
 namespace blitz
 {
-
-    class SDL2Context : public OpenGLContext
+    class SDL2Context : public ogl::OpenGLContext
     {
       public:
         explicit SDL2Context(SDL_GLContext context);
 
         ~SDL2Context();
 
-    private:
+      private:
         SDL_GLContext context;
-
     };
 } // namespace blitz

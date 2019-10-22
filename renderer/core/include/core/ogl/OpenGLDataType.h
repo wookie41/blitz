@@ -3,7 +3,7 @@
 #include <GL/glew.h>
 #include <core/DataType.h>
 
-namespace blitz
+namespace blitz::ogl
 {
     GLenum mapToGLDataType(const DataType& dataType);
     DataType mapToBlitzDataType(const GLenum & dataType);
