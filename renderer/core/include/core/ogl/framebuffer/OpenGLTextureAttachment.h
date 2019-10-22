@@ -1,6 +1,7 @@
 #pragma once
 
 #include <core/FramebufferAttachment.h>
+#include <GL/glew.h>
 
 namespace blitz::ogl
 {
@@ -9,10 +10,14 @@ namespace blitz::ogl
     class OpenGLTextureAttachment: public FramebufferAttachment
     {
     public:
-        explicit OpenGLTextureAttachment(OpenGLTexture* texture);
-        void bind(const FramebufferAttachmentSpec &attachmentSpec);
+
+        explicit OpenGLTextureAttachment(OpenGLTexture* texture, const GLenum& attachmenType);
+        void bind(const AttachmentBindSpec &attachmentSpec);
+
+        void *getData() override;
 
     private:
         OpenGLTexture* texture;
+        GLenum attachmentType;
     };
 }

@@ -15,6 +15,14 @@ namespace blitz::ogl
         OpenGLTexture& operator=(const OpenGLTexture& rhs);
         OpenGLTexture& operator=(OpenGLTexture&& rhs) noexcept;
 
+        void upload(void* data) override;
+        void upload(void* data, const Range3& range) override;
+
+        void* download(void* destination, uint8 mipMapLevel) override;
+        void* download(void* destination, uint8 mipMapLevel, const Range3& range) override;
+
+        bool isReadyToRead() const override;
+
         uint64 getSizeInBytes() override;
         GLuint getTextureID() const;
 
@@ -29,14 +37,5 @@ namespace blitz::ogl
         GLuint textureID = UINT32_MAX;
         GLenum glTextureType;
         GLenum glTextureFormat;
-
-      private:
-        void upload(void* data) override;
-        void upload(void* data, const Range3& range) override;
-
-        void* download(void* destination, uint8 mipMapLevel) override;
-        void* download(void* destination, uint8 mipMapLevel, const Range3& range) override;
-
-        bool isReadyToRead() const override;
     };
 } // namespace blitz::ogl

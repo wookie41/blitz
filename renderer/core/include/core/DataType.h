@@ -35,6 +35,8 @@ namespace blitz
     using uint64 = std::uint64_t;
     using decimal = float;
     using size_t = std::size_t;
+    using Vector2f = mathfu::Vector<float, 3>;
+    using Vector2i = mathfu::Vector<uint32, 3>;
     using Vector3f = mathfu::Vector<float, 3>;
     using Vector4f = mathfu::Vector<float, 4>;
     using Vector3i = mathfu::Vector<uint32, 3>;

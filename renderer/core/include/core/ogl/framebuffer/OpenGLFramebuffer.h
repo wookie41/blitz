@@ -11,14 +11,13 @@ namespace blitz::ogl
 
         OpenGLFramebuffer(GLuint id);
 
-        void bind(const AccessOption& accessOption) override;
+        void bind() override;
         void unbind() override;
 
         virtual ~OpenGLFramebuffer();
 
     private:
         GLuint framebufferID;
-        GLenum lastBindTarget;
         std::vector<GLenum> drawBuffers;
     };
 } // namespace blitz::ogl

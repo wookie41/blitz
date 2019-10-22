@@ -1,7 +1,6 @@
 #pragma once
 
 #include <blitzcommon/NonCopyable.h>
-#include <core/AccessOption.h>
 #include <core/DataType.h>
 #include <unordered_map>
 #include <vector>
@@ -13,7 +12,7 @@ namespace blitz
     class Framebuffer : public NonCopyable
     {
       public:
-        virtual void bind(const AccessOption& accessOption) = 0;
+        virtual void bind() = 0;
         virtual void unbind() = 0;
 
         void setDepthAttachment(FramebufferAttachment* depthAttachment);
