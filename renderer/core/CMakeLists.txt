@@ -47,7 +47,10 @@ add_library(${PROJECT_NAME} STATIC
         src/core/Framebuffer.cpp
         src/core/ogl/framebuffer/OpenGLTextureAttachment.cpp
         src/core/ogl/framebuffer/OpenGLFramebuffer.cpp
-        src/core/ogl/framebuffer/OpenGLRenderBufferAttachment.cpp)
+        src/core/ogl/framebuffer/OpenGLRenderBufferAttachment.cpp
+        src/core/RenderPass.cpp
+        src/core/RenderState.cpp
+        src/core/BasicRenderer.cpp)
 
 set_target_properties(${PROJECT_NAME}
         PROPERTIES

@@ -13,8 +13,6 @@ namespace blitz
       public:
         explicit SDL2Window(SDL_Window* window, SDL2Context* context, bool isContextOwner);
 
-        void issue(RenderPass* renderPass) override;
-        void render() override;
         void swapBuffers() override;
 
         void show() const override;

@@ -1,7 +1,6 @@
 #pragma once
 
-#include "RenderCommand.h"
-#include "RenderState.h"
+#include <blitzcommon/NonCopyable.h>
 
 namespace blitz
 {
@@ -9,24 +8,35 @@ namespace blitz
     // The frame doesn't have to be drawn to a window (the default frame buffer),
     // it can be drawn to a texture and used for later processing
 
-    class RenderPass
+    class RenderState;
+    class RenderCommand;
+
+    class RenderPass : NonCopyable
     {
-    public:
-        virtual void set(RenderState* renderState) = 0;
+      public:
+        explicit RenderPass(RenderState* renderState);
 
-        virtual void add(RenderCommand* renderCommand)  = 0;
+        virtual void add(RenderCommand* renderCommand) = 0;
 
-        const RenderState& getRenderState()  = 0;
+        virtual const RenderState& getRenderState() = 0;
+
+
+        //this method should be called before the first call to getNextCommand
+        //so RenderPass can optimize the order of commands to be issued
+        virtual void finish() = 0;
 
         // Returns a pointer to the next RenderCommand that should be issued
         // if no more commands are available, a nullptr is returned.
         // This allows the RenderPass to optimize the order of the commands
         // that should be issued.
-        // For example, the RenderPass by shaders, to minimize the amount of
+        // For example, the RenderPass can sort commands by the shader used, to minimize the amount of
         // switches between different shaders.
 
-        RenderCommand* getNextCommand()  = 0;
+        virtual RenderCommand* getNextCommand() = 0;
 
-        virtual ~RenderPass() = default;
+        virtual ~RenderPass();
+
+      private:
+        RenderState* renderState;
     };
 } // namespace blitz

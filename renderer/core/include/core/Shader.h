@@ -5,9 +5,9 @@
 #include <unordered_set>
 #include <vector>
 
-#include <core/ShaderOutput.h>
 #include <blitzcommon/NonCopyable.h>
 #include <core/RendererErrorCode.h>
+#include <core/ShaderOutput.h>
 #include <core/UniformVariable.h>
 
 namespace blitz
@@ -19,7 +19,7 @@ namespace blitz
     class VertexArray;
     class BufferRange;
 
-    class Shader :public NonCopyable
+    class Shader : public NonCopyable
     {
       public:
         explicit Shader(const std::string& name,
@@ -37,17 +37,18 @@ namespace blitz
         template <typename T>
         UniformVariable<T>* getUniformVariable(const std::string& name);
 
-        virtual const std::unordered_map<hash, ShaderOutput *> &getShaderOutputs() const;
+        virtual const std::unordered_map<hash, ShaderOutput*>& getShaderOutputs() const;
 
         virtual void bindUniformBlock(const std::string& blockName, const BufferRange* bufferRange) = 0;
 
         virtual void setOutputTarget(const hash& outputNameHash, Texture* targetTexture);
 
+        void bindDirtyVariables();
+
         virtual ~Shader();
 
       protected:
         void markAsDirty(hash uniformNameHash);
-        void bindDirtyVariables();
 
         VertexArray* vertexArray = nullptr;
 

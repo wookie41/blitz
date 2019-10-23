@@ -12,7 +12,7 @@ namespace blitz::ogl
       public:
         GLuint getId() const;
 
-        void bind(const BindTarget& bindTarget) override;
+        void bind(const BufferBindTarget& bindTarget) override;
 
         virtual ~OpenGLBuffer();
 

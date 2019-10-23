@@ -9,7 +9,7 @@
 
 namespace blitz
 {
-    enum class BindTarget
+    enum class BufferBindTarget
     {
         VERTEX,
         ELEMENT,
@@ -53,7 +53,7 @@ namespace blitz
       public:
         explicit Buffer(const UsageHint& usageHint);
 
-        virtual void bind(const BindTarget& bindTarget) = 0;
+        virtual void bind(const BufferBindTarget& bindTarget) = 0;
 
         UsageHint getUsageHint() const;
 

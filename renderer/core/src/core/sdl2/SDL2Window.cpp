@@ -10,16 +10,6 @@ namespace blitz
     SDL2Window::SDL2Window(SDL_Window* window, SDL2Context* context, bool isContextOwner)
     : Window(context, isContextOwner, &defaultFramebuffer), window(window) {}
 
-    void SDL2Window::issue(RenderPass* renderPass)
-    {
-        // TODO
-    }
-
-    void SDL2Window::render()
-    {
-        // TODO
-    }
-
     SDL2Window::~SDL2Window() { SDL_DestroyWindow(window); }
 
     void SDL2Window::swapBuffers()
