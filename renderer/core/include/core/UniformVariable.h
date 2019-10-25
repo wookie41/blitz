@@ -1,9 +1,9 @@
 #pragma once
 
 #include <blitzcommon/HashUtils.h>
+#include <blitzcommon/NonCopyable.h>
 #include <core/DataType.h>
 #include <functional>
-#include <blitzcommon/NonCopyable.h>
 
 namespace blitz
 {
@@ -20,6 +20,8 @@ namespace blitz
         const std::string& getName() const;
 
         void setWatcher(const UniformVariableWatcher& newWatcher);
+
+        virtual bool isDirty() const = 0;
 
         virtual ~IUniformVariable() = default;
 
@@ -39,8 +41,11 @@ namespace blitz
         UniformVariable& operator=(const T& newValue);
         T* operator*();
 
+        bool isDirty() const override;
+
       protected:
         T value;
+        bool dirty = false;
     };
 
     template <typename T>
@@ -48,6 +53,7 @@ namespace blitz
     {
         value = newValue;
         watcher(nameHash);
+        dirty = true;
         return *this;
     }
 
@@ -60,5 +66,11 @@ namespace blitz
     T* UniformVariable<T>::operator*()
     {
         return &value;
+    }
+
+    template <typename T>
+    bool UniformVariable<T>::isDirty() const
+    {
+        return dirty;
     }
 } // namespace blitz

@@ -1,39 +1,45 @@
 #include <SDL2/SDL.h>
-#include <core/sdl2/SDL2Window.h>
-#include <core/sdl2/SDL2Context.h>
 #include <core/ogl/framebuffer/OpenGLFramebuffer.h>
+#include <core/sdl2/SDL2Context.h>
+#include <core/sdl2/SDL2Window.h>
 
-static blitz::ogl::OpenGLFramebuffer defaultFramebuffer { 0 }; // NOLINT(cert-err58-cpp)
+static blitz::ogl::OpenGLFramebuffer defaultFramebuffer{ 0 }; // NOLINT(cert-err58-cpp)
 
 namespace blitz
 {
-    SDL2Window::SDL2Window(SDL_Window* window, SDL2Context* context, bool isContextOwner)
-    : Window(context, isContextOwner, &defaultFramebuffer), window(window) {}
-
-    void SDL2Window::issue(RenderPass* renderPass)
+    SDL2Window::SDL2Window(SDL_Window* window, SDL2Context* context, SDL_GLContext glContext, bool isContextOwner)
+    : Window(context, isContextOwner, &defaultFramebuffer), window(window), glContext(glContext)
     {
-        // TODO
-    }
-
-    void SDL2Window::render()
-    {
-        // TODO
     }
 
     SDL2Window::~SDL2Window() { SDL_DestroyWindow(window); }
 
-    void SDL2Window::swapBuffers()
+    void SDL2Window::swapBuffers() { SDL_GL_SwapWindow(window); }
+
+    void SDL2Window::show() const { SDL_ShowWindow(window); }
+
+    void SDL2Window::hide() const { SDL_HideWindow(window); }
+
+    void SDL2Window::clearDepth(const Color& color)
     {
-        //TODO
+        glClearColor(color.red, color.green, color.blue, color.alpha);
+        glClear(GL_DEPTH_BUFFER_BIT);
     }
 
-    void SDL2Window::show() const
+    void SDL2Window::clearStencil(const Color& color)
     {
-        SDL_ShowWindow(window);
+        glClearColor(color.red, color.green, color.blue, color.alpha);
+        glClear(GL_STENCIL_BUFFER_BIT);
     }
 
-    void SDL2Window::hide() const
+    void SDL2Window::clearColor(const Color& color)
     {
-        SDL_HideWindow(window);
+        glClearColor(color.red, color.green, color.blue, color.alpha);
+        glClear(GL_COLOR_BUFFER_BIT);
+    }
+
+    void SDL2Window::prepare()
+    {
+        SDL_GL_MakeCurrent(window, glContext);
     }
 } // namespace blitz

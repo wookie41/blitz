@@ -13,6 +13,7 @@ namespace blitz::ogl
 
     void OpenGLSampler2DUniformVariable::bind()
     {
+        dirty = false;
         if (value == nullptr)
             return;
 

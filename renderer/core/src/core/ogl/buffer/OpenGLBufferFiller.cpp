@@ -36,10 +36,10 @@ namespace blitz::ogl
             return;
         }
 
-        DLOG_F(INFO, "[OpenGL] Filling buffer with id %d with %ld bytes, starting from address %p", buffer->getId(),
-               fillArgs.dataSize, fillArgs.data);
+        DLOG_F(INFO, "[OpenGL] Filling buffer with id %d with %d bytes, starting from address %p", buffer->getId(),
+               fillArgs.dataSizeInBytes, fillArgs.data);
 
-        GLuint usageHint;
+        GLenum usageHint;
 
         switch (buffer->getUsageHint())
         {
@@ -52,6 +52,8 @@ namespace blitz::ogl
             break;
         }
 
+        buffer->bind(BufferBindTarget::WRITE);
+
         if (fillArgs.shouldInvalidate)
         {
             GLint bufferSize;
@@ -60,9 +62,11 @@ namespace blitz::ogl
             glBufferData(GL_COPY_WRITE_BUFFER, buffer->getId(), NULL, usageHint);
         }
 
-        glBufferData(GL_COPY_WRITE_BUFFER, fillArgs.dataSize, fillArgs.data, usageHint);
+        glBufferData(GL_COPY_WRITE_BUFFER, fillArgs.dataSizeInBytes, fillArgs.data, usageHint);
+        glBindBuffer(GL_COPY_WRITE_BUFFER, 0);
 
-        buffer->setSize(fillArgs.dataSize);
+        buffer->setSize(fillArgs.dataSizeInBytes);
         DLOG_F(INFO, "[OpenGL] Buffer with id %d filled", buffer->getId());
+
     }
 } // namespace blitz::ogl

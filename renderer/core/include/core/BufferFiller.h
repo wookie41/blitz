@@ -11,7 +11,7 @@ namespace blitz
     {
         void* data;
         uint32 offset;
-        uint32 dataSize;
+        uint32 dataSizeInBytes;
         bool shouldInvalidate;
     };
 

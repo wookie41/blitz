@@ -3,6 +3,7 @@
 #include <core/DataType.h>
 #include <core/Context.h>
 #include <blitzcommon/NonCopyable.h>
+#include <core/Color.h>
 
 namespace blitz
 {
@@ -22,14 +23,12 @@ namespace blitz
         explicit Window(Context* context, bool isContextOwner, Framebuffer* defaultFramebuffer);
         Context& getContext() const;
 
-        // issue just adds the RenderPass to the window's queue
-        // it doesn't result in any draw calls
-        virtual void issue(RenderPass* renderPass) = 0;
+        Framebuffer *getFramebuffer() const;
 
-        // render should process all of the RenderPasses that have been issued
-        // since the last render was called. The render doesn't result in
-        // swapping the buffers, ie. showing a frame.
-        virtual void render() = 0;
+        virtual void prepare() = 0;
+        virtual void clearColor(const Color& color) = 0;
+        virtual void clearDepth(const Color& color) = 0;
+        virtual void clearStencil(const Color& color) = 0;
 
         virtual void swapBuffers() = 0;
 

@@ -16,13 +16,12 @@ namespace blitz::ogl
         void bind() override;
         void unbind() override;
 
-        void bindVertexBuffer(Buffer* buffer) override;
-        void bindElementBuffer(Buffer* buffer) override;
+        void bindElementBuffer(Buffer* buffer, const DataType& indicesType) override;
 
-        void bindAttribute(const hash& nameHash) override;
+        void bindAttribute(Shader* shader, const hash& nameHash) override;
 
-        void enableAttribute(const hash &nameHash) override;
-        void disableAttribute(const hash &nameHash) override;
+        void enableAttribute(Shader* shader, const hash &nameHash) override;
+        void disableAttribute(Shader* shader, const hash &nameHash) override;
 
         ~OpenGLVertexArray() override;
 

@@ -16,4 +16,6 @@ namespace blitz
             delete context;
         }
     }
+
+    Framebuffer* Window::getFramebuffer() const { return framebuffer; }
 } // namespace blitz

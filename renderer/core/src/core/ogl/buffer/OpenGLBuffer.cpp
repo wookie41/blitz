@@ -7,9 +7,11 @@
 
 namespace blitz::ogl
 {
-    static std::unordered_map<BindTarget, uint16, EnumClassHash> targetsMapping = { { BindTarget::VERTEX, GL_ARRAY_BUFFER },
-                                                                                           { BindTarget::ELEMENT,
-                                                                                             GL_ELEMENT_ARRAY_BUFFER } };
+    static std::unordered_map<BufferBindTarget, GLenum , EnumClassHash> targetsMapping = {
+        { BufferBindTarget::VERTEX, GL_ARRAY_BUFFER },
+        { BufferBindTarget::ELEMENT, GL_ELEMENT_ARRAY_BUFFER },
+        { BufferBindTarget::WRITE, GL_COPY_WRITE_BUFFER }
+    };
 
     OpenGLBuffer::OpenGLBuffer(const GLuint& id, const UsageHint& usageHint) : Buffer(usageHint), glBufferID(id) {}
 
@@ -21,7 +23,7 @@ namespace blitz::ogl
         glDeleteBuffers(1, &glBufferID);
     }
 
-    void OpenGLBuffer::bind(const BindTarget& bindTarget)
+    void OpenGLBuffer::bind(const BufferBindTarget& bindTarget)
     {
         const auto targetIt = targetsMapping.find(bindTarget);
         if (targetIt == targetsMapping.end())

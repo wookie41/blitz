@@ -12,6 +12,7 @@ namespace blitz::ogl
     void OpenGLMat3UniformVariable::bind()
     {
         glUniformMatrix3fv(variableLocation, 1, GL_FALSE, value.data_->data_);
+        dirty = false;
     }
 
     DataType OpenGLMat3UniformVariable::getType() const { return DataType::MATRIX3F; }

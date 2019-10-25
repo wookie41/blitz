@@ -1,89 +1,138 @@
-#include "core/Device.h"
-#include "core/Logger.h"
+#include <core/Device.h>
+#include <core/Logger.h>
+#include <core/Renderer.h>
 
-#include <core/VertexArray.h>
 #include <core/Shader.h>
 #include <core/ShaderSource.h>
+#include <core/VertexArray.h>
 
+#include <GL/glew.h>
+#include <core/BasicRenderPass.h>
+#include <core/BufferRange.h>
+#include <core/DataType.h>
+#include <core/RenderCommand.h>
+#include <core/RenderState.h>
 #include <iostream>
 #include <vector>
-#include <core/BufferRange.h>
 
-char* v = "#version 430 core\n"
-          "layout (location = 0) in vec3 aPos;   // the position variable has attribute position 0\n"
-          "layout (location = 1) in vec3 aColor; // the color variable has attribute position 1\n"
+char* v = "#version 330 core\n"
+          "layout (location = 0) in vec3 pos;"
           "  \n"
-          "layout (std140) uniform Matrices\n"
+          "void main()\n"
           "{\n"
-          "    mat4 projection;\n"
-          "    mat4 view;\n"
-          "};\n"
-          "uniform int numOfEnemies;\n"
-          "layout (std140, binding=0) uniform Matrices2\n"
-          "{\n"
-          "    mat4 projection2;\n"
-          "    mat4 view2;\n"
-          "};\n"
-          "uniform mat4 model;"
-          "out vec3 ourColor; // output a color to the fragment shader\n"
           "\n"
-
-
-          "void main()\n"
-          "{\n"
-          "    gl_Position = vec4(aPos, 1.0 + numOfEnemies);\n"
-          "    ourColor = aColor; // set ourColor to the input color we got from the vertex data\n"
+          "    gl_Position = vec4(pos, 1.0);\n"
           "}";
 
 
-char* f = "#version 430 core\n"
-          "layout (location = 3) out vec4 FragColor;  \n"
-          "in vec3 ourColor;\n"
-          "uniform sampler2D tex;\n"
-          "  \n"
+char* f = "#version 330 core\n"
+          "layout (location = 0) out vec4 FragColor;  \n"
+          "\n"
+          "uniform vec3 color;\n"
           "void main()\n"
           "{\n"
-          "    FragColor = vec4(ourColor, 1.0) +  texture(tex, vec2(1, 1));\n"
+          "    FragColor = vec4(color, 1.f);\n"
           "}";
 
-extern const blitz::Device* BLITZ_DEVICE;
+extern blitz::Device* BLITZ_DEVICE;
+extern blitz::Renderer* BLITZ_RENDERER;
 
 int main(int argc, char** argv)
 {
     blitz::Logger::init(argc, argv);
     auto windowDef = blitz::WindowDef{ 0, 0, 400, 400, "test" };
     auto window = BLITZ_DEVICE->createWindow(windowDef);
+    window->show();
+    float vertexData[] = {
+        -0.9f, -0.5f, 0.0f, // left
+        -0.0f, -0.5f, 0.0f, // right
+        -0.45f, 0.5f, 0.0f, // top
+        // second triangle
+        0.0f, -0.5f, 0.0f, // left
+        0.9f, -0.5f, 0.0f, // right
+        0.45f, 0.5f, 0.0f // top
+    };
+    auto vertexBuffer = window->getContext().createBuffer({
+        size: sizeof(vertexData),
+        usageHint: blitz::UsageHint::STATIC,
+        multiBuffersCount: 0,
+        bindHint: blitz::BindHint::VERTEX,
+        initialData: vertexData,
+        readable: false,
+        writeable: true
+    });
 
-    char* dupa = "xdxd";
-    auto buffer = window->getContext().createBuffer({4, blitz::UsageHint::STATIC, 0, blitz::BindHint::INDEX, dupa, true, true});
-    auto buffer1 = window->getContext().createBuffer({4, blitz::UsageHint::STATIC, 0, blitz::BindHint::INDEX, dupa, true, true});
-    auto buffer2 = window->getContext().createBuffer({4, blitz::UsageHint::STATIC, 0, blitz::BindHint::INDEX, dupa, true, true});
+    blitz::VertexArray* basicVertexArray = window->getContext().createVertexArray();
+    basicVertexArray->addAttribute({
+        buffer: vertexBuffer,
+        name: "pos",
+        dataType: blitz::DataType::FLOAT,
+        size: 3,
+        normalize: false,
+        stride: 3 * sizeof(float),
+        offset: 0,
+        updateDivisor: 0
+    });
 
-    blitz::VertexArray* array = window->getContext().createVertexArray();
+    blitz::ShaderSource shaderSource = { "myshader", v, nullptr, f };
+    blitz::Shader* shader = BLITZ_DEVICE->createShader(shaderSource);
 
-    blitz::ShaderSource source = { "myshader",  v, nullptr, f };
-    blitz::ShaderSource source2 = { "myshader2",  v, nullptr, f };
+    basicVertexArray->bindAttribute(shader, blitz::hashString("pos"));
+    basicVertexArray->enableAttribute(shader, blitz::hashString("pos"));
 
-    auto shader = BLITZ_DEVICE->createShader(source);
-    auto shader1 = BLITZ_DEVICE->createShader(source);
-    auto uniform = shader->getUniformVariable<blitz::int32>("numOfEnemies");
-    *uniform = 2;
-    blitz::BufferRange range {buffer, 0, 0};
-    blitz::BufferRange range2 {buffer2, 0, 0};
-    shader->bindUniformBlock("Matrices", &range);
-    shader->bindUniformBlock("Matrices2", &range);
+    blitz::RenderState* renderState = new blitz::RenderState{
+        clearColor: { 0.5f, 0.0f, 0.5f, 1.0f },
+        viewPort: { 0, 0, 400, 500 },
+        projection: blitz::Projection::ORTHOGRAPHIC,
+        enableDepthTest: false,
+        enableStencilTest: false,
+        shader: shader,
+        shouldSwapBuffers: true
 
-    shader1->bindUniformBlock("Matrices", &range);
-    shader1->bindUniformBlock("Matrices2", &range2);
+    };
 
-    shader->attach(array);
-    shader->use(nullptr);
-    shader1->use(nullptr);
+    blitz::Vector3f* col = new blitz::Vector3f{ 1.f, 0.f, 0.f };
+    blitz::UniformState* colorUniform = new blitz::UniformState { blitz::UniformState{ blitz::DataType::VECTOR3F, blitz::hashString("color"), (void*)col }};
+    blitz::ListNode<blitz::UniformState>* states = new blitz::ListNode<blitz::UniformState> { colorUniform, nullptr };
+
+    blitz::RenderCommand* renderCommand = new blitz::RenderCommand{
+        vertexArray: basicVertexArray,
+        buffers: nullptr,
+        uniformsState: states,
+        drawMode: blitz::DrawMode::NORMAL,
+        primitiveType: blitz::PrimitiveType::TRIANGLES,
+        startPrimitive: 0,
+        numberOfPrimitivesToDraw: 3,
+        numberOfIndicesToDraw: 0
+    };
+
+    blitz::Vector3f* col1 = new blitz::Vector3f{ 0.f, 1.f, 0.f };
+    blitz::UniformState* colorUniform1 = new blitz::UniformState { blitz::UniformState{ blitz::DataType::VECTOR3F, blitz::hashString("color"), (void*)col1 }};
+    blitz::ListNode<blitz::UniformState>* states1 = new blitz::ListNode<blitz::UniformState> { colorUniform1, nullptr };
+
+    blitz::RenderCommand* renderCommand2 = new blitz::RenderCommand{
+            vertexArray: basicVertexArray,
+            buffers: nullptr,
+            uniformsState: states1,
+            drawMode: blitz::DrawMode::NORMAL,
+            primitiveType: blitz::PrimitiveType::TRIANGLES,
+            startPrimitive: 3,
+            numberOfPrimitivesToDraw: 3,
+            numberOfIndicesToDraw: 0
+    };
+
+    blitz::RenderPass* renderPass = new blitz::BasicRenderPass{ renderState };
+    renderPass->add(renderCommand);
+    renderPass->add(renderCommand2);
+    renderPass->finish();
+
+
+
+    BLITZ_RENDERER->issue(renderPass);
+    BLITZ_RENDERER->render(window);
+
     int x;
     std::cin >> x;
 
-    delete shader;
-    delete buffer;
-    delete array;
     return 0;
 }

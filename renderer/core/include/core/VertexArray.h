@@ -17,12 +17,14 @@ namespace blitz
         Buffer* buffer;
         std::string name;
         DataType dataType;
-        uint16 size;
+        uint32 size;
         bool normalize;
         uint32 stride;
         uint64 offset;
-        uint16 updateDivisor;
+        uint32 updateDivisor;
     };
+
+    class Shader;
 
     class VertexArray : NonCopyable
     {
@@ -31,17 +33,19 @@ namespace blitz
         virtual void bind() = 0;
         virtual void unbind() = 0;
 
-        virtual void bindVertexBuffer(Buffer* buffer) = 0;
-        virtual void bindElementBuffer(Buffer* buffer) = 0;
+        virtual void bindElementBuffer(Buffer* buffer, const DataType& indicesType) = 0;
 
         void addAttribute(const VertexAttributeDef& vertexAttributeDef);
 
-        virtual void bindAttribute(const hash& nameHash) = 0;
+        virtual void bindAttribute(Shader* shader, const hash& nameHash) = 0;
 
-        virtual void enableAttribute(const hash &nameHash) = 0;
-        virtual void disableAttribute(const hash &nameHash) = 0;
+        virtual void enableAttribute(Shader* shader, const hash &nameHash) = 0;
+        virtual void disableAttribute(Shader* shader, const hash &nameHash) = 0;
 
         Buffer* getBoundVertexBuffer() const;
+
+        DataType getIndicesType() const;
+
         Buffer* getBoundElementBuffer() const;
 
         virtual ~VertexArray() = default;
@@ -52,7 +56,10 @@ namespace blitz
         const VertexAttributeDef& getAttribute(const hash& nameHash) const;
 
         Buffer* vertexBuffer = nullptr;
+
+        DataType indicesType;
         Buffer* elementBuffer = nullptr;
+
         std::unordered_map<hash, VertexAttributeDef> attributes;
     };
 

@@ -12,7 +12,12 @@ namespace blitz::ogl
         friend OpenGLShaderFactory;
 
       public:
-        void use(Framebuffer* targetFramebuffer) override;
+
+        void setup(Framebuffer *framebuffer) override;
+
+        void use() override;
+
+        void disable() override;
 
         void bindUniformBlock(const std::string& blockName, const BufferRange* bufferRange) override;
 

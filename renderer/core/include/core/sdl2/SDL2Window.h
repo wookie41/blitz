@@ -1,8 +1,9 @@
 #pragma once
 
-#include "core/Window.h"
+#include <core/Window.h>
 
 class SDL_Window;
+typedef void *SDL_GLContext;
 
 namespace blitz
 {
@@ -11,10 +12,14 @@ namespace blitz
     class SDL2Window : public Window
     {
       public:
-        explicit SDL2Window(SDL_Window* window, SDL2Context* context, bool isContextOwner);
+        explicit SDL2Window(SDL_Window* window, SDL2Context* context, SDL_GLContext glContext, bool isContextOwner);
 
-        void issue(RenderPass* renderPass) override;
-        void render() override;
+        void prepare() override;
+
+        void clearColor(const Color& color) override;
+        void clearDepth(const Color& color) override;
+        void clearStencil(const Color& color) override;
+
         void swapBuffers() override;
 
         void show() const override;
@@ -24,5 +29,6 @@ namespace blitz
 
       private:
         SDL_Window* window;
+        SDL_GLContext glContext;
     };
 } // namespace blitz

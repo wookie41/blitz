@@ -3,7 +3,11 @@
 #include "GL/glew.h"
 namespace blitz::ogl
 {
-    void OpenGLVec4UniformVariable::bind() { glUniform4f(variableLocation, value.x, value.y, value.z, value.w); }
+    void OpenGLVec4UniformVariable::bind()
+    {
+        glUniform4f(variableLocation, value.x, value.y, value.z, value.w);
+        dirty = false;
+    }
 
     DataType OpenGLVec4UniformVariable::getType() const { return DataType::VECTOR4F; }
 

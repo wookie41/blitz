@@ -2,8 +2,8 @@
 
 namespace blitz::ogl
 {
-    SimpleOpenGLBuffer::SimpleOpenGLBuffer(const GLuint& id, const UsageHint& usageHint, bool isWriteable, bool isReadable)
-    : OpenGLBuffer(id, usageHint), isWriteable(isWriteable), isReadable(isReadable)
+    SimpleOpenGLBuffer::SimpleOpenGLBuffer(const GLuint& id, const UsageHint& usageHint, bool isReadable, bool isWriteable)
+    : OpenGLBuffer(id, usageHint), isReadable(isReadable), isWriteable(isWriteable)
     {
     }
 

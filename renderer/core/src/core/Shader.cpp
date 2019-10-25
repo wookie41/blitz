@@ -21,8 +21,6 @@ namespace blitz
         }
     }
 
-    void Shader::attach(VertexArray* array) { this->vertexArray = array; }
-
     void Shader::markAsDirty(hash uniformNameHash) { dirtyUniforms.insert(uniformNameHash); }
 
     void Shader::bindDirtyVariables()

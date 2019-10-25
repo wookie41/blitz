@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Color.h"
+#include <core/Color.h>
 
 namespace blitz
 {
@@ -10,9 +10,25 @@ namespace blitz
         uint16_t width, height;
     };
 
+    enum class Projection
+    {
+        ORTHOGRAPHIC,
+        PERSPECTIVE
+    };
+
+
+    class Shader;
+    class Framebuffer;
+
     struct RenderState
     {
         Color clearColor;
         ViewPort viewPort;
+        Projection projection;
+        bool enableDepthTest;
+        bool enableStencilTest;
+        Shader* shader;
+        Framebuffer* framebuffer;
+        bool shouldSwapBuffers;
     };
 } // namespace blitz

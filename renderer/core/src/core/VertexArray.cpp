@@ -1,6 +1,6 @@
+#include <blitzcommon/HashUtils.h>
 #include <core/VertexArray.h>
 #include <loguru.hpp>
-#include <blitzcommon/HashUtils.h>
 
 namespace blitz
 {
@@ -8,11 +8,10 @@ namespace blitz
 
     Buffer* VertexArray::getBoundVertexBuffer() const { return vertexBuffer; }
 
-    void VertexArray::addAttribute(const VertexAttributeDef &vertexAttributeDef)
+    void VertexArray::addAttribute(const VertexAttributeDef& vertexAttributeDef)
     {
         const auto nameHash = hashString(vertexAttributeDef.name);
         attributes[nameHash] = vertexAttributeDef;
-        bindAttribute(nameHash);
     }
 
     const VertexAttributeDef& VertexArray::getAttribute(const hash& nameHash) const
@@ -21,4 +20,6 @@ namespace blitz
         DCHECK_F(attribIt != attributes.end(), "VAO doesn't have attribute '%ld'", nameHash);
         return attribIt->second;
     }
+
+    DataType VertexArray::getIndicesType() const { return indicesType; }
 } // namespace blitz
