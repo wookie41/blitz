@@ -26,23 +26,10 @@ namespace blitz::ogl
     {
     }
 
-    void OpenGLShader::use(Framebuffer* framebuffer)
+    void OpenGLShader::use()
     {
         DLOG_F(INFO, "[OpenGL] Using shader %d", shaderID);
-        if (vertexArray == nullptr)
-        {
-            DLOG_F(ERROR, "[OpenGL] Vertex array is null on shader '%s'", shaderName.c_str());
-        }
-        else
-        {
-            vertexArray->bind();
-        }
-
         glUseProgram(shaderID);
-        bindDirtyVariables();
-        bindUniformBlocks();
-        bindSamplers();
-        setupOutputs(framebuffer);
     }
 
     void OpenGLShader::bindUniformBlock(const std::string& blockName, const BufferRange* bufferRange)
@@ -109,7 +96,7 @@ namespace blitz::ogl
         for (const auto sampler : samplers)
         {
             glVariable = dynamic_cast<OpenGLUniformVariable*>(sampler);
-            if (glVariable == nullptr)
+            if (glVariable == nullptr || !sampler->isDirty())
                 continue;
             glActiveTexture(textureCounter++);
             glUniform1i(glVariable->getVariableLocation(), textureCount++);
@@ -127,8 +114,6 @@ namespace blitz::ogl
     {
         if (targetFramebuffer == lastFrameBuffer && newlyAddedOutputs.empty())
             return;
-
-        targetFramebuffer->bind();
 
         if (targetFramebuffer != lastFrameBuffer)
         {
@@ -148,7 +133,24 @@ namespace blitz::ogl
         }
 
         newlyAddedOutputs.clear();
+    }
 
-        targetFramebuffer->unbind();
+    void OpenGLShader::setup(Framebuffer* framebuffer)
+    {
+        if (framebuffer == nullptr)
+        {
+            DLOG_F(ERROR, "[OpenGL] Vertex array is null on shader '%s'", shaderName.c_str());
+            return;
+        }
+
+        setupOutputs(framebuffer);
+        bindDirtyVariables();
+        bindUniformBlocks();
+        bindSamplers();
+    }
+
+    void OpenGLShader::disable()
+    {
+        glUseProgram(0);
     }
 } // namespace blitz::ogl

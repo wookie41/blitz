@@ -27,7 +27,7 @@ namespace blitz
         DLOG_F(INFO, "SDL2 initialized!");
 
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
         SDL_GL_SetAttribute(SDL_GL_SHARE_WITH_CURRENT_CONTEXT, 1);
         SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
@@ -58,7 +58,7 @@ namespace blitz
             exit(RendererErrorCode::SDL2DEVICE_CONTEXT_CREATION_ERROR);
         }
 
-        return new SDL2Window(sdlWindow, new SDL2Context(context), true);
+        return new SDL2Window(sdlWindow, new SDL2Context(context), context, true);
     }
 
     Window* SDL2Device::createWindow(const WindowDef& windowDef, Context* contextToShare) const
@@ -71,7 +71,7 @@ namespace blitz
         }
 
         auto sdlWindow = createSDLWindow(windowDef);
-        return new SDL2Window(sdlWindow, context, false);
+        return new SDL2Window(sdlWindow, context, context->getSDLContext(), false);
     }
 
     SDL2Device::~SDL2Device() { SDL_Quit(); }

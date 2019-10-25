@@ -3,6 +3,7 @@
 #include <core/DataType.h>
 #include <core/Context.h>
 #include <blitzcommon/NonCopyable.h>
+#include <core/Color.h>
 
 namespace blitz
 {
@@ -21,6 +22,13 @@ namespace blitz
       public:
         explicit Window(Context* context, bool isContextOwner, Framebuffer* defaultFramebuffer);
         Context& getContext() const;
+
+        Framebuffer *getFramebuffer() const;
+
+        virtual void prepare() = 0;
+        virtual void clearColor(const Color& color) = 0;
+        virtual void clearDepth(const Color& color) = 0;
+        virtual void clearStencil(const Color& color) = 0;
 
         virtual void swapBuffers() = 0;
 

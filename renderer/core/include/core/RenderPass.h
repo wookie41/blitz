@@ -18,7 +18,7 @@ namespace blitz
 
         virtual void add(RenderCommand* renderCommand) = 0;
 
-        virtual const RenderState& getRenderState() = 0;
+        virtual const RenderState& getRenderState() const;
 
 
         //this method should be called before the first call to getNextCommand

@@ -57,13 +57,13 @@ namespace blitz
 
         UsageHint getUsageHint() const;
 
-        uint32 getSize() const;
+        uint32 getSizeInBytes() const;
 
         bool IsReadable() const;
 
         bool IsWriteable() const;
 
-        void setSize(const uint32& size);
+        void setSize(const uint32 &sizeInBytes);
 
         virtual ~Buffer() = default;
 

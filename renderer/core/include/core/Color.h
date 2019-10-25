@@ -5,9 +5,9 @@ namespace blitz
 {
     struct Color
     {
-        uint8 red;
-        uint8 green;
-        uint8 blue;
-        uint8 alpha;
+        float red;
+        float green;
+        float blue;
+        float alpha;
     };
 } // namespace blitz

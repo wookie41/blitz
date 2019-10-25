@@ -1,6 +1,6 @@
-#include <core/ogl/uniforms/OpenGLSampler3DUniformVariable.h>
 #include <GL/glew.h>
 #include <core/TextureSampler.h>
+#include <core/ogl/uniforms/OpenGLSampler3DUniformVariable.h>
 
 namespace blitz::ogl
 {
@@ -11,7 +11,11 @@ namespace blitz::ogl
     {
     }
 
-    void OpenGLSampler3DUniformVariable::bind() { value->bind(); }
+    void OpenGLSampler3DUniformVariable::bind()
+    {
+        value->bind();
+        dirty = false;
+    }
 
     DataType OpenGLSampler3DUniformVariable::getType() const { return DataType::SAMPLER3D; }
 } // namespace blitz::ogl

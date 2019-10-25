@@ -67,7 +67,7 @@ namespace blitz::ogl
             return createTextureBasedAttachment(attachmentSpec);
         }
 
-        return createRenderBufferAttachment(attachmentSpec, attachmentType);s
+        return createRenderBufferAttachment(attachmentSpec, attachmentType);
     }
 
     FramebufferAttachment* OpenGLDevice::createAttachmentUsingUserTexture(Texture* userTexture, const GLenum& type) const

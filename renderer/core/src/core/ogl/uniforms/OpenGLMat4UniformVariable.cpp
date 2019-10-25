@@ -3,7 +3,11 @@
 #include "GL/glew.h"
 namespace blitz::ogl
 {
-    void OpenGLMat4UniformVariable::bind() { glUniformMatrix4fv(variableLocation, 1, GL_FALSE, value.data_->data_); }
+    void OpenGLMat4UniformVariable::bind()
+    {
+        glUniformMatrix4fv(variableLocation, 1, GL_FALSE, value.data_->data_);
+        dirty = false;
+    }
 
     DataType OpenGLMat4UniformVariable::getType() const { return DataType::INT; }
 

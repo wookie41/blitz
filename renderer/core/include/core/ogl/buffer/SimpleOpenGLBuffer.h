@@ -15,7 +15,7 @@ namespace blitz::ogl
         bool isIsWriteable() const;
 
     private:
-        SimpleOpenGLBuffer(const GLuint& id, const UsageHint& usageHint, bool isWriteable, bool isReadable);
+        SimpleOpenGLBuffer(const GLuint& id, const UsageHint& usageHint, bool isReadable, bool isWriteable);
         bool isReadable;
         bool isWriteable;
     };

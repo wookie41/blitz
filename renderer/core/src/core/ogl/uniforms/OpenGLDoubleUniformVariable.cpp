@@ -3,7 +3,11 @@
 #include "GL/glew.h"
 namespace blitz::ogl
 {
-    void OpenGLDoubleUniformVariable::bind() { glUniform1d(variableLocation, value); }
+    void OpenGLDoubleUniformVariable::bind()
+    {
+        glUniform1d(variableLocation, value);
+        dirty = false;
+    }
 
     DataType OpenGLDoubleUniformVariable::getType() const { return DataType::INT; }
 

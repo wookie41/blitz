@@ -1,6 +1,6 @@
 #pragma once
 
-#include "core/ogl/OpenGLContext.h"
+#include <core/ogl/OpenGLContext.h>
 
 typedef void* SDL_GLContext;
 
@@ -10,6 +10,8 @@ namespace blitz
     {
       public:
         explicit SDL2Context(SDL_GLContext context);
+
+        SDL_GLContext getSDLContext() const;
 
         ~SDL2Context();
 

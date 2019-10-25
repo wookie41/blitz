@@ -27,9 +27,10 @@ namespace blitz
                         const std::unordered_map<hash, UniformBlock*>& uniformBlocks,
                         const std::unordered_map<hash, ShaderOutput*>& outputs);
 
-        virtual void use(Framebuffer* targetFramebuffer) = 0;
+        virtual void use() = 0;
+        virtual void disable() = 0;
 
-        void attach(VertexArray* array);
+        virtual void setup(Framebuffer* framebuffer) = 0;
 
         template <typename T>
         UniformVariable<T>* getUniformVariable(const hash& nameHash);
@@ -49,8 +50,6 @@ namespace blitz
 
       protected:
         void markAsDirty(hash uniformNameHash);
-
-        VertexArray* vertexArray = nullptr;
 
         std::string shaderName;
         std::unordered_map<hash, IUniformVariable*> uniformVariables;

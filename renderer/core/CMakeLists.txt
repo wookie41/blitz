@@ -18,6 +18,7 @@ add_library(${PROJECT_NAME} STATIC
         src/core/ogl/buffer/OpenGLBufferFiller.cpp
         src/core/ogl/shader/OpenGLVertexArray.cpp
         src/core/ogl/shader/OpenGLShader.cpp
+        src/core/UniformVariable.cpp
         src/core/ogl/uniforms/OpenGLIntegerUniformVariable.cpp
         src/core/ogl/uniforms/OpenGLFloatUniformVariable.cpp
         src/core/ogl/uniforms/OpenGLDoubleUniformVariable.cpp
@@ -32,7 +33,6 @@ add_library(${PROJECT_NAME} STATIC
         src/core/ogl/shader/OpenGLShaderCompiler.cpp
         src/core/ogl/shader/OpenGLShaderInspector.cpp
         src/core/ogl/OpenGLDevice.cpp
-        src/core/UniformVariable.cpp
         src/core/ogl/OpenGLDataType.cpp
         src/core/TextureSampler.cpp
         src/core/Texture.cpp
@@ -49,8 +49,8 @@ add_library(${PROJECT_NAME} STATIC
         src/core/ogl/framebuffer/OpenGLFramebuffer.cpp
         src/core/ogl/framebuffer/OpenGLRenderBufferAttachment.cpp
         src/core/RenderPass.cpp
-        src/core/RenderState.cpp
-        src/core/BasicRenderer.cpp)
+        src/core/BasicRenderer.cpp
+        src/core/BasicRenderPass.cpp src/core/ogl/BasicOpenGLRenderer.cpp)
 
 set_target_properties(${PROJECT_NAME}
         PROPERTIES

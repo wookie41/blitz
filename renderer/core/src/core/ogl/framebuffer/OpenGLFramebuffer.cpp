@@ -40,7 +40,8 @@ namespace blitz::ogl
             }
         }
 
-        glDrawBuffers(drawBuffers.size(), drawBuffers.data());
+        if (framebufferID > 0)
+            glDrawBuffers(drawBuffers.size(), drawBuffers.data());
     }
 
     void OpenGLFramebuffer::unbind() { glBindFramebuffer(GL_FRAMEBUFFER, 0); }

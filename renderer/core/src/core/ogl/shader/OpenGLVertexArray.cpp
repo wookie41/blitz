@@ -2,9 +2,9 @@
 #include <core/ogl/shader/OpenGLVertexArray.h>
 
 #include <core/RendererErrorCode.h>
+#include <core/Shader.h>
 #include <core/ogl/buffer/OpenGLBuffer.h>
 #include <loguru.hpp>
-
 
 namespace blitz::ogl
 {
@@ -27,18 +27,12 @@ namespace blitz::ogl
     {
         GLint shaderID;
         glGetIntegerv(GL_CURRENT_PROGRAM, &shaderID);
-
-        if (shaderID)
-        {
-            exit(RendererErrorCode::OPENGL_NO_SHADER_BOUND);
-        }
-
         return shaderID;
     }
 
     GLuint queryAttributeLocation(const GLint& shaderID, const char* name)
     {
-        GLuint attributeIdx = static_cast<GLuint>(glGetAttribLocation(shaderID, name));
+        auto attributeIdx = static_cast<GLuint>(glGetAttribLocation(shaderID, name));
 
         if (attributeIdx == -1)
         {
@@ -70,15 +64,10 @@ namespace blitz::ogl
         glVertexAttribLPointer(index, def.size, GL_DOUBLE, def.stride, (void*)def.offset);
     }
 
-    void OpenGLVertexArray::bindVertexBuffer(Buffer* buffer)
-    {
-        vertexBuffer = buffer;
-        openGLContext->run([this](Context* context) { bindBuffer(vaoIdx, vertexBuffer, BufferBindTarget::VERTEX); });
-    }
-
-    void OpenGLVertexArray::bindElementBuffer(Buffer* buffer)
+    void OpenGLVertexArray::bindElementBuffer(Buffer* buffer, const DataType& indicesType)
     {
         elementBuffer = buffer;
+        this->indicesType = indicesType;
         openGLContext->run([this](Context* context) { bindBuffer(vaoIdx, elementBuffer, BufferBindTarget::ELEMENT); });
     }
 
@@ -94,8 +83,9 @@ namespace blitz::ogl
         glBindVertexArray(0);
     }
 
-    void OpenGLVertexArray::bindAttribute(const hash& nameHash)
+    void OpenGLVertexArray::bindAttribute(Shader* shader, const hash& nameHash)
     {
+        shader->use();
         const auto& vertexAttributeDef = getAttribute(nameHash);
         const auto shaderID = queryGLShaderID();
         const auto attributeID = queryAttributeLocation(shaderID, vertexAttributeDef.name.c_str());
@@ -120,18 +110,23 @@ namespace blitz::ogl
         }
 
         glVertexAttribDivisor(attributeID, static_cast<GLuint>(vertexAttributeDef.updateDivisor));
-        glBindVertexArray(0);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
+        shader->disable();
     }
 
-    void OpenGLVertexArray::enableAttribute(const hash& nameHash)
+    void OpenGLVertexArray::enableAttribute(Shader* shader, const hash& nameHash)
     {
-        glEnableVertexAttribArray(queryAttributeLocationByHash(nameHash));
+        glBindVertexArray(this->vaoIdx);
+        glEnableVertexAttribArray(0);
+        glBindVertexArray(0);
     }
 
-    void OpenGLVertexArray::disableAttribute(const hash& nameHash)
+    void OpenGLVertexArray::disableAttribute(Shader* shader, const hash& nameHash)
     {
+        glBindVertexArray(this->vaoIdx);
         glDisableVertexAttribArray(queryAttributeLocationByHash(nameHash));
+        glBindVertexArray(0);
     }
 
     OpenGLVertexArray::~OpenGLVertexArray() { glDeleteVertexArrays(1, &vaoIdx); }
