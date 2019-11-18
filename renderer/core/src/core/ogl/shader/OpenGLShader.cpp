@@ -1,3 +1,4 @@
+#include <core/ogl/shader/OpenGLShader.h>
 #include <core/BufferRange.h>
 #include <core/Framebuffer.h>
 #include <core/UniformBlock.h>
@@ -5,10 +6,8 @@
 #include <core/VertexArray.h>
 #include <core/ogl/buffer/OpenGLBuffer.h>
 #include <core/ogl/framebuffer/OpenGLTextureAttachment.h>
-#include <core/ogl/shader/OpenGLShader.h>
 #include <core/ogl/texture/OpenGLTexture.h>
 #include <core/ogl/uniforms/OpenGLUniformVariable.h>
-
 #include <loguru.hpp>
 #include <utility>
 
@@ -19,10 +18,10 @@ namespace blitz::ogl
     OpenGLShader::OpenGLShader(const std::string& name,
                                GLuint shaderID,
                                const std::unordered_map<hash, IUniformVariable*>& uniforms,
-                               const std::unordered_map<hash, UniformBlock*>& unifomBlocks,
+                               const std::unordered_map<hash, UniformBlock*>& uniformBlock,
                                const std::unordered_map<hash, GLuint>& uniformBlockBindings,
                                const std::unordered_map<hash, ShaderOutput*>& outputs)
-    : Shader(name, uniforms, unifomBlocks, outputs), shaderID(shaderID), glBindPoints(uniformBlockBindings)
+    : Shader(name, uniforms, uniformBlock, outputs), shaderID(shaderID), glBindPoints(uniformBlockBindings)
     {
     }
 
@@ -149,8 +148,5 @@ namespace blitz::ogl
         bindSamplers();
     }
 
-    void OpenGLShader::disable()
-    {
-        glUseProgram(0);
-    }
+    void OpenGLShader::disable() { glUseProgram(0); }
 } // namespace blitz::ogl

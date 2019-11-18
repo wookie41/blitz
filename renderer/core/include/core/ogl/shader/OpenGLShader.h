@@ -1,6 +1,7 @@
+#pragma once
+
 #include <GL/glew.h>
 #include <mutex>
-#include <unordered_map>
 #include <core/Shader.h>
 
 namespace blitz::ogl
@@ -27,11 +28,9 @@ namespace blitz::ogl
         OpenGLShader(const std::string& name,
                      GLuint shaderID,
                      const std::unordered_map<hash, IUniformVariable*>& uniforms,
-                     const std::unordered_map<hash, UniformBlock*>& unifomBlocks,
+                     const std::unordered_map<hash, UniformBlock*>& uniformBlock,
                      const std::unordered_map<hash, GLuint>& uniformBlockBindings,
                      const std::unordered_map<hash, ShaderOutput*>& outputs);
-
-    private:
 
         void bindUniformBlocks() const;
         void bindSamplers();

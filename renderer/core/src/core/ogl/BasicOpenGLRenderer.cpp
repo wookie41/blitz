@@ -5,7 +5,6 @@
 
 namespace blitz::ogl
 {
-
     void BasicOpenGLRenderer::run(RenderCommand* renderCommand)
     {
         GLenum glPrimitiveType = mapToGLType(renderCommand->primitiveType);

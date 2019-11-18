@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
+#include <string>
 
 #include <blitzcommon/NonCopyable.h>
 #include <core/RendererErrorCode.h>

@@ -2,14 +2,11 @@
 #include <SDL2/SDL.h>
 #include <cassert>
 #include <core/sdl2/SDL2Device.h>
+#include <loguru.hpp>
 
-
-#include "loguru.hpp"
-
-#include "core/RendererErrorCode.h"
-#include "core/sdl2/SDL2Context.h"
-#include "core/sdl2/SDL2Device.h"
-#include "core/sdl2/SDL2Window.h"
+#include <core/RendererErrorCode.h>
+#include <core/sdl2/SDL2Context.h>
+#include <core/sdl2/SDL2Window.h>
 
 namespace blitz
 {

@@ -1,6 +1,7 @@
 [submodule "vendor/mathfu"]
 	path = vendor/mathfu
 	url = https://github.com/google/mathfu.git
+	branch = master
 [submodule "vendor/loguru"]
 	path = vendor/loguru
 	url = https://github.com/emilk/loguru.git
