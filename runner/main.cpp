@@ -9,7 +9,7 @@
 #include <GL/glew.h>
 #include <core/BasicRenderPass.h>
 #include <core/BufferRange.h>
-#include <core/DataType.h>
+#include <blitzcommon/DataType.h>
 #include <core/RenderCommand.h>
 #include <core/RenderState.h>
 #include <iostream>

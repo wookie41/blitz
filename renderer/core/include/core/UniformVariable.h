@@ -2,7 +2,7 @@
 
 #include <blitzcommon/HashUtils.h>
 #include <blitzcommon/NonCopyable.h>
-#include <core/DataType.h>
+#include <blitzcommon/DataType.h>
 #include <functional>
 
 namespace blitz

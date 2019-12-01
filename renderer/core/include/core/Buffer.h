@@ -1,7 +1,7 @@
 #pragma once
 
 #include <core/Range.h>
-#include <core/DataType.h>
+#include <blitzcommon/DataType.h>
 
 // TODO
 // 1. Consider adding some inner lock, as the Buffer can be shared between several contextes

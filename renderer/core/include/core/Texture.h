@@ -1,12 +1,12 @@
 #pragma once
 
-#include <core/DataType.h>
+#include <blitzcommon/DataType.h>
 #include <core/TextureSpec.h>
 #include <core/Range.h>
 
 namespace blitz
 {
-    class Texture
+    class    Texture
     {
       public:
         virtual void upload(void* data) = 0;

@@ -2,7 +2,7 @@
 
 #include <unordered_map>
 
-#include <core/DataType.h>
+#include <blitzcommon/DataType.h>
 #include <blitzcommon/HashUtils.h>
 #include <blitzcommon/NonCopyable.h>
 

@@ -1,6 +1,6 @@
 #include <GL/glew.h>
 #include <core/BasicRenderer.h>
-#include <core/DataType.h>
+#include <blitzcommon/DataType.h>
 #include <core/Framebuffer.h>
 #include <core/RenderCommand.h>
 #include <core/RenderPass.h>

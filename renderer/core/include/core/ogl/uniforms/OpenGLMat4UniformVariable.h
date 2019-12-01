@@ -1,7 +1,7 @@
 #pragma once
 
 #include <GL/glew.h>
-#include <core/DataType.h>
+#include <blitzcommon/DataType.h>
 #include <core/UniformVariable.h>
 #include <core/ogl/uniforms/OpenGLUniformVariable.h>
 

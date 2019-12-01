@@ -1,6 +1,6 @@
 #include "GL/glew.h"
 #include <core/ogl/uniforms/OpenGLMat3UniformVariable.h>
-#include <core/DataType.h>
+#include <blitzcommon/DataType.h>
 
 namespace blitz::ogl
 {

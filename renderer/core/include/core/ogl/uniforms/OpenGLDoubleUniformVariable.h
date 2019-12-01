@@ -2,7 +2,7 @@
 
 #include <GL/glew.h>
 #include <core/UniformVariable.h>
-#include <core/DataType.h>
+#include <blitzcommon/DataType.h>
 #include <mathfu/vector.h>
 #include <core/ogl/uniforms/OpenGLUniformVariable.h>
 

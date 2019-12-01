@@ -1,6 +1,6 @@
 #pragma once
 
-#include <core/DataType.h>
+#include <blitzcommon/DataType.h>
 namespace blitz
 {
     struct Color
