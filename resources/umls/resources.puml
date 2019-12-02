@@ -35,7 +35,9 @@ FileSystemResourceLoader => File: reads
 class ResourcesManager
 {
     resources[id]WeakPointer<Resource>
+    ResourceID loadResource(ResourceLoader loader)
 }
 
 ResourcesManager ===> Resource: Holds
+ResourcesManager ===> ResourceLoader: Uses
 @enduml

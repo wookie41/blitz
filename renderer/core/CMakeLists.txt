@@ -69,7 +69,3 @@ endif()
 
 target_link_libraries(${PROJECT_NAME} blitz::common SDL2 OpenGL GLEW)
 mathfu_configure_flags(${PROJECT_NAME})
-
-##add_executable(blitz-renderer-core-tests) #TODO
-#target_link_libraries(blitz-renderer-core-tests blitz-renderer-core)
-#add_test(blitz-renderer-core-tests blitz-renderer-core-tests)

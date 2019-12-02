@@ -7,12 +7,13 @@
 #include <core/VertexArray.h>
 
 #include <GL/glew.h>
+#include <blitzcommon/DataType.h>
 #include <core/BasicRenderPass.h>
 #include <core/BufferRange.h>
-#include <blitzcommon/DataType.h>
 #include <core/RenderCommand.h>
 #include <core/RenderState.h>
 #include <iostream>
+#include <memory>
 #include <vector>
 
 char* v = "#version 330 core\n"
@@ -36,6 +37,7 @@ char* f = "#version 330 core\n"
 
 extern blitz::Device* BLITZ_DEVICE;
 extern blitz::Renderer* BLITZ_RENDERER;
+
 
 int main(int argc, char** argv)
 {
@@ -87,13 +89,15 @@ int main(int argc, char** argv)
         enableDepthTest: false,
         enableStencilTest: false,
         shader: shader,
+        framebuffer: nullptr,
         shouldSwapBuffers: true
 
     };
 
     blitz::Vector3f* col = new blitz::Vector3f{ 1.f, 0.f, 0.f };
-    blitz::UniformState* colorUniform = new blitz::UniformState { blitz::UniformState{ blitz::DataType::VECTOR3F, blitz::hashString("color"), (void*)col }};
-    blitz::ListNode<blitz::UniformState>* states = new blitz::ListNode<blitz::UniformState> { colorUniform, nullptr };
+    blitz::UniformState* colorUniform =
+    new blitz::UniformState{ blitz::UniformState{ blitz::DataType::VECTOR3F, blitz::hashString("color"), (void*)col } };
+    blitz::ListNode<blitz::UniformState>* states = new blitz::ListNode<blitz::UniformState>{ colorUniform, nullptr };
 
     blitz::RenderCommand* renderCommand = new blitz::RenderCommand{
         vertexArray: basicVertexArray,
@@ -107,25 +111,25 @@ int main(int argc, char** argv)
     };
 
     blitz::Vector3f* col1 = new blitz::Vector3f{ 0.f, 1.f, 0.f };
-    blitz::UniformState* colorUniform1 = new blitz::UniformState { blitz::UniformState{ blitz::DataType::VECTOR3F, blitz::hashString("color"), (void*)col1 }};
-    blitz::ListNode<blitz::UniformState>* states1 = new blitz::ListNode<blitz::UniformState> { colorUniform1, nullptr };
+    blitz::UniformState* colorUniform1 =
+    new blitz::UniformState{ blitz::UniformState{ blitz::DataType::VECTOR3F, blitz::hashString("color"), (void*)col1 } };
+    blitz::ListNode<blitz::UniformState>* states1 = new blitz::ListNode<blitz::UniformState>{ colorUniform1, nullptr };
 
     blitz::RenderCommand* renderCommand2 = new blitz::RenderCommand{
-            vertexArray: basicVertexArray,
-            buffers: nullptr,
-            uniformsState: states1,
-            drawMode: blitz::DrawMode::NORMAL,
-            primitiveType: blitz::PrimitiveType::TRIANGLES,
-            startPrimitive: 3,
-            numberOfPrimitivesToDraw: 3,
-            numberOfIndicesToDraw: 0
+        vertexArray: basicVertexArray,
+        buffers: nullptr,
+        uniformsState: states1,
+        drawMode: blitz::DrawMode::NORMAL,
+        primitiveType: blitz::PrimitiveType::TRIANGLES,
+        startPrimitive: 3,
+        numberOfPrimitivesToDraw: 3,
+        numberOfIndicesToDraw: 0
     };
 
     blitz::RenderPass* renderPass = new blitz::BasicRenderPass{ renderState };
     renderPass->add(renderCommand);
     renderPass->add(renderCommand2);
     renderPass->finish();
-
 
 
     BLITZ_RENDERER->issue(renderPass);

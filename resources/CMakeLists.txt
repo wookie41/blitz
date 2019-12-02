@@ -1,6 +1,8 @@
 project(blitz-resources C CXX)
 
-add_library(${PROJECT_NAME} STATIC src/Resource.cpp)
+add_library(${PROJECT_NAME} STATIC
+        src/Resource.cpp
+        src/RefCountedResourceManager.cpp)
 
 set_target_properties(${PROJECT_NAME}
         PROPERTIES
@@ -18,3 +20,6 @@ if(WITH_DEBUG_TOOLS)
 endif()
 
 target_link_libraries(${PROJECT_NAME} blitz::common)
+
+add_subdirectory(tests)
+mathfu_configure_flags(${PROJECT_NAME})
