@@ -2,13 +2,13 @@
 
 #include <blitzcommon/NonCopyable.h>
 #include <core/RenderCommand.h>
-#include "RenderState.h"
+#include <core/RenderState.h>
 
 namespace blitz
 {
 
+    struct ViewPort;
     class Window;
-    class ViewPort;
     class RenderPass;
 
     class Renderer: NonCopyable

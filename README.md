@@ -9,6 +9,12 @@ To install all the above dependencies, run:
 git submodule update --init --recursive
 ```
 
+#MSVS
+
+While working in Visual Studio on Windows you also have to point the linker to the place where the glew's and sdl2's libs are located.
+To do this, right-click on `runner`, choose `Properties`, the `VC++ Directories`, on the right pick `Library Directories` and add
+the location mentioned aboce.
+
 # Coding conventions
 
 ### [Core] Renderer

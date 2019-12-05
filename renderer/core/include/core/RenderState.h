@@ -16,7 +16,6 @@ namespace blitz
         PERSPECTIVE
     };
 
-
     class Shader;
     class Framebuffer;
 

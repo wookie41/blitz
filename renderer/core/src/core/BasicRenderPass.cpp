@@ -1,6 +1,5 @@
 #include <core/BasicRenderPass.h>
 
-
 namespace blitz
 {
     BasicRenderPass::BasicRenderPass(RenderState* renderState) : RenderPass(renderState) {}
