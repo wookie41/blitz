@@ -1,4 +1,4 @@
-# Set the project name
+cmake_minimum_required(VERSION 3.12)
 project (common)
 
 add_library(${PROJECT_NAME} INTERFACE)

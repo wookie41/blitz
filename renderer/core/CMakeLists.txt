@@ -70,6 +70,8 @@ if (WIN32)
 	target_include_directories(${PROJECT_NAME} PRIVATE ${GLEW_INCLUDE_DIRS})
 	target_include_directories(${PROJECT_NAME} PRIVATE ${SDL2_INCLUDE_DIR})
     target_link_libraries(${PROJECT_NAME} blitz::common SDL2 glew32 opengl32)
+elseif(UNIX)
+    target_link_libraries(${PROJECT_NAME} blitz::common SDL2 OpenGL GLEW)
 endif()
 
 mathfu_configure_flags(${PROJECT_NAME})
