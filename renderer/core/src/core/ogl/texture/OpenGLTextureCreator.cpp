@@ -1,6 +1,7 @@
 #include <core/ogl/texture/OpenGLTextureCreator.h>
 #include <core/ogl/texture/OpenGLTextureUtils.h>
 #include <core/ogl/OpenGLDataType.h>
+#include <GL/glew.h>
 
 namespace blitz::ogl
 {
@@ -36,5 +37,6 @@ namespace blitz::ogl
 
         glGenerateMipmap(glTextureType);
         glBindTexture(glTextureType, 0);
+        return textureID;
     }
 } // namespace blitz::ogl

@@ -9,6 +9,16 @@ To install all the above dependencies, run:
 git submodule update --init --recursive
 ```
 
+### MSVS
+
+# Project generated from Cmake
+While working in Visual Studio on Windows you also have to point the linker to the place where the glew's and sdl2's libs are located.
+To do this, right-click on `runner`, choose `Properties`, the `VC++ Directories`, on the right pick `Library Directories` and add
+the location mentioned above.
+
+# Cmake imported to Visual Studio
+If you improted the project as Cmake project you need to use link_directories in the top-level CmakeLists.txt, so the linker knows where to look for SDL, glew etc.
+
 # Coding conventions
 
 ### [Core] Renderer

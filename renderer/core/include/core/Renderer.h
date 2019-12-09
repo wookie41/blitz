@@ -2,7 +2,7 @@
 
 #include <blitzcommon/NonCopyable.h>
 #include <core/RenderCommand.h>
-#include "RenderState.h"
+#include <core/RenderState.h>
 
 namespace blitz
 {

@@ -17,6 +17,7 @@
 #include <core/ogl/uniforms/OpenGLSampler3DUniformVariable.h>
 #include <core/ogl/uniforms/OpenGLVec3UniformVariable.h>
 #include <core/ogl/uniforms/OpenGLVec4UniformVariable.h>
+#include <GL/glew.h>
 
 
 namespace blitz::ogl
@@ -138,9 +139,9 @@ namespace blitz::ogl
 
                 GLint binding = 999;
                 glGetActiveUniformBlockiv(shaderID, uniformBlockIndex, GL_UNIFORM_BLOCK_BINDING, &binding);
-                for (uint i = 0; i < activeUniformsInBlock; ++i)
+                for (int i = 0; i < activeUniformsInBlock; ++i)
                 {
-                    const uint& index = (uint)uniformsIndices[i];
+                    const uint32& index = (uint32)uniformsIndices[i];
 
                     glGetActiveUniformName(shaderID, index, MAX_UNIFORM_BLOCK_FIELD_NAME_LENGTH, &nameLength, uniformBlockFieldName);
 

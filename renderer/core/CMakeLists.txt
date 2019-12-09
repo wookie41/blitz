@@ -50,7 +50,8 @@ add_library(${PROJECT_NAME} STATIC
         src/core/ogl/framebuffer/OpenGLRenderBufferAttachment.cpp
         src/core/RenderPass.cpp
         src/core/BasicRenderer.cpp
-        src/core/BasicRenderPass.cpp src/core/ogl/BasicOpenGLRenderer.cpp)
+        src/core/BasicRenderPass.cpp 
+        src/core/ogl/BasicOpenGLRenderer.cpp)
 
 set_target_properties(${PROJECT_NAME}
         PROPERTIES
@@ -59,9 +60,7 @@ set_target_properties(${PROJECT_NAME}
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_override)
 
-target_include_directories(${PROJECT_NAME}
-        PUBLIC ${PROJECT_SOURCE_DIR}/include
-        )
+target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
 if(WITH_DEBUG_TOOLS)
     target_link_libraries(${PROJECT_NAME} loguru)
@@ -69,3 +68,16 @@ endif()
 
 target_link_libraries(${PROJECT_NAME} blitz::common SDL2 OpenGL GLEW)
 mathfu_configure_flags(${PROJECT_NAME})
+if (WIN32)
+	target_include_directories(${PROJECT_NAME} PRIVATE ${GLEW_INCLUDE_DIRS})
+	target_include_directories(${PROJECT_NAME} PRIVATE ${SDL2_INCLUDE_DIR})
+  target_link_libraries(${PROJECT_NAME} blitz::common SDL2 glew32 opengl32)
+elseif(UNIX)
+    target_link_libraries(${PROJECT_NAME} blitz::common SDL2 OpenGL GLEW)
+endif()
+
+mathfu_configure_flags(${PROJECT_NAME})
+
+##add_executable(blitz-renderer-core-tests) #TODO
+#target_link_libraries(blitz-renderer-core-tests blitz-renderer-core)
+#add_test(blitz-renderer-core-tests blitz-renderer-core-tests)

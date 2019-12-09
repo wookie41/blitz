@@ -1,4 +1,4 @@
-#pragma
+#pragma once
 
 #include <GL/glew.h>
 #include <core/Framebuffer.h>

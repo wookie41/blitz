@@ -8,8 +8,8 @@ namespace blitz
     // The frame doesn't have to be drawn to a window (the default frame buffer),
     // it can be drawn to a texture and used for later processing
 
-    class RenderState;
-    class RenderCommand;
+    struct RenderState;
+    struct RenderCommand;
 
     class RenderPass : NonCopyable
     {

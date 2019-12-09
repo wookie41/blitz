@@ -9,6 +9,12 @@ set(WITH_DEBUG_TOOLS 1)
 set(CMAKE_THREAD_PREFER_PTHREAD ON)
 find_package(Threads REQUIRED)
 
+#Paths for customCmake modules located in custom places
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/Cmake)
+
+#Append custom locations of libs like this
+list(APPEND CMAKE_PREFIX_PATH D:/Libs/glew)
+
 if (WITH_DEBUG_TOOLS)
     add_library(loguru STATIC vendor/loguru/loguru.cpp)
     target_include_directories(loguru PUBLIC vendor/loguru)
@@ -28,6 +34,8 @@ target_include_directories(testkit INTERFACE vendor/catch/include vendor/fakeit/
 set(mathfu_build_benchmarks OFF CACHE BOOL "")
 set(mathfu_build_tests OFF CACHE BOOL "")
 
+link_directories(D:/Libs/SDL2/lib/x64 D:/Libs/glew/lib/Release/x64)
+
 find_package(SDL2 REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
@@ -37,5 +45,4 @@ add_subdirectory(blitzcommon)
 add_subdirectory(renderer/core)
 
 add_subdirectory(resources)
-
 add_subdirectory(runner)

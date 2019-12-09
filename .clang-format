@@ -46,4 +46,4 @@ TabWidth: 4
 UseTab: Never
 DerivePointerAlignment: false
 PointerAlignment: Left
-AlwaysBreakTemplateDeclarations: Yes
+AlwaysBreakTemplateDeclarations: true
