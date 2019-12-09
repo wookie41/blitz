@@ -9,6 +9,8 @@
 #include <core/DataType.h>
 #include <core/Renderer.h>
 #include <iostream>
+#include "core/RenderState.h"
+#include "core/RenderCommand.h"
 
 char* v = "#version 330 core\n"
           "layout (location = 0) in vec3 pos;"
