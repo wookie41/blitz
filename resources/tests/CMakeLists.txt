@@ -1,6 +1,7 @@
 project(blitz-resources-tests)
 
 set(UNIT_TEST_LIST
+        Resource
         RefCountedResourceManager)
 
 foreach (NAME IN LISTS UNIT_TEST_LIST)

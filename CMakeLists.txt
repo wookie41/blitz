@@ -27,7 +27,7 @@ if (WITH_DEBUG_TOOLS)
 endif()
 
 add_library(testkit INTERFACE)
-target_include_directories(testkit INTERFACE vendor/catch/include vendor/fakeit/include vendor/fakeit/single_header/catch)
+target_include_directories(testkit INTERFACE vendor/catch/include vendor/fakeit/include)
 
 #Adding mathfu 3d math library dependency
 set(mathfu_build_benchmarks OFF CACHE BOOL "")

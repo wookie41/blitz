@@ -3,6 +3,7 @@
 #include <ResourcesManager.h>
 #include <unordered_map>
 
+
 namespace blitz
 {
     class ResourceLoader;
@@ -12,7 +13,7 @@ namespace blitz
       public:
         ResourceID loadResource(ResourceLoader* resourceLoader) override;
 
-        Resource* getResource(ResourceID id) override;
+        ResourcePtr getResource(const ResourceID& id) override;
 
         virtual ~RefCountedResourceManager() = default;
 

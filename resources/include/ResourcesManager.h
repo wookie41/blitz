@@ -1,7 +1,7 @@
 #pragma once
 
-#include <blitzcommon/NonCopyable.h>
 #include <Resource.h>
+#include <blitzcommon/NonCopyable.h>
 
 namespace blitz
 {
@@ -12,6 +12,6 @@ namespace blitz
     public:
         //ResourceID is 0 if a resource couldn't be loaded
         virtual ResourceID loadResource(ResourceLoader* resourceLoader) = 0;
-        virtual Resource* getResource(ResourceID) = 0;
+        virtual ResourcePtr getResource(const ResourceID& id) = 0;
     };
 } // namespace blitz

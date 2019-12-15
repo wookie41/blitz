@@ -1,10 +1,9 @@
 #include <RefCountedResourceManager.h>
 #include <ResourceLoader.h>
+#include <atomic>
 
 namespace blitz
 {
-    static void noopDeleter(ResourcePtr*) {}
-
     ResourceID RefCountedResourceManager::loadResource(ResourceLoader* resourceLoader)
     {
         const auto resourceID = resourceLoader->getID();
@@ -14,17 +13,19 @@ namespace blitz
             return resourceID;
         }
 
-        const auto loadedResource = resourceLoader->load();
-        if (loadedResource == nullptr)
+        const auto resourcePtr = resourceLoader->load();
+        if (resourcePtr == nullptr)
         {
             return 0;
         }
 
-        loadedResources[resourceID] = new ResourcePtr(resourceID, loadedResource);
-        return std::shared_ptr<Resource>(loadedResource);
+        auto usageCount = new std::atomic<uint32>(0);
+
+        loadedResources.insert({resourceID, ResourcePtr(resourcePtr)});
+        return resourceID;
     }
 
-    ResourcePtr RefCountedResourceManager::getResource(ResourceID id)
+    ResourcePtr RefCountedResourceManager::getResource(const ResourceID& id)
     {
         const auto resourceIt = loadedResources.find(id);
 
@@ -35,11 +36,11 @@ namespace blitz
 
         // TODO this could load the resource back instead of throwin a nullptr
  
-        if (resourceIt->second.expired())
+        if (resourceIt->second.isExpired())
         {
             return ResourcePtr(nullptr);
 
         }
-        return ResourcePtr(resourceIt->second);
+        return resourceIt->second;
     }
 } // namespace blitz
