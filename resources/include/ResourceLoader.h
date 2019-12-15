@@ -1,11 +1,10 @@
 #pragma once
 
-#include <blitzcommon/NonCopyable.h>
 #include <Resource.h>
 
 namespace blitz
 {
-    class ResourceLoader : public NonCopyable
+    class ResourceLoader
     {
     public:
         virtual Resource* load() = 0;

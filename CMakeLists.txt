@@ -27,8 +27,7 @@ if (WITH_DEBUG_TOOLS)
 endif()
 
 add_library(testkit INTERFACE)
-target_include_directories(testkit INTERFACE vendor/catch/include vendor/fakeit/include)
-
+target_include_directories(testkit INTERFACE vendor/catch/include vendor/fakeit/include vendor/fakeit/single_header/catch)
 
 #Adding mathfu 3d math library dependency
 set(mathfu_build_benchmarks OFF CACHE BOOL "")
@@ -41,6 +40,7 @@ find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
 
 add_subdirectory(vendor/mathfu)
+
 add_subdirectory(blitzcommon)
 add_subdirectory(renderer/core)
 

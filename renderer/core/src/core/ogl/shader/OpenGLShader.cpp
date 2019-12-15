@@ -152,6 +152,4 @@ namespace blitz::ogl
     {
         glUseProgram(0);
     }
-
-    void OpenGLShader::disable() { glUseProgram(0); }
 } // namespace blitz::ogl
