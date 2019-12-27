@@ -1,13 +1,14 @@
 #pragma once
 
-#include <Resource.h>
+#include <ResourcePtr.h>
 
 namespace blitz
 {
+    template <typename T>
     class ResourceLoader
     {
     public:
-        virtual Resource* load() = 0;
+        virtual T* load() = 0;
         virtual ResourceID getID() = 0;
         virtual ~ResourceLoader() = default;
     };

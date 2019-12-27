@@ -8,13 +8,22 @@ SCENARIO("Basic resource loading scenario")
     using namespace blitz;
     using namespace fakeit;
 
-    RefCountedResourceManager resourceManager;
+
+    class MockedResource
+    {
+    public:
+        explicit MockedResource(ResourceID id) {};
+        virtual ~MockedResource() = default;
+    };
+
+
+    RefCountedResourceManager<MockedResource>  resourceManager;
 
     GIVEN("a resource loader")
     {
         ResourceID resourceID = 2;
-        Mock<Resource> mockedResource;
-        Mock<ResourceLoader> mockedResourceLoader;
+        Mock<MockedResource> mockedResource;
+        Mock<ResourceLoader<MockedResource>> mockedResourceLoader;
 
         When(Method(mockedResourceLoader, getID)).AlwaysReturn(resourceID);
         When(Method(mockedResourceLoader, load)).Return(&mockedResource.get());

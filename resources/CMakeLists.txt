@@ -1,8 +1,6 @@
 project(blitz-resources C CXX)
 
-add_library(${PROJECT_NAME} STATIC
-        src/Resource.cpp
-        src/RefCountedResourceManager.cpp)
+add_library(${PROJECT_NAME} STATIC src/null.cpp)
 
 set_target_properties(${PROJECT_NAME}
         PROPERTIES

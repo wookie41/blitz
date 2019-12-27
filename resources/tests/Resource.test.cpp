@@ -9,12 +9,11 @@ SCENARIO("Shared resource scenario")
     using namespace blitz;
     using namespace fakeit;
 
-    class MockedResource : public Resource
+    class MockedResource
     {
     public:
-        explicit MockedResource(ResourceID id) : Resource(id) {}
-        ~MockedResource() override = default;
-
+        explicit MockedResource(ResourceID id) {};
+        virtual ~MockedResource() = default;
         void operator delete(void*) {}
     };
 
@@ -30,7 +29,7 @@ SCENARIO("Shared resource scenario")
         ResourcePtr resourceCopy(resourcePtr);
 
         {
-            ResourcePtr resourceCopy2(nullptr);
+            ResourcePtr<MockedResource> resourceCopy2(nullptr);
             resourceCopy2 = resourcePtr;
         }
     }
