@@ -6,7 +6,7 @@
 
 namespace blitz
 {
-    using ResourceID = uint32;
+    using ResourceID = size_t;
 
     template <typename T>
     class ResourcePtr

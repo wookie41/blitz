@@ -1,6 +1,9 @@
 project(blitz-resources C CXX)
 
-add_library(${PROJECT_NAME} STATIC src/null.cpp)
+add_library(${PROJECT_NAME} STATIC
+        src/InMemoryTextureLoader.cpp
+        src/FileSystemTextureLoader.cpp
+        )
 
 set_target_properties(${PROJECT_NAME}
         PROPERTIES
@@ -17,7 +20,7 @@ if(WITH_DEBUG_TOOLS)
     target_link_libraries(${PROJECT_NAME} loguru)
 endif()
 
-target_link_libraries(${PROJECT_NAME} blitz::common)
+target_link_libraries(${PROJECT_NAME} blitz::common blitz-renderer-core stbimage)
 
 add_subdirectory(tests)
 mathfu_configure_flags(${PROJECT_NAME})

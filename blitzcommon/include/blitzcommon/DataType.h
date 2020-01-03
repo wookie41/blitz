@@ -47,5 +47,13 @@ namespace blitz
     using Matrix4f = mathfu::Matrix<float, 4>;
     using Matrix3i = mathfu::Matrix<uint32, 3>;
     using Matrix4i = mathfu::Matrix<uint32, 4>;
+    using uintptr = uintptr_t;
+
+    struct BytesBuffer
+    {
+        size_t size;
+        void* dataLocation;
+    };
+
 
 } // namespace blitz

@@ -9,7 +9,7 @@ namespace blitz
     {
     public:
         virtual T* load() = 0;
-        virtual ResourceID getID() = 0;
+        virtual const ResourceID getID() const = 0 ;
         virtual ~ResourceLoader() = default;
     };
 } // namespace blitz

@@ -31,6 +31,11 @@ namespace blitz
         bool isAsyncTransferEnabled;
         bool isReadable;
         bool isWriteable;
+
+        //TODO this could be replaced with a DataSource in the future
+        //TODO so we can stream textures and update them incrementally,
+        //TODO as the data is coming from for example a network socket,
+        //TODO or if we're streaming a really big texture from a disk
         void* data; //set to null if you only want to allocate the space for the texture
 
         TextureSpec(const TextureSpec& rhs) = default;
