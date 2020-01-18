@@ -2,12 +2,3 @@
 	path = vendor/mathfu
 	url = https://github.com/google/mathfu.git
 	branch = master
-[submodule "vendor/loguru"]
-	path = vendor/loguru
-	url = https://github.com/emilk/loguru.git
-[submodule "vendor/catch"]
-	path = vendor/catch
-	url = https://github.com/catchorg/Catch2
-[submodule "vendor/fakeit"]
-	path = vendor/fakeit
-	url = git@github.com:eranpeer/FakeIt.git
