@@ -43,4 +43,5 @@ CTestTestfile.cmake
 
 cmake-build-debug
 .idea
-vendor/*
+vendor/loguru
+vendor/mathfu
