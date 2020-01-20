@@ -14,17 +14,6 @@ namespace blitz
         }
     };
 
-    using hash = std::size_t;
-    //const auto hashString = std::hash<std::string>{};
-
-    uint32 hashString(char *str)
-    {
-        unsigned int h;
-        unsigned char *p;
-
-        h = 0;
-        for (p = (unsigned char*)str; *p != '\0'; p++)
-            h = 37 * h + *p;
-        return h;
-    }
+    using hash = size_t;
+    uint32 hashString(const char* str);
 }

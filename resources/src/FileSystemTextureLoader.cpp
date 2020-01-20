@@ -13,13 +13,8 @@ namespace blitz
     }
 
 
-    Texture *FileSystemTextureLoader::load() {
-
-        if (shouldMmap)
-        {
-            const auto mappedFileBuffer = os::mapFile
-            const InMemoryTextureLoader inMemoryTextureLoader(mappedFileContents);
-        }
+    Texture *FileSystemTextureLoader::load()
+	{ return nullptr;
     }
 
     const ResourceID FileSystemTextureLoader::getID() const {

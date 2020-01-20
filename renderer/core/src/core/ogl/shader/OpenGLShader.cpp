@@ -33,7 +33,7 @@ namespace blitz::ogl
 
     void OpenGLShader::bindUniformBlock(const std::string& blockName, const BufferRange* bufferRange)
     {
-        const auto blockNameHash = hashString(blockName);
+        const auto blockNameHash = hashString(blockName.c_str());
         uniformBlocksBuffers[blockNameHash] = bufferRange;
     }
 

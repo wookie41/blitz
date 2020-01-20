@@ -32,7 +32,7 @@ namespace blitz
 
         // TODO test with grey-scale bitmaps
         TextureSpec loadedTextureSpec{ TextureType::TWO_DIMENSIONAL,
-                                       { width, height, 0 },
+                                       { static_cast<uint32>(width), static_cast<uint32>(height), 0 },
                                        1,
                                        numOfComponents == 3 ? TextureFormat::RGB : TextureFormat::RGBA,
                                        DataType::UBYTE,

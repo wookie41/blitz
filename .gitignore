@@ -45,3 +45,10 @@ cmake-build-debug
 .idea
 vendor/loguru
 vendor/mathfu
+
+*.sln
+
+out
+.vs
+CMakeSettings.json
+build

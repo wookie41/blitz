@@ -3,7 +3,7 @@
 namespace blitz
 {
     IUniformVariable::IUniformVariable(const std::string& name)
-    : name(name), nameHash(hashString(name)), watcher(noopWatcher)
+    : name(name), nameHash(hashString(name.c_str())), watcher(noopWatcher)
     {
     }
 

@@ -889,7 +889,7 @@ static int stbi__err(const char *str)
 
 static void *stbi__malloc(size_t size)
 {
-    return STBI_MALLOC(size);
+    return (void*)STBI_MALLOC(size);
 }
 
 // stb_image uses ints pervasively, including for offset calculations.
