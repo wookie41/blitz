@@ -19,11 +19,16 @@ namespace blitz::ogl
     OpenGLTexture::OpenGLTexture(const OpenGLTexture& rhs) : Texture::Texture(rhs.textureSpec)
     {
         textureID = OpenGLTextureCreator::createGLTexture(textureSpec);
+        glTextureFormat = rhs.glTextureFormat;
+        glTextureType = rhs.glTextureType;
     }
 
     OpenGLTexture::OpenGLTexture(OpenGLTexture&& rhs) noexcept : Texture(rhs.textureSpec)
     {
         textureID = rhs.textureID;
+        glTextureFormat = rhs.glTextureFormat;
+        glTextureType = rhs.glTextureType;
+    	
         rhs.textureID = UINT32_MAX;
     }
 
@@ -82,16 +87,23 @@ namespace blitz::ogl
 
     uint64 OpenGLTexture::getSizeInBytes()
     {
-        const auto& sizeInBytes = getSizeInBytesFor(textureSpec.dataType);
+        const auto sizeInBytes = ToUint64(textureSpec.dataType);
+        const auto sizeX = ToUint64(textureSpec.dimensions.x);
+        const auto sizeY = ToUint64(textureSpec.dimensions.y);
+        const auto sizeZ = ToUint64(textureSpec.dimensions.z);
+    	
         switch (textureSpec.textureType)
         {
         case TextureType::ONE_DIMENSIONAL:
-            return textureSpec.dimensions.x * sizeInBytes;
+            return sizeX * sizeInBytes;
         case TextureType::TWO_DIMENSIONAL:
-            return textureSpec.dimensions.x * textureSpec.dimensions.y * sizeInBytes;
+            return sizeX * sizeY * sizeInBytes;
         case TextureType::THREE_DIMENSIONAL:
-            return textureSpec.dimensions.x * textureSpec.dimensions.y * textureSpec.dimensions.z * sizeInBytes;
+            return sizeX * sizeY * sizeZ * sizeInBytes;
         }
+    	
+        assert(1 == 0);
+        return 0;
     }
 
     GLuint OpenGLTexture::getTextureID() const { return textureID; }

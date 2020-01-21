@@ -2,6 +2,7 @@
 #include <core/ogl/OpenGLDataType.h>
 #include <loguru.hpp>
 
+
 namespace blitz::ogl
 {
     OpenGLSyncWriteTexture::OpenGLSyncWriteTexture(const GLuint& textureID, const TextureSpec& textureSpec)
@@ -25,16 +26,23 @@ namespace blitz::ogl
         switch (textureSpec.textureType)
         {
         case TextureType::ONE_DIMENSIONAL:
-            glTexSubImage1D(glTextureType, textureSpec.mipmapLevel, range.offsetX, range.sizeX, glTextureFormat,
+            glTexSubImage1D(glTextureType, textureSpec.mipmapLevel, 
+						ToGLSize(range.offsetX), ToGLSize(range.sizeX),
+                            glTextureFormat,
                             mapToGLDataType(textureSpec.dataType), data);
             break;
         case TextureType::TWO_DIMENSIONAL:
-            glTexSubImage2D(glTextureType, textureSpec.mipmapLevel, range.offsetX, range.sizeX, range.offsetY,
-                            range.sizeY, glTextureFormat, mapToGLDataType(textureSpec.dataType), data);
+            glTexSubImage2D(glTextureType, textureSpec.mipmapLevel, 
+							ToGLSize(range.offsetX), ToGLSize(range.offsetY),
+                            ToGLSize(range.sizeX), ToGLSize(range.sizeY), glTextureFormat,
+                            mapToGLDataType(textureSpec.dataType), data);
             break;
         case TextureType::THREE_DIMENSIONAL:
-            glTexSubImage3D(glTextureType, textureSpec.mipmapLevel, range.offsetX, range.sizeX, range.offsetY, range.sizeY,
-                            range.offsetZ, range.sizeZ, glTextureFormat, mapToGLDataType(textureSpec.dataType), data);
+            glTexSubImage3D(glTextureType, textureSpec.mipmapLevel, 
+							ToGLSize(range.offsetX), ToGLSize(range.sizeX), 
+							ToGLSize(range.offsetY), ToGLSize(range.sizeY),
+                            ToGLSize(range.offsetZ), ToGLSize(range.sizeZ), 
+							glTextureFormat, mapToGLDataType(textureSpec.dataType), data);
             break;
         }
 

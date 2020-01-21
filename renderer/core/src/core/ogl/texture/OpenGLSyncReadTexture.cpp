@@ -38,8 +38,10 @@ namespace blitz::ogl
         }
 
         bind();
-        glGetTextureSubImage(glTextureType, mipmapLevel, range.offsetX, range.offsetY, range.offsetZ, range.sizeX,
-                             range.offsetY, range.sizeZ, glTextureFormat, mapToGLDataType(textureSpec.dataType), getSizeInBytes(), destination);
+        glGetTextureSubImage(glTextureType, mipmapLevel, 
+							ToGLSize(range.offsetX), ToGLSize(range.offsetY), ToGLSize(range.offsetZ), 
+							ToGLSize(range.sizeX), ToGLSize(range.sizeY), ToGLSize(range.sizeZ), 
+							glTextureFormat, mapToGLDataType(textureSpec.dataType), ToGLSize(getSizeInBytes()), destination);
         unbind();
 
         return destination;

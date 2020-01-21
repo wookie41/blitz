@@ -5,6 +5,7 @@
 #include <mathfu/matrix.h>
 #include <mathfu/vector.h>
 
+
 namespace blitz
 {
     enum class DataType
@@ -55,5 +56,9 @@ namespace blitz
         void* dataLocation;
     };
 
-
+#define ToUint8(x) static_cast<uint8>(x)
+#define ToUint16(x) static_cast<uint16>(x)
+#define ToUint32(x) static_cast<uint32>(x)
+#define ToUint64(x) static_cast<uint64>(x)
+	
 } // namespace blitz

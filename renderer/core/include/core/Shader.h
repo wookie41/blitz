@@ -16,9 +16,10 @@ namespace blitz
     class Buffer;
     class Framebuffer;
     class TextureSampler;
-    class UniformBlock;
     class VertexArray;
-    class BufferRange;
+
+	struct UniformBlock;
+    struct BufferRange;
 
     class Shader : public NonCopyable
     {

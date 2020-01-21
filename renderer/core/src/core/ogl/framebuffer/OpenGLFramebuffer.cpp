@@ -1,6 +1,7 @@
 #include <core/FramebufferAttachment.h>
 #include <core/ogl/framebuffer/OpenGLFramebuffer.h>
 #include <loguru.hpp>
+#include <core/ogl/OpenGLDataType.h>
 
 namespace blitz::ogl
 {
@@ -29,19 +30,19 @@ namespace blitz::ogl
             std::sort(boundColorAttachments.begin(), boundColorAttachments.end());
 
             drawBuffers.clear();
-            for (int i = 0; i < boundColorAttachments[0]; ++i)
+            for (auto i = 0U; i < boundColorAttachments[0]; ++i)
                 drawBuffers.push_back(0);
 
             for (auto it = boundColorAttachments.begin(); it != boundColorAttachments.end(); ++it)
             {
                 drawBuffers.push_back(GL_COLOR_ATTACHMENT0 + *it);
-                for (int notBoundAttachment = (*it) + 1; notBoundAttachment < (*it) + 1; ++notBoundAttachment)
+                for (auto notBoundAttachment = (*it) + 1; notBoundAttachment < (*it) + 1; ++notBoundAttachment)
                     drawBuffers.push_back(GL_COLOR_ATTACHMENT0 + notBoundAttachment);
             }
         }
 
         if (framebufferID > 0)
-            glDrawBuffers(drawBuffers.size(), drawBuffers.data());
+            glDrawBuffers(ToGLSize(drawBuffers.size()), drawBuffers.data());
     }
 
     void OpenGLFramebuffer::unbind() { glBindFramebuffer(GL_FRAMEBUFFER, 0); }

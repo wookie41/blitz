@@ -57,7 +57,7 @@ namespace blitz
 
         Buffer* vertexBuffer = nullptr;
 
-        DataType indicesType;
+        DataType indicesType = DataType::UINT;
         Buffer* elementBuffer = nullptr;
 
         std::unordered_map<hash, VertexAttributeDef> attributes;

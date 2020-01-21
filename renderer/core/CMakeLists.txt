@@ -67,7 +67,7 @@ if(WITH_DEBUG_TOOLS)
 endif()
 
 target_link_libraries(${PROJECT_NAME} blitz::common)
-mathfu_configure_flags(${PROJECT_NAME})
+
 if (WIN32)
 	target_include_directories(${PROJECT_NAME} PRIVATE ${GLEW_INCLUDE_DIRS})
 	target_include_directories(${PROJECT_NAME} PRIVATE ${SDL2_INCLUDE_DIR})

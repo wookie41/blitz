@@ -13,6 +13,9 @@ namespace blitz::ogl
             case TextureType::THREE_DIMENSIONAL:
                 return GL_TEXTURE_3D;
         }
+
+    	assert(1 == 0);
+    	return 0;
     }
 
     GLenum toGLTextureFormat(const TextureFormat& textureFormat)
@@ -30,5 +33,8 @@ namespace blitz::ogl
             case TextureFormat::DEPTH_STENCIL:
                 return GL_DEPTH_STENCIL;
         }
+
+    	assert(1 == 0);
+    	return 0;
     }
 }

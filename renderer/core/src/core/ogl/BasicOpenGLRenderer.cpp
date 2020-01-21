@@ -48,6 +48,9 @@ namespace blitz::ogl
             return GL_TRIANGLES_ADJACENCY;
         case PrimitiveType::PATCHES:
             return GL_PATCHES;
+        default:
+            assert(false);
+            return 0;
         }
     }
 
