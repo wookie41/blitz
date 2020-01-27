@@ -1,7 +1,7 @@
 #pragma once
 
 #include <GL/glew.h>
-#include <core/DataType.h>
+#include <blitzcommon/DataType.h>
 #include <core/TextureSpec.h>
 #include <core/UniformVariable.h>
 #include <core/ogl/uniforms/OpenGLUniformVariable.h>
@@ -14,14 +14,17 @@ namespace blitz
 
 namespace blitz::ogl
 {
-
-    class OpenGLSampler2DUniformVariable : public UniformVariable<TextureSampler*>, public OpenGLUniformVariable
+    class OpenGLSamplerUniformVariable : public UniformVariable<TextureSampler*>, public OpenGLUniformVariable
     {
       public:
-        OpenGLSampler2DUniformVariable(const GLint& variableLocation, TextureSampler* value, const std::string& name);
+        OpenGLSamplerUniformVariable(const GLint& variableLocation, TextureSampler* sampler, const char* const name, const GLenum& type);
 
         void bind() override;
 
         DataType getType() const override;
+
+      private:
+        DataType dataType;
+        GLenum samplerType;
     };
 } // namespace blitz::ogl

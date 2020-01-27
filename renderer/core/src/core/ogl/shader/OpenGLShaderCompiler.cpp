@@ -6,7 +6,7 @@ namespace blitz::ogl
 {
     static char infoLog[1024];
 
-    void checkCompileErrors(unsigned int shader, const std::string& type)
+    void checkCompileErrors(unsigned int shader, char* type)
     {
         int success;
         if (type != "PROGRAM")
@@ -15,7 +15,7 @@ namespace blitz::ogl
             if (!success)
             {
                 glGetShaderInfoLog(shader, 1024, NULL, infoLog);
-                DLOG_F(ERROR, "[OpenGL] Failed to compile shader of type '%s': %s", type.c_str(), infoLog);
+                DLOG_F(ERROR, "[OpenGL] Failed to compile shader of type '%s': %s", type, infoLog);
             }
         }
         else
@@ -29,7 +29,7 @@ namespace blitz::ogl
         }
     }
 
-    void compileShader(GLuint shaderProgramID, GLuint shaderID, const char* shaderSource, const std::string& type)
+    void compileShader(GLuint shaderProgramID, GLuint shaderID, const char* shaderSource, char* type)
     {
         glShaderSource(shaderID, 1, &shaderSource,  NULL);
         glCompileShader(shaderID);

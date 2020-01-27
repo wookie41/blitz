@@ -3,7 +3,7 @@
 #include <core/ogl/BasicOpenGLRenderer.h>
 
 #ifndef LOGURU_IMPLEMENTATION
-	#define LOGURU_IMPLEMENTATION 1
+#define LOGURU_IMPLEMENTATION 1
 #endif
 
 blitz::Device* BLITZ_DEVICE = new blitz::SDL2Device();

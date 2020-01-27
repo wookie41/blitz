@@ -2,7 +2,7 @@
 
 #include <GL/glew.h>
 #include <core/UniformVariable.h>
-#include <core/DataType.h>
+#include <blitzcommon/DataType.h>
 #include <mathfu/vector.h>
 #include <core/ogl/uniforms/OpenGLUniformVariable.h>
 
@@ -13,7 +13,7 @@ namespace blitz::ogl
       public:
         OpenGLDoubleUniformVariable(const GLint& variableLocation,
                                      const double& value,
-                                     const std::string& name);
+                                     const char* const name);
 
         void bind() override;
 

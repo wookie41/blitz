@@ -2,6 +2,7 @@
 #include <core/ogl/texture/OpenGLTextureUtils.h>
 #include <core/ogl/OpenGLDataType.h>
 #include <GL/glew.h>
+#include <loguru.hpp>
 
 namespace blitz::ogl
 {
@@ -16,7 +17,7 @@ namespace blitz::ogl
         const auto dataType = mapToGLDataType(textureSpec.dataType);
 
         glBindTexture(glTextureType, textureID);
-
+    	
         switch (glTextureType)
         {
         case GL_TEXTURE_1D:
@@ -25,8 +26,8 @@ namespace blitz::ogl
             break;
 
         case GL_TEXTURE_2D:
-            glTexImage2D(GL_TEXTURE_2D, textureSpec.mipmapLevel, internalFormat,
-                         textureSpec.dimensions.x, textureSpec.dimensions.y, 0, internalFormat, dataType, textureSpec.data);
+            glTexImage2D(GL_TEXTURE_2D, textureSpec.mipmapLevel, internalFormat, textureSpec.dimensions.x,
+                         textureSpec.dimensions.y, 0, internalFormat, dataType, textureSpec.data);
             break;
 
         case GL_TEXTURE_3D:
@@ -37,6 +38,7 @@ namespace blitz::ogl
 
         glGenerateMipmap(glTextureType);
         glBindTexture(glTextureType, 0);
-        return textureID;
+
+    	return textureID;
     }
 } // namespace blitz::ogl

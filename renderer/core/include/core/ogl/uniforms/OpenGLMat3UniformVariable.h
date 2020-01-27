@@ -2,7 +2,7 @@
 
 #include <GL/glew.h>
 #include <core/UniformVariable.h>
-#include <core/DataType.h>
+#include <blitzcommon/DataType.h>
 #include <mathfu/matrix.h>
 #include <core/ogl/uniforms/OpenGLUniformVariable.h>
 
@@ -13,7 +13,7 @@ namespace blitz::ogl
       public:
         OpenGLMat3UniformVariable(const GLint& variableLocation,
                                      const Matrix3f& value,
-                                     const std::string& name);
+                                     const char* const name);
 
         void bind() override;
 

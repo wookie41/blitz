@@ -1,10 +1,10 @@
 #include "GL/glew.h"
 #include <core/ogl/uniforms/OpenGLMat3UniformVariable.h>
-#include <core/DataType.h>
+#include <blitzcommon/DataType.h>
 
 namespace blitz::ogl
 {
-    OpenGLMat3UniformVariable::OpenGLMat3UniformVariable(const GLint& variableLocation, const Matrix3f& value, const std::string& name)
+    OpenGLMat3UniformVariable::OpenGLMat3UniformVariable(const GLint& variableLocation, const Matrix3f& value, const char* const name)
     : UniformVariable<Matrix3f>(value, name), OpenGLUniformVariable(variableLocation)
     {
     }

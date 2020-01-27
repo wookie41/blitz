@@ -38,7 +38,7 @@ namespace blitz
         virtual ~TextureSampler() = default;
 
       protected:
-        explicit TextureSampler(Texture* texture);
+        explicit TextureSampler(Texture* t);
 
         Texture* texture;
     };

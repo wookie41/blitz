@@ -1,7 +1,7 @@
 #pragma once
 
 #include <blitzcommon/NonCopyable.h>
-#include <core/DataType.h>
+#include <blitzcommon/DataType.h>
 #include <unordered_map>
 #include <vector>
 

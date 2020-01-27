@@ -43,4 +43,12 @@ CTestTestfile.cmake
 
 cmake-build-debug
 .idea
-vendor/*
+vendor/loguru
+vendor/mathfu
+
+*.sln
+
+out
+.vs
+CMakeSettings.json
+build

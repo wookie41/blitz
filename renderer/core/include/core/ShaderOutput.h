@@ -14,6 +14,6 @@ namespace blitz
         uint16 outputIdx;
         Texture* texture;
         TextureFormat textureFormat;
-        char name[MAX_FRAGMENT_OUTPUT_NAME_LENGTH];
+        char* name;
     };
 } // namespace blitz

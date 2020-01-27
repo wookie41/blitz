@@ -1,7 +1,7 @@
 #pragma once
 
 #include <GL/glew.h>
-#include <core/DataType.h>
+#include <blitzcommon/DataType.h>
 #include <core/TextureSampler.h>
 
 namespace blitz::ogl
@@ -31,6 +31,7 @@ namespace blitz::ogl
         void setWrapOption(uint8 dirty, GLenum& wrap, const TextureWrap& textureWrap);
         void setFilterOption(uint8 dirty, GLenum& filter, const TextureFilter& textureFilter);
 
-        explicit OpenGLTextureSampler(Texture* texture);
+    public: //todo should this be private???
+        explicit OpenGLTextureSampler(Texture* t);
     };
 } // namespace blitz::ogl

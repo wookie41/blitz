@@ -23,6 +23,6 @@ namespace blitz::ogl
 
       protected:
         void* readTexture(void* destination, uint8 mipmapLevel, const Range3& range);
-        OpenGLSyncReadTexture(const GLuint& textureID, const TextureSpec& textureSpec);
+        OpenGLSyncReadTexture(const GLuint& texID, const TextureSpec& texSpec);
     };
 } // namespace blitz::ogl

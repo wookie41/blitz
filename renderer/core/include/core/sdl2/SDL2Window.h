@@ -2,7 +2,7 @@
 
 #include <core/Window.h>
 
-class SDL_Window;
+struct SDL_Window;
 typedef void *SDL_GLContext;
 
 namespace blitz

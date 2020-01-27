@@ -28,6 +28,9 @@ namespace blitz::ogl
         case DataType::MATRIX3F:
             return GL_FLOAT_MAT3;
         }
+
+    	assert(1 == 0);
+    	return 0;
     }
 
     DataType mapToBlitzDataType(const GLenum& dataType)
@@ -82,6 +85,9 @@ namespace blitz::ogl
         case DataType::MATRIX4F:
             return 48;
         }
+
+    	assert(1 == 0);
+    	return 0;
     }
 
 

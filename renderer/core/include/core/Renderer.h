@@ -7,8 +7,8 @@
 namespace blitz
 {
 
-    struct ViewPort;
     class Window;
+    struct ViewPort;
     class RenderPass;
 
     class Renderer: NonCopyable

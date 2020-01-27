@@ -20,12 +20,12 @@ namespace blitz::ogl
 
         void disable() override;
 
-        void bindUniformBlock(const std::string& blockName, const BufferRange* bufferRange) override;
+        void bindUniformBlock(const char* const blockName, const BufferRange* bufferRange) override;
 
         void setOutputTarget(const hash &outputNameHash, Texture *targetTexture) override;
 
     private:
-        OpenGLShader(const std::string& name,
+        OpenGLShader(const char* const name,
                      GLuint shaderID,
                      const std::unordered_map<hash, IUniformVariable*>& uniforms,
                      const std::unordered_map<hash, UniformBlock*>& uniformBlock,

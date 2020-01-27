@@ -8,7 +8,7 @@
 
 namespace blitz
 {
-    class UniformBlock;
+    struct UniformBlock;
     class IUniformVariable;
 }
 
@@ -18,9 +18,9 @@ namespace blitz::ogl
     {
       public:
         // hashes in the maps are hashes of the names of the attributes/uniforms
-        std::unordered_map<hash, IUniformVariable*> extractUniformVariables(GLuint shaderID, const std::unordered_map<hash, UniformBlock*>& uniformBlocks);
-        std::unordered_map<hash, UniformBlock*> extractUniformBlocks(GLuint shaderID);
-        std::unordered_map<hash, GLuint> createBindingPoints(GLuint shaderID, const std::unordered_map<hash, UniformBlock*>& uniformBlocks);
-        std::unordered_map<hash, ShaderOutput*> extractShaderOutputs(GLuint shaderID);
+        std::unordered_map<hash, IUniformVariable*> extractUniformVariables(GLuint shaderID, const std::unordered_map<hash, UniformBlock*>& uniformBlocks) const;
+        std::unordered_map<hash, UniformBlock*> extractUniformBlocks(GLuint shaderID) const;
+        std::unordered_map<hash, GLuint> createBindingPoints(GLuint shaderID, const std::unordered_map<hash, UniformBlock*>& uniformBlocks) const;
+        std::unordered_map<hash, ShaderOutput*> extractShaderOutputs(GLuint shaderID) const;
     };
 } // namespace blitz::ogl

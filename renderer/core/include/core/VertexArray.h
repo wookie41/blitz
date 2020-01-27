@@ -2,7 +2,7 @@
 
 #include <unordered_map>
 
-#include <core/DataType.h>
+#include <blitzcommon/DataType.h>
 #include <blitzcommon/HashUtils.h>
 #include <blitzcommon/NonCopyable.h>
 
@@ -57,7 +57,7 @@ namespace blitz
 
         Buffer* vertexBuffer = nullptr;
 
-        DataType indicesType;
+        DataType indicesType = DataType::UINT;
         Buffer* elementBuffer = nullptr;
 
         std::unordered_map<hash, VertexAttributeDef> attributes;

@@ -23,6 +23,6 @@ namespace blitz::ogl
 
         void writeToTexture(void* data, const Range3& range);
 
-        OpenGLSyncWriteTexture(const GLuint& textureID, const TextureSpec& textureSpec);
+        OpenGLSyncWriteTexture(const GLuint& texID, const TextureSpec& texSpec);
     };
 }

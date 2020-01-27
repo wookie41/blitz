@@ -3,8 +3,8 @@
 namespace blitz::ogl
 {
 
-    OpenGLSyncReadWriteTexture::OpenGLSyncReadWriteTexture(GLuint textureID, const TextureSpec& textureSpec)
-    : OpenGLTexture(textureID, textureSpec), readInterface(textureID, textureSpec), writeInterface(textureID, textureSpec)
+    OpenGLSyncReadWriteTexture::OpenGLSyncReadWriteTexture(const GLuint& texID, const TextureSpec& texSpec)
+    : OpenGLTexture(texID, texSpec), readInterface(texID, texSpec), writeInterface(texID, texSpec)
     {
     }
 

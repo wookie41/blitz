@@ -4,12 +4,14 @@
 
 namespace blitz
 {
-    blitz::Texture::Texture(const TextureSpec& textureSpec) : textureSpec(textureSpec)
+    blitz::Texture::Texture(const TextureSpec& spec) : textureSpec(spec)
     {
-        fullSizeRange.offsetX = fullSizeRange.offsetY = fullSizeRange.offsetZ = 0;
-        fullSizeRange.sizeX = textureSpec.dimensions.x;
-        fullSizeRange.sizeY = textureSpec.dimensions.y;
-        fullSizeRange.sizeZ = textureSpec.dimensions.z;
+        fullTextureRange =
+        {
+        	0, textureSpec.dimensions.x,
+        	0, textureSpec.dimensions.y,
+        	0, textureSpec.dimensions.z
+        };
     }
 
     const TextureType& Texture::getTextureType() const { return textureSpec.textureType; }

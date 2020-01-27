@@ -18,4 +18,4 @@ if(WITH_DEBUG_TOOLS)
 endif()
 
 mathfu_configure_flags(${PROJECT_NAME})
-target_link_libraries(${PROJECT_NAME} blitz-renderer-core)
+target_link_libraries(${PROJECT_NAME} blitz-renderer-core blitz-resources)

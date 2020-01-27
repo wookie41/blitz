@@ -10,12 +10,13 @@
 #include <core/ogl/uniforms/OpenGLUniformVariable.h>
 #include <loguru.hpp>
 #include <utility>
+#include <core/ogl/uniforms/OpenGLSamplerUniformVariable.h>
 
 namespace blitz::ogl
 {
     static std::unordered_map<hash, Buffer*> currentUniformBlockBindings;
 
-    OpenGLShader::OpenGLShader(const std::string& name,
+    OpenGLShader::OpenGLShader(const char* const name,
                                GLuint shaderID,
                                const std::unordered_map<hash, IUniformVariable*>& uniforms,
                                const std::unordered_map<hash, UniformBlock*>& uniformBlock,
@@ -31,7 +32,7 @@ namespace blitz::ogl
         glUseProgram(shaderID);
     }
 
-    void OpenGLShader::bindUniformBlock(const std::string& blockName, const BufferRange* bufferRange)
+    void OpenGLShader::bindUniformBlock(const char* const blockName, const BufferRange* bufferRange)
     {
         const auto blockNameHash = hashString(blockName);
         uniformBlocksBuffers[blockNameHash] = bufferRange;
@@ -45,7 +46,7 @@ namespace blitz::ogl
             if (bufferIt == uniformBlocksBuffers.end())
             {
                 DLOG_F(ERROR, "[OpenGL] No buffer specified for binding point %d in shader '%s'", glBindPoint.second,
-                       shaderName.c_str());
+                       shaderName);
                 continue;
             }
 
@@ -53,7 +54,7 @@ namespace blitz::ogl
             if (glBuffer == nullptr)
             {
                 DLOG_F(ERROR, "[OpenGL] Couldn't bind uniform block %d in shader '%s', the buffer is not a GL buffer",
-                       glBindPoint.second, shaderName.c_str());
+                       glBindPoint.second, shaderName);
                 continue;
             }
 
@@ -66,7 +67,7 @@ namespace blitz::ogl
 
             const auto uniformBlock = uniformBlocks.find(glBindPoint.first)->second;
             DLOG_F(INFO, "[OpenGL] Binding buffer %d to uniform block '%s' in shader '%s'", glBuffer->getId(),
-                   uniformBlock->name, shaderName.c_str());
+                   uniformBlock->name, shaderName);
 
             glUniformBlockBinding(shaderID, uniformBlock->index, glBindPoint.second);
 
@@ -91,14 +92,13 @@ namespace blitz::ogl
         auto textureCount = 0;
         auto textureCounter = GL_TEXTURE0;
 
-        OpenGLUniformVariable* glVariable;
         for (const auto sampler : samplers)
         {
-            glVariable = dynamic_cast<OpenGLUniformVariable*>(sampler);
-            if (glVariable == nullptr || !sampler->isDirty())
+            const auto glSampler = dynamic_cast<OpenGLSamplerUniformVariable*>(sampler);
+            if (glSampler == nullptr || !sampler->isDirty())
                 continue;
             glActiveTexture(textureCounter++);
-            glUniform1i(glVariable->getVariableLocation(), textureCount++);
+            glUniform1i(glSampler->getVariableLocation(), textureCount++);
             sampler->bind();
         }
     }
@@ -138,7 +138,7 @@ namespace blitz::ogl
     {
         if (framebuffer == nullptr)
         {
-            DLOG_F(ERROR, "[OpenGL] Vertex array is null on shader '%s'", shaderName.c_str());
+            DLOG_F(ERROR, "[OpenGL] Vertex array is null on shader '%s'", shaderName);
             return;
         }
 
@@ -148,5 +148,8 @@ namespace blitz::ogl
         bindSamplers();
     }
 
-    void OpenGLShader::disable() { glUseProgram(0); }
+    void OpenGLShader::disable()
+    {
+        glUseProgram(0);
+    }
 } // namespace blitz::ogl

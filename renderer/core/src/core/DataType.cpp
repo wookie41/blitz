@@ -1,4 +1,4 @@
-#include <core/DataType.h>
+#include <blitzcommon/DataType.h>
 
 namespace blitz
 {

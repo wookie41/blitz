@@ -12,18 +12,17 @@
 #include <core/ogl/uniforms/OpenGLIntegerUniformVariable.h>
 #include <core/ogl/uniforms/OpenGLMat3UniformVariable.h>
 #include <core/ogl/uniforms/OpenGLMat4UniformVariable.h>
-#include <core/ogl/uniforms/OpenGLSampler1DUniformVariable.h>
-#include <core/ogl/uniforms/OpenGLSampler2DUniformVariable.h>
-#include <core/ogl/uniforms/OpenGLSampler3DUniformVariable.h>
+#include <core/ogl/uniforms/OpenGLSamplerUniformVariable.h>
 #include <core/ogl/uniforms/OpenGLVec3UniformVariable.h>
 #include <core/ogl/uniforms/OpenGLVec4UniformVariable.h>
+#include <core/ogl/uniforms/OpenGLBoolUniformVariable.h>
 #include <GL/glew.h>
 
 
 namespace blitz::ogl
 {
     std::unordered_map<hash, IUniformVariable*>
-    OpenGLShaderInspector::extractUniformVariables(GLuint shaderID, const std::unordered_map<hash, UniformBlock*>& uniformBlocks)
+    OpenGLShaderInspector::extractUniformVariables(GLuint shaderID, const std::unordered_map<hash, UniformBlock*>& uniformBlocks) const
     {
         std::unordered_set<hash> blockUniforms;
         std::unordered_map<hash, IUniformVariable*> uniforms;
@@ -43,9 +42,9 @@ namespace blitz::ogl
         GLint size;
         GLenum type;
         GLsizei nameLength;
-        char name[MAX_UNIFORM_VARIABLE_NAME_LENGTH];
+        char* name = (char*)malloc(MAX_UNIFORM_VARIABLE_NAME_LENGTH + 1);
 
-        for (GLuint uniformIdx = 0; uniformIdx < numberOfUniforms; ++uniformIdx)
+        for (GLint uniformIdx = 0; uniformIdx < numberOfUniforms; ++uniformIdx)
         {
             glGetActiveUniform(shaderID, uniformIdx, MAX_UNIFORM_VARIABLE_NAME_LENGTH, &nameLength, &size, &type, name);
 
@@ -58,6 +57,9 @@ namespace blitz::ogl
             auto variableLocation = glGetUniformLocation(shaderID, name);
             switch (type)
             {
+            case GL_BOOL:
+                uniforms[nameHash] = new OpenGLBoolUniformVariable(variableLocation, 0, name);
+                break;
             case GL_INT:
                 uniforms[nameHash] = new OpenGLIntegerUniformVariable(variableLocation, 0, name);
                 break;
@@ -80,13 +82,13 @@ namespace blitz::ogl
                 uniforms[nameHash] = new OpenGLMat4UniformVariable(variableLocation, {}, name);
                 break;
             case GL_SAMPLER_1D:
-                uniforms[nameHash] = new OpenGLSampler1DUniformVariable(variableLocation, nullptr, name);
+                uniforms[nameHash] = new OpenGLSamplerUniformVariable(variableLocation, nullptr, name, GL_SAMPLER_1D);
                 break;
             case GL_SAMPLER_2D:
-                uniforms[nameHash] = new OpenGLSampler2DUniformVariable(variableLocation, nullptr, name);
+                uniforms[nameHash] = new OpenGLSamplerUniformVariable(variableLocation, nullptr, name, GL_SAMPLER_2D);
                 break;
             case GL_SAMPLER_3D:
-                uniforms[nameHash] = new OpenGLSampler3DUniformVariable(variableLocation, nullptr, name);
+                uniforms[nameHash] = new OpenGLSamplerUniformVariable(variableLocation, nullptr, name, GL_SAMPLER_3D);
                 break;
 
             default:
@@ -94,19 +96,19 @@ namespace blitz::ogl
             }
         }
 
-        DLOG_F(INFO, "[OpenGL] Program %d has %ld uniforms ", shaderID, uniforms.size());
+        DLOG_F(INFO, "[OpenGL] Program %ld has %d uniforms ", shaderID, uniforms.size());
         return uniforms;
     }
 
-    std::unordered_map<hash, UniformBlock*> OpenGLShaderInspector::extractUniformBlocks(GLuint shaderID)
+    std::unordered_map<hash, UniformBlock*> OpenGLShaderInspector::extractUniformBlocks(GLuint shaderID) const
     {
         std::unordered_map<hash, UniformBlock*> uniformBlocks;
         GLuint uniformBlockIdx = 0;
 
         GLsizei nameLength;
         GLint type, offset;
-        GLchar uniformBlockName[MAX_UNIFORM_BLOCK_NAME_LENGTH];
-        GLchar uniformBlockFieldName[MAX_UNIFORM_BLOCK_FIELD_NAME_LENGTH];
+        GLchar* uniformBlockName = (GLchar*)malloc(MAX_UNIFORM_BLOCK_NAME_LENGTH + 1);
+        GLchar* uniformBlockFieldName = (GLchar*)malloc(MAX_UNIFORM_BLOCK_FIELD_NAME_LENGTH + 1);
 
         while (uniformBlockIdx < GL_ACTIVE_UNIFORM_BLOCKS)
         {
@@ -128,7 +130,7 @@ namespace blitz::ogl
 
                 const auto& uniformBlock = uniformBlocks[nameHash];
                 uniformBlock->index = uniformBlockIndex;
-                strncpy(uniformBlock->name, uniformBlockName, nameLength);
+                strncpy_s(uniformBlock->name, uniformBlockName, nameLength);
 
                 int activeUniformsInBlock;
                 glGetActiveUniformBlockiv(shaderID, uniformBlockIndex, GL_UNIFORM_BLOCK_ACTIVE_UNIFORMS, &activeUniformsInBlock);
@@ -149,7 +151,7 @@ namespace blitz::ogl
                     glGetActiveUniformsiv(shaderID, 1, &index, GL_UNIFORM_OFFSET, &offset);
 
                     auto& field = uniformBlock->fields[i];
-                    strncpy(field.name, uniformBlockFieldName, nameLength);
+                    strncpy_s(field.name, uniformBlockFieldName, nameLength);
                     field.offset = offset;
                     field.dataType = mapToBlitzDataType(type);
                 }
@@ -162,7 +164,7 @@ namespace blitz::ogl
     }
 
     std::unordered_map<hash, GLuint>
-    OpenGLShaderInspector::createBindingPoints(const GLuint shaderID, const std::unordered_map<hash, UniformBlock*>& uniformBlocks)
+    OpenGLShaderInspector::createBindingPoints(const GLuint shaderID, const std::unordered_map<hash, UniformBlock*>& uniformBlocks) const
     {
         GLint freeBinding = 0;
         std::unordered_map<hash, GLuint> bindings;
@@ -194,7 +196,7 @@ namespace blitz::ogl
         return bindings;
     }
 
-    std::unordered_map<hash, ShaderOutput*> OpenGLShaderInspector::extractShaderOutputs(GLuint shaderID)
+    std::unordered_map<hash, ShaderOutput*> OpenGLShaderInspector::extractShaderOutputs(GLuint shaderID) const
     {
         static const GLenum propertiesToQuery[] = { GL_TYPE, GL_LOCATION };
         static char outputName[MAX_FRAGMENT_OUTPUT_NAME_LENGTH];
@@ -204,19 +206,18 @@ namespace blitz::ogl
         GLint outputsCount;
         glGetProgramInterfaceiv(shaderID, GL_PROGRAM_OUTPUT, GL_ACTIVE_RESOURCES, &outputsCount);
 
-
         GLint properties[2];
         int outputNameLength;
 
-        for (GLuint outputIdx = 0; outputIdx < outputsCount; ++outputIdx)
+        for (GLint outputIdx = 0; outputIdx < outputsCount; ++outputIdx)
         {
-            memset(outputName, 0, MAX_UNIFORM_BLOCK_NAME_LENGTH);
             glGetProgramResourceName(shaderID, GL_PROGRAM_OUTPUT, outputIdx, MAX_FRAGMENT_OUTPUT_NAME_LENGTH,
                                      &outputNameLength, outputName);
 
             const auto hash = hashString(outputName);
             outputs[hash] = new ShaderOutput();
             ShaderOutput* output = outputs[hash];
+            output->name = (char*)malloc(outputNameLength);
 
             strncpy(output->name, outputName, static_cast<size_t>(outputNameLength));
             output->texture = nullptr;

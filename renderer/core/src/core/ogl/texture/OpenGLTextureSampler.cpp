@@ -4,10 +4,14 @@
 
 namespace blitz::ogl
 {
+    OpenGLTextureSampler::OpenGLTextureSampler(Texture* t) : TextureSampler(t) {}
+
     void OpenGLTextureSampler::bind()
     {
         const auto& glTextureType = toGLTextureType(texture->getTextureType());
-        if (isDirty & 0b00000001)
+        texture->bind();
+
+    	if (isDirty & 0b00000001)
         {
             glTexParameteri(glTextureType, GL_TEXTURE_WRAP_S, wrapS);
         }
@@ -26,7 +30,6 @@ namespace blitz::ogl
         }
 
         isDirty = 0;
-        texture->bind();
     }
 
     void OpenGLTextureSampler::unbind() { texture->unbind(); }
@@ -49,8 +52,6 @@ namespace blitz::ogl
     {
         setFilterOption(0b00000100, magFilter, textureFilter);
     }
-
-    OpenGLTextureSampler::OpenGLTextureSampler(Texture* texturer) : TextureSampler(texture) {}
 
     void OpenGLTextureSampler::setWrapOption(uint8 dirty, GLenum& wrap, const TextureWrap& textureWrap)
     {

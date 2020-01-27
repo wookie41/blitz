@@ -5,6 +5,7 @@
 #include <mathfu/matrix.h>
 #include <mathfu/vector.h>
 
+
 namespace blitz
 {
     enum class DataType
@@ -22,7 +23,8 @@ namespace blitz
         MATRIX4F,
         SAMPLER1D,
         SAMPLER2D,
-        SAMPLER3D
+        SAMPLER3D,
+    	BOOL
     };
 
     using int8 = std::int8_t;
@@ -47,5 +49,17 @@ namespace blitz
     using Matrix4f = mathfu::Matrix<float, 4>;
     using Matrix3i = mathfu::Matrix<uint32, 3>;
     using Matrix4i = mathfu::Matrix<uint32, 4>;
+    using uintptr = uintptr_t;
+	
+    struct BytesBuffer
+    {
+        size_t size;
+        void* dataLocation;
+    };
 
+#define ToUint8(x) static_cast<uint8>(x)
+#define ToUint16(x) static_cast<uint16>(x)
+#define ToUint32(x) static_cast<uint32>(x)
+#define ToUint64(x) static_cast<uint64>(x)
+	
 } // namespace blitz
