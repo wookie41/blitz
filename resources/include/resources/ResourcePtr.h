@@ -44,7 +44,7 @@ namespace blitz
         T* resourcePtr = nullptr;
     };
 } // namespace blitz
-#include <ResourcePtr.txx>
+#include <resources/ResourcePtr.txx>
 
 #endif
 

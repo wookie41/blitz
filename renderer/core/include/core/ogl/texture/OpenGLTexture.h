@@ -32,7 +32,7 @@ namespace blitz::ogl
         void unbind() override;
 
     protected:
-        OpenGLTexture(const GLuint& textureID, const TextureSpec& textureSpec);
+        OpenGLTexture(const GLuint& texID, const TextureSpec& texSpec);
 
         GLuint textureID = UINT32_MAX;
         GLenum glTextureType;

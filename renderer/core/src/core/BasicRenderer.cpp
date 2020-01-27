@@ -95,6 +95,9 @@ namespace blitz
 
             switch (uniformState->dataType)
             {
+            case DataType::BOOL:
+                updateUniform<bool>(shader, uniformState->uniformNameHash, uniformState->value);
+                break;
             case DataType::INT:
                 updateUniform<int32>(shader, uniformState->uniformNameHash, uniformState->value);
                 break;
@@ -119,8 +122,14 @@ namespace blitz
             case DataType::MATRIX4F:
                 updateUniform<Matrix4f>(shader, uniformState->uniformNameHash, uniformState->value);
                 break;
-                // TODO Add more types
-
+            case DataType::SAMPLER1D:
+            case DataType::SAMPLER2D:
+            case DataType::SAMPLER3D:
+                updateUniform<TextureSampler*>(shader, uniformState->uniformNameHash, uniformState->value);
+                break;
+                // TODO Add more 
+        	default:
+                assert(false);
             }
 
             delete uniformState;
@@ -138,7 +147,5 @@ namespace blitz
 
         UniformVariable<T>* uniformVariable = shader->getUniformVariable<T>(uniformNameHash);
         *uniformVariable = *castedValue;
-        delete castedValue;
-
     }
 } // namespace blitz

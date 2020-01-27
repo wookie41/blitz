@@ -2,6 +2,7 @@
 
 #include <blitzcommon/DataType.h>
 #include <core/Color.h>
+#include <core/Range.h>
 
 namespace blitz
 {
@@ -23,6 +24,8 @@ namespace blitz
 
     struct TextureSpec
     {
+        TextureSpec() = default;
+    	
         TextureType textureType;
         Vector3i dimensions;
         uint8 mipmapLevel;
@@ -36,7 +39,7 @@ namespace blitz
         //TODO so we can stream textures and update them incrementally,
         //TODO as the data is coming from for example a network socket,
         //TODO or if we're streaming a really big texture from a disk
-        void* data; //set to null if you only want to allocate the space for the texture
+        unsigned char* data; // set to null if you only want to allocate the space for the texture
 
         TextureSpec(const TextureSpec& rhs) = default;
         TextureSpec(TextureSpec&& rhs) = default;

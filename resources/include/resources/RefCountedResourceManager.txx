@@ -1,4 +1,4 @@
-#include <RefCountedResourceManager.h>
+#include <resources/RefCountedResourceManager.h>
 #include <atomic>
 
 namespace blitz

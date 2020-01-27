@@ -19,6 +19,7 @@ add_library(${PROJECT_NAME} STATIC
         src/core/ogl/shader/OpenGLVertexArray.cpp
         src/core/ogl/shader/OpenGLShader.cpp
         src/core/UniformVariable.cpp
+        src/core/ogl/uniforms/OpenGLBoolUniformVariable.cpp
         src/core/ogl/uniforms/OpenGLIntegerUniformVariable.cpp
         src/core/ogl/uniforms/OpenGLFloatUniformVariable.cpp
         src/core/ogl/uniforms/OpenGLDoubleUniformVariable.cpp
@@ -26,9 +27,7 @@ add_library(${PROJECT_NAME} STATIC
         src/core/ogl/uniforms/OpenGLVec4UniformVariable.cpp
         src/core/ogl/uniforms/OpenGLMat3UniformVariable.cpp
         src/core/ogl/uniforms/OpenGLMat4UniformVariable.cpp
-        src/core/ogl/uniforms/OpenGLSampler1DUniformVariable.cpp
-        src/core/ogl/uniforms/OpenGLSampler2DUniformVariable.cpp
-        src/core/ogl/uniforms/OpenGLSampler3DUniformVariable.cpp
+        src/core/ogl/uniforms/OpenGLSamplerUniformVariable.cpp
         src/core/ogl/shader/OpenGLShaderFactory.cpp
         src/core/ogl/shader/OpenGLShaderCompiler.cpp
         src/core/ogl/shader/OpenGLShaderInspector.cpp

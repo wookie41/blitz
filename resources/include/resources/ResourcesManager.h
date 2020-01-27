@@ -1,6 +1,6 @@
 #pragma once
 
-#include <ResourcePtr.h>
+#include <resources/ResourcePtr.h>
 #include <blitzcommon/NonCopyable.h>
 
 namespace blitz

@@ -36,7 +36,9 @@ target_include_directories(stbimage INTERFACE vendor/stb_image/include)
 set(mathfu_build_benchmarks OFF CACHE BOOL "")
 set(mathfu_build_tests OFF CACHE BOOL "")
 
-link_directories(D:/Libs/SDL2/lib/x64 D:/Libs/glew/lib/Release/x64)
+if (WIN32)
+    link_directories(D:/Libs/SDL2/lib/x64 D:/Libs/glew/lib/Release/x64)
+endif()
 
 find_package(SDL2 REQUIRED)
 find_package(OpenGL REQUIRED)
@@ -46,7 +48,6 @@ add_subdirectory(vendor/mathfu)
 
 add_subdirectory(blitzcommon)
 add_subdirectory(renderer/core)
-add_subdirectory(platform)
 
 add_subdirectory(resources)
 add_subdirectory(runner)

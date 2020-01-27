@@ -10,14 +10,15 @@ namespace blitz
 
     void VertexArray::addAttribute(const VertexAttributeDef& vertexAttributeDef)
     {
-        const auto nameHash = hashString(vertexAttributeDef.name.c_str());
+        const auto x = vertexAttributeDef.name.c_str();
+        const auto nameHash = hashString(x);
         attributes[nameHash] = vertexAttributeDef;
     }
 
     const VertexAttributeDef& VertexArray::getAttribute(const hash& nameHash) const
     {
         const auto attribIt = attributes.find(nameHash);
-        DCHECK_F(attribIt != attributes.end(), "VAO doesn't have attribute '%ld'", nameHash);
+        DCHECK_F(attribIt != attributes.end(), "VAO doesn't have attribute '%d'", nameHash);
         return attribIt->second;
     }
 

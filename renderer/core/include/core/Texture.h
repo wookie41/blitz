@@ -6,9 +6,12 @@
 
 namespace blitz
 {
-    class    Texture
+    class Texture
     {
       public:
+
+    	//TODO add a methdo to generate mipmap levels on the fly
+    	
         virtual void upload(void* data) = 0;
         virtual void upload(void* data, const Range3& range) = 0;
 
@@ -32,9 +35,9 @@ namespace blitz
         const TextureType& getTextureType() const;
 
     protected:
-        explicit Texture(const TextureSpec& textureSpec);
+        explicit Texture(const TextureSpec& spec);
 
         TextureSpec textureSpec;
-        Range3 fullSizeRange;
+        Range3 fullTextureRange;
     };
 } // namespace blitz

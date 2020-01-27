@@ -181,9 +181,11 @@ namespace blitz::ogl
 
     void GLAPIENTRY glMessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
     {
+#ifndef NDEBUG
 
         DLOG_F(INFO, "[OpenGL] Debug message: %s type = 0x%x, severity = 0x%x, message = %s\n",
                (type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : ""), type, severity, message);
+        #endif
     }
 
     void setupGLErrorHandler()

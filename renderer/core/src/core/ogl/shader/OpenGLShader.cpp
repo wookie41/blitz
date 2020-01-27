@@ -10,6 +10,7 @@
 #include <core/ogl/uniforms/OpenGLUniformVariable.h>
 #include <loguru.hpp>
 #include <utility>
+#include <core/ogl/uniforms/OpenGLSamplerUniformVariable.h>
 
 namespace blitz::ogl
 {
@@ -91,14 +92,13 @@ namespace blitz::ogl
         auto textureCount = 0;
         auto textureCounter = GL_TEXTURE0;
 
-        OpenGLUniformVariable* glVariable;
         for (const auto sampler : samplers)
         {
-            glVariable = dynamic_cast<OpenGLUniformVariable*>(sampler);
-            if (glVariable == nullptr || !sampler->isDirty())
+            const auto glSampler = dynamic_cast<OpenGLSamplerUniformVariable*>(sampler);
+            if (glSampler == nullptr || !sampler->isDirty())
                 continue;
             glActiveTexture(textureCounter++);
-            glUniform1i(glVariable->getVariableLocation(), textureCount++);
+            glUniform1i(glSampler->getVariableLocation(), textureCount++);
             sampler->bind();
         }
     }

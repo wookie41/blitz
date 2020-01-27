@@ -12,11 +12,10 @@
 #include <core/ogl/uniforms/OpenGLIntegerUniformVariable.h>
 #include <core/ogl/uniforms/OpenGLMat3UniformVariable.h>
 #include <core/ogl/uniforms/OpenGLMat4UniformVariable.h>
-#include <core/ogl/uniforms/OpenGLSampler1DUniformVariable.h>
-#include <core/ogl/uniforms/OpenGLSampler2DUniformVariable.h>
-#include <core/ogl/uniforms/OpenGLSampler3DUniformVariable.h>
+#include <core/ogl/uniforms/OpenGLSamplerUniformVariable.h>
 #include <core/ogl/uniforms/OpenGLVec3UniformVariable.h>
 #include <core/ogl/uniforms/OpenGLVec4UniformVariable.h>
+#include <core/ogl/uniforms/OpenGLBoolUniformVariable.h>
 #include <GL/glew.h>
 
 
@@ -58,6 +57,9 @@ namespace blitz::ogl
             auto variableLocation = glGetUniformLocation(shaderID, name);
             switch (type)
             {
+            case GL_BOOL:
+                uniforms[nameHash] = new OpenGLBoolUniformVariable(variableLocation, 0, name);
+                break;
             case GL_INT:
                 uniforms[nameHash] = new OpenGLIntegerUniformVariable(variableLocation, 0, name);
                 break;
@@ -80,13 +82,13 @@ namespace blitz::ogl
                 uniforms[nameHash] = new OpenGLMat4UniformVariable(variableLocation, {}, name);
                 break;
             case GL_SAMPLER_1D:
-                uniforms[nameHash] = new OpenGLSampler1DUniformVariable(variableLocation, nullptr, name);
+                uniforms[nameHash] = new OpenGLSamplerUniformVariable(variableLocation, nullptr, name, GL_SAMPLER_1D);
                 break;
             case GL_SAMPLER_2D:
-                uniforms[nameHash] = new OpenGLSampler2DUniformVariable(variableLocation, nullptr, name);
+                uniforms[nameHash] = new OpenGLSamplerUniformVariable(variableLocation, nullptr, name, GL_SAMPLER_2D);
                 break;
             case GL_SAMPLER_3D:
-                uniforms[nameHash] = new OpenGLSampler3DUniformVariable(variableLocation, nullptr, name);
+                uniforms[nameHash] = new OpenGLSamplerUniformVariable(variableLocation, nullptr, name, GL_SAMPLER_3D);
                 break;
 
             default:
@@ -203,7 +205,6 @@ namespace blitz::ogl
 
         GLint outputsCount;
         glGetProgramInterfaceiv(shaderID, GL_PROGRAM_OUTPUT, GL_ACTIVE_RESOURCES, &outputsCount);
-
 
         GLint properties[2];
         int outputNameLength;

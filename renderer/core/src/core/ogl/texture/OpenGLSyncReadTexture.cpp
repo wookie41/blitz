@@ -1,19 +1,18 @@
 #include <core/ogl/texture/OpenGLSyncReadTexture.h>
 #include <core/ogl/texture/OpenGLTextureCreator.h>
-#include <core/ogl/texture/OpenGLTextureUtils.h>
 #include <core/ogl/OpenGLDataType.h>
 #include <loguru.hpp>
 
 namespace blitz::ogl
 {
-    OpenGLSyncReadTexture::OpenGLSyncReadTexture(const GLuint& textureID, const TextureSpec& textureSpec)
-    : OpenGLTexture(textureID, textureSpec)
+    OpenGLSyncReadTexture::OpenGLSyncReadTexture(const GLuint& texID, const TextureSpec& texSpec)
+    : OpenGLTexture(texID, texSpec)
     {
     }
 
     void* OpenGLSyncReadTexture::download(void* destination, uint8 mipmapLevel)
     {
-        return readTexture(destination, mipmapLevel, fullSizeRange);
+        return readTexture(destination, mipmapLevel, fullTextureRange);
     }
 
     void* OpenGLSyncReadTexture::download(void* destination, uint8 mipmapLevel, const Range3& range)

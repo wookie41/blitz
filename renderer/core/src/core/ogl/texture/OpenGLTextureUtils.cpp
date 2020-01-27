@@ -14,7 +14,7 @@ namespace blitz::ogl
                 return GL_TEXTURE_3D;
         }
 
-    	assert(1 == 0);
+    	assert(0);
     	return 0;
     }
 
@@ -34,7 +34,7 @@ namespace blitz::ogl
                 return GL_DEPTH_STENCIL;
         }
 
-    	assert(1 == 0);
+    	assert(0);
     	return 0;
     }
 }

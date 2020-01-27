@@ -15,5 +15,5 @@ namespace blitz
     };
 
     using hash = size_t;
-    uint32 hashString(const char* str);
+    hash hashString(const char* str);
 }

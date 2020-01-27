@@ -10,9 +10,9 @@ static char ABSTRACT_TEXTURE_ERROR[] = "[OpenGL] Texture %d is not readable and 
 
 namespace blitz::ogl
 {
-    OpenGLTexture::OpenGLTexture(const GLuint& textureID, const TextureSpec& textureSpec)
-    : textureID(textureID), glTextureFormat(toGLTextureFormat(textureSpec.textureFormat)),
-      glTextureType(toGLTextureType(textureSpec.textureType)), Texture(textureSpec)
+    OpenGLTexture::OpenGLTexture(const GLuint& texID, const TextureSpec& texSpec)
+    : Texture(texSpec), textureID(texID), glTextureFormat(toGLTextureFormat(texSpec.textureFormat)),
+      glTextureType(toGLTextureType(texSpec.textureType))
     {
     }
 
@@ -28,7 +28,7 @@ namespace blitz::ogl
         textureID = rhs.textureID;
         glTextureFormat = rhs.glTextureFormat;
         glTextureType = rhs.glTextureType;
-    	
+
         rhs.textureID = UINT32_MAX;
     }
 
@@ -52,8 +52,11 @@ namespace blitz::ogl
         return *this;
     }
 
-    void OpenGLTexture::bind() { glBindTexture(glTextureType, textureID); }
-
+    void OpenGLTexture::bind()
+    {
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(glTextureType, textureID);
+    }
 
     void OpenGLTexture::unbind() { glBindTexture(glTextureType, 0); }
 
@@ -91,7 +94,7 @@ namespace blitz::ogl
         const auto sizeX = ToUint64(textureSpec.dimensions.x);
         const auto sizeY = ToUint64(textureSpec.dimensions.y);
         const auto sizeZ = ToUint64(textureSpec.dimensions.z);
-    	
+
         switch (textureSpec.textureType)
         {
         case TextureType::ONE_DIMENSIONAL:
@@ -101,8 +104,8 @@ namespace blitz::ogl
         case TextureType::THREE_DIMENSIONAL:
             return sizeX * sizeY * sizeZ * sizeInBytes;
         }
-    	
-        assert(1 == 0);
+
+        assert(0);
         return 0;
     }
 

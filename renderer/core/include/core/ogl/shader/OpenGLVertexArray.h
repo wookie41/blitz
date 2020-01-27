@@ -28,7 +28,7 @@ namespace blitz::ogl
       private:
         explicit OpenGLVertexArray(GLuint vaoIdx, OpenGLContext* openGLContext);
 
-        GLuint queryAttributeLocationByHash(const hash& nameHash) const;
+        GLint queryAttributeLocationByHash(const hash& nameHash) const;
 
         GLuint vaoIdx;
         OpenGLContext* openGLContext;

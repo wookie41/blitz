@@ -23,7 +23,8 @@ namespace blitz
         MATRIX4F,
         SAMPLER1D,
         SAMPLER2D,
-        SAMPLER3D
+        SAMPLER3D,
+    	BOOL
     };
 
     using int8 = std::int8_t;
@@ -49,7 +50,7 @@ namespace blitz
     using Matrix3i = mathfu::Matrix<uint32, 3>;
     using Matrix4i = mathfu::Matrix<uint32, 4>;
     using uintptr = uintptr_t;
-
+	
     struct BytesBuffer
     {
         size_t size;

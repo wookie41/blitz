@@ -29,6 +29,6 @@ namespace blitz::ogl
     private:
         OpenGLSyncReadTexture readInterface;
         OpenGLSyncWriteTexture writeInterface;
-        OpenGLSyncReadWriteTexture(GLuint textureID, const TextureSpec& textureSpec);
+        OpenGLSyncReadWriteTexture(const GLuint& texID, const TextureSpec& texSpec);
     };
 } // namespace blitz::ogl

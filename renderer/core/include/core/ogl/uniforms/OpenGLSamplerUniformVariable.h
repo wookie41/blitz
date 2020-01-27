@@ -4,8 +4,8 @@
 #include <blitzcommon/DataType.h>
 #include <core/TextureSpec.h>
 #include <core/UniformVariable.h>
-#include <mathfu/vector.h>
 #include <core/ogl/uniforms/OpenGLUniformVariable.h>
+#include <mathfu/vector.h>
 
 namespace blitz
 {
@@ -14,13 +14,17 @@ namespace blitz
 
 namespace blitz::ogl
 {
-    class OpenGLSampler3DUniformVariable : public UniformVariable<TextureSampler*>, public OpenGLUniformVariable
+    class OpenGLSamplerUniformVariable : public UniformVariable<TextureSampler*>, public OpenGLUniformVariable
     {
       public:
-        OpenGLSampler3DUniformVariable(const GLint& variableLocation, TextureSampler* value, const std::string& name);
+        OpenGLSamplerUniformVariable(const GLint& variableLocation, TextureSampler* sampler, const std::string& name, const GLenum& type);
 
         void bind() override;
 
         DataType getType() const override;
+
+      private:
+        DataType dataType;
+        GLenum samplerType;
     };
 } // namespace blitz::ogl

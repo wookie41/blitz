@@ -1,5 +1,5 @@
-#include <RefCountedResourceManager.h>
-#include <ResourceLoader.h>
+#include <resources/RefCountedResourceManager.h>
+#include <resources/ResourceLoader.h>
 #include <catch2/catch.hpp>
 #include <fakeit/fakeit.hpp>
 

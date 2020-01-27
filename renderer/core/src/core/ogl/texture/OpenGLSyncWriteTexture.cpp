@@ -5,12 +5,12 @@
 
 namespace blitz::ogl
 {
-    OpenGLSyncWriteTexture::OpenGLSyncWriteTexture(const GLuint& textureID, const TextureSpec& textureSpec)
-    : OpenGLTexture(textureID, textureSpec)
+    OpenGLSyncWriteTexture::OpenGLSyncWriteTexture(const GLuint& texID, const TextureSpec& texSpec)
+    : OpenGLTexture(texID, texSpec)
     {
     }
 
-    void OpenGLSyncWriteTexture::upload(void* data) { writeToTexture(data, fullSizeRange); }
+    void OpenGLSyncWriteTexture::upload(void* data) { writeToTexture(data, fullTextureRange); }
     void OpenGLSyncWriteTexture::upload(void* data, const Range3& range) { writeToTexture(data, range); }
 
     void OpenGLSyncWriteTexture::writeToTexture(void* data, const Range3& range)

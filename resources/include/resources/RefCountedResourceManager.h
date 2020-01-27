@@ -2,7 +2,7 @@
 #define BLITZ_REF_COUNTED_RESOURCE_MANAGER
 
 
-#include <ResourcesManager.h>
+#include <resources/ResourcesManager.h>
 #include <unordered_map>
 
 namespace blitz
@@ -23,6 +23,6 @@ namespace blitz
     };
 } // namespace blitz
 
-#include <RefCountedResourceManager.txx>
+#include <resources/RefCountedResourceManager.txx>
 
 #endif

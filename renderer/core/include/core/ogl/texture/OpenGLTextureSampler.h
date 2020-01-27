@@ -31,6 +31,7 @@ namespace blitz::ogl
         void setWrapOption(uint8 dirty, GLenum& wrap, const TextureWrap& textureWrap);
         void setFilterOption(uint8 dirty, GLenum& filter, const TextureFilter& textureFilter);
 
-        explicit OpenGLTextureSampler(Texture* texture);
+    public: //todo should this be private???
+        explicit OpenGLTextureSampler(Texture* t);
     };
 } // namespace blitz::ogl
