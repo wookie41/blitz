@@ -42,7 +42,7 @@ namespace blitz::ogl
         GLint size;
         GLenum type;
         GLsizei nameLength;
-        char name[MAX_UNIFORM_VARIABLE_NAME_LENGTH];
+        char* name = (char*)malloc(MAX_UNIFORM_VARIABLE_NAME_LENGTH + 1);
 
         for (GLint uniformIdx = 0; uniformIdx < numberOfUniforms; ++uniformIdx)
         {
@@ -107,8 +107,8 @@ namespace blitz::ogl
 
         GLsizei nameLength;
         GLint type, offset;
-        GLchar uniformBlockName[MAX_UNIFORM_BLOCK_NAME_LENGTH];
-        GLchar uniformBlockFieldName[MAX_UNIFORM_BLOCK_FIELD_NAME_LENGTH];
+        GLchar* uniformBlockName = (GLchar*)malloc(MAX_UNIFORM_BLOCK_NAME_LENGTH + 1);
+        GLchar* uniformBlockFieldName = (GLchar*)malloc(MAX_UNIFORM_BLOCK_FIELD_NAME_LENGTH + 1);
 
         while (uniformBlockIdx < GL_ACTIVE_UNIFORM_BLOCKS)
         {
@@ -211,15 +211,15 @@ namespace blitz::ogl
 
         for (GLint outputIdx = 0; outputIdx < outputsCount; ++outputIdx)
         {
-            memset(outputName, 0, MAX_UNIFORM_BLOCK_NAME_LENGTH);
             glGetProgramResourceName(shaderID, GL_PROGRAM_OUTPUT, outputIdx, MAX_FRAGMENT_OUTPUT_NAME_LENGTH,
                                      &outputNameLength, outputName);
 
             const auto hash = hashString(outputName);
             outputs[hash] = new ShaderOutput();
             ShaderOutput* output = outputs[hash];
+            output->name = (char*)malloc(outputNameLength);
 
-            strncpy_s(output->name, outputName, static_cast<size_t>(outputNameLength));
+            strncpy(output->name, outputName, static_cast<size_t>(outputNameLength));
             output->texture = nullptr;
 
             glGetProgramResourceiv(shaderID, GL_PROGRAM_OUTPUT, outputIdx, 2, propertiesToQuery, 2, nullptr, properties);

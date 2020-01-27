@@ -2,14 +2,14 @@
 
 namespace blitz
 {
-    IUniformVariable::IUniformVariable(const std::string& name)
-    : name(name), nameHash(hashString(name.c_str())), watcher(noopWatcher)
+    IUniformVariable::IUniformVariable(const char* const name)
+    : variableName(name), nameHash(hashString(name)), watcher(noopWatcher)
     {
     }
 
     hash IUniformVariable::getNameHash() const { return nameHash; }
 
-    const std::string& IUniformVariable::getName() const { return name; }
+    const char* const IUniformVariable::getName() const { return variableName; }
 
     void IUniformVariable::setWatcher(const UniformVariableWatcher& newWatcher)
     {

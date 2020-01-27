@@ -12,7 +12,7 @@ namespace blitz::ogl
       public:
         OpenGLFloatUniformVariable(const GLint& variableLocation,
                                      const float& value,
-                                     const std::string& name);
+                                     const char* const name);
 
         void bind() override;
 

@@ -13,7 +13,7 @@ namespace blitz::ogl
       public:
         OpenGLMat3UniformVariable(const GLint& variableLocation,
                                      const Matrix3f& value,
-                                     const std::string& name);
+                                     const char* const name);
 
         void bind() override;
 

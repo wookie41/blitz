@@ -10,7 +10,7 @@ namespace blitz::ogl
     class OpenGLBoolUniformVariable : public UniformVariable<bool>, public OpenGLUniformVariable
     {
       public:
-        OpenGLBoolUniformVariable(const GLint& variableLocation, const bool& value, const std::string& name);
+        OpenGLBoolUniformVariable(const GLint& variableLocation, const bool& value, const char* const name);
 
         void bind() override;
 

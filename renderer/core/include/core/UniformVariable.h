@@ -17,7 +17,7 @@ namespace blitz
         virtual DataType getType() const = 0;
 
         hash getNameHash() const;
-        const std::string& getName() const;
+        const char* const getName() const;
 
         void setWatcher(const UniformVariableWatcher& newWatcher);
 
@@ -26,10 +26,10 @@ namespace blitz
         virtual ~IUniformVariable() = default;
 
       protected:
-        explicit IUniformVariable(const std::string& name);
+        explicit IUniformVariable(const char* const name);
 
         hash nameHash;
-        std::string name;
+        const char* const variableName;
         UniformVariableWatcher watcher;
     };
 
@@ -37,7 +37,7 @@ namespace blitz
     class UniformVariable : public IUniformVariable
     {
       public:
-        UniformVariable(T value, const std::string& name);
+        UniformVariable(T value, const char* const);
         UniformVariable& operator=(const T& newValue);
         T* operator*();
 
@@ -58,7 +58,7 @@ namespace blitz
     }
 
     template <typename T>
-    UniformVariable<T>::UniformVariable(T value, const std::string& name) : IUniformVariable(name), value(value)
+    UniformVariable<T>::UniformVariable(T value, const char* const name) : IUniformVariable(name), value(value)
     {
     }
 

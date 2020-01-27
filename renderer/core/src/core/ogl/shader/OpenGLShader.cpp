@@ -16,7 +16,7 @@ namespace blitz::ogl
 {
     static std::unordered_map<hash, Buffer*> currentUniformBlockBindings;
 
-    OpenGLShader::OpenGLShader(const std::string& name,
+    OpenGLShader::OpenGLShader(const char* const name,
                                GLuint shaderID,
                                const std::unordered_map<hash, IUniformVariable*>& uniforms,
                                const std::unordered_map<hash, UniformBlock*>& uniformBlock,
@@ -32,9 +32,9 @@ namespace blitz::ogl
         glUseProgram(shaderID);
     }
 
-    void OpenGLShader::bindUniformBlock(const std::string& blockName, const BufferRange* bufferRange)
+    void OpenGLShader::bindUniformBlock(const char* const blockName, const BufferRange* bufferRange)
     {
-        const auto blockNameHash = hashString(blockName.c_str());
+        const auto blockNameHash = hashString(blockName);
         uniformBlocksBuffers[blockNameHash] = bufferRange;
     }
 
@@ -46,7 +46,7 @@ namespace blitz::ogl
             if (bufferIt == uniformBlocksBuffers.end())
             {
                 DLOG_F(ERROR, "[OpenGL] No buffer specified for binding point %d in shader '%s'", glBindPoint.second,
-                       shaderName.c_str());
+                       shaderName);
                 continue;
             }
 
@@ -54,7 +54,7 @@ namespace blitz::ogl
             if (glBuffer == nullptr)
             {
                 DLOG_F(ERROR, "[OpenGL] Couldn't bind uniform block %d in shader '%s', the buffer is not a GL buffer",
-                       glBindPoint.second, shaderName.c_str());
+                       glBindPoint.second, shaderName);
                 continue;
             }
 
@@ -67,7 +67,7 @@ namespace blitz::ogl
 
             const auto uniformBlock = uniformBlocks.find(glBindPoint.first)->second;
             DLOG_F(INFO, "[OpenGL] Binding buffer %d to uniform block '%s' in shader '%s'", glBuffer->getId(),
-                   uniformBlock->name, shaderName.c_str());
+                   uniformBlock->name, shaderName);
 
             glUniformBlockBinding(shaderID, uniformBlock->index, glBindPoint.second);
 
@@ -138,7 +138,7 @@ namespace blitz::ogl
     {
         if (framebuffer == nullptr)
         {
-            DLOG_F(ERROR, "[OpenGL] Vertex array is null on shader '%s'", shaderName.c_str());
+            DLOG_F(ERROR, "[OpenGL] Vertex array is null on shader '%s'", shaderName);
             return;
         }
 

@@ -13,7 +13,7 @@ namespace blitz::ogl
       public:
         OpenGLDoubleUniformVariable(const GLint& variableLocation,
                                      const double& value,
-                                     const std::string& name);
+                                     const char* const name);
 
         void bind() override;
 

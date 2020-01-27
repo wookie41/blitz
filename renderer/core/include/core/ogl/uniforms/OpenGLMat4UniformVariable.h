@@ -10,7 +10,7 @@ namespace blitz::ogl
     class OpenGLMat4UniformVariable : public UniformVariable<Matrix4f>, public OpenGLUniformVariable
     {
       public:
-        OpenGLMat4UniformVariable(const GLint& variableLocation, const Matrix4f& value, const std::string& name);
+        OpenGLMat4UniformVariable(const GLint& variableLocation, const Matrix4f& value, const char* const name);
 
         void bind() override;
 

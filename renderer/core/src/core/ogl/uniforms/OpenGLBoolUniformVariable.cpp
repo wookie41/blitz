@@ -11,7 +11,7 @@ namespace blitz::ogl
 
     DataType OpenGLBoolUniformVariable::getType() const { return DataType::BOOL; }
 
-    OpenGLBoolUniformVariable::OpenGLBoolUniformVariable(const GLint& variableLocation, const bool& value, const std::string& name)
+    OpenGLBoolUniformVariable::OpenGLBoolUniformVariable(const GLint& variableLocation, const bool& value, const char* const name)
     : UniformVariable<bool>(value, name), OpenGLUniformVariable(variableLocation)
     {
     }

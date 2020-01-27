@@ -4,7 +4,7 @@
 
 namespace blitz
 {
-    Shader::Shader(const std::string& name,
+    Shader::Shader(const char* const name,
                    const std::unordered_map<hash, IUniformVariable*>& uniforms,
                    const std::unordered_map<hash, UniformBlock*>& uniformBlocks,
                    const std::unordered_map<hash, ShaderOutput*>& outputs)

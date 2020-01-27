@@ -12,7 +12,7 @@ namespace blitz::ogl
       public:
         OpenGLVec3UniformVariable(const GLint& variableLocation,
                                      const Vector3f& value,
-                                     const std::string& name);
+                                     const char* const name);
 
         void bind() override;
 

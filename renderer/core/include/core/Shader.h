@@ -24,7 +24,7 @@ namespace blitz
     class Shader : public NonCopyable
     {
       public:
-        explicit Shader(const std::string& name,
+        explicit Shader(const char* const name,
                         const std::unordered_map<hash, IUniformVariable*>& uniforms,
                         const std::unordered_map<hash, UniformBlock*>& uniformBlocks,
                         const std::unordered_map<hash, ShaderOutput*>& outputs);
@@ -38,11 +38,11 @@ namespace blitz
         UniformVariable<T>* getUniformVariable(const hash& nameHash);
 
         template <typename T>
-        UniformVariable<T>* getUniformVariable(const std::string& name);
+        UniformVariable<T>* getUniformVariable(const char* const name);
 
         virtual const std::unordered_map<hash, ShaderOutput*>& getShaderOutputs() const;
 
-        virtual void bindUniformBlock(const std::string& blockName, const BufferRange* bufferRange) = 0;
+        virtual void bindUniformBlock(const char* const blockName, const BufferRange* bufferRange) = 0;
 
         virtual void setOutputTarget(const hash& outputNameHash, Texture* targetTexture);
 
@@ -53,7 +53,7 @@ namespace blitz
       protected:
         void markAsDirty(hash uniformNameHash);
 
-        std::string shaderName;
+        const char* const shaderName;
         std::unordered_map<hash, IUniformVariable*> uniformVariables;
         std::unordered_set<hash> dirtyUniforms;
         std::unordered_map<hash, UniformBlock*> uniformBlocks;
@@ -67,7 +67,7 @@ namespace blitz
         const auto variableIt = uniformVariables.find(nameHash);
         if (variableIt == uniformVariables.end())
         {
-            DLOG_F(ERROR, "Shader '%s' doesn't have uniform with hash %lld", shaderName.c_str(), nameHash);
+            DLOG_F(ERROR, "Shader '%s' doesn't have uniform with hash %lld", shaderName, nameHash);
             return nullptr;
         }
 
@@ -76,7 +76,7 @@ namespace blitz
     }
 
     template <typename T>
-    UniformVariable<T>* Shader::getUniformVariable(const std::string& name)
+    UniformVariable<T>* Shader::getUniformVariable(const char* const name)
     {
         return getUniformVariable<T>(hashString(name));
     }

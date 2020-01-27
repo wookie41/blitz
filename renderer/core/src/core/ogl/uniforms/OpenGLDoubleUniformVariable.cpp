@@ -11,7 +11,7 @@ namespace blitz::ogl
 
     DataType OpenGLDoubleUniformVariable::getType() const { return DataType::INT; }
 
-    OpenGLDoubleUniformVariable::OpenGLDoubleUniformVariable(const GLint& variableLocation, const GLdouble& value, const std::string& name)
+    OpenGLDoubleUniformVariable::OpenGLDoubleUniformVariable(const GLint& variableLocation, const GLdouble& value, const char* const name)
     : UniformVariable<GLdouble>(value, name), OpenGLUniformVariable(variableLocation)
     {
     }

@@ -6,7 +6,7 @@ namespace blitz
 {
     struct ShaderSource
     {
-        std::string name;
+        const char* const name;
         const char* vertexShaderSource;
         const char* geometryShaderSource;
         const char* fragmentShaderSource;
