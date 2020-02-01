@@ -21,7 +21,7 @@ namespace blitz
         }
     }
 
-    void Shader::markAsDirty(hash uniformNameHash) { dirtyUniforms.insert(uniformNameHash); }
+    void Shader::markAsDirty(const hash& uniformNameHash) { dirtyUniforms.insert(uniformNameHash); }
 
     void Shader::bindDirtyVariables()
     {

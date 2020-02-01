@@ -65,7 +65,7 @@ if(WITH_DEBUG_TOOLS)
     target_link_libraries(${PROJECT_NAME} loguru)
 endif()
 
-target_link_libraries(${PROJECT_NAME} blitz::common)
+target_link_libraries(${PROJECT_NAME} blitz::common blitz::memory)
 
 if (WIN32)
 	target_include_directories(${PROJECT_NAME} PRIVATE ${GLEW_INCLUDE_DIRS})

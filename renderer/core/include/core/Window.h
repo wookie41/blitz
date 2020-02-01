@@ -14,7 +14,7 @@ namespace blitz
     {
         uint32 x, y;
         uint32 width, height;
-        const char* title;
+        const char* const title;
     };
 
     class Window : private NonCopyable
