@@ -1,6 +1,5 @@
 #include <core/ogl/uniforms/OpenGLBoolUniformVariable.h>
 
-#include "GL/glew.h"
 namespace blitz::ogl
 {
     void OpenGLBoolUniformVariable::bind()

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <blitzcommon/DataType.h>
+#include <core/Precompiled.h>
 #include <core/Max.h>
 
 namespace blitz

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <blitzcommon/DataType.h>
+#include <core/Precompiled.h>
 #include <core/Color.h>
 #include <core/Range.h>
 

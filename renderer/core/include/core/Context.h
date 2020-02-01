@@ -1,11 +1,8 @@
 #pragma once
 
-#include <mutex>
-#include <vector>
-#include <functional>
-
+#include <core/Precompiled.h>
 #include <core/Buffer.h>
-#include <blitzcommon/NonCopyable.h>
+
 namespace blitz
 {
     class Context;

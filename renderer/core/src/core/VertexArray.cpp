@@ -1,6 +1,4 @@
-#include <blitzcommon/HashUtils.h>
 #include <core/VertexArray.h>
-#include <loguru.hpp>
 
 namespace blitz
 {

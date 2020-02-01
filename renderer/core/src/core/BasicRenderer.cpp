@@ -1,4 +1,3 @@
-#include <GL/glew.h>
 #include <core/BasicRenderer.h>
 #include <blitzcommon/DataType.h>
 #include <core/Framebuffer.h>

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <GL/glew.h>
+#include <core/Precompiled.h>
 #include <core/TextureSpec.h>
 
 namespace blitz::ogl

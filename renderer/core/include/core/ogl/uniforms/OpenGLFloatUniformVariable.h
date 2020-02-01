@@ -1,8 +1,7 @@
 #pragma once
 
-#include <GL/glew.h>
+#include <core/Precompiled.h>
 #include <core/UniformVariable.h>
-#include <blitzcommon/DataType.h>
 #include <core/ogl/uniforms/OpenGLUniformVariable.h>
 
 namespace blitz::ogl

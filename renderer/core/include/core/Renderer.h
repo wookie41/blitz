@@ -1,6 +1,6 @@
 #pragma once
 
-#include <blitzcommon/NonCopyable.h>
+#include <core/Precompiled.h>
 #include <core/RenderCommand.h>
 #include <core/RenderState.h>
 

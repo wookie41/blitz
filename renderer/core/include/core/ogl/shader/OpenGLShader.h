@@ -1,7 +1,6 @@
 #pragma once
 
-#include <GL/glew.h>
-#include <mutex>
+#include <core/Precompiled.h>
 #include <core/Shader.h>
 
 namespace blitz::ogl

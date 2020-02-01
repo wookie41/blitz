@@ -1,6 +1,5 @@
 #include <core/ogl/uniforms/OpenGLDoubleUniformVariable.h>
 
-#include "GL/glew.h"
 namespace blitz::ogl
 {
     void OpenGLDoubleUniformVariable::bind()

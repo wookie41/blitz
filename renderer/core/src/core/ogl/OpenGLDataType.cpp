@@ -1,5 +1,4 @@
 #include <core/ogl/OpenGLDataType.h>
-#include <loguru.hpp>
 
 namespace blitz::ogl
 {

@@ -1,8 +1,7 @@
 #pragma once
 
-#include <blitzcommon/DataType.h>
+#include <core/Precompiled.h>
 #include <core/Context.h>
-#include <blitzcommon/NonCopyable.h>
 #include <core/Color.h>
 
 namespace blitz

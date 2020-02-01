@@ -1,6 +1,5 @@
 #include <core/ogl/uniforms/OpenGLFloatUniformVariable.h>
 
-#include "GL/glew.h"
 namespace blitz::ogl
 {
     void OpenGLFloatUniformVariable ::bind()

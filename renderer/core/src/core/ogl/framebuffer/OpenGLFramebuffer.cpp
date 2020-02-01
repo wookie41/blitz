@@ -1,6 +1,5 @@
 #include <core/FramebufferAttachment.h>
 #include <core/ogl/framebuffer/OpenGLFramebuffer.h>
-#include <loguru.hpp>
 #include <core/ogl/OpenGLDataType.h>
 
 namespace blitz::ogl

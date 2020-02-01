@@ -1,7 +1,6 @@
 #include <core/ogl/texture/OpenGLSyncReadTexture.h>
 #include <core/ogl/texture/OpenGLTextureCreator.h>
 #include <core/ogl/OpenGLDataType.h>
-#include <loguru.hpp>
 
 namespace blitz::ogl
 {

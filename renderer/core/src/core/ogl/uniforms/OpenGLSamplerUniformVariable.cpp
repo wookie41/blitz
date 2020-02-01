@@ -1,4 +1,3 @@
-#include <GL/glew.h>
 #include <core/TextureSampler.h>
 #include <core/ogl/uniforms/OpenGLSamplerUniformVariable.h>
 

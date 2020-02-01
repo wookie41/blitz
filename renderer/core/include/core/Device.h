@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include <blitzcommon/NonCopyable.h>
+#include <core/Precompiled.h>
 #include <core/ShaderSource.h>
 #include <core/Window.h>
 #include <core/TextureSpec.h>

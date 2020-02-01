@@ -6,11 +6,7 @@
 #include <core/ogl/texture/OpenGLSyncReadWriteTexture.h>
 #include <core/ogl/texture/OpenGLSyncWriteTexture.h>
 #include <core/ogl/texture/OpenGLTextureCreator.h>
-#include <GL/glew.h>
 
-#ifndef NDEBUG
-#include <loguru.hpp>
-#endif
 namespace blitz::ogl
 {
 

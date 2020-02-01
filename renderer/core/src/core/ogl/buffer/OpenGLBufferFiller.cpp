@@ -1,5 +1,3 @@
-#include "loguru.hpp"
-
 #include "core/RendererErrorCode.h"
 #include "core/ogl/OpenGLContext.h"
 #include "core/ogl/buffer/OpenGLBufferFiller.h"

@@ -1,11 +1,8 @@
 #include <core/ogl/shader/OpenGLShaderInspector.h>
-#include <loguru.hpp>
 
 #include <core/Max.h>
 #include <core/UniformBlock.h>
 #include <core/ogl/OpenGLDataType.h>
-#include <cstring>
-#include <unordered_set>
 
 #include <core/ogl/uniforms/OpenGLDoubleUniformVariable.h>
 #include <core/ogl/uniforms/OpenGLFloatUniformVariable.h>
@@ -16,8 +13,6 @@
 #include <core/ogl/uniforms/OpenGLVec3UniformVariable.h>
 #include <core/ogl/uniforms/OpenGLVec4UniformVariable.h>
 #include <core/ogl/uniforms/OpenGLBoolUniformVariable.h>
-#include <GL/glew.h>
-
 
 namespace blitz::ogl
 {

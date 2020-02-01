@@ -1,9 +1,8 @@
 #ifndef BLITZ_REF_COUNTED_RESOURCE_MANAGER
 #define BLITZ_REF_COUNTED_RESOURCE_MANAGER
 
-
+#include <resources/Precompiled.h>
 #include <resources/ResourcesManager.h>
-#include <unordered_map>
 
 namespace blitz
 {

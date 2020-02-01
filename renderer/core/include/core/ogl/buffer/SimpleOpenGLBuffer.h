@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GL/glew.h"
+#include <core/Precompiled.h>
 #include "OpenGLBuffer.h"
 
 namespace blitz::ogl

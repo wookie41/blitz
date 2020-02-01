@@ -1,6 +1,7 @@
 project(blitz-resources C CXX)
 
 add_library(${PROJECT_NAME} STATIC
+        src/Precompiled.cpp
         src/texture/TextureLoader.cpp
         src/texture/STBImage2DTextureLoader.cpp)
 

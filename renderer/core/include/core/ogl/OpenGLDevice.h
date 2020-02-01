@@ -1,5 +1,6 @@
 #pragma once
 
+#include <core/Precompiled.h>
 #include <core/Device.h>
 #include <core/ogl/texture/OpenGLTextureCreator.h>
 

@@ -1,7 +1,6 @@
 #pragma once
 
-#include <GL/glew.h>
-#include <blitzcommon/NonCopyable.h>
+#include <core/Precompiled.h>
 
 namespace blitz::ogl
 {
