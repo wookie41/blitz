@@ -24,7 +24,7 @@ namespace blitz
     class Shader : public NonCopyable
     {
       public:
-        explicit Shader(const char* const name,
+        explicit Shader(const char* shaderName,
                         const std::unordered_map<hash, IUniformVariable*>& uniforms,
                         const std::unordered_map<hash, UniformBlock*>& uniformBlocks,
                         const std::unordered_map<hash, ShaderOutput*>& outputs);
@@ -42,7 +42,7 @@ namespace blitz
 
         virtual const std::unordered_map<hash, ShaderOutput*>& getShaderOutputs() const;
 
-        virtual void bindUniformBlock(const char* const blockName, const BufferRange* bufferRange) = 0;
+        virtual void bindUniformBlock(const hash& blockNameHash, const BufferRange* bufferRange) = 0;
 
         virtual void setOutputTarget(const hash& outputNameHash, Texture* targetTexture);
 
@@ -51,7 +51,7 @@ namespace blitz
         virtual ~Shader();
 
       protected:
-        void markAsDirty(hash uniformNameHash);
+        void markAsDirty(const hash& uniformNameHash);
 
         const char* const shaderName;
         std::unordered_map<hash, IUniformVariable*> uniformVariables;
