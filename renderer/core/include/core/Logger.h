@@ -1,6 +1,6 @@
 #pragma once
 
-#include "loguru.hpp"
+#include <core/Precompiled.h>
 
 namespace blitz
 {

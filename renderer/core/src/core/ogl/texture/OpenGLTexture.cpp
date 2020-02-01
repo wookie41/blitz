@@ -2,7 +2,6 @@
 #include <core/ogl/texture/OpenGLTexture.h>
 #include <core/ogl/texture/OpenGLTextureCreator.h>
 #include <core/ogl/texture/OpenGLTextureUtils.h>
-#include <loguru.hpp>
 
 #ifndef NDEBUG
 static char ABSTRACT_TEXTURE_ERROR[] = "[OpenGL] Texture %d is not readable and writeable!";

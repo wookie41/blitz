@@ -8,8 +8,6 @@
 #include <core/ogl/framebuffer/OpenGLTextureAttachment.h>
 #include <core/ogl/texture/OpenGLTexture.h>
 #include <core/ogl/uniforms/OpenGLUniformVariable.h>
-#include <loguru.hpp>
-#include <utility>
 #include <core/ogl/uniforms/OpenGLSamplerUniformVariable.h>
 
 namespace blitz::ogl

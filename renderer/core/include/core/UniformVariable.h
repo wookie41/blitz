@@ -1,9 +1,6 @@
 #pragma once
 
-#include <blitzcommon/HashUtils.h>
-#include <blitzcommon/NonCopyable.h>
-#include <blitzcommon/DataType.h>
-#include <functional>
+#include <core/Precompiled.h>
 
 namespace blitz
 {

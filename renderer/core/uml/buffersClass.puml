@@ -15,9 +15,6 @@ class BufferDef {
     ...
 }
 
-class BufferLock {
-    + unlockTarget()
-}
 
 interface Buffer {
     + int getSize()
@@ -46,10 +43,11 @@ class GLImmutableBuffer implements Buffer {
 
 interface Context {
     + Buffer createBuffer(Bufferdef)
-    + BufferLock[] lockBuffers(Buffer... buffers)
-    - Map<BufferBindTarget, Lock> bufferLocks
 }
 
 BufferDef *-- UsageHint
+
+Context --> Buffer
+BufferDef -> Context
 
 @enduml

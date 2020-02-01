@@ -1,10 +1,6 @@
 #pragma once
 
-#include <unordered_map>
-
-#include <blitzcommon/DataType.h>
-#include <blitzcommon/HashUtils.h>
-#include <blitzcommon/NonCopyable.h>
+#include <core/Precompiled.h>
 
 namespace blitz
 {

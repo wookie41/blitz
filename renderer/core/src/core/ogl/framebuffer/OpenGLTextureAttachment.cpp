@@ -1,4 +1,3 @@
-#include <GL/glew.h>
 #include <core/ogl/framebuffer/OpenGLTextureAttachment.h>
 #include <core/ogl/texture/OpenGLTexture.h>
 

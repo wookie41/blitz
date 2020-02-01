@@ -1,5 +1,4 @@
 #include <core/ogl/OpenGLDataType.h>
-#include <loguru.hpp>
 
 namespace blitz::ogl
 {
@@ -29,7 +28,7 @@ namespace blitz::ogl
             return GL_FLOAT_MAT3;
         }
 
-    	assert(1 == 0);
+    	assert(0);
     	return 0;
     }
 
@@ -58,7 +57,7 @@ namespace blitz::ogl
         case GL_BYTE:
             return DataType::BYTE;
         default:
-            DLOG_F(INFO, "Unhandled type %s", typeToName(dataType));
+            assert(0);
             return DataType::UNKNOWN;
         }
     }
@@ -86,7 +85,7 @@ namespace blitz::ogl
             return 48;
         }
 
-    	assert(1 == 0);
+    	assert(0);
     	return 0;
     }
 

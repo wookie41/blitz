@@ -1,7 +1,6 @@
 #pragma once
 
-#include <GL/glew.h>
-#include <blitzcommon/HashUtils.h>
+#include <core/Precompiled.h>
 #include <core/Buffer.h>
 #include <core/Context.h>
 #include <core/ogl/texture/OpenGLSyncReadTexture.h>

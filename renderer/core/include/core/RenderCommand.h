@@ -1,10 +1,8 @@
 #pragma once
 
-#include <blitzcommon/Collections.h>
 #include <core/Buffer.h>
 #include <core/UniformVariable.h>
-#include <unordered_map>
-#include <vector>
+#include <core/Precompiled.h>
 
 namespace blitz
 {

@@ -1,7 +1,7 @@
 #pragma once
 
+#include <resources/Precompiled.h>
 #include <resources/ResourcePtr.h>
-#include <blitzcommon/DataType.h>
 
 namespace blitz
 {

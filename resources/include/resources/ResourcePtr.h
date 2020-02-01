@@ -1,8 +1,7 @@
 #ifndef BLITZ_RESOURCE_PTR
 #define BLITZ_RESOURCE_PTR
 
-#include <blitzcommon/DataType.h>
-#include <mutex>
+#include <resources/Precompiled.h>
 
 namespace blitz
 {

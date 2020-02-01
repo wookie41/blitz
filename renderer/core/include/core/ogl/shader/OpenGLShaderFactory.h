@@ -1,6 +1,6 @@
 #pragma once
 
-#include <blitzcommon/NonCopyable.h>
+#include <core/Precompiled.h>
 #include <core/ShaderSource.h>
 
 namespace blitz

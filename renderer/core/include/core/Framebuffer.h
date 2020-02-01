@@ -1,9 +1,6 @@
 #pragma once
 
-#include <blitzcommon/NonCopyable.h>
-#include <blitzcommon/DataType.h>
-#include <unordered_map>
-#include <vector>
+#include <core/Precompiled.h>
 
 namespace blitz
 {

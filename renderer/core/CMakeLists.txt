@@ -1,8 +1,8 @@
 project(blitz-renderer-core C CXX)
 
 add_library(${PROJECT_NAME} STATIC
+        src/core/Precompiled.cpp
         src/core/Globals.cpp
-        src/core/DataType.cpp
         src/core/Logger.cpp
         src/core/Buffer.cpp
         src/core/Window.cpp

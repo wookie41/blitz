@@ -1,7 +1,7 @@
 #pragma once
 
+#include <core/Precompiled.h>
 #include <core/RenderPass.h>
-#include <deque>
 
 namespace blitz
 {

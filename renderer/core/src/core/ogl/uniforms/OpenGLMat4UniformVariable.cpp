@@ -1,6 +1,5 @@
 #include <core/ogl/uniforms/OpenGLMat4UniformVariable.h>
 
-#include "GL/glew.h"
 namespace blitz::ogl
 {
     void OpenGLMat4UniformVariable::bind()

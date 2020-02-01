@@ -1,6 +1,5 @@
 #include <core/ogl/uniforms/OpenGLIntegerUniformVariable.h>
 
-#include "GL/glew.h"
 namespace blitz::ogl
 {
     void OpenGLIntegerUniformVariable::bind()

@@ -1,0 +1,35 @@
+@startuml
+
+class Shader {
+    - Sampler[] samplers
+    - Uniform[] uniforms
+    - Outputs[] outputs
+    - UniformBlock[] uniformBlocks
+    - Uniform[] dirtyUniforms
+}
+
+class UniformVariable<T> {
+    - T* value
+    + void operator=(T newValue)
+    + bool isDirty()
+}
+
+class UniformState<T> {
+    - T* value;
+}
+
+class RenderCommand {
+    UniformState[] uniformStates
+}
+
+class Renderer {
+    + void issue(RenderCommand renderCommand)
+}
+
+RenderCommand o-- UniformState
+UniformState -> UniformVariable
+Shader o-- UniformVariable
+RenderCommand -> Renderer: issue
+Renderer -> Shader: Setup
+
+@enduml

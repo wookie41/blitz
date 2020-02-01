@@ -1,6 +1,5 @@
 #include <core/ogl/uniforms/OpenGLVec3UniformVariable.h>
 
-#include "GL/glew.h"
 namespace blitz::ogl
 {
     void OpenGLVec3UniformVariable::bind()

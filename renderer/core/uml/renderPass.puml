@@ -1,0 +1,23 @@
+@startuml
+
+
+start
+
+:[User] prepare RenderState and RenderCommand,\n      along with it's corresponding UniformStates;
+  :[User] Issue a RenderPass containing the commands;
+  :[User] Call renderer.render();
+repeat   :[Renderer] Get next RenderPass;
+   :[Renderer] setup state according to RenderState (Shader, FrameBuffer);
+repeat   :[Renderer] Get next RenderCommand;
+  :[Renderer] Update UniformVariables using UniformStates if needed;
+  :[Renderer] Run RenderCommand;
+backward:yes;
+repeat while (More RenderCommands?)
+backward:yes;
+repeat while (More RenderPasses?)
+
+stop
+
+@enduml
+
+@enduml

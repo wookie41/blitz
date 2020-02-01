@@ -1,7 +1,6 @@
-#include <GL/glew.h>
-#include <core/VertexArray.h>
 #include <core/ogl/BasicOpenGLRenderer.h>
 #include <core/ogl/OpenGLDataType.h>
+#include <core/VertexArray.h>
 
 namespace blitz::ogl
 {

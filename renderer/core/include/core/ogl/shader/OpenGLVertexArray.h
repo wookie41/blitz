@@ -1,6 +1,6 @@
 #pragma once
 
-#include <GL/glew.h>
+#include <core/Precompiled.h>
 #include <core/VertexArray.h>
 
 namespace blitz::ogl

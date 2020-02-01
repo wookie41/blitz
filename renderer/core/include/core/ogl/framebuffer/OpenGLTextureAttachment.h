@@ -1,7 +1,6 @@
 #pragma once
 
 #include <core/FramebufferAttachment.h>
-#include <GL/glew.h>
 
 namespace blitz::ogl
 {

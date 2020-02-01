@@ -1,9 +1,7 @@
 #pragma once
 
+#include <core/Precompiled.h>
 #include <core/Renderer.h>
-#include <mutex>
-#include <vector>
-#include <deque>
 #include <core/RenderCommand.h>
 
 namespace blitz

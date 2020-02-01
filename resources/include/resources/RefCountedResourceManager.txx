@@ -1,5 +1,4 @@
 #include <resources/RefCountedResourceManager.h>
-#include <atomic>
 
 namespace blitz
 {
@@ -42,5 +41,14 @@ namespace blitz
             return ResourcePtr<T>(nullptr);
         }
         return resourceIt->second;
+    }
+
+    template<typename T>
+    RefCountedResourceManager<T>::~RefCountedResourceManager()
+    {
+        for (const auto loaderIt : usedLoaders)
+        {
+            delete(loaderIt->second());
+        }
     }
 } // namespace blitz

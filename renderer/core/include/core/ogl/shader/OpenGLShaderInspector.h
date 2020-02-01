@@ -1,10 +1,7 @@
 #pragma once
 
-#include <GL/glew.h>
-#include <blitzcommon/HashUtils.h>
-#include <blitzcommon/NonCopyable.h>
+#include <core/Precompiled.h>
 #include <core/ShaderOutput.h>
-#include <unordered_map>
 
 namespace blitz
 {

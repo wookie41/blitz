@@ -4,7 +4,6 @@
 #include <core/RendererErrorCode.h>
 #include <core/Shader.h>
 #include <core/ogl/buffer/OpenGLBuffer.h>
-#include <loguru.hpp>
 
 namespace blitz::ogl
 {

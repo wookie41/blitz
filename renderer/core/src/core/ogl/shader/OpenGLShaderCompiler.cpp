@@ -1,6 +1,4 @@
 #include <core/ogl/shader/OpenGLShaderCompiler.h>
-#include <loguru.hpp>
-#include <string>
 
 namespace blitz::ogl
 {

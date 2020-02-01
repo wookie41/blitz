@@ -1,7 +1,6 @@
 #pragma once
 
-#include <GL/glew.h>
-#include <blitzcommon/DataType.h>
+#include <core/Precompiled.h>
 
 #define ToGLSize(x) static_cast<GLsizei>(x)
 

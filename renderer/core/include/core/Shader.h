@@ -1,12 +1,6 @@
 #pragma once
 
-#include <loguru.hpp>
-#include <unordered_map>
-#include <unordered_set>
-#include <vector>
-#include <string>
-
-#include <blitzcommon/NonCopyable.h>
+#include <core/Precompiled.h>
 #include <core/RendererErrorCode.h>
 #include <core/ShaderOutput.h>
 #include <core/UniformVariable.h>
