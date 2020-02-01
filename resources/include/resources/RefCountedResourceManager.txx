@@ -43,4 +43,13 @@ namespace blitz
         }
         return resourceIt->second;
     }
+
+    template<typename T>
+    RefCountedResourceManager<T>::~RefCountedResourceManager()
+    {
+        for (const auto loaderIt : usedLoaders)
+        {
+            delete(loaderIt->second());
+        }
+    }
 } // namespace blitz

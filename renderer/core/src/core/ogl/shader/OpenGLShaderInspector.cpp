@@ -130,7 +130,7 @@ namespace blitz::ogl
 
                 const auto& uniformBlock = uniformBlocks[nameHash];
                 uniformBlock->index = uniformBlockIndex;
-                strncpy_s(uniformBlock->name, uniformBlockName, nameLength);
+                strncpy(uniformBlock->name, uniformBlockName, nameLength);
 
                 int activeUniformsInBlock;
                 glGetActiveUniformBlockiv(shaderID, uniformBlockIndex, GL_UNIFORM_BLOCK_ACTIVE_UNIFORMS, &activeUniformsInBlock);
@@ -151,7 +151,7 @@ namespace blitz::ogl
                     glGetActiveUniformsiv(shaderID, 1, &index, GL_UNIFORM_OFFSET, &offset);
 
                     auto& field = uniformBlock->fields[i];
-                    strncpy_s(field.name, uniformBlockFieldName, nameLength);
+                    strncpy(field.name, uniformBlockFieldName, nameLength);
                     field.offset = offset;
                     field.dataType = mapToBlitzDataType(type);
                 }

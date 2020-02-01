@@ -66,6 +66,5 @@ namespace blitz::memory
 #ifdef USE_LIBC_MALLOC
         free(ptr);
 #endif
-        assert(0); // TODO
     }
 } // namespace blitz::memory

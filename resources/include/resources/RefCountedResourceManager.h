@@ -15,7 +15,7 @@ namespace blitz
         ResourceID loadResource(ResourceLoader<T>* resourceLoader) override;
         ResourcePtr<T> getResource(const ResourceID& id) override;
 
-        virtual ~RefCountedResourceManager() = default;
+        virtual ~RefCountedResourceManager();
 
       private:
         std::unordered_map<ResourceID, ResourcePtr<T>> loadedResources;
