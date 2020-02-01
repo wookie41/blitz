@@ -46,6 +46,8 @@ find_package(GLEW REQUIRED)
 
 add_subdirectory(vendor/mathfu)
 
+add_subdirectory(memory)
+
 add_subdirectory(blitzcommon)
 add_subdirectory(renderer/core)
 
