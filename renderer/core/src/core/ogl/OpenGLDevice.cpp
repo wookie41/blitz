@@ -6,10 +6,10 @@
 #include <core/ogl/texture/OpenGLSyncReadWriteTexture.h>
 #include <core/ogl/texture/OpenGLSyncWriteTexture.h>
 #include <core/ogl/texture/OpenGLTextureCreator.h>
+#include <core/ogl/texture/OpenGLTextureSampler.h>
 
 namespace blitz::ogl
 {
-
 
 #ifndef NDEBUG
     void setupGLErrorHandler();
@@ -172,6 +172,11 @@ namespace blitz::ogl
         glRenderbufferStorage(GL_RENDERBUFFER, internalFormat, attachmentSpec.dimensions.x, attachmentSpec.dimensions.y);
         glBindRenderbuffer(GL_RENDERBUFFER, 0);
         return new OpenGLRenderBufferAttachment(rbo, type);
+    }
+
+    TextureSampler *OpenGLDevice::createSampler(Texture *texture) const
+    {
+        new blitz::ogl::OpenGLTextureSampler{ texture };
     }
 
 

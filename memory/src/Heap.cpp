@@ -1,5 +1,4 @@
 #include <blitzmemory/Heap.h>
-
 static blitz::memory::Heap* heap;
 
 void* operator new(std::size_t count) { return heap->allocate(count); }
@@ -14,11 +13,11 @@ namespace blitz::memory
 {
     void InitMemory()
     {
-	    heap = (Heap*)malloc(sizeof(Heap));
-    	heap->Init();
+        heap = (Heap*)malloc(sizeof(Heap));
+        heap->Init();
     }
 
-	void Heap::Init() {}
+    void Heap::Init() {}
     void Heap::Shutdown() {}
 
     void* Heap::allocate(const size_t& amount)

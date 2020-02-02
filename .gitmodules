@@ -2,3 +2,6 @@
 	path = vendor/mathfu
 	url = https://github.com/google/mathfu.git
 	branch = master
+[submodule "vendor/assimp"]
+	path = vendor/assimp
+	url = https://github.com/assimp/assimp

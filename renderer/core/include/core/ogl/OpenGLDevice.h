@@ -17,6 +17,8 @@ namespace blitz::ogl
 
         Texture* createTexture(const TextureSpec &textureSpec) const override;
 
+        TextureSampler *createSampler(Texture *texture) const override;
+
         FramebufferAttachment *createFramebufferAttachment(const FramebufferAttachmentSpec &attachmentSpec) const override;
 
         virtual ~OpenGLDevice();

@@ -49,6 +49,8 @@ char* f = "#version 330 core\n"
 extern blitz::Device* BLITZ_DEVICE;
 extern blitz::Renderer* BLITZ_RENDERER;
 
+#include <assimp/scene.h>
+
 int main(int argc, char** argv)
 {
     blitz::Logger::init(argc, argv);

@@ -21,6 +21,7 @@ namespace blitz
     class Context;
     class Shader;
     class Texture;
+    class TextureSampler;
     class FramebufferAttachment;
 
     class Device : private NonCopyable
@@ -33,6 +34,8 @@ namespace blitz
         virtual Shader* createShader(const ShaderSource& shaderSource) const = 0;
 
         virtual Texture* createTexture(const TextureSpec& textureSpec) const = 0;
+
+        virtual TextureSampler* createSampler(Texture* texture) const = 0;
 
         virtual FramebufferAttachment* createFramebufferAttachment(const FramebufferAttachmentSpec& spec) const = 0;
 
