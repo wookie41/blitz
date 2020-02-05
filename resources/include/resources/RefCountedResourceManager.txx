@@ -48,7 +48,7 @@ namespace blitz
     {
         for (const auto loaderIt : usedLoaders)
         {
-            delete(loaderIt->second());
+            delete loaderIt.second;
         }
     }
 } // namespace blitz

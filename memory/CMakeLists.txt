@@ -8,6 +8,7 @@ add_library(${PROJECT_NAME} SHARED
 add_library(blitz::memory ALIAS ${PROJECT_NAME})
 
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
+set_property(TARGET ${PROJECT_NAME} PROPERTY WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
 
 set_target_properties(${PROJECT_NAME}
         PROPERTIES

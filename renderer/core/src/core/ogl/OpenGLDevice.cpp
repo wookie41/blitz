@@ -135,8 +135,7 @@ namespace blitz::ogl
                 break;
         }
 
-        TextureSpec textureSpec{ textureType, attachmentSpec.dimensions, 0,     textureFormat, dataType,
-                                 false,       attachmentSpec.readable,   false, nullptr };
+        TextureSpec textureSpec{ textureType, attachmentSpec.dimensions, 0, textureFormat, dataType, false, nullptr };
 
         const auto glTexture = dynamic_cast<OpenGLTexture*>(createTexture(textureSpec));
 
@@ -176,7 +175,7 @@ namespace blitz::ogl
 
     TextureSampler *OpenGLDevice::createSampler(Texture *texture) const
     {
-        new blitz::ogl::OpenGLTextureSampler{ texture };
+        return new blitz::ogl::OpenGLTextureSampler{ texture };
     }
 
 
