@@ -1,5 +1,5 @@
-#include <core/BasicRenderer.h>
 #include <blitzcommon/DataType.h>
+#include <core/BasicRenderer.h>
 #include <core/Framebuffer.h>
 #include <core/RenderCommand.h>
 #include <core/RenderPass.h>
@@ -53,18 +53,13 @@ namespace blitz
             {
                 renderCommand->vertexArray->bind();
 
-                auto nextBuffer = renderCommand->buffers;
-                ListNode<BufferBinding>* tmp;
-
-                while (nextBuffer != nullptr)
+                for (auto binding : renderCommand->buffersBindings)
                 {
-                    nextBuffer->node->buffer->bind(nextBuffer->node->bindTarget);
-                    tmp = nextBuffer;
-                    nextBuffer = nextBuffer->next;
-                    delete tmp;
+                    binding->buffer->bind(binding->bindTarget);
+                    delete binding;
                 }
 
-                updateUniforms(renderState.shader, renderCommand->uniformsState);
+                updateUniforms(renderState.shader, renderCommand->uniformsStates);
 
                 run(renderCommand);
 
@@ -79,19 +74,10 @@ namespace blitz
         }
     }
 
-    void BasicRenderer::updateUniforms(Shader* shader, ListNode<UniformState>* uniformsState)
+    void BasicRenderer::updateUniforms(Shader* shader, const std::vector<UniformState*>& uniformsStates)
     {
-        auto next = uniformsState;
-
-        UniformState* uniformState;
-        ListNode<UniformState>* tmp;
-        while (next != nullptr)
+        for (auto uniformState : uniformsStates)
         {
-            uniformState = next->node;
-            tmp = next;
-            next = next->next;
-            delete tmp;
-
             switch (uniformState->dataType)
             {
             case DataType::BOOL:
@@ -126,8 +112,8 @@ namespace blitz
             case DataType::SAMPLER3D:
                 updateUniform<TextureSampler*>(shader, uniformState->uniformNameHash, uniformState->value);
                 break;
-                // TODO Add more 
-        	default:
+                // TODO Add more
+            default:
                 assert(false);
             }
 

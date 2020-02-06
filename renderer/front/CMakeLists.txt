@@ -1,7 +1,7 @@
 project(blitz-renderer-front C CXX)
 
 add_library(${PROJECT_NAME} STATIC
-        src/front/Precompiled.cpp
+    src/front/Precompiled.cpp
 	src/front/ModelRenderer.cpp)
 
 set_target_properties(${PROJECT_NAME}
@@ -18,8 +18,19 @@ if(WITH_DEBUG_TOOLS)
 endif()
 
 target_link_libraries(${PROJECT_NAME}
-        blitz::common
+    blitz::common
 	blitz-renderer-core
 )
+
+
+if (WIN32)
+	target_include_directories(${PROJECT_NAME} PRIVATE ${GLEW_INCLUDE_DIRS})
+	target_include_directories(${PROJECT_NAME} PRIVATE ${SDL2_INCLUDE_DIR})
+  target_link_libraries(${PROJECT_NAME} glew32 opengl32)
+elseif(UNIX)
+    target_link_libraries(${PROJECT_NAME} OpenGL GLEW)
+endif()
+
+
 
 mathfu_configure_flags(${PROJECT_NAME})

@@ -10,6 +10,7 @@ namespace blitz
 
     struct UniformState
     {
+        UniformState(DataType dt, const hash& h, void* v): dataType(dt), uniformNameHash(h), value(v) {}
         DataType dataType;
         hash uniformNameHash;
         void* value;
@@ -46,12 +47,13 @@ namespace blitz
     struct RenderCommand
     {
         VertexArray* vertexArray;
-        ListNode<BufferBinding>* buffers;
-        ListNode<UniformState>* uniformsState;
+        std::vector<BufferBinding*> buffersBindings;
+        std::vector<UniformState*> uniformsStates;
         DrawMode drawMode;
         PrimitiveType primitiveType;
-        int32 startPrimitive;
-        int32 numberOfPrimitivesToDraw;
+        int32 startVertex;
+        int32 startIndex;
+        int32 numberOfVerticesToDraw;
         int32 numberOfIndicesToDraw;
     };
 } // namespace blitz

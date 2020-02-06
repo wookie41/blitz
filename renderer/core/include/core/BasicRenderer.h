@@ -17,7 +17,7 @@ namespace blitz
 
     private:
 
-        void updateUniforms(Shader* shader, ListNode<UniformState>* uniformsState);
+        void updateUniforms(Shader* shader, const std::vector<UniformState*>& uniformsStates);
 
         template <typename T>
         void updateUniform(Shader* shader, const hash& uniformNameHash, void* value);

@@ -10,11 +10,12 @@ namespace blitz::ogl
         switch (renderCommand->drawMode)
         {
         case DrawMode::NORMAL:
-            glDrawArrays(glPrimitiveType, renderCommand->startPrimitive, renderCommand->numberOfPrimitivesToDraw);
+            glDrawArrays(glPrimitiveType, renderCommand->startVertex, renderCommand->numberOfVerticesToDraw);
             break;
         case DrawMode::INDEXED:
             glDrawElements(glPrimitiveType, renderCommand->numberOfIndicesToDraw,
-                           mapToGLDataType(renderCommand->vertexArray->getIndicesType()), 0);
+                           mapToGLDataType(renderCommand->vertexArray->getIndicesType()),
+                           (void*)(renderCommand->startIndex * sizeof(GLuint)));
             break;
         }
     }
