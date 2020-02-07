@@ -14,6 +14,12 @@
 #include <resources/texture/STBImage2DTextureLoader.h>
 #include <core/ogl/uniforms/OpenGLSamplerUniformVariable.h>
 #include <core/ogl/texture/OpenGLTextureSampler.h>
+#include <resources/ResourcesManager.h>
+#include <resources/texture/STBImage2DTextureLoader.h>
+#include <resources/model/Model.h>
+#include <resources/model/AssimpModelLoader.h>
+#include <resources/RefCountedResourceManager.h>
+#include <front/ModelRenderer.h>
 
 char* v = "#version 330 core\n"
           "layout (location = 0) in vec3 pos;\n"
@@ -23,7 +29,7 @@ char* v = "#version 330 core\n"
           "{\n"
           "\n"
           "    TexCoords = texCoords;\n"
-          "    gl_Position = vec4(pos, 1.0);\n"
+          "    gl_Position = vec4(pos * 0.001f, 1.0);\n"
           "}";
 
 
@@ -131,10 +137,27 @@ int main(int argc, char** argv)
                                                                                 3 };
 
     blitz::RenderPass* rectangleRenderPass = new blitz::BasicRenderPass(renderState);
-    rectangleRenderPass->add(drawFirstTriangleCommand);
-    rectangleRenderPass->add(drawSecondTriangleCommand);
-    rectangleRenderPass->finish();
+    //rectangleRenderPass->add(drawFirstTriangleCommand);
+    //rectangleRenderPass->add(drawSecondTriangleCommand);
 
+	blitz::RefCountedResourceManager<blitz::Texture> texturesManager;
+    blitz::RefCountedResourceManager<blitz::Model> modelsManager;
+
+	blitz::AssimpModelLoader assimpModelLoader{
+        window->getContext(),
+		&texturesManager,
+		{ nullptr, "D:\\Projects\\LearnOpenGL\\resources\\objects\\nanosuit\\nanosuit.obj", 0 }
+    };
+
+	
+    const auto modelID = modelsManager.loadResource(&assimpModelLoader);
+    const auto model = modelsManager.getResource(modelID);
+    blitz::front::BasicModelRenderer modelRenderer({ model.raw() }); //TODO perhaps ModelRenderer should use the ResourcePtr
+    for (const auto comand : modelRenderer.produceCommands())
+    {
+        rectangleRenderPass->add(comand);
+    }
+    rectangleRenderPass->finish();
     BLITZ_RENDERER->issue(rectangleRenderPass);
     BLITZ_RENDERER->render(window);
 

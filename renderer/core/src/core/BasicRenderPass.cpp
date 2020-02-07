@@ -1,11 +1,12 @@
 #include <core/BasicRenderPass.h>
-
+#include <stdio.h>
 namespace blitz
 {
     BasicRenderPass::BasicRenderPass(RenderState* renderState) : RenderPass(renderState) {}
 
     void BasicRenderPass::add(RenderCommand* renderCommand)
     {
+        puts("adding");
         if (!isFinished)
             renderCommands.push_back(renderCommand);
     }

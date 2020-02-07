@@ -41,22 +41,36 @@ namespace blitz::front
             renderCommand->numberOfIndicesToDraw = mesh->facesCount * 3;
             renderCommand->numberOfVerticesToDraw = mesh->verticesCount;
 
-            // TODO handle models without textures
+            // TODO handle models without textures, ex. give them a default color, or just allow models to define material as colors
 
-            renderCommand->uniformsStates.push_back(
-				new UniformState(DataType::SAMPLER2D, DIFFUSE_SAMPLER_UNIFORM_HASH, (void*)&mesh->diffuseSampler)
-            );
+            if (mesh->diffuseSampler != nullptr)
+            {
+                renderCommand->uniformsStates.push_back(
+                new UniformState(DataType::SAMPLER2D, DIFFUSE_SAMPLER_UNIFORM_HASH, (void*)&mesh->diffuseSampler));
+            }
 
-        	renderCommand->uniformsStates.push_back(
-				new UniformState(DataType::SAMPLER2D, SPECULAR_SAMPLER_UNIFORM_HASH, (void*)&mesh->specularSampler)
-            );
+            if (mesh->specularSampler != nullptr)
+            {
+                renderCommand->uniformsStates.push_back(
+                new UniformState(DataType::SAMPLER2D, SPECULAR_SAMPLER_UNIFORM_HASH, (void*)&mesh->specularSampler));
+            }
 
-        	renderCommand->uniformsStates.push_back(
-				new UniformState(DataType::SAMPLER2D, NORMAL_SAMPLER_UNIFORM_HASH, (void*)&mesh->normalMapSampler)
-            );
+            if (mesh->normalMapSampler != nullptr)
+            {
+                renderCommand->uniformsStates.push_back(
+                new UniformState(DataType::SAMPLER2D, NORMAL_SAMPLER_UNIFORM_HASH, (void*)&mesh->normalMapSampler));
+            }
+
 
             vertiecsDrawn += renderCommand->numberOfVerticesToDraw;
             indiciesDrawn += renderCommand->numberOfIndicesToDraw;
+            renderCommands.push_back(renderCommand);
+        }
+
+        for (const auto child : model->children)
+        {
+            const auto childRenderCommands = createCommandsFor(child);
+            renderCommands.insert(renderCommands.end(), childRenderCommands.begin(), childRenderCommands.end());
         }
 
         return renderCommands;

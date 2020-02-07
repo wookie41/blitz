@@ -19,7 +19,7 @@ namespace blitz
     class AssimpModelLoader : public ResourceLoader<Model>
     {
       public:
-        AssimpModelLoader(Context* ctx,
+        AssimpModelLoader(Context& ctx,
                         ResourcesManager<Texture>* tManager,
                         const ResourceLocation& location);
 
@@ -37,8 +37,10 @@ namespace blitz
 
         ResourceID modelID;
         Assimp::Importer modelImporter;
-        Context* context;
+        Context& context;
         ResourcesManager<Texture>* texturesManager;
+        char* modelFileDirectoryPath = nullptr;
+        uint32 modelFileDirectoryPathLength = 0;
     };
 } // namespace blitz
 

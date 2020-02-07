@@ -9,7 +9,7 @@ namespace blitz
     {
         counterMx = new std::mutex();
         usageCountPtr = new uint32_t;
-        *usageCountPtr = 0;
+        *usageCountPtr = 1;
         resourcePtr = ptr;
     }
 
