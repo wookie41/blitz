@@ -43,6 +43,7 @@ namespace blitz
 
                 shader->use();
                 shader->setup(framebuffer);
+                updateUniforms(shader, renderState.renderPassWideUniforms);
                 lastShader = shader;
             }
 
@@ -53,19 +54,15 @@ namespace blitz
             {
                 renderCommand->vertexArray->bind();
 
-                auto nextBuffer = renderCommand->buffers;
-                ListNode<BufferBinding>* tmp;
 
-                while (nextBuffer != nullptr)
+                for(const auto bufferBinding : renderCommand->buffers)
                 {
-                    nextBuffer->node->buffer->bind(nextBuffer->node->bindTarget);
-                    tmp = nextBuffer;
-                    nextBuffer = nextBuffer->next;
-                    delete tmp;
+                    bufferBinding->buffer->bind(bufferBinding->bindTarget);
+                    delete bufferBinding;
                 }
 
                 updateUniforms(renderState.shader, renderCommand->uniformsState);
-
+            	
                 run(renderCommand);
 
                 delete renderCommand;
@@ -79,19 +76,10 @@ namespace blitz
         }
     }
 
-    void BasicRenderer::updateUniforms(Shader* shader, ListNode<UniformState>* uniformsState)
+    void BasicRenderer::updateUniforms(Shader* shader, const std::vector<UniformState*>& uniformsState)
     {
-        auto next = uniformsState;
-
-        UniformState* uniformState;
-        ListNode<UniformState>* tmp;
-        while (next != nullptr)
+        for (const auto uniformState : uniformsState)
         {
-            uniformState = next->node;
-            tmp = next;
-            next = next->next;
-            delete tmp;
-
             switch (uniformState->dataType)
             {
             case DataType::BOOL:
