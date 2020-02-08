@@ -7,29 +7,33 @@
 
 #include "core/RenderCommand.h"
 #include "core/RenderState.h"
+#include <Camera.h>
+#include <SDL2/SDL.h>
 #include <core/BasicRenderPass.h>
 #include <core/Renderer.h>
 #include <core/Window.h>
-#include <iostream>
-#include <resources/texture/STBImage2DTextureLoader.h>
-#include <core/ogl/uniforms/OpenGLSamplerUniformVariable.h>
 #include <core/ogl/texture/OpenGLTextureSampler.h>
-#include <resources/ResourcesManager.h>
-#include <resources/texture/STBImage2DTextureLoader.h>
-#include <resources/model/Model.h>
-#include <resources/model/AssimpModelLoader.h>
-#include <resources/RefCountedResourceManager.h>
+#include <core/ogl/uniforms/OpenGLSamplerUniformVariable.h>
 #include <front/ModelRenderer.h>
+#include <gl/glew.h>
+#include <iostream>
+#include <resources/RefCountedResourceManager.h>
+#include <resources/ResourcesManager.h>
+#include <resources/model/AssimpModelLoader.h>
+#include <resources/model/Model.h>
+#include <resources/texture/STBImage2DTextureLoader.h>
 
 char* v = "#version 330 core\n"
           "layout (location = 0) in vec3 pos;\n"
           "layout (location = 1) in vec2 texCoords;\n"
           "out vec2 TexCoords;\n"
+          "uniform mat4 projection;\n"
+          "uniform mat4 view;\n"
           "void main()\n"
           "{\n"
           "\n"
           "    TexCoords = texCoords;\n"
-          "    gl_Position = vec4(pos * 0.001f, 1.0);\n"
+          "    gl_Position = projection * view * vec4(pos, 1.0);\n"
           "}";
 
 
@@ -57,6 +61,8 @@ extern blitz::Renderer* BLITZ_RENDERER;
 
 #include <assimp/scene.h>
 
+Camera camera;
+
 int main(int argc, char** argv)
 {
     blitz::Logger::init(argc, argv);
@@ -80,7 +86,8 @@ int main(int argc, char** argv)
 
     blitz::VertexArray* basicVertexArray = window->getContext().createVertexArray();
     basicVertexArray->addAttribute({ vertexBuffer, "pos", blitz::DataType::FLOAT, 3, false, 5 * sizeof(float), 0, 0 });
-    basicVertexArray->addAttribute({ vertexBuffer, "texCoords", blitz::DataType::FLOAT, 2, false, 5 * sizeof(float), 3 * sizeof(float), 0 });
+    basicVertexArray->addAttribute(
+    { vertexBuffer, "texCoords", blitz::DataType::FLOAT, 2, false, 5 * sizeof(float), 3 * sizeof(float), 0 });
 
     blitz::ShaderSource shaderSource = { "myshader", v, nullptr, f };
     blitz::Shader* shader = BLITZ_DEVICE->createShader(shaderSource);
@@ -103,66 +110,91 @@ int main(int argc, char** argv)
     char textureLocation[] = "container.jpg";
     blitz::STBImage2DTextureLoader textureLoader({ nullptr, textureLocation });
     blitz::Texture* tex = textureLoader.load();
-	
+
     bool shouldUseTextureForFirstTriangle = true;
     blitz::ogl::OpenGLTextureSampler* sampler = new blitz::ogl::OpenGLTextureSampler{ tex };
-    
-	std::vector<blitz::UniformState*> firstTriangleUniforms;
-    firstTriangleUniforms.emplace_back(new blitz::UniformState (blitz::DataType::BOOL, blitz::hashString("useTexture"), (void*)&shouldUseTextureForFirstTriangle));
-    firstTriangleUniforms.emplace_back(new blitz::UniformState (blitz::DataType::SAMPLER2D, blitz::hashString("tex"), (void*)&sampler));
-	
-    blitz::RenderCommand* drawFirstTriangleCommand = new blitz::RenderCommand{ basicVertexArray,
-                                                                               {},
-                                                                               firstTriangleUniforms,
-                                                                               blitz::DrawMode::NORMAL,
-                                                                               blitz::PrimitiveType::TRIANGLES,
-                                                                               0,
-                                                                               0,
-                                                                               3 };
+
+    std::vector<blitz::UniformState*> firstTriangleUniforms;
+    firstTriangleUniforms.emplace_back(new blitz::UniformState(blitz::DataType::BOOL, blitz::hashString("useTexture"),
+                                                               (void*)&shouldUseTextureForFirstTriangle));
+    firstTriangleUniforms.emplace_back(new blitz::UniformState(blitz::DataType::SAMPLER2D, blitz::hashString("tex"), (void*)&sampler));
+
+    blitz::RenderCommand* drawFirstTriangleCommand = new blitz::RenderCommand{
+        basicVertexArray, {}, firstTriangleUniforms, blitz::DrawMode::NORMAL, blitz::PrimitiveType::TRIANGLES, 0, 0, 3
+    };
 
     blitz::Vector3f* triangleColor = new blitz::Vector3f{ 0.f, 1.f, 0.f };
     bool shouldUseTextureForSecondTriangle = false;
 
     std::vector<blitz::UniformState*> secondTriangleUniforms;
-    secondTriangleUniforms.emplace_back(new blitz::UniformState (blitz::DataType::VECTOR3F, blitz::hashString("color"), (void*)triangleColor));
-    secondTriangleUniforms.emplace_back(new blitz::UniformState (blitz::DataType::BOOL, blitz::hashString("useTexture"), (void*)&shouldUseTextureForSecondTriangle));
+    secondTriangleUniforms.emplace_back(
+    new blitz::UniformState(blitz::DataType::VECTOR3F, blitz::hashString("color"), (void*)triangleColor));
+    secondTriangleUniforms.emplace_back(new blitz::UniformState(blitz::DataType::BOOL, blitz::hashString("useTexture"),
+                                                                (void*)&shouldUseTextureForSecondTriangle));
 
-    blitz::RenderCommand* drawSecondTriangleCommand = new blitz::RenderCommand{ basicVertexArray,
-                                                                                {},
-                                                                                secondTriangleUniforms,
-                                                                                blitz::DrawMode::NORMAL,
-                                                                                blitz::PrimitiveType::TRIANGLES,
-                                                                                3,
-                                                                                0,
-                                                                                3 };
-
-    blitz::RenderPass* rectangleRenderPass = new blitz::BasicRenderPass(renderState);
-    //rectangleRenderPass->add(drawFirstTriangleCommand);
-    //rectangleRenderPass->add(drawSecondTriangleCommand);
-
-	blitz::RefCountedResourceManager<blitz::Texture> texturesManager;
-    blitz::RefCountedResourceManager<blitz::Model> modelsManager;
-
-	blitz::AssimpModelLoader assimpModelLoader{
-        window->getContext(),
-		&texturesManager,
-		{ nullptr, "D:\\Projects\\LearnOpenGL\\resources\\objects\\nanosuit\\nanosuit.obj", 0 }
+    blitz::RenderCommand* drawSecondTriangleCommand = new blitz::RenderCommand{
+        basicVertexArray, {}, secondTriangleUniforms, blitz::DrawMode::NORMAL, blitz::PrimitiveType::TRIANGLES, 3, 0, 3
     };
 
-	
+    blitz::RenderPass* rectangleRenderPass = new blitz::BasicRenderPass(renderState);
+    // rectangleRenderPass->add(drawFirstTriangleCommand);
+    // rectangleRenderPass->add(drawSecondTriangleCommand);
+
+    blitz::RefCountedResourceManager<blitz::Texture> texturesManager;
+    blitz::RefCountedResourceManager<blitz::Model> modelsManager;
+
+    blitz::AssimpModelLoader assimpModelLoader{
+        window->getContext(), &texturesManager, { nullptr, "D:\\Projects\\LearnOpenGL\\resources\\objects\\nanosuit\\nanosuit.obj", 0 }
+    };
+
+
     const auto modelID = modelsManager.loadResource(&assimpModelLoader);
     const auto model = modelsManager.getResource(modelID);
-    blitz::front::BasicModelRenderer modelRenderer({ model.raw() }); //TODO perhaps ModelRenderer should use the ResourcePtr
-    for (const auto comand : modelRenderer.produceCommands())
+    blitz::front::BasicModelRenderer modelRenderer({ model.raw() }); // TODO perhaps ModelRenderer should use the ResourcePtr
+
+
+    while (1)
     {
-        rectangleRenderPass->add(comand);
+        SDL_Event event;
+        while (SDL_PollEvent(&event))
+        {
+
+            if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_w)
+            {
+                camera.ProcessKeyboard(FORWARD, 1.f / 60.f);
+            }
+
+            if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_s)
+            {
+                camera.ProcessKeyboard(BACKWARD, 1.f / 60.f);
+            }
+
+            if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_a)
+            {
+                camera.ProcessKeyboard(LEFT, 1.f / 60.f);
+            }
+
+            if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_d)
+            {
+                camera.ProcessKeyboard(RIGHT, 1.f / 60.f);
+            }
+
+        	if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)
+            {
+                exit(0);
+            }
+        }
+
+    	for (const auto comand : modelRenderer.produceCommands())
+        {
+            rectangleRenderPass->add(comand);
+        }
+    	
+        rectangleRenderPass->finish();
+        BLITZ_RENDERER->issue(rectangleRenderPass);
+        BLITZ_RENDERER->render(window);
     }
-    rectangleRenderPass->finish();
-    BLITZ_RENDERER->issue(rectangleRenderPass);
-    BLITZ_RENDERER->render(window);
-
-    int x;
-    std::cin >> x;
-
+    
+    
     return 0;
 }
