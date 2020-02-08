@@ -50,7 +50,10 @@ add_library(${PROJECT_NAME} STATIC
         src/core/RenderPass.cpp
         src/core/BasicRenderer.cpp
         src/core/BasicRenderPass.cpp 
-        src/core/ogl/BasicOpenGLRenderer.cpp)
+        src/core/ogl/BasicOpenGLRenderer.cpp
+        src/resources/STBImage2DTextureLoader.cpp
+        src/resources/Texture.cpp
+        src/resources/TextureLoader.cpp)
 
 set_target_properties(${PROJECT_NAME}
         PROPERTIES
@@ -65,7 +68,7 @@ if(WITH_DEBUG_TOOLS)
     target_link_libraries(${PROJECT_NAME} loguru)
 endif()
 
-target_link_libraries(${PROJECT_NAME} blitz::common blitz::memory)
+target_link_libraries(${PROJECT_NAME} blitz::common blitz::memory stbimage blitz::resources)
 
 if (WIN32)
 	target_include_directories(${PROJECT_NAME} PRIVATE ${GLEW_INCLUDE_DIRS})

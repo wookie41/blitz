@@ -46,8 +46,8 @@ namespace blitz
     struct RenderCommand
     {
         VertexArray* vertexArray;
-        ListNode<BufferBinding>* buffers;
-        ListNode<UniformState>* uniformsState;
+        std::vector<BufferBinding*> buffers;
+        std::vector<UniformState*> uniformsState;
         DrawMode drawMode;
         PrimitiveType primitiveType;
         int32 startPrimitive;
