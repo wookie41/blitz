@@ -85,7 +85,6 @@ int main(int argc, char** argv)
 
     blitz::RenderState* renderState = new blitz::RenderState{ { 0.5f, 0.0f, 0.5f, 1.0f },
                                                               { 0, 0, 400, 500 },
-                                                              blitz::Projection::ORTHOGRAPHIC,
                                                               false,
                                                               false,
                                                               shader,
@@ -98,16 +97,13 @@ int main(int argc, char** argv)
 	
     bool shouldUseTextureForFirstTriangle = true;
     blitz::ogl::OpenGLTextureSampler* sampler = new blitz::ogl::OpenGLTextureSampler{ tex };
-    blitz::UniformState* firstTriangleTexture =
-    new blitz::UniformState{ blitz::DataType::SAMPLER2D, blitz::hashString("tex"), (void*)&sampler };
-    blitz::UniformState* firstTriangleTextureFlagUniform =
-    new blitz::UniformState{ blitz::DataType::BOOL, blitz::hashString("useTexture"), (void*)&shouldUseTextureForFirstTriangle };
-    blitz::ListNode<blitz::UniformState>* firstTriangleUniforms =
-    new blitz::ListNode<blitz::UniformState>{ firstTriangleTextureFlagUniform,
-                                              new blitz::ListNode<blitz::UniformState>{ firstTriangleTexture, nullptr } };
+    blitz::UniformState* firstTriangleTexture = new blitz::UniformState{ blitz::DataType::SAMPLER2D, blitz::hashString("tex"), (void*)&sampler };
+    blitz::UniformState* firstTriangleTextureFlagUniform = new blitz::UniformState{ blitz::DataType::BOOL, blitz::hashString("useTexture"), (void*)&shouldUseTextureForFirstTriangle };
+
+	std::vector<blitz::UniformState*> firstTriangleUniforms { firstTriangleTextureFlagUniform,firstTriangleTexture};
 
     blitz::RenderCommand* drawFirstTriangleCommand = new blitz::RenderCommand{ basicVertexArray,
-                                                                               nullptr,
+                                                                               {},
                                                                                firstTriangleUniforms,
                                                                                blitz::DrawMode::NORMAL,
                                                                                blitz::PrimitiveType::TRIANGLES,
@@ -123,12 +119,10 @@ int main(int argc, char** argv)
     blitz::UniformState* textureFlagUniform =
     new blitz::UniformState{ blitz::DataType::BOOL, blitz::hashString("useTexture"), (void*)&shouldUseTextureForSecondTriangle };
 
-    blitz::ListNode<blitz::UniformState>* secondTriangleUniforms =
-    new blitz::ListNode<blitz::UniformState>{ textureFlagUniform,
-                                              new blitz::ListNode<blitz::UniformState>{ triangleColorUniform, nullptr } };
+    std::vector<blitz::UniformState*> secondTriangleUniforms = { textureFlagUniform, triangleColorUniform };
 
     blitz::RenderCommand* drawSecondTriangleCommand = new blitz::RenderCommand{ basicVertexArray,
-                                                                                nullptr,
+                                                                                {},
                                                                                 secondTriangleUniforms,
                                                                                 blitz::DrawMode::NORMAL,
                                                                                 blitz::PrimitiveType::TRIANGLES,
