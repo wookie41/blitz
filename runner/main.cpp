@@ -7,14 +7,12 @@
 
 #include "core/RenderCommand.h"
 #include "core/RenderState.h"
-#include <Camera.h>
 #include <SDL2/SDL.h>
 #include <core/BasicRenderPass.h>
 #include <core/Renderer.h>
 #include <core/Window.h>
 #include <core/ogl/texture/OpenGLTextureSampler.h>
 #include <core/ogl/uniforms/OpenGLSamplerUniformVariable.h>
-#include <front/ModelRenderer.h>
 #include <gl/glew.h>
 #include <iostream>
 #include <resources/RefCountedResourceManager.h>
@@ -100,7 +98,6 @@ int main(int argc, char** argv)
 
     blitz::RenderState* renderState = new blitz::RenderState{ { 0.5f, 0.0f, 0.5f, 1.0f },
                                                               { 0, 0, 400, 500 },
-                                                              blitz::Projection::ORTHOGRAPHIC,
                                                               false,
                                                               false,
                                                               shader,
@@ -113,11 +110,11 @@ int main(int argc, char** argv)
 
     bool shouldUseTextureForFirstTriangle = true;
     blitz::ogl::OpenGLTextureSampler* sampler = new blitz::ogl::OpenGLTextureSampler{ tex };
-
+ 
     std::vector<blitz::UniformState*> firstTriangleUniforms;
-    firstTriangleUniforms.emplace_back(new blitz::UniformState(blitz::DataType::BOOL, blitz::hashString("useTexture"),
+    firstTriangleUniforms.push_back(new blitz::UniformState(blitz::DataType::BOOL, blitz::hashString("useTexture"),
                                                                (void*)&shouldUseTextureForFirstTriangle));
-    firstTriangleUniforms.emplace_back(new blitz::UniformState(blitz::DataType::SAMPLER2D, blitz::hashString("tex"), (void*)&sampler));
+    firstTriangleUniforms.push_back(new blitz::UniformState(blitz::DataType::SAMPLER2D, blitz::hashString("tex"), (void*)&sampler));
 
     blitz::RenderCommand* drawFirstTriangleCommand = new blitz::RenderCommand{
         basicVertexArray, {}, firstTriangleUniforms, blitz::DrawMode::NORMAL, blitz::PrimitiveType::TRIANGLES, 0, 0, 3

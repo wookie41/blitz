@@ -18,16 +18,17 @@ namespace blitz
 
     class Shader;
     class Framebuffer;
-
+    class UniformState;
+	
     struct RenderState
     {
         Color clearColor;
         ViewPort viewPort;
-        Projection projection;
         bool enableDepthTest;
         bool enableStencilTest;
         Shader* shader;
         Framebuffer* framebuffer;
         bool shouldSwapBuffers;
+        std::vector<UniformState*> renderPassWideUniforms;
     };
 } // namespace blitz

@@ -41,6 +41,8 @@ namespace blitz
                 if (lastShader != nullptr)
                     lastShader->disable();
 
+                updateUniforms(shader, renderState.renderPassWideUniforms);
+            	
                 shader->use();
                 shader->setup(framebuffer);
                 lastShader = shader;
@@ -53,14 +55,14 @@ namespace blitz
             {
                 renderCommand->vertexArray->bind();
 
-                for (auto binding : renderCommand->buffersBindings)
+                for(const auto bufferBinding : renderCommand->buffers)
                 {
-                    binding->buffer->bind(binding->bindTarget);
-                    delete binding;
+                    bufferBinding->buffer->bind(bufferBinding->bindTarget);
+                    delete bufferBinding;
                 }
 
-                updateUniforms(renderState.shader, renderCommand->uniformsStates);
-
+                updateUniforms(renderState.shader, renderCommand->uniformsState);
+            	
                 run(renderCommand);
 
                 delete renderCommand;
@@ -74,9 +76,9 @@ namespace blitz
         }
     }
 
-    void BasicRenderer::updateUniforms(Shader* shader, const std::vector<UniformState*>& uniformsStates)
+    void BasicRenderer::updateUniforms(Shader* shader, const std::vector<UniformState*>& uniformsState)
     {
-        for (auto uniformState : uniformsStates)
+        for (const auto uniformState : uniformsState)
         {
             switch (uniformState->dataType)
             {

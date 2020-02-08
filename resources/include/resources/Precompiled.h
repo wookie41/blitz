@@ -1,5 +1,5 @@
-#ifndef BLITZ_PRECOMPILED_H
-#define BLITZ_PRECOMPILED_H
+#ifndef BLITZ_RESOURCES_PRECOMPILED_H
+#define BLITZ_RESOURCES_PRECOMPILED_H
 
 #include <unordered_map>
 #include <atomic>
@@ -8,4 +8,4 @@
 #include <blitzcommon/NonCopyable.h>
 
 
-#endif //BLITZ_PRECOMPILED_H
+#endif //BLITZ_RESOURCES_PRECOMPILED_H
