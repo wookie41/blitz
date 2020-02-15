@@ -53,7 +53,8 @@ add_library(${PROJECT_NAME} STATIC
         src/core/ogl/BasicOpenGLRenderer.cpp
         src/resources/STBImage2DTextureLoader.cpp
         src/resources/Texture.cpp
-        src/resources/TextureLoader.cpp)
+        src/resources/TextureLoader.cpp
+        src/resources/model/AssimpModelLoader.cpp)
 
 set_target_properties(${PROJECT_NAME}
         PROPERTIES
@@ -68,7 +69,6 @@ if(WITH_DEBUG_TOOLS)
     target_link_libraries(${PROJECT_NAME} loguru)
 endif()
 
-<<<<<<< HEAD
 target_link_libraries(${PROJECT_NAME}
         stbimage
         assimp
@@ -76,9 +76,7 @@ target_link_libraries(${PROJECT_NAME}
         blitz::memory
         blitz::resources
 )
-=======
 target_link_libraries(${PROJECT_NAME} blitz::common blitz::memory stbimage blitz::resources)
->>>>>>> 33be4e30772a1937a29993b8ab5460bfea2d2c81
 
 if (WIN32)
 	target_include_directories(${PROJECT_NAME} PRIVATE ${GLEW_INCLUDE_DIRS})

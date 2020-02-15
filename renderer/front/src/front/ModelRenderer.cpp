@@ -45,19 +45,19 @@ namespace blitz::front
 
             if (mesh->diffuseSampler != nullptr)
             {
-                renderCommand->uniformsStates.push_back(
+                renderCommand->uniformsState.push_back(
                 new UniformState(DataType::SAMPLER2D, DIFFUSE_SAMPLER_UNIFORM_HASH, (void*)&mesh->diffuseSampler));
             }
 
             if (mesh->specularSampler != nullptr)
             {
-                renderCommand->uniformsStates.push_back(
+                renderCommand->uniformsState.push_back(
                 new UniformState(DataType::SAMPLER2D, SPECULAR_SAMPLER_UNIFORM_HASH, (void*)&mesh->specularSampler));
             }
 
             if (mesh->normalMapSampler != nullptr)
             {
-                renderCommand->uniformsStates.push_back(
+                renderCommand->uniformsState.push_back(
                 new UniformState(DataType::SAMPLER2D, NORMAL_SAMPLER_UNIFORM_HASH, (void*)&mesh->normalMapSampler));
             }
 
