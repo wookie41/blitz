@@ -1,0 +1,58 @@
+
+@startuml
+
+
+node "[ECS] Components" {
+    [Models]
+    [Lights]
+    [Sprites]
+    [UIElements]
+}
+
+node  RenderingSystem {
+
+package "RendererFrontend" {
+node {
+    [ModelRenderer]
+    [UIRenderer]
+    [SpritesRenderer]
+    [LightningManager]
+
+}
+
+note right of [RenderingPath]
+    - ForwardRenderingPath
+    - DefferedRenderingPath
+end note
+
+    [RenderingPath]
+}
+
+package "RendererBackend" {
+[Renderer]
+
+note bottom of [Renderer]
+    - OpenGL
+    - DirectX
+    - Vulkan
+end note
+
+
+RenderingPath --> Renderer:issue RenderPasses
+
+
+
+}
+
+ModelRenderer --> RenderingPath: addGeometry
+UIRenderer -> RenderingPath: addUIElement
+SpritesRenderer -> RenderingPath :addGeometry
+LightningManager --> RenderingPath :addLight
+
+
+ModelRenderer -> Models
+UIRenderer -> UIElements
+SpritesRenderer -> Sprites
+LightningManager -> Lights
+
+@enduml

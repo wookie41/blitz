@@ -31,6 +31,8 @@ namespace blitz
 
         ResourcePtr& move(ResourcePtr& rhs);
 
+        inline T* raw() const { return resourcePtr; };
+
     private:
         void decrementUsageCount();
 

@@ -1,5 +1,5 @@
-#include <core/BasicRenderer.h>
 #include <blitzcommon/DataType.h>
+#include <core/BasicRenderer.h>
 #include <core/Framebuffer.h>
 #include <core/RenderCommand.h>
 #include <core/RenderPass.h>
@@ -41,9 +41,10 @@ namespace blitz
                 if (lastShader != nullptr)
                     lastShader->disable();
 
+                updateUniforms(shader, renderState.renderPassWideUniforms);
+            	
                 shader->use();
                 shader->setup(framebuffer);
-                updateUniforms(shader, renderState.renderPassWideUniforms);
                 lastShader = shader;
             }
 
@@ -53,7 +54,6 @@ namespace blitz
             while (renderCommand != nullptr)
             {
                 renderCommand->vertexArray->bind();
-
 
                 for(const auto bufferBinding : renderCommand->buffers)
                 {
@@ -114,8 +114,8 @@ namespace blitz
             case DataType::SAMPLER3D:
                 updateUniform<TextureSampler*>(shader, uniformState->uniformNameHash, uniformState->value);
                 break;
-                // TODO Add more 
-        	default:
+                // TODO Add more
+            default:
                 assert(false);
             }
 

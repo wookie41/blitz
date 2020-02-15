@@ -1,8 +1,6 @@
 project(blitz-resources C CXX)
 
-add_library(${PROJECT_NAME} STATIC
-        src/Precompiled.cpp)
-
+add_library(${PROJECT_NAME} STATIC src/Precompiled.cpp)
 add_library(blitz::resources ALIAS ${PROJECT_NAME})
 
 set_target_properties(${PROJECT_NAME}

@@ -21,4 +21,10 @@ namespace blitz
     }
 
     DataType VertexArray::getIndicesType() const { return indicesType; }
+
+    VertexArray::~VertexArray()
+    {
+        free(vertexBuffer);
+        free(elementBuffer);
+    }
 } // namespace blitz

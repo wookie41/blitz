@@ -7,7 +7,6 @@ namespace blitz
     class Buffer;
     class OpenGLContext;
 
-
     struct VertexAttributeDef
     {
         Buffer* buffer;
@@ -44,7 +43,7 @@ namespace blitz
 
         Buffer* getBoundElementBuffer() const;
 
-        virtual ~VertexArray() = default;
+        virtual ~VertexArray();
 
       private:
 

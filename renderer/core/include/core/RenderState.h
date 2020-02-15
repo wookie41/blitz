@@ -18,7 +18,7 @@ namespace blitz
 
     class Shader;
     class Framebuffer;
-    class UniformState;
+    struct UniformState;
 	
     struct RenderState
     {

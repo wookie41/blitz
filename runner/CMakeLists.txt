@@ -7,6 +7,8 @@ set_target_properties(${PROJECT_NAME}
         CMAKE_CXX_STANDARD 17
         LINKER_LANGUAGE CXX)
 
+target_include_directories(${PROJECT_NAME} PRIVATE include)
+
 #I hate MSVS
 if (WIN32)
     target_include_directories(${PROJECT_NAME} PRIVATE ${GLEW_INCLUDE_DIRS})
@@ -18,4 +20,4 @@ if(WITH_DEBUG_TOOLS)
 endif()
 
 mathfu_configure_flags(${PROJECT_NAME})
-target_link_libraries(${PROJECT_NAME} blitz-renderer-core blitz-resources)
+target_link_libraries(${PROJECT_NAME} blitz-renderer-core blitz-renderer-front blitz-resources assimp)

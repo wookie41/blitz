@@ -1,4 +1,5 @@
 #include <resources/RefCountedResourceManager.h>
+#include <atomic>
 
 namespace blitz
 {
@@ -17,8 +18,6 @@ namespace blitz
         {
             return 0;
         }
-
-        auto usageCount = new std::atomic<uint32>(0);
 
         loadedResources.insert({ resourceID, ResourcePtr(resourcePtr) });
         return resourceID;
@@ -48,7 +47,7 @@ namespace blitz
     {
         for (const auto loaderIt : usedLoaders)
         {
-            delete(loaderIt->second());
+            delete loaderIt.second;
         }
     }
 } // namespace blitz

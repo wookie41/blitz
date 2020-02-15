@@ -20,7 +20,6 @@ namespace blitz
 
         virtual const RenderState& getRenderState() const;
 
-
         //this method should be called before the first call to getNextCommand
         //so RenderPass can optimize the order of commands to be issued
         virtual void finish() = 0;

@@ -10,10 +10,10 @@
 #include <core/BasicRenderPass.h>
 #include <core/Renderer.h>
 #include <core/Window.h>
+#include <core/ogl/texture/OpenGLTextureSampler.h>
+#include <core/ogl/uniforms/OpenGLSamplerUniformVariable.h>
 #include <iostream>
 #include <resources/texture/STBImage2DTextureLoader.h>
-#include <core/ogl/uniforms/OpenGLSamplerUniformVariable.h>
-#include <core/ogl/texture/OpenGLTextureSampler.h>
 
 char* v = "#version 330 core\n"
           "layout (location = 0) in vec3 pos;\n"
@@ -72,7 +72,8 @@ int main(int argc, char** argv)
 
     blitz::VertexArray* basicVertexArray = window->getContext().createVertexArray();
     basicVertexArray->addAttribute({ vertexBuffer, "pos", blitz::DataType::FLOAT, 3, false, 5 * sizeof(float), 0, 0 });
-    basicVertexArray->addAttribute({ vertexBuffer, "texCoords", blitz::DataType::FLOAT, 2, false, 5 * sizeof(float), 3 * sizeof(float), 0 });
+    basicVertexArray->addAttribute(
+    { vertexBuffer, "texCoords", blitz::DataType::FLOAT, 2, false, 5 * sizeof(float), 3 * sizeof(float), 0 });
 
     blitz::ShaderSource shaderSource = { "myshader", v, nullptr, f };
     blitz::Shader* shader = BLITZ_DEVICE->createShader(shaderSource);
@@ -83,33 +84,25 @@ int main(int argc, char** argv)
     basicVertexArray->bindAttribute(shader, blitz::hashString("texCoords"));
     basicVertexArray->enableAttribute(shader, blitz::hashString("texCoords"));
 
-    blitz::RenderState* renderState = new blitz::RenderState{ { 0.5f, 0.0f, 0.5f, 1.0f },
-                                                              { 0, 0, 400, 500 },
-                                                              false,
-                                                              false,
-                                                              shader,
-                                                              nullptr,
-                                                              true };
+    blitz::RenderState* renderState =
+    new blitz::RenderState{ { 0.5f, 0.0f, 0.5f, 1.0f }, { 0, 0, 400, 500 }, false, false, shader, nullptr, true };
 
     char textureLocation[] = "container.jpg";
     blitz::STBImage2DTextureLoader textureLoader({ nullptr, textureLocation });
     blitz::Texture* tex = textureLoader.load();
-	
+
     bool shouldUseTextureForFirstTriangle = true;
     blitz::ogl::OpenGLTextureSampler* sampler = new blitz::ogl::OpenGLTextureSampler{ tex };
-    blitz::UniformState* firstTriangleTexture = new blitz::UniformState{ blitz::DataType::SAMPLER2D, blitz::hashString("tex"), (void*)&sampler };
-    blitz::UniformState* firstTriangleTextureFlagUniform = new blitz::UniformState{ blitz::DataType::BOOL, blitz::hashString("useTexture"), (void*)&shouldUseTextureForFirstTriangle };
+    blitz::UniformState* firstTriangleTexture =
+    new blitz::UniformState{ blitz::DataType::SAMPLER2D, blitz::hashString("tex"), (void*)&sampler };
+    blitz::UniformState* firstTriangleTextureFlagUniform =
+    new blitz::UniformState{ blitz::DataType::BOOL, blitz::hashString("useTexture"), (void*)&shouldUseTextureForFirstTriangle };
 
-	std::vector<blitz::UniformState*> firstTriangleUniforms { firstTriangleTextureFlagUniform,firstTriangleTexture};
+    std::vector<blitz::UniformState*> firstTriangleUniforms{ firstTriangleTextureFlagUniform, firstTriangleTexture };
 
-    blitz::RenderCommand* drawFirstTriangleCommand = new blitz::RenderCommand{ basicVertexArray,
-                                                                               {},
-                                                                               firstTriangleUniforms,
-                                                                               blitz::DrawMode::NORMAL,
-                                                                               blitz::PrimitiveType::TRIANGLES,
-                                                                               0,
-                                                                               3,
-                                                                               0 };
+    blitz::RenderCommand* drawFirstTriangleCommand = new blitz::RenderCommand{
+        basicVertexArray, {}, firstTriangleUniforms, blitz::DrawMode::NORMAL, blitz::PrimitiveType::TRIANGLES, 0, 0, 3, 0
+    };
 
     blitz::Vector3f* triangleColor = new blitz::Vector3f{ 0.f, 1.f, 0.f };
     bool shouldUseTextureForSecondTriangle = false;
@@ -121,14 +114,9 @@ int main(int argc, char** argv)
 
     std::vector<blitz::UniformState*> secondTriangleUniforms = { textureFlagUniform, triangleColorUniform };
 
-    blitz::RenderCommand* drawSecondTriangleCommand = new blitz::RenderCommand{ basicVertexArray,
-                                                                                {},
-                                                                                secondTriangleUniforms,
-                                                                                blitz::DrawMode::NORMAL,
-                                                                                blitz::PrimitiveType::TRIANGLES,
-                                                                                3,
-                                                                                3,
-                                                                                0 };
+    blitz::RenderCommand* drawSecondTriangleCommand = new blitz::RenderCommand{
+        basicVertexArray, {}, secondTriangleUniforms, blitz::DrawMode::NORMAL, blitz::PrimitiveType::TRIANGLES, 3, 3, 3, 0
+    };
 
     blitz::RenderPass* rectangleRenderPass = new blitz::BasicRenderPass(renderState);
     rectangleRenderPass->add(drawFirstTriangleCommand);
