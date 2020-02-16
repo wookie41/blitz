@@ -36,6 +36,4 @@ namespace blitz::platform
             }
         }
     }
-
-
 } // namespace blitz::platform
