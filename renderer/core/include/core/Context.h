@@ -1,4 +1,3 @@
-#pragma once
 
 #include <core/Precompiled.h>
 #include <core/Buffer.h>
@@ -7,7 +6,7 @@ namespace blitz
 {
     class Context;
 
-    typedef std::function<void(Context*)> ContextOperation;
+    using std::function<void(Context*)> = ContextOperation;
 
     class BufferFiller;
     class VertexArray;

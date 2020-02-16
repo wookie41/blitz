@@ -1,5 +1,3 @@
-#pragma once
-
 #include <core/Precompiled.h>
 #include <core/Buffer.h>
 #include <core/Context.h>

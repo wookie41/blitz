@@ -1,0 +1,31 @@
+{
+    "env": {
+        "librariesDir": "D:/Libs"
+    },
+    "configurations": [
+        {
+            "name": "Win32",
+            "intelliSenseMode": "clang-x64",
+            "includePath": [
+                "${workspaceFolder}/vendor/mathfu/include",
+                "${workspaceFolder}/vendor/mathfu/include/mathfu/internal",
+                "${workspaceFolder}/vendor/mathfu/dependencies/vectorial/include",
+                "${workspaceFolder}/blitzcommon/include",
+                "${workspaceFolder}/memory/include",
+                "${workspaceFolder}/platform/include",
+                "${workspaceFolder}/renderer/core/include",
+                "${workspaceFolder}/renderer/front/include",
+                "${workspaceFolder}/resources/include",
+                "${workspaceFolder}/vendor/loguru",
+                "${workspaceFolder}/vendor/stb_image",
+                "${env:librariesDir}/glew/include"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ]
+        }
+    ],
+    "version": 4
+}

@@ -43,9 +43,9 @@ if (WIN32)
     link_directories(D:/Libs/SDL2/lib/x64 D:/Libs/glew/lib/Release/x64)
 endif()
 
-find_package(SDL2 REQUIRED)
+#find_package(SDL2 REQUIRED)
 find_package(OpenGL REQUIRED)
-find_package(GLEW REQUIRED)
+#find_package(GLEW REQUIRED)
 
 add_subdirectory(vendor/mathfu)
 add_subdirectory(vendor/assimp)
@@ -58,3 +58,4 @@ add_subdirectory(renderer/front)
 
 add_subdirectory(resources)
 add_subdirectory(runner)
+add_subdirectory(platform)
