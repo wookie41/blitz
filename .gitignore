@@ -52,3 +52,5 @@ out
 .vs
 CMakeSettings.json
 build
+
+*.code-workspace

@@ -2,10 +2,10 @@
 
 namespace blitz::platform
 {
-    const KeyboardState* SDLInputManager::getDefaultKeyboardState() const { this-> }
-    const KeyboardState* SDLInputManager::getKeybaordState(uint8 keybordID) const;
+    const KeyboardState* SDLInputManager::getDefaultKeyboardState() const { return nullptr; }
+    const KeyboardState* SDLInputManager::getKeybaordState(uint8 keybordID) const { return nullptr; }
 
-    const MouseState* SDLInputManager::getDefaultMosueState() const;
-    const MouseState* SDLInputManager::getMouseState(uint8 mouseID) const;
+    const MouseState* SDLInputManager::getDefaultMosueState() const { return nullptr; }
+    const MouseState* SDLInputManager::getMouseState(uint8 mouseID) const { return nullptr; }
 
 } // namespace blitz::platform

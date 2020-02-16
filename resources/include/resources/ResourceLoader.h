@@ -1,6 +1,6 @@
 #pragma once
 
-#include <core/Precompiled.h>
+#include <resources/Precompiled.h>
 #include <resources/ResourcePtr.h>
 
 namespace blitz
@@ -21,10 +21,12 @@ namespace blitz
         virtual const ResourceID getID() const = 0;
         virtual ~ResourceLoader() = default;
 
-    protected:	
+      protected:
         ResourceLocation resourceLocation;
     };
 
-	template <typename T>
-    ResourceLoader<T>::ResourceLoader(const ResourceLocation& location) : resourceLocation(location) {}
+    template <typename T>
+    ResourceLoader<T>::ResourceLoader(const ResourceLocation& location) : resourceLocation(location)
+    {
+    }
 } // namespace blitz

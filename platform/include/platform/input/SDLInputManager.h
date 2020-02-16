@@ -19,10 +19,9 @@ namespace blitz::platform
         const MouseState* getMouseState(uint8 mouseID) const override;
 
       private:
-
         inline void updateInputDevices();
 
-        MouseState micesStates[MAX_MICES] = { nullptr };
-        KeyboardState keyboardsStates[MAX_KEYBOARDS] = { nullptr };
-    }
+        // MouseState micesStates[MAX_MICES];
+        // KeyboardState keyboardsStates[MAX_KEYBOARDS];
+    };
 } // namespace blitz::platform

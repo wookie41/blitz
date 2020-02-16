@@ -62,7 +62,7 @@ namespace blitz::ogl
     {
         elementBuffer = buffer;
         this->indicesType = indicesType;
-        openGLContext->run([this](Context* context) { bindBuffer(vaoIdx, elementBuffer, BufferBindTarget::ELEMENT); });
+        bindBuffer(vaoIdx, elementBuffer, BufferBindTarget::ELEMENT);
     }
 
     void OpenGLVertexArray::bind()
