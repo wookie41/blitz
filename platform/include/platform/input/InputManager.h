@@ -19,11 +19,8 @@ namespace blitz::platform
       public:
         virtual void readInput() = 0;
 
-        virtual const KeyboardState* getDefaultKeyboardState() const = 0;
-        virtual const KeyboardState* getKeybaordState(uint8 keybordID) const = 0;
-
-        virtual const MouseState* getDefaultMosueState() const = 0;
-        virtual const MouseState* getMouseState(uint8 mouseID) const = 0;
+        virtual const KeyboardState* getKeyboardState() const = 0;
+        virtual const MouseState* getMouseState() const = 0;
 
         virtual ~InputManager() = default;
     };
