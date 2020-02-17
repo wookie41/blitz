@@ -10,15 +10,14 @@
 
 #pragma once
 
+#include <core/FramebufferAttachmentSpec.h>
 #include <core/Precompiled.h>
 #include <core/ShaderSource.h>
-#include <core/Window.h>
 #include <core/TextureSpec.h>
-#include <core/FramebufferAttachmentSpec.h>
+#include <core/Window.h>
 
 namespace blitz
 {
-    class Context;
     class Shader;
     class Texture;
     class TextureSampler;

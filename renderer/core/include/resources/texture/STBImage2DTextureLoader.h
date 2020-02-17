@@ -9,7 +9,6 @@ namespace blitz
     class STBImage2DTextureLoader : public TextureLoader
     {
       public:
-
         explicit STBImage2DTextureLoader(const ResourceLocation& location);
 
         Texture* load() override;
@@ -17,7 +16,7 @@ namespace blitz
 
         ~STBImage2DTextureLoader() = default;
 
-    private:
+      private:
         ResourceID textureID;
     };
 } // namespace blitz

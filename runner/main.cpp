@@ -13,6 +13,10 @@
 #include <core/ogl/texture/OpenGLTextureSampler.h>
 #include <core/ogl/uniforms/OpenGLSamplerUniformVariable.h>
 #include <iostream>
+#include <platform/event/SDLEventPooler.h>
+#include <platform/input/KeyboardState.h>
+#include <platform/input/MouseState.h>
+#include <platform/input/SDLInputManager.h>
 #include <resources/texture/STBImage2DTextureLoader.h>
 
 char* v = "#version 330 core\n"
@@ -100,9 +104,15 @@ int main(int argc, char** argv)
 
     std::vector<blitz::UniformState*> firstTriangleUniforms{ firstTriangleTextureFlagUniform, firstTriangleTexture };
 
-    blitz::RenderCommand* drawFirstTriangleCommand = new blitz::RenderCommand{
-        basicVertexArray, {}, firstTriangleUniforms, blitz::DrawMode::NORMAL, blitz::PrimitiveType::TRIANGLES, 0, 0, 3, 0
-    };
+    blitz::RenderCommand* drawFirstTriangleCommand = new blitz::RenderCommand{ basicVertexArray,
+                                                                               {},
+                                                                               firstTriangleUniforms,
+                                                                               blitz::DrawMode::NORMAL,
+                                                                               blitz::PrimitiveType::TRIANGLES,
+                                                                               0,
+                                                                               0,
+                                                                               3,
+                                                                               0 };
 
     blitz::Vector3f* triangleColor = new blitz::Vector3f{ 0.f, 1.f, 0.f };
     bool shouldUseTextureForSecondTriangle = false;
@@ -114,9 +124,15 @@ int main(int argc, char** argv)
 
     std::vector<blitz::UniformState*> secondTriangleUniforms = { textureFlagUniform, triangleColorUniform };
 
-    blitz::RenderCommand* drawSecondTriangleCommand = new blitz::RenderCommand{
-        basicVertexArray, {}, secondTriangleUniforms, blitz::DrawMode::NORMAL, blitz::PrimitiveType::TRIANGLES, 3, 3, 3, 0
-    };
+    blitz::RenderCommand* drawSecondTriangleCommand = new blitz::RenderCommand{ basicVertexArray,
+                                                                                {},
+                                                                                secondTriangleUniforms,
+                                                                                blitz::DrawMode::NORMAL,
+                                                                                blitz::PrimitiveType::TRIANGLES,
+                                                                                3,
+                                                                                3,
+                                                                                3,
+                                                                                0 };
 
     blitz::RenderPass* rectangleRenderPass = new blitz::BasicRenderPass(renderState);
     rectangleRenderPass->add(drawFirstTriangleCommand);
@@ -126,8 +142,19 @@ int main(int argc, char** argv)
     BLITZ_RENDERER->issue(rectangleRenderPass);
     BLITZ_RENDERER->render(window);
 
-    int x;
-    std::cin >> x;
+    blitz::platform::SDLInputManager inputManger;
+    blitz::platform::SDLEventPooler pooler{ &inputManger };
+
+
+    while (true)
+    {
+        pooler.poolEvents();
+
+        if (blitz::platform::isDown(inputManger.getMouseState(), blitz::platform::LEFT_MOUSE_BUTTON))
+        {
+            break;
+        }
+    }
 
     return 0;
 }

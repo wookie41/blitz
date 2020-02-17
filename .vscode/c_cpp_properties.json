@@ -1,0 +1,31 @@
+{
+    "env": {
+        "librariesDir": ""
+    },
+    "configurations": [
+        {
+            "compilerPath": "/usr/bin/clang++",
+            "name": "blitz",
+            "intelliSenseMode": "clang-x64",
+            "includePath": [
+                "${workspaceFolder}/blitzcommon/include",
+                "${workspaceFolder}/memory/include",
+                "${workspaceFolder}/platform/include",
+                "${workspaceFolder}/renderer/core/include",
+                "${workspaceFolder}/renderer/front/include",
+                "${workspaceFolder}/resources/include",
+                "${workspaceFolder}/vendor/loguru",
+                "${workspaceFolder}/vendor/assimp/include",
+                "${workspaceFolder}/vendor/mathfu/include",
+                "${workspaceFolder}/vendor/mathfu/include/mathfu/internal",
+                "${workspaceFolder}/vendor/mathfu/dependencies/vectorial/include"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ]
+        }
+    ],
+    "version": 4
+}

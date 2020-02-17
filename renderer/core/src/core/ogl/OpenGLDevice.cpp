@@ -53,19 +53,19 @@ namespace blitz::ogl
         GLenum attachmentType;
         switch (attachmentSpec.type)
         {
-            case FramebufferAttachmentType::RGB:
-            case FramebufferAttachmentType::RGBA:
-                attachmentType = GL_COLOR_ATTACHMENT0;
-                break;
-            case FramebufferAttachmentType::DEPTH:
-                attachmentType = GL_DEPTH_ATTACHMENT;
-                break;
-            case FramebufferAttachmentType::STENCIL:
-                attachmentType = GL_STENCIL_ATTACHMENT;
-                break;
-            case FramebufferAttachmentType::DEPTH_STENCIL:
-                attachmentType = GL_DEPTH_STENCIL_ATTACHMENT;
-                break;
+        case FramebufferAttachmentType::RGB:
+        case FramebufferAttachmentType::RGBA:
+            attachmentType = GL_COLOR_ATTACHMENT0;
+            break;
+        case FramebufferAttachmentType::DEPTH:
+            attachmentType = GL_DEPTH_ATTACHMENT;
+            break;
+        case FramebufferAttachmentType::STENCIL:
+            attachmentType = GL_STENCIL_ATTACHMENT;
+            break;
+        case FramebufferAttachmentType::DEPTH_STENCIL:
+            attachmentType = GL_DEPTH_STENCIL_ATTACHMENT;
+            break;
         }
 
         if (attachmentSpec.texture != nullptr)
@@ -94,17 +94,17 @@ namespace blitz::ogl
         TextureType textureType;
         switch (attachmentSpec.numberOfDimensions)
         {
-            case 1:
-                textureType = TextureType::ONE_DIMENSIONAL;
-                break;
-            case 2:
-                textureType = TextureType::TWO_DIMENSIONAL;
-                break;
-            case 3:
-                textureType = TextureType::THREE_DIMENSIONAL;
-                break;
-            default:
-                return {};
+        case 1:
+            textureType = TextureType::ONE_DIMENSIONAL;
+            break;
+        case 2:
+            textureType = TextureType::TWO_DIMENSIONAL;
+            break;
+        case 3:
+            textureType = TextureType::THREE_DIMENSIONAL;
+            break;
+        default:
+            return {};
         }
 
         DataType dataType;
@@ -112,30 +112,31 @@ namespace blitz::ogl
 
         switch (attachmentSpec.type)
         {
-            case FramebufferAttachmentType::RGB:
-                textureFormat = TextureFormat::RGB;
-                dataType = DataType::UBYTE;
-                break;
-            case FramebufferAttachmentType::RGBA:
-                textureFormat = TextureFormat::RGBA;
-                dataType = DataType::UBYTE;
-                break;
-            case FramebufferAttachmentType::STENCIL:
-                textureFormat = TextureFormat::STENCIL;
-                dataType = DataType::FLOAT;
-                break;
-            case FramebufferAttachmentType::DEPTH:
-                textureFormat = TextureFormat::DEPTH;
-                dataType = DataType::FLOAT;
+        case FramebufferAttachmentType::RGB:
+            textureFormat = TextureFormat::RGB;
+            dataType = DataType::UBYTE;
+            break;
+        case FramebufferAttachmentType::RGBA:
+            textureFormat = TextureFormat::RGBA;
+            dataType = DataType::UBYTE;
+            break;
+        case FramebufferAttachmentType::STENCIL:
+            textureFormat = TextureFormat::STENCIL;
+            dataType = DataType::FLOAT;
+            break;
+        case FramebufferAttachmentType::DEPTH:
+            textureFormat = TextureFormat::DEPTH;
+            dataType = DataType::FLOAT;
 
-                break;
-            case FramebufferAttachmentType::DEPTH_STENCIL:
-                textureFormat = TextureFormat::DEPTH_STENCIL;
-                dataType = DataType::FLOAT;
-                break;
+            break;
+        case FramebufferAttachmentType::DEPTH_STENCIL:
+            textureFormat = TextureFormat::DEPTH_STENCIL;
+            dataType = DataType::FLOAT;
+            break;
         }
 
-        TextureSpec textureSpec{ textureType, attachmentSpec.dimensions, 0, textureFormat, dataType, false, nullptr };
+        TextureSpec textureSpec{ textureType, attachmentSpec.dimensions, 0, textureFormat, dataType, false, true, true,
+                                 nullptr };
 
         const auto glTexture = dynamic_cast<OpenGLTexture*>(createTexture(textureSpec));
 
@@ -152,17 +153,17 @@ namespace blitz::ogl
 
         switch (type)
         {
-            case GL_DEPTH_ATTACHMENT:
-                internalFormat = GL_DEPTH_COMPONENT32F;
-                break;
-            case GL_STENCIL_ATTACHMENT:
-                internalFormat = GL_STENCIL_INDEX8;
-                break;
-            case GL_DEPTH_STENCIL_ATTACHMENT:
-                internalFormat = GL_DEPTH24_STENCIL8;
-                break;
-            default:
-                return nullptr;
+        case GL_DEPTH_ATTACHMENT:
+            internalFormat = GL_DEPTH_COMPONENT32F;
+            break;
+        case GL_STENCIL_ATTACHMENT:
+            internalFormat = GL_STENCIL_INDEX8;
+            break;
+        case GL_DEPTH_STENCIL_ATTACHMENT:
+            internalFormat = GL_DEPTH24_STENCIL8;
+            break;
+        default:
+            return nullptr;
         }
 
         unsigned int rbo;
@@ -173,7 +174,7 @@ namespace blitz::ogl
         return new OpenGLRenderBufferAttachment(rbo, type);
     }
 
-    TextureSampler *OpenGLDevice::createSampler(Texture *texture) const
+    TextureSampler* OpenGLDevice::createSampler(Texture* texture) const
     {
         return new blitz::ogl::OpenGLTextureSampler{ texture };
     }
@@ -185,7 +186,7 @@ namespace blitz::ogl
 
         DLOG_F(INFO, "[OpenGL] Debug message: %s type = 0x%x, severity = 0x%x, message = %s\n",
                (type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : ""), type, severity, message);
-        #endif
+#endif
     }
 
     void setupGLErrorHandler()

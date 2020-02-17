@@ -5,7 +5,13 @@
 #include <core/Device.h>
 #include <core/TextureSampler.h>
 #include <core/VertexArray.h>
+
+#ifdef WIN32
 #include <filesystem>
+#else
+#include <experimental/filesystem>
+#endif
+
 #include <resources/texture/STBImage2DTextureLoader.h>
 
 extern blitz::Device* BLITZ_DEVICE;
@@ -30,7 +36,12 @@ namespace blitz
         // TODO this is not handled while loading from memory
         if (location.pathToFile != nullptr)
         {
+#ifdef WIN32
             const auto modelFilePath = std::filesystem::path(location.pathToFile);
+#else
+            const auto modelFilePath = std::experimental::filesystem::path(location.pathToFile);
+#endif
+
             const auto modelDirectoryPath = modelFilePath.parent_path().string();
             modelFileDirectoryPathLength = modelDirectoryPath.size();
             modelFileDirectoryPath = new char[modelFileDirectoryPathLength + 1];
@@ -128,7 +139,7 @@ namespace blitz
                     }
                 }
 
-            	blitzModel->meshes.push_back(blitzMesh);
+                blitzModel->meshes.push_back(blitzMesh);
             }
 
             blitzModel->totalFacesCount = totalFacesCount;
