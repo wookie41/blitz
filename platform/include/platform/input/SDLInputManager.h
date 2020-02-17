@@ -13,7 +13,7 @@ namespace blitz::platform
     class SDLInputManager : public InputManager
     {
       public:
-        void readInput() override;
+        SDLInputManager();
 
         const KeyboardState* getKeyboardState() const override;
         const MouseState* getMouseState() const override;

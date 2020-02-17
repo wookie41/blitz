@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
-project (platform)
+project (blitz-platform)
 
 add_library(${PROJECT_NAME} STATIC
         src/event/SDLEventPooler.cpp 
@@ -13,5 +13,4 @@ target_include_directories(${PROJECT_NAME}
 )
 
 target_link_libraries(${PROJECT_NAME} blitz::common)
-
 mathfu_configure_flags(${PROJECT_NAME})

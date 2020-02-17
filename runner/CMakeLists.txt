@@ -20,4 +20,5 @@ if(WITH_DEBUG_TOOLS)
 endif()
 
 mathfu_configure_flags(${PROJECT_NAME})
-target_link_libraries(${PROJECT_NAME} blitz-renderer-core blitz-renderer-front blitz-resources assimp)
+target_link_libraries(${PROJECT_NAME} blitz-renderer-core blitz-renderer-front blitz-resources assimp blitz-platform)
+
