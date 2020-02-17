@@ -54,3 +54,6 @@ CMakeSettings.json
 build
 
 *.code-workspace
+*.filters
+*vcxproj*
+*.dir*
