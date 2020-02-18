@@ -13,7 +13,7 @@ namespace blitz
     public:
 
         void issue(RenderPass *renderPass) override;
-        void render(Window* window) override;
+        void render() override;
 
     private:
 

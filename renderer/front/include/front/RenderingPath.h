@@ -1,6 +1,5 @@
 #pragma once
 
-#include <blitzcommon/NonCopyable.h>
 #include <front/Precompiled.h>
 
 namespace blitz
@@ -8,15 +7,24 @@ namespace blitz
     struct Renderable;
     struct Light;
 
+    class Camera;
+    class Renderer;
+
     class RenderingPath : public NonCopyable
     {
       public:
-        RenderingPath() = default;
+        explicit RenderingPath(Camera* cameraToRenderFrom, const Renderer* renderer);
+
+        virtual void render() = 0;
 
         virtual void addGeometry(Renderable* geometry) = 0;
         virtual void addUIElement(Renderable* geometry) = 0;
         virtual void addGeometry(Light* light) = 0;
 
         virtual ~RenderingPath() = default;
+
+      protected:
+        Camera* camera;
+        Renderer* backendRenderer;
     }
 } // namespace blitz

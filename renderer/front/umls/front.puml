@@ -38,9 +38,6 @@ end note
 
 
 RenderingPath --> Renderer:issue RenderPasses
-
-
-
 }
 
 ModelRenderer --> RenderingPath: addGeometry

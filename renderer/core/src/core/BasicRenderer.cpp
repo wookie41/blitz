@@ -13,9 +13,8 @@ namespace blitz
 
     void BasicRenderer::issue(RenderPass* renderPass) { renderPasses.push_back(renderPass); }
 
-    void BasicRenderer::render(Window* window)
+    void BasicRenderer::render()
     {
-        window->prepare();
         Shader* lastShader = nullptr;
         Framebuffer* lastFramebuffer = nullptr;
 
@@ -28,7 +27,7 @@ namespace blitz
             setViewPort(&renderState.viewPort);
 
             Shader* shader = renderState.shader;
-            Framebuffer* framebuffer = renderState.framebuffer == nullptr ? window->getFramebuffer() : renderState.framebuffer;
+            Framebuffer* framebuffer = renderState.framebuffer;
 
             if (framebuffer != lastFramebuffer)
             {
@@ -42,35 +41,30 @@ namespace blitz
                     lastShader->disable();
 
                 updateUniforms(shader, renderState.renderPassWideUniforms);
-            	
+
                 shader->use();
                 shader->setup(framebuffer);
                 lastShader = shader;
             }
-
-            window->clearColor(renderState.clearColor);
 
             RenderCommand* renderCommand = renderPass->getNextCommand();
             while (renderCommand != nullptr)
             {
                 renderCommand->vertexArray->bind();
 
-                for(const auto bufferBinding : renderCommand->buffers)
+                for (const auto bufferBinding : renderCommand->buffers)
                 {
                     bufferBinding->buffer->bind(bufferBinding->bindTarget);
                     delete bufferBinding;
                 }
 
                 updateUniforms(renderState.shader, renderCommand->uniformsState);
-            	
+
                 run(renderCommand);
 
                 delete renderCommand;
                 renderCommand = renderPass->getNextCommand();
             }
-
-            if (renderState.shouldSwapBuffers)
-                window->swapBuffers();
 
             delete renderPass;
         }

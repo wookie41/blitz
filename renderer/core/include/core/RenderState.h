@@ -22,13 +22,11 @@ namespace blitz
 	
     struct RenderState
     {
-        Color clearColor;
         ViewPort viewPort;
         bool enableDepthTest;
         bool enableStencilTest;
         Shader* shader;
         Framebuffer* framebuffer;
-        bool shouldSwapBuffers;
         std::vector<UniformState*> renderPassWideUniforms;
     };
 } // namespace blitz

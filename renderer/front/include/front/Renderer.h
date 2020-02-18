@@ -5,7 +5,9 @@
 
 namespace blitz
 {
+    struct Renderable;
     struct RenderCommand;
+    
     namespace front
     {
         class Renderer : public NonCopyable
@@ -13,7 +15,7 @@ namespace blitz
           public:
             Renderer() = default;
 
-            virtual std::vector<RenderCommand*> produceCommands() = 0;
+            virtual Renderable produceCommands() = 0;
 
             virtual ~Renderer() = default;
         };
