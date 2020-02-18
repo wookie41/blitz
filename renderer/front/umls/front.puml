@@ -17,7 +17,6 @@ node {
     [UIRenderer]
     [SpritesRenderer]
     [LightningManager]
-
 }
 
 note right of [RenderingPath]
