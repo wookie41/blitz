@@ -18,6 +18,8 @@ namespace blitz::platform
         const KeyboardState* getKeyboardState() const override;
         const MouseState* getMouseState() const override;
 
+        ~SDLInputManager();
+
       private:
         friend class SDLEventPooler;
 

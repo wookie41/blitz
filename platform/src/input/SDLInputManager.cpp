@@ -4,7 +4,6 @@
 #include <unordered_map>
 
 
-
 // TODO right now we'are ignoring wether mouse click occur in our window or not
 // we probably should ignore click outside of our window, but the main task right now
 // it to get the input system to work at all
@@ -62,4 +61,11 @@ namespace blitz::platform
     {
         mouseState->wheelProgress += mouseWheelEvent->y;
     }
+
+    SDLInputManager::~SDLInputManager() 
+    {
+        delete keyboardState;
+        delete mouseState;
+    }
+
 } // namespace blitz::platform
