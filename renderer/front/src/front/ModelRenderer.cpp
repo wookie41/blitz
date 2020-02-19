@@ -1,6 +1,7 @@
 #include <core/RenderCommand.h>
 #include <front/ModelRenderer.h>
 #include <resources/model/Model.h>
+#include <front/Renderable.h>
 
 namespace blitz::front
 {
@@ -11,20 +12,21 @@ namespace blitz::front
 
     BasicModelRenderer::BasicModelRenderer(std::vector<Model*>&& models) : modelsToRender(models){};
 
-    std::vector<RenderCommand*> BasicModelRenderer::produceCommands()
+    Renderable* BasicModelRenderer::render()
     {
         std::vector<RenderCommand*> renderCommands(modelsToRender.size());
 
         for (const auto modelToRender : modelsToRender)
         {
-            const auto renderModelCommands = createCommandsFor(modelToRender);
-            renderCommands.insert(renderCommands.end(), renderModelCommands.begin(), renderModelCommands.end());
+            const auto renderableModel = render(modelToRender);
+            renderCommands.insert(renderCommands.end(), renderableModel->renderCommands.begin(), renderableModel->renderCommands.end());
+            delete renderableModel;
         }
 
-        return renderCommands;
+        return new Renderable { renderCommands };
     }
 
-    std::vector<RenderCommand*> BasicModelRenderer::createCommandsFor(const Model* model) const
+    Renderable* BasicModelRenderer::render(const Model* model) const
     {
         std::vector<RenderCommand*> renderCommands;
 
@@ -69,11 +71,12 @@ namespace blitz::front
 
         for (const auto child : model->children)
         {
-            const auto childRenderCommands = createCommandsFor(child);
-            renderCommands.insert(renderCommands.end(), childRenderCommands.begin(), childRenderCommands.end());
+            const auto renderableChild = render(child);
+            renderCommands.insert(renderCommands.end(), renderableChild->renderCommands.begin(), renderableChild->renderCommands.end());
+            delete renderableChild;
         }
 
-        return renderCommands;
+        return new Renderable { renderCommands };
     }
 
 } // namespace blitz::front

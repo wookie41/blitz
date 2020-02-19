@@ -15,10 +15,10 @@ namespace blitz::front
         BasicModelRenderer(std::vector<Model*>&& models);
         ~BasicModelRenderer() override = default;
 
-        std::vector<RenderCommand*> produceCommands() override;
+        Renderable* render() override;
 
       private:
-        std::vector<RenderCommand*> createCommandsFor(const Model* model) const;
+        Renderable* render(const Model* model) const;
 
         std::vector<Model*> modelsToRender;
     };

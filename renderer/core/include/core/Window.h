@@ -22,7 +22,7 @@ namespace blitz
         explicit Window(Context* context, bool isContextOwner, Framebuffer* defaultFramebuffer);
         Context& getContext() const;
 
-        Framebuffer *getFramebuffer() const;
+        Framebuffer* getFramebuffer() const;
 
         virtual void prepare() = 0;
         virtual void clearColor(const Color& color) = 0;

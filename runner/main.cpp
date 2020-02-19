@@ -89,7 +89,7 @@ int wmain(int argc, char** argv)
     basicVertexArray->enableAttribute(shader, blitz::hashString("texCoords"));
 
     blitz::RenderState* renderState =
-    new blitz::RenderState{ { 0.5f, 0.0f, 0.5f, 1.0f }, { 0, 0, 400, 500 }, false, false, shader, nullptr, true };
+    new blitz::RenderState{ { 0, 0, 400, 500 }, false, false, shader, window->getFramebuffer() };
 
     char textureLocation[] = "container.jpg";
     blitz::STBImage2DTextureLoader textureLoader({ nullptr, textureLocation });
@@ -134,17 +134,21 @@ int wmain(int argc, char** argv)
                                                                                 3,
                                                                                 0 };
 
+    window->clearColor({ 0.5f, 0.0f, 0.5f, 1.0f });
+    window->prepare();
+
     blitz::RenderPass* rectangleRenderPass = new blitz::BasicRenderPass(renderState);
     rectangleRenderPass->add(drawFirstTriangleCommand);
     rectangleRenderPass->add(drawSecondTriangleCommand);
     rectangleRenderPass->finish();
 
     BLITZ_RENDERER->issue(rectangleRenderPass);
-    BLITZ_RENDERER->render(window);
+    BLITZ_RENDERER->render();
+
+    window->swapBuffers();
 
     blitz::platform::SDLInputManager inputManger;
     blitz::platform::SDLEventPooler pooler{ &inputManger };
-
 
     while (true)
     {

@@ -19,12 +19,12 @@ namespace blitz
 
         virtual void addGeometry(Renderable* geometry) = 0;
         virtual void addUIElement(Renderable* geometry) = 0;
-        virtual void addGeometry(Light* light) = 0;
+        virtual void addLight(Light* light) = 0;
 
         virtual ~RenderingPath() = default;
 
       protected:
         Camera* camera;
         Renderer* backendRenderer;
-    }
+    };
 } // namespace blitz

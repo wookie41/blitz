@@ -15,7 +15,7 @@ namespace blitz
           public:
             Renderer() = default;
 
-            virtual Renderable produceCommands() = 0;
+            virtual Renderable* render() = 0;
 
             virtual ~Renderer() = default;
         };

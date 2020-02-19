@@ -10,12 +10,12 @@ namespace blitz
     ForwardRenderingPath::ForwardRenderingPath(Camera* cameraToRenderFrom,
                                                Renderer* renderer,
                                                const Framebuffer* targetFrameBuffer,
-                                               const Shader* shaderToUser)
-    : RenderingPath::RenderingPath(cameraToRenderFrom, render), framebuffer(targetFrameBuffer), shader(shaderToUse)
+                                               const Shader* shaderToUse)
+    : RenderingPath::RenderingPath(cameraToRenderFrom, renderer), framebuffer(targetFrameBuffer), shader(shaderToUse)
     {
     }
 
-    void ForwardRenderingPath::render() override {}
+    void ForwardRenderingPath::render() {}
 
     void ForwardRenderingPath::addGeometry(Renderable* geometry) { geometryToRender.push_back(geometry); }
 

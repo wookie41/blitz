@@ -11,7 +11,7 @@ namespace blitz
     class ForwardRenderingPath : public RenderingPath
     {
       public:
-        ForwardRenderingPath(Camera* cameraToRenderFrom, Renderer* renderer, const Framebuffer* targetFrameBuffer, const Shader* shaderToUser)
+        ForwardRenderingPath(Camera* cameraToRenderFrom, Renderer* renderer, const Framebuffer* targetFrameBuffer, const Shader* shaderToUse);
 
         void render() override;
 
@@ -26,5 +26,5 @@ namespace blitz
         std::vector<Renderable*> geometryToRender;
         std::vector<Renderable*> uiElementsToRender;
         std::vector<Light*> lights;
-    }
+    };
 } // namespace blitz

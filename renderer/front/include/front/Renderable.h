@@ -8,6 +8,6 @@ namespace blitz
     
     struct Renderable
     {
-        std::vector<RenderCommand> renderCommands;        
-    }
+        std::vector<RenderCommand*> renderCommands;        
+    };
 }
