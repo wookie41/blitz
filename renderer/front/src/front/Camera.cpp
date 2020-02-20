@@ -19,12 +19,15 @@ namespace blitz::front
         direction.x = cos(toRadians(rotation.x)) * cos(toRadians(rotation.y));
         direction.y = sin(toRadians(rotation.x));
         direction.z = sin(toRadians(rotation.x)) * cos(toRadians(rotation.y));
+        direction.Normalize();
     }
 
     Matrix4f Camera::calculateViewMatrix() const
     {
-        const Vector3f cameraRight = Vector3f::CrossProduct(worldUp, direction);
-        const Vector3f cameraUp = Vector3f::CrossProduct(direction, cameraRight);
+        Vector3f cameraRight = Vector3f::CrossProduct(worldUp, direction);
+        Vector3f cameraUp = Vector3f::CrossProduct(direction, cameraRight);
+        cameraRight.Normalize();
+        cameraUp.Normalize();
         return Matrix4f::LookAt(position, direction, cameraUp);
     }
 } // namespace blitz::front
