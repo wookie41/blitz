@@ -1,6 +1,6 @@
 project(runner C CXX)
 
-add_executable(${PROJECT_NAME} main.cpp)
+add_executable(${PROJECT_NAME} main.cpp TestRenderer.cpp)
 
 set_target_properties(${PROJECT_NAME}
         PROPERTIES
