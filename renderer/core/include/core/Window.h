@@ -1,8 +1,8 @@
 #pragma once
 
-#include <core/Precompiled.h>
-#include <core/Context.h>
 #include <core/Color.h>
+#include <core/Context.h>
+#include <core/Precompiled.h>
 
 namespace blitz
 {
@@ -25,16 +25,26 @@ namespace blitz
         Framebuffer* getFramebuffer() const;
 
         virtual void prepare() = 0;
-        virtual void clearColor(const Color& color) = 0;
-        virtual void clearDepth(const Color& color) = 0;
-        virtual void clearStencil(const Color& color) = 0;
 
         virtual void swapBuffers() = 0;
+
+        virtual void setClearColor(const Color& color) = 0;
+        virtual void setClearDepth(const float& color) = 0;
+        virtual void setClearStencil(const int& color) = 0;
+
+        virtual void clearColor() = 0;
+        virtual void clearDepth() = 0;
+        virtual void clearStencil() = 0;
 
         virtual void show() const = 0;
         virtual void hide() const = 0;
 
         virtual ~Window();
+
+      protected:
+        Color clearColorColor;
+        Color clearDepthColor;
+        Color clearStencilColor;
 
       private:
         Context* context;

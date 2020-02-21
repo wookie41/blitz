@@ -63,7 +63,6 @@ namespace blitz::front
                 new UniformState(DataType::SAMPLER2D, NORMAL_SAMPLER_UNIFORM_HASH, (void*)&mesh->normalMapSampler));
             }
 
-
             vertiecsDrawn += renderCommand->numberOfVerticesToDraw;
             indiciesDrawn += renderCommand->numberOfIndicesToDraw;
             renderCommands.push_back(renderCommand);

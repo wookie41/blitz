@@ -37,17 +37,19 @@ namespace blitz::ogl
         GLint size;
         GLenum type;
         GLsizei nameLength;
-        char* name = (char*)malloc(MAX_UNIFORM_VARIABLE_NAME_LENGTH + 1);
 
         for (GLint uniformIdx = 0; uniformIdx < numberOfUniforms; ++uniformIdx)
         {
+            char* name = (char*)malloc(MAX_UNIFORM_VARIABLE_NAME_LENGTH + 1);
             glGetActiveUniform(shaderID, uniformIdx, MAX_UNIFORM_VARIABLE_NAME_LENGTH, &nameLength, &size, &type, name);
 
             const auto nameHash = hashString(name);
             if (blockUniforms.find(nameHash) != blockUniforms.end())
             {
+                free(name);
                 continue;
             }
+
 
             auto variableLocation = glGetUniformLocation(shaderID, name);
             switch (type)
@@ -87,6 +89,7 @@ namespace blitz::ogl
                 break;
 
             default:
+                free(name);
                 DLOG_F(ERROR, "[OpenGL] Unsupported uniform variable type for '%s'", name);
             }
         }

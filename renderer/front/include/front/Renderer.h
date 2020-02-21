@@ -2,14 +2,14 @@
 
 #include <front/Precompiled.h>
 
-
 namespace blitz
 {
-    struct Renderable;
     struct RenderCommand;
     
     namespace front
     {
+        struct Renderable;
+
         class Renderer : public NonCopyable
         {
           public:

@@ -1,19 +1,27 @@
 #pragma once
 
+#include <core/RenderState.h>
 #include <front/Precompiled.h>
 
+
 namespace blitz
+{
+    class Renderer;
+}
+
+namespace blitz::front
 {
     struct Renderable;
     struct Light;
 
     class Camera;
-    class Renderer;
 
     class RenderingPath : public NonCopyable
     {
       public:
-        explicit RenderingPath(Camera* cameraToRenderFrom, const Renderer* renderer);
+        RenderingPath(Camera* cameraToRenderFrom, blitz::Renderer* renderer);
+
+        void setViewPort(const ViewPort& viewPort);
 
         virtual void render() = 0;
 
@@ -24,7 +32,16 @@ namespace blitz
         virtual ~RenderingPath() = default;
 
       protected:
+        inline Matrix4f RenderingPath::calculateProjectionMatrix(const Projection& projection, const float& fov)
+        {
+            return projection == Projection::PERSPECTIVE ?
+                   Matrix4f::Perspective(fov, viewPort.width / viewPort.height, viewPort.near, viewPort.far) :
+                   Matrix4f::Ortho(viewPort.x, viewPort.x + viewPort.width, viewPort.y, viewPort.y + viewPort.height,
+                                   viewPort.near, viewPort.far);
+        }
+
+        ViewPort viewPort;
         Camera* camera;
-        Renderer* backendRenderer;
+        blitz::Renderer* backendRenderer;
     };
-} // namespace blitz
+} // namespace blitz::front

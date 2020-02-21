@@ -7,11 +7,15 @@ namespace blitz
 {
     class Shader;
     class Framebuffer;
+}
+
+namespace blitz::front
+{
 
     class ForwardRenderingPath : public RenderingPath
     {
       public:
-        ForwardRenderingPath(Camera* cameraToRenderFrom, Renderer* renderer, const Framebuffer* targetFrameBuffer, const Shader* shaderToUse);
+        ForwardRenderingPath(Camera* cameraToRenderFrom, blitz::Renderer* renderer, Framebuffer* targetFrameBuffer, Shader* shaderToUse);
 
         void render() override;
 
@@ -20,8 +24,9 @@ namespace blitz
         void addLight(Light* light) override;
 
       private:
-        const Framebuffer* framebuffer;
-        const Shader* shader;
+
+        Framebuffer* framebuffer;
+        Shader* shader;
 
         std::vector<Renderable*> geometryToRender;
         std::vector<Renderable*> uiElementsToRender;

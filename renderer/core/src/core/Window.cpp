@@ -18,4 +18,5 @@ namespace blitz
     }
 
     Framebuffer* Window::getFramebuffer() const { return framebuffer; }
+
 } // namespace blitz

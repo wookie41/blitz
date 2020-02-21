@@ -5,9 +5,12 @@
 namespace blitz
 {
     struct RenderCommand;
-    
-    struct Renderable
+
+    namespace front
     {
-        std::vector<RenderCommand*> renderCommands;        
-    };
-}
+        struct Renderable
+        {
+            std::vector<RenderCommand*> renderCommands;
+        };
+    } // namespace front
+} // namespace blitz

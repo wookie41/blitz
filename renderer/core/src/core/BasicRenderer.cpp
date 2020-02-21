@@ -123,9 +123,6 @@ namespace blitz
     void BasicRenderer::updateUniform(Shader* shader, const hash& uniformNameHash, void* value)
     {
         T* castedValue = (T*)(value);
-        if (castedValue == nullptr)
-            return;
-
         UniformVariable<T>* uniformVariable = shader->getUniformVariable<T>(uniformNameHash);
         *uniformVariable = *castedValue;
     }

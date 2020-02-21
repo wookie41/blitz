@@ -6,7 +6,6 @@ namespace blitz
 
     void BasicRenderPass::add(RenderCommand* renderCommand)
     {
-        puts("adding");
         if (!isFinished)
             renderCommands.push_back(renderCommand);
     }

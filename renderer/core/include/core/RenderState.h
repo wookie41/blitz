@@ -1,6 +1,7 @@
 #pragma once
 
 #include <core/Color.h>
+#include <core/Precompiled.h>
 
 namespace blitz
 {
@@ -8,6 +9,7 @@ namespace blitz
     {
         uint16_t x, y;
         uint16_t width, height;
+        uint16_t near, far;
     };
 
     enum class Projection
@@ -23,6 +25,7 @@ namespace blitz
     struct RenderState
     {
         ViewPort viewPort;
+        Projection projection;
         bool enableDepthTest;
         bool enableStencilTest;
         Shader* shader;
