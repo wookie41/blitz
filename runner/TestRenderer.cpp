@@ -26,8 +26,9 @@ char* v = "#version 330 core\n"
           "void main()\n"
           "{\n"
           "\n"
+          "    mat4 model = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));\n"
           "    TexCoords = texCoords;\n"
-          "    gl_Position = _bProjection * _bView * vec4(pos, 1.0);\n"
+          "    gl_Position = _bProjection * _bView * model* vec4(pos, 1.0);\n"
           "}";
 
 
@@ -51,47 +52,8 @@ char* f = "#version 330 core\n"
           "}";
 
 static float vertexData[] = {
--0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-         0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-
-        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+    0.0f,   0.0f, 0.0f, 0.0f, 1.0f, 0.0f,   600.0f, 0.0f, 0.0f, 0.0f,
+    800.0f, 0.0f, 0.0f, 1.0f, 1.0f, 800.0f, 600.0f, 0.0f, 1.0f, 0.0f,
 };
 
 extern blitz::Device* BLITZ_DEVICE;
@@ -136,17 +98,11 @@ namespace blitz::front
         blitz::UniformState* textureFlagUniformState =
         new blitz::UniformState{ blitz::DataType::BOOL, blitz::hashString("useTexture"), (void*)&shouldUseTexture };
 
-        std::vector<blitz::UniformState*> uniforms { textureUniformState, textureFlagUniformState };
+        std::vector<blitz::UniformState*> uniforms{ textureUniformState, textureFlagUniformState };
 
-        blitz::RenderCommand* drawCubeCommand = new blitz::RenderCommand{ basicVertexArray,
-                                                                                   {},
-                                                                                   uniforms,
-                                                                                   blitz::DrawMode::NORMAL,
-                                                                                   blitz::PrimitiveType::TRIANGLES,
-                                                                                   0,
-                                                                                   0,
-                                                                                   36,
-                                                                                   0 };
+        blitz::RenderCommand* drawCubeCommand = new blitz::RenderCommand{
+            basicVertexArray, {}, uniforms, blitz::DrawMode::NORMAL, blitz::PrimitiveType::TRIANGLE_STRIP, 0, 0, 4, 0
+        };
 
 
         return new Renderable{ { drawCubeCommand } };

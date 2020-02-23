@@ -32,12 +32,12 @@ namespace blitz::front
         virtual ~RenderingPath() = default;
 
       protected:
-        inline Matrix4f RenderingPath::calculateProjectionMatrix(const Projection& projection, const float& fov)
+        inline Matrix4f calculateProjectionMatrix(const Projection& projection, const float& fov)
         {
-            return (projection == Projection::PERSPECTIVE ?
-                   Matrix4f::Perspective(toRadians(fov), (float)viewPort.width / (float)viewPort.height, viewPort.near, viewPort.far) :
-                   Matrix4f::Ortho(viewPort.x, viewPort.width, viewPort.y, viewPort.height,
-                                   viewPort.far, viewPort.near)).Transpose();
+            return projection == Projection::PERSPECTIVE ?
+                   Matrix4f::Perspective(toRadians(fov), (float)viewPort.width / (float)viewPort.height, viewPort.near,
+                                         viewPort.far) :
+                   Matrix4f::Ortho(viewPort.x, viewPort.width, viewPort.y, viewPort.height, viewPort.near, viewPort.far);
         }
 
         ViewPort viewPort;

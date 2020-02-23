@@ -7,8 +7,8 @@ namespace blitz
 {
     struct ViewPort
     {
-        int32_t x, y;
-        int32_t width, height;
+        uint16 x, y;
+        uint16 width, height;
         float near, far;
     };
 
@@ -21,7 +21,7 @@ namespace blitz
     class Shader;
     class Framebuffer;
     struct UniformState;
-	
+
     struct RenderState
     {
         ViewPort viewPort;
