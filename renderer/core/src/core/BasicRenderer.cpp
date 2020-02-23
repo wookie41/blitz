@@ -26,6 +26,9 @@ namespace blitz
             const RenderState& renderState = renderPass->getRenderState();
             setViewPort(&renderState.viewPort);
 
+            setDepthTest(renderState.enableDepthTest);
+            setStencilTest(renderState.enableStencilTest);
+
             Shader* shader = renderState.shader;
             Framebuffer* framebuffer = renderState.framebuffer;
 

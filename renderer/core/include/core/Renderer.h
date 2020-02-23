@@ -20,5 +20,7 @@ namespace blitz
     protected:
         virtual void run(RenderCommand *renderCommand) = 0;
         virtual void setViewPort(const ViewPort* viewPort) = 0;
+        virtual void setStencilTest(const bool& enabled) = 0;
+        virtual void setDepthTest(const bool& enabled) = 0;
     };
 }

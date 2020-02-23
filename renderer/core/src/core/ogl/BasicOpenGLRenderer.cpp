@@ -1,6 +1,6 @@
+#include <core/VertexArray.h>
 #include <core/ogl/BasicOpenGLRenderer.h>
 #include <core/ogl/OpenGLDataType.h>
-#include <core/VertexArray.h>
 
 namespace blitz::ogl
 {
@@ -10,7 +10,7 @@ namespace blitz::ogl
         switch (renderCommand->drawMode)
         {
         case DrawMode::NORMAL:
-            glDrawArrays(glPrimitiveType, renderCommand->startVertex, renderCommand->numberOfVerticesToDraw );
+            glDrawArrays(glPrimitiveType, renderCommand->startVertex, renderCommand->numberOfVerticesToDraw);
             break;
         case DrawMode::INDEXED:
             glDrawElements(glPrimitiveType, renderCommand->numberOfIndicesToDraw,
@@ -57,5 +57,29 @@ namespace blitz::ogl
     void BasicOpenGLRenderer::setViewPort(const ViewPort* viewPort)
     {
         glViewport(viewPort->x, viewPort->y, viewPort->width, viewPort->height);
+    }
+
+    void BasicOpenGLRenderer::setDepthTest(const bool& enabled)
+    {
+        if (enabled)
+        {
+            glEnable(GL_DEPTH_TEST);
+        }
+        else
+        {
+            glDisable(GL_DEPTH_TEST);
+        }
+    }
+
+    void BasicOpenGLRenderer::setStencilTest(const bool& enabled)
+    {
+        if (enabled)
+        {
+            glEnable(GL_STENCIL_TEST);
+        }
+        else
+        {
+            glDisable(GL_STENCIL_TEST);
+        }
     }
 } // namespace blitz::ogl

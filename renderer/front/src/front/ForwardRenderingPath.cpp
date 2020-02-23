@@ -20,16 +20,15 @@ namespace blitz::front
     void ForwardRenderingPath::render()
     {
         auto viewMatrix = camera->calculateViewMatrix();
+        //TODO this changes only when viewPort changes, we should use this fact
         auto projectionMatrix = calculateProjectionMatrix(camera->getProjection(), camera->getFieldOfView());
-
         auto viewMatrixUniformState = new UniformState{ DataType::MATRIX4F, viewMatrixUniformName, &viewMatrix };
         auto projectionMatrixUniformState = new UniformState{ DataType::MATRIX4F, projectionMatrixUniformName, &projectionMatrix };
-
         std::vector<UniformState*> forwardRenderingPathUniforms;
         forwardRenderingPathUniforms.push_back(viewMatrixUniformState);
-        // forwardRenderingPathUniforms.push_back(projectionMatrixUniformState);
+        forwardRenderingPathUniforms.push_back(projectionMatrixUniformState);
 
-        auto renderState = new RenderState{ viewPort,    camera->getProjection(),     true, true, shader,
+        auto renderState = new RenderState{ viewPort, camera->getProjection(), true, false, shader,
                                             framebuffer, forwardRenderingPathUniforms };
 
         blitz::RenderPass* forwardRenderPass = new blitz::BasicRenderPass(renderState);

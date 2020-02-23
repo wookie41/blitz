@@ -27,9 +27,8 @@ namespace blitz::front
         blitz::VertexArray* basicVertexArray;
         blitz::Shader* shader;
         blitz::Texture* tex;
-        bool shouldUseTextureForFirstTriangle;
+        bool shouldUseTexture;
         blitz::ogl::OpenGLTextureSampler* sampler;
-        blitz::Vector3f* triangleColor;
-        bool shouldUseTextureForSecondTriangle;
+        blitz::Vector3f* color;
     };
 } // namespace blitz::front

@@ -35,7 +35,7 @@ namespace blitz::platform
 
     void SDLInputManager::handleKeyUpEvent(const SDL_KeyboardEvent* keyboardEvent)
     {
-        setDown(keyboardState, keyCodesMapping[keyboardEvent->keysym.sym]);
+        setUp(keyboardState, keyCodesMapping[keyboardEvent->keysym.sym]);
     }
 
     void SDLInputManager::handleMouseMovementEvent(const SDL_MouseMotionEvent* mouseMovementEvent)

@@ -8,6 +8,8 @@ namespace blitz::platform
     const constexpr uint64 KEY_A = 2;
     const constexpr uint64 KEY_D = 3;
     const constexpr uint64 KEY_ESCAPE = 4;
+    const constexpr uint64 KEY_SPACE = 5;
+    const constexpr uint64 KEY_LEFT_CTRL = 6;
 
     struct KeyboardState
     {
@@ -18,21 +20,21 @@ namespace blitz::platform
 
     inline void setDown(KeyboardState* keyboardState, const uint64& keyCode)
     {
-        keyboardState->keysState[keyCode / 64] |= (1 << keyCode);
+        keyboardState->keysState[keyCode / 64] |= (1 << (keyCode % 64));
     }
 
     inline void setUp(KeyboardState* keyboardState, const uint64& keyCode)
     {
-        keyboardState->keysState[keyCode / 64] &= (~(1 << keyCode));
+        keyboardState->keysState[keyCode / 64] &= (~(1 << (keyCode % 64)));
     }
 
     inline bool isDown(const KeyboardState* keyboardState, const uint64& keyCode)
     {
-        return keyboardState->keysState[keyCode / 64] & (1 << keyCode);
+        return keyboardState->keysState[keyCode / 64] & (1 << (keyCode % 64));
     }
 
     inline bool isUp(const KeyboardState* keyboardState, const uint64& keyCode)
     {
-        return !isDown(keyboardState, keyCode);
+        return !isDown(keyboardState, (keyCode % 64));
     }
 } // namespace blitz::platform

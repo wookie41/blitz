@@ -21,7 +21,7 @@ namespace blitz::front
         void setProjection(const Projection& newProjection);
 
       private:
-        Projection projection = Projection::PERSPECTIVE;
+        Projection projection = Projection::ORTHOGRAPHIC;
         float fieldOfView = 45.f;
         Vector3f rotation; //euler angles (yaw, pitch roll)
         Vector3f position;

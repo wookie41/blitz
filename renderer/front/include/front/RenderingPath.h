@@ -34,10 +34,10 @@ namespace blitz::front
       protected:
         inline Matrix4f RenderingPath::calculateProjectionMatrix(const Projection& projection, const float& fov)
         {
-            return projection == Projection::PERSPECTIVE ?
-                   Matrix4f::Perspective(fov, viewPort.width / viewPort.height, viewPort.near, viewPort.far) :
-                   Matrix4f::Ortho(viewPort.x, viewPort.x + viewPort.width, viewPort.y, viewPort.y + viewPort.height,
-                                   viewPort.near, viewPort.far);
+            return (projection == Projection::PERSPECTIVE ?
+                   Matrix4f::Perspective(toRadians(fov), (float)viewPort.width / (float)viewPort.height, viewPort.near, viewPort.far) :
+                   Matrix4f::Ortho(viewPort.x, viewPort.width, viewPort.y, viewPort.height,
+                                   viewPort.far, viewPort.near)).Transpose();
         }
 
         ViewPort viewPort;

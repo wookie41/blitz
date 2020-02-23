@@ -1,22 +1,26 @@
+#include <TestRenderer.h>
 #include <core/Device.h>
 #include <core/Logger.h>
 #include <core/Renderer.h>
+#include <front/Camera.h>
+#include <front/ForwardRenderingPath.h>
 #include <platform/event/SDLEventPooler.h>
 #include <platform/input/KeyboardState.h>
 #include <platform/input/MouseState.h>
 #include <platform/input/SDLInputManager.h>
-#include <front/Camera.h>
-#include <TestRenderer.h>
-#include <front/ForwardRenderingPath.h>
+#include <SDL2/SDL.h>
+#include <GL/glew.h>
 
 extern blitz::Device* BLITZ_DEVICE;
 extern blitz::Renderer* BLITZ_RENDERER;
+
+constexpr const auto TIME_PER_FRAME = 1.f / 60.f;
 
 int wmain(int argc, char** argv)
 {
     blitz::Logger::init(argc, argv);
 
-    auto windowDef = blitz::WindowDef{ 0, 0, 400, 400, "test" };
+    auto windowDef = blitz::WindowDef{ 0, 0,  800, 600, "test" };
     auto window = BLITZ_DEVICE->createWindow(windowDef);
     window->show();
 
@@ -29,42 +33,67 @@ int wmain(int argc, char** argv)
 
     blitz::front::TestRenderer testRenderer{ window };
 
-    blitz::front::Camera camera{ { 0, 0, 2 }, { 0, 0, -1 }, { 0, 1,  0}, 75.f };
+    blitz::front::Camera camera{ { 0, 0, 1 }, { 0, 0, -1 }, { 0, 1, 0 }, 75.f };
     camera.setProjection(blitz::Projection::ORTHOGRAPHIC);
 
-    blitz::front::ForwardRenderingPath renderingPath { &camera, BLITZ_RENDERER, window->getFramebuffer(), testRenderer.getShader() };
-    renderingPath.setViewPort({ 0, 0, 400, 400, 0, 100 });
+    blitz::front::ForwardRenderingPath renderingPath{ &camera, BLITZ_RENDERER, window->getFramebuffer(), testRenderer.getShader() };
+    renderingPath.setViewPort({ 0, 0, 800, 600, 0.1f, 100.0f });
+    
+    float deltaTime = 0;
+    unsigned int lastUpdateTime = SDL_GetTicks();
+    unsigned int currentFrameTime;
 
-    while (true)
+    bool isRunning = true;
+    while (isRunning)
     {
+        currentFrameTime = SDL_GetTicks();
+        deltaTime += (currentFrameTime - lastUpdateTime) / 1000.f;
+        lastUpdateTime = currentFrameTime;
+        
         pooler.poolEvents();
 
-        if (blitz::platform::isDown(inputManger.getKeyboardState(), blitz::platform::KEY_ESCAPE))
+        while (deltaTime > TIME_PER_FRAME)
         {
-            break;
+            deltaTime -= TIME_PER_FRAME;
+
+            if (blitz::platform::isDown(inputManger.getKeyboardState(), blitz::platform::KEY_ESCAPE))
+            {
+                isRunning = false;
+                break;
+            }
+
+            if (blitz::platform::isDown(inputManger.getKeyboardState(), blitz::platform::KEY_W))
+            {
+                camera.move({ 0, 0, -10.f * TIME_PER_FRAME} );
+            }
+
+            if (blitz::platform::isDown(inputManger.getKeyboardState(), blitz::platform::KEY_S))
+            {
+                camera.move({ 0, 0, 10.f * TIME_PER_FRAME} );
+            }
+
+            if (blitz::platform::isDown(inputManger.getKeyboardState(), blitz::platform::KEY_A))
+            {
+                camera.move({ -10 * TIME_PER_FRAME, 0, 0 } );
+            }
+
+            if (blitz::platform::isDown(inputManger.getKeyboardState(), blitz::platform::KEY_D))
+            {
+                camera.move({ 10 * TIME_PER_FRAME, 0, 0 });
+            }
+
+                        if (blitz::platform::isDown(inputManger.getKeyboardState(), blitz::platform::KEY_SPACE))
+            {
+                camera.move({ 0, 10 * TIME_PER_FRAME, 0 } );
+            }
+
+            if (blitz::platform::isDown(inputManger.getKeyboardState(), blitz::platform::KEY_LEFT_CTRL))
+            {
+                camera.move({ 0, - 10 * TIME_PER_FRAME, 0 });
+            }
         }
 
-        if (blitz::platform::isDown(inputManger.getKeyboardState(), blitz::platform::KEY_W))
-        {
-            camera.move({0, 0, -1.f});
-        }
-        
-        if (blitz::platform::isDown(inputManger.getKeyboardState(), blitz::platform::KEY_S))
-        {
-            camera.move({0, 0, 1.f});
-        }
-
-                if (blitz::platform::isDown(inputManger.getKeyboardState(), blitz::platform::KEY_A))
-        {
-            camera.move({-1, 0, 0});
-        }
-        
-        if (blitz::platform::isDown(inputManger.getKeyboardState(), blitz::platform::KEY_S))
-        {
-            camera.move({1, 0, 0});
-        }
-
-
+        window->clearDepth();
         window->clearColor();
 
         renderingPath.addGeometry(testRenderer.render());

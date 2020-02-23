@@ -2,9 +2,7 @@
 
 #include <cstdint>
 
-#include <mathfu/matrix.h>
-#include <mathfu/vector.h>
-
+#include <mathfu/glsl_mappings.h>
 
 namespace blitz
 {
@@ -37,18 +35,14 @@ namespace blitz
     using uint64 = std::uint64_t;
     using decimal = float;
     using size_t = std::size_t;
-    using Vector2f = mathfu::Vector<float, 3>;
-    using Vector2i = mathfu::Vector<uint32, 3>;
-    using Vector3f = mathfu::Vector<float, 3>;
-    using Vector4f = mathfu::Vector<float, 4>;
-    using Vector3i = mathfu::Vector<uint32, 3>;
-    using Vector3l = mathfu::Vector<uint64, 3>;
-    using Vector4l = mathfu::Vector<uint64, 4>;
-    using Vector4i = mathfu::Vector<uint32, 4>;
-    using Matrix3f = mathfu::Matrix<float, 3>;
-    using Matrix4f = mathfu::Matrix<float, 4>;
-    using Matrix3i = mathfu::Matrix<uint32, 3>;
-    using Matrix4i = mathfu::Matrix<uint32, 4>;
+    using Vector2f = mathfu::vec3;
+    using Vector2i = mathfu::vec2i;
+    using Vector3f = mathfu::vec3;
+    using Vector4f = mathfu::vec4;
+    using Vector3i = mathfu::vec3i;
+    using Vector4i = mathfu::vec4i;
+    using Matrix3f = mathfu::mat3;
+    using Matrix4f = mathfu::mat4;
     using uintptr = uintptr_t;
 	
     struct BytesBuffer

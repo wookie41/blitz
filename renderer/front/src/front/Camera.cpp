@@ -25,9 +25,11 @@ namespace blitz::front
     Matrix4f Camera::calculateViewMatrix() const
     {
         auto cameraFront = direction.Normalized();
-        Vector3f cameraRight = Vector3f::CrossProduct(cameraFront, worldUp).Normalized();
-        Vector3f cameraUp = Vector3f::CrossProduct(cameraRight, cameraFront).Normalized();
-        return Matrix4f::LookAt(position, direction, cameraUp);
+        Vector3f cameraRight = Vector3f::CrossProduct(cameraFront, worldUp);
+        cameraRight.Normalize();
+        Vector3f cameraUp = Vector3f::CrossProduct(cameraRight, cameraFront);
+        cameraUp.Normalize();
+        return Matrix4f::LookAt(position, position + cameraFront, cameraUp);
     }
 
     float Camera::getFieldOfView() const { return fieldOfView; }

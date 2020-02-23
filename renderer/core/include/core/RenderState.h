@@ -7,9 +7,9 @@ namespace blitz
 {
     struct ViewPort
     {
-        uint16_t x, y;
-        uint16_t width, height;
-        uint16_t near, far;
+        int32_t x, y;
+        int32_t width, height;
+        float near, far;
     };
 
     enum class Projection
