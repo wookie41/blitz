@@ -1,7 +1,6 @@
 #pragma once
 
 #include <resources/Precompiled.h>
-#include <resources/ResourcePtr.h>
 
 namespace blitz
 {

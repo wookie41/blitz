@@ -1,10 +1,9 @@
-#include <resources/RefCountedResourceManager.h>
-#include <atomic>
+#include <resources/ResourcesManager.h>
 
 namespace blitz
 {
     template <typename T>
-    ResourceID RefCountedResourceManager<T>::loadResource(ResourceLoader<T>* resourceLoader)
+    ResourceID ResourceManager<T>::loadResource(ResourceLoader<T>* resourceLoader)
     {
         const auto resourceID = resourceLoader->getID();
         const auto isLoaded = loadedResources.find(resourceID) != loadedResources.end();
@@ -24,7 +23,7 @@ namespace blitz
     }
 
     template <typename T>
-    ResourcePtr<T> RefCountedResourceManager<T>::getResource(const ResourceID& id)
+    ResourcePtr<T> ResourceManager<T>::getResource(const ResourceID& id)
     {
         const auto resourceIt = loadedResources.find(id);
 
@@ -42,8 +41,8 @@ namespace blitz
         return resourceIt->second;
     }
 
-    template<typename T>
-    RefCountedResourceManager<T>::~RefCountedResourceManager()
+    template <typename T>
+    ResourceManager<T>::~ResourceManager()
     {
         for (const auto loaderIt : usedLoaders)
         {
