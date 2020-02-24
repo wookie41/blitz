@@ -1,7 +1,5 @@
 #pragma once
 
-#include <front/Renderer.h>
-
 namespace blitz
 {
     struct Model;
@@ -9,17 +7,12 @@ namespace blitz
 
 namespace blitz::front
 {
-    class BasicModelRenderer : public Renderer
+    struct Renderable;
+
+    class BasicModelRenderer
     {
       public:
-        BasicModelRenderer(std::vector<Model*>&& models);
-        ~BasicModelRenderer() override = default;
-
-        Renderable* render() override;
-
-      private:
-        Renderable* render(const Model* model) const;
-
-        std::vector<Model*> modelsToRender;
+        // whoever requested the renderable for the model is responsible for freeing the ptr
+        Renderable* makeRenderable(const Model* model);
     };
 } // namespace blitz::front

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <front/Renderer.h>
+#include <front/Precompiled.h>
 
 namespace blitz
 {
@@ -16,11 +16,13 @@ namespace blitz
 
 namespace blitz::front
 {
-    class TestRenderer : public Renderer
+    struct Renderable;
+
+    class TestRenderer
     {
       public:
         TestRenderer(Window* window);
-        Renderable* render();
+        Renderable* getTestRenderable();
         Shader* getShader() const;
 
       private:

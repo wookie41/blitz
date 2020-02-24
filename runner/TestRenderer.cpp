@@ -52,8 +52,8 @@ char* f = "#version 330 core\n"
           "}";
 
 static float vertexData[] = {
-    0.0f,   0.0f, 0.0f, 0.0f, 1.0f, 0.0f,   600.0f, 0.0f, 0.0f, 0.0f,
-    800.0f, 0.0f, 0.0f, 1.0f, 1.0f, 800.0f, 600.0f, 0.0f, 1.0f, 0.0f,
+    -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, -1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
+    1.0f,  1.0f, 0.0f, 1.0f, 1.0f, 1.0f,  -1.0f, 0.0f, 1.0f, 0.0f,
 };
 
 extern blitz::Device* BLITZ_DEVICE;
@@ -91,7 +91,7 @@ namespace blitz::front
 
     Shader* TestRenderer::getShader() const { return shader; }
 
-    Renderable* TestRenderer::render()
+    Renderable* TestRenderer::getTestRenderable()
     {
         blitz::UniformState* textureUniformState =
         new blitz::UniformState{ blitz::DataType::SAMPLER2D, blitz::hashString("tex"), (void*)&sampler };

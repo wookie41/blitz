@@ -1,7 +1,7 @@
 #include <core/RenderCommand.h>
 #include <front/ModelRenderer.h>
-#include <resources/model/Model.h>
 #include <front/Renderable.h>
+#include <resources/model/Model.h>
 
 namespace blitz::front
 {
@@ -10,23 +10,7 @@ namespace blitz::front
     static const auto SPECULAR_SAMPLER_UNIFORM_HASH = hashString("specularMap");
     static const auto NORMAL_SAMPLER_UNIFORM_HASH = hashString("normalMap");
 
-    BasicModelRenderer::BasicModelRenderer(std::vector<Model*>&& models) : modelsToRender(models){};
-
-    Renderable* BasicModelRenderer::render()
-    {
-        std::vector<RenderCommand*> renderCommands(modelsToRender.size());
-
-        for (const auto modelToRender : modelsToRender)
-        {
-            const auto renderableModel = render(modelToRender);
-            renderCommands.insert(renderCommands.end(), renderableModel->renderCommands.begin(), renderableModel->renderCommands.end());
-            delete renderableModel;
-        }
-
-        return new Renderable { renderCommands };
-    }
-
-    Renderable* BasicModelRenderer::render(const Model* model) const
+    Renderable* BasicModelRenderer::makeRenderable(const Model* model)
     {
         std::vector<RenderCommand*> renderCommands;
 
@@ -70,12 +54,13 @@ namespace blitz::front
 
         for (const auto child : model->children)
         {
-            const auto renderableChild = render(child);
-            renderCommands.insert(renderCommands.end(), renderableChild->renderCommands.begin(), renderableChild->renderCommands.end());
+            const auto renderableChild = makeRenderable(child);
+            renderCommands.insert(renderCommands.end(), renderableChild->renderCommands.begin(),
+                                  renderableChild->renderCommands.end());
             delete renderableChild;
         }
 
-        return new Renderable { renderCommands };
+        return new Renderable{ renderCommands };
     }
 
 } // namespace blitz::front

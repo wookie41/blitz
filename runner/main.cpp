@@ -34,7 +34,7 @@ int main(int argc, char** argv)
     blitz::front::TestRenderer testRenderer{ window };
 
     blitz::front::Camera camera{ { 0, 0, 3 }, { 0, 0, -1 }, { 0, 1, 0 }, 75.f };
-    camera.setProjection(blitz::Projection::ORTHOGRAPHIC);
+    camera.setProjection(blitz::Projection::PERSPECTIVE);
 
     blitz::front::ForwardRenderingPath renderingPath{ &camera, BLITZ_RENDERER, window->getFramebuffer(), testRenderer.getShader() };
     renderingPath.setViewPort({ 0, 0, 800, 600, 0.1f, 100.f });
@@ -96,7 +96,7 @@ int main(int argc, char** argv)
         window->clearDepth();
         window->clearColor();
 
-        renderingPath.addGeometry(testRenderer.render());
+        renderingPath.addGeometry(testRenderer.getTestRenderable());
         renderingPath.render();
 
         window->swapBuffers();
