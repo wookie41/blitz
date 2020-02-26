@@ -1,4 +1,4 @@
-#include <resources/model/AssimpModelLoader.h>
+#include <resources/model/ModelLoader.h>
 
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
@@ -6,13 +6,7 @@
 #include <core/TextureSampler.h>
 #include <core/VertexArray.h>
 
-#ifdef WIN32
-#include <filesystem>
-#else
-#include <experimental/filesystem>
-#endif
-
-#include <resources/texture/STBImage2DTextureLoader.h>
+#include <resources/texture/TextureLoader.h>
 
 extern blitz::Device* BLITZ_DEVICE;
 
@@ -30,47 +24,29 @@ namespace blitz
     const char NORMALS[] = "normals";
     const char TEXTURE_COORDS[] = "textureCoords";
 
-    AssimpModelLoader::AssimpModelLoader(Context& ctx, ResourcesManager<Texture>* tManager, const ResourceLocation& location)
-    : context(ctx), texturesManager(tManager), ResourceLoader::ResourceLoader(location)
+    Model* ModelLoader::load(const ResourceLocation& location)
     {
-        // TODO this is not handled while loading from memory
-        if (location.pathToFile != nullptr)
+        // TODO
+        if (location.locationInMemory == nullptr)
         {
-#ifdef WIN32
-            const auto modelFilePath = std::filesystem::path(location.pathToFile);
-#else
-            const auto modelFilePath = std::experimental::filesystem::path(location.pathToFile);
-#endif
-
-            const auto modelDirectoryPath = modelFilePath.parent_path().string();
-            modelFileDirectoryPathLength = modelDirectoryPath.size();
-            modelFileDirectoryPath = new char[modelFileDirectoryPathLength + 1];
-            strncpy(modelFileDirectoryPath, modelDirectoryPath.c_str(), modelFileDirectoryPathLength);
-            modelFileDirectoryPath[modelFileDirectoryPathLength] = '\0';
+            return nullptr;
         }
-    }
 
-    Model* AssimpModelLoader::load()
-    {
         const aiScene* scene = nullptr;
         static const auto assimpFlags = aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace;
 
-        if (resourceLocation.pathToFile != nullptr)
-        {
-            scene = modelImporter.ReadFile(resourceLocation.pathToFile, assimpFlags);
-        }
-        else if (resourceLocation.locationInMemory != nullptr)
-        {
-            scene = modelImporter.ReadFileFromMemory(resourceLocation.locationInMemory, resourceLocation.sizeInBytes, assimpFlags);
-        }
+        blitz::fs::FilePath filePath;
+        fs::seperateFileNameAndPath(location.pathToFile, &filePath);
+
+        scene = modelImporter.ReadFile(location.pathToFile, assimpFlags);
 
         assert(scene != nullptr);
 
-        return loadModel(scene->mRootNode, scene);
+        const auto blitzModel = loadModel(scene->mRootNode, scene, &filePath);
+        return blitzModel;
     }
 
-
-    Model* AssimpModelLoader::loadModel(const aiNode* modelNode, const aiScene* scene)
+    Model* ModelLoader::loadModel(const aiNode* modelNode, const aiScene* scene, const fs::FilePath* modelPath)
     {
         auto blitzModel = new Model;
 
@@ -115,12 +91,13 @@ namespace blitz
 
                 blitzMesh->facesCount = mesh->mNumFaces;
                 blitzMesh->verticesCount = mesh->mNumVertices;
-                loadMaterial(blitzModel, blitzMesh, meshMaterial);
+                loadMaterial(blitzModel, blitzMesh, meshMaterial, modelPath);
 
                 for (int vertexIdx = 0; vertexIdx < mesh->mNumVertices; ++vertexIdx)
                 {
                     memcpy(vertexData + offsetInElementData, &mesh->mVertices[vertexIdx], ASSIMP_3D_VECTOR_SIZE);
                     memcpy(vertexData + offsetInElementData + ASSIMP_3D_VECTOR_SIZE, &mesh->mNormals[vertexIdx], ASSIMP_3D_VECTOR_SIZE);
+
                     // TODO
                     // here we assume that the mesh can have only one set of texture coordinates
                     // add support for multiple textures coordinates if needed in future
@@ -165,20 +142,21 @@ namespace blitz
 
         for (unsigned int childIdx = 0; childIdx < modelNode->mNumChildren; ++childIdx)
         {
-            blitzModel->children.push_back(loadModel(modelNode->mChildren[childIdx], scene));
+            blitzModel->children.push_back(loadModel(modelNode->mChildren[childIdx], scene, modelPath));
         }
 
         return blitzModel;
     }
 
-    void AssimpModelLoader::loadMaterial(Model* model, Mesh* mesh, const aiMaterial* material) const
+    void ModelLoader::loadMaterial(const Model* model, Mesh* mesh, const aiMaterial* material, const fs::FilePath* modelPath) const
     {
-        mesh->diffuseSampler = loadMaterialTexture(model, material, aiTextureType_DIFFUSE);
-        mesh->specularSampler = loadMaterialTexture(model, material, aiTextureType_SPECULAR);
-        mesh->normalMapSampler = loadMaterialTexture(model, material, aiTextureType_NORMALS);
+        mesh->diffuseSampler = loadMaterialTexture(model, material, aiTextureType_DIFFUSE, modelPath);
+        mesh->specularSampler = loadMaterialTexture(model, material, aiTextureType_SPECULAR, modelPath);
+        mesh->normalMapSampler = loadMaterialTexture(model, material, aiTextureType_NORMALS, modelPath);
     }
 
-    TextureSampler* AssimpModelLoader::loadMaterialTexture(Model* model, const aiMaterial* mat, const aiTextureType& type) const
+    TextureSampler*
+    ModelLoader::loadMaterialTexture(const Model* model, const aiMaterial* mat, const aiTextureType& type, const fs::FilePath* modelPath) const
     {
         if (mat->GetTextureCount(type) == 0)
         {
@@ -188,23 +166,20 @@ namespace blitz
         aiString textureFilePath;
         mat->GetTexture(type, 0, &textureFilePath);
 
-        char* materialTexturePath = new char[modelFileDirectoryPathLength + 1 + textureFilePath.length + 1];
-        strncpy(materialTexturePath, modelFileDirectoryPath, modelFileDirectoryPathLength);
-        strncpy(materialTexturePath + modelFileDirectoryPathLength + 1, textureFilePath.data, textureFilePath.length);
-        materialTexturePath[modelFileDirectoryPathLength + textureFilePath.length + 1] = '\0';
+        char* materialTexturePath = new char[modelPath->directoryPathLength + textureFilePath.length + 1];
+        strncpy(materialTexturePath, modelPath->directoryPath, modelPath->directoryPathLength);
+        strncpy(materialTexturePath + modelPath->directoryPathLength, textureFilePath.data, textureFilePath.length);
+        materialTexturePath[modelPath->directoryPathLength + textureFilePath.length] = '\0';
 
-#ifdef WIN32
-        materialTexturePath[modelFileDirectoryPathLength] = '\\';
-#else
-        materialTexturePath[modelFileDirectoryPathLength] = '/';
-#endif //  WIN32
+        ResourceLocation textureLocation{ nullptr, materialTexturePath, 0 };
 
-        auto textureLoader = new STBImage2DTextureLoader({ nullptr, materialTexturePath, 0 });
-        auto resourceID = texturesManager->loadResource(textureLoader);
-        auto textureResourcePtr = texturesManager->getResource(resourceID);
+        // NOTE
+        // The thing that will be loading the models before each level (or something similar)
+        // will have to unload the resources and delete the textures
 
-        return BLITZ_DEVICE->createSampler(textureResourcePtr.raw());
+        auto texture = textureLoader->loadTexture(textureLocation);
+        delete[] materialTexturePath;
+
+        return BLITZ_DEVICE->createSampler(texture);
     }
-
-    const ResourceID AssimpModelLoader::getID() const { return 0; }
 } // namespace blitz

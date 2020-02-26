@@ -1,13 +1,17 @@
 #pragma once
 
-#include <resources/ResourceLoader.h>
-#include <core/Texture.h>
+#include <resources/ResourceLocation.h>
 
 namespace blitz
-{	
-    class TextureLoader : public ResourceLoader<Texture>
+{
+    class Texture;
+
+    class TextureLoader
     {
       public:
-        explicit TextureLoader(const ResourceLocation& location);
+      
+        Texture* loadTexture(const ResourceLocation& location);
+
+        ~TextureLoader() = default;
     };
 } // namespace blitz

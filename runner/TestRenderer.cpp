@@ -15,7 +15,7 @@
 #include <core/ogl/texture/OpenGLTextureSampler.h>
 #include <core/ogl/uniforms/OpenGLSamplerUniformVariable.h>
 #include <iostream>
-#include <resources/texture/STBImage2DTextureLoader.h>
+#include <resources/texture/TextureLoader.h>
 
 char* v = "#version 330 core\n"
           "layout (location = 0) in vec3 pos;\n"
@@ -81,9 +81,9 @@ namespace blitz::front
         basicVertexArray->bindAttribute(shader, blitz::hashString("texCoords"));
         basicVertexArray->enableAttribute(shader, blitz::hashString("texCoords"));
 
+        TextureLoader textureLoader;
         char textureLocation[] = "container.jpg";
-        blitz::STBImage2DTextureLoader textureLoader({ nullptr, textureLocation });
-        tex = textureLoader.load();
+        tex = textureLoader.loadTexture({ nullptr, textureLocation });
 
         shouldUseTexture = true;
         sampler = new blitz::ogl::OpenGLTextureSampler{ tex };

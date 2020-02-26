@@ -7,6 +7,8 @@
 #include <blitzcommon/DataType.h>
 #include <blitzcommon/HashUtils.h>
 #include <blitzcommon/NonCopyable.h>
+#include <blitzcommon/PlatformUtils.h>
+#include <blitzcommon/StringUtils.h>
 #include <cassert>
 #include <cstring>
 #include <deque>
