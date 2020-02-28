@@ -62,10 +62,15 @@ namespace blitz::platform
         mouseState->wheelProgress += mouseWheelEvent->y;
     }
 
-    SDLInputManager::~SDLInputManager() 
+    SDLInputManager::~SDLInputManager()
     {
         delete keyboardState;
         delete mouseState;
     }
 
+    void SDLInputManager::tick()
+    {
+        mouseState->relativePos.x = 0;
+        mouseState->relativePos.y = 0;
+    }
 } // namespace blitz::platform

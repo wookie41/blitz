@@ -1,6 +1,9 @@
 #pragma once
 
 #include <front/Precompiled.h>
+#include <front/ModelRenderer.h>
+#include <resources/model/ModelLoader.h>
+#include <resources/texture/TextureLoader.h>
 
 namespace blitz
 {
@@ -8,6 +11,7 @@ namespace blitz
     class VertexArray;
     class Shader;
     class Texture;
+    struct Model;
     namespace ogl
     {
         class OpenGLTextureSampler;
@@ -26,11 +30,15 @@ namespace blitz::front
         Shader* getShader() const;
 
       private:
+        blitz::Model* rockModel;
         blitz::VertexArray* basicVertexArray;
         blitz::Shader* shader;
         blitz::Texture* tex;
         bool shouldUseTexture;
         blitz::ogl::OpenGLTextureSampler* sampler;
         blitz::Vector3f* color;
+        BasicModelRenderer modelRenderer;
+        TextureLoader textureLoader;
+        ModelLoader* modelLoader;
     };
 } // namespace blitz::front

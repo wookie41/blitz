@@ -77,14 +77,12 @@ namespace blitz::ogl
         glBindVertexArray(0);
     }
 
-    void OpenGLVertexArray::bindAttribute(Shader* shader, const hash& nameHash)
+    void OpenGLVertexArray::bindAttribute(const hash& nameHash)
     {
-        shader->use();
         const auto& vertexAttributeDef = getAttribute(nameHash);
         const auto shaderID = queryGLShaderID();
         const auto attributeID = queryAttributeLocation(shaderID, vertexAttributeDef.name.c_str());
 
-        glBindVertexArray(this->vaoIdx);
         vertexAttributeDef.buffer->bind(BufferBindTarget::VERTEX);
 
         switch (vertexAttributeDef.dataType)
@@ -104,26 +102,16 @@ namespace blitz::ogl
         }
 
         glVertexAttribDivisor(attributeID, static_cast<GLuint>(vertexAttributeDef.updateDivisor));
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-        glBindVertexArray(0);
-        shader->disable();
     }
 
-    void OpenGLVertexArray::enableAttribute(Shader* shader, const hash& nameHash)
+    void OpenGLVertexArray::enableAttribute(const hash& nameHash)
     {
-        shader->use();
-        glBindVertexArray(this->vaoIdx);
         glEnableVertexAttribArray(queryAttributeLocationByHash(nameHash));
-        glBindVertexArray(0);
     }
 
-    void OpenGLVertexArray::disableAttribute(Shader* shader, const hash& nameHash)
+    void OpenGLVertexArray::disableAttribute(const hash& nameHash)
     {
-        shader->use();
-        glBindVertexArray(this->vaoIdx);
         glDisableVertexAttribArray(queryAttributeLocationByHash(nameHash));
-        glBindVertexArray(0);
-        shader->disable();
     }
 
     OpenGLVertexArray::~OpenGLVertexArray() { glDeleteVertexArrays(1, &vaoIdx); }

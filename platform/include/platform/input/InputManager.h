@@ -17,6 +17,8 @@ namespace blitz::platform
     class InputManager : public NonCopyable
     {
       public:
+        virtual void tick() = 0;
+
         virtual const KeyboardState* getKeyboardState() const = 0;
         virtual const MouseState* getMouseState() const = 0;
 

@@ -9,6 +9,7 @@ namespace blitz::platform
     void SDLEventPooler::poolEvents()
     {
         SDL_Event event;
+        sdlInputManager->tick();
         while (SDL_PollEvent(&event))
         {
             switch (event.type)

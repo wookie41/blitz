@@ -23,6 +23,8 @@ namespace blitz::platform
       private:
         friend class SDLEventPooler;
 
+        void tick() override;
+
         void handleKeyDownEvent(const SDL_KeyboardEvent* keyboardEvent);
         void handleKeyUpEvent(const SDL_KeyboardEvent* keyboardEvent);
 

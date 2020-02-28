@@ -25,17 +25,13 @@ namespace blitz
     {
       public:
         VertexArray() = default;
-        virtual void bind() = 0;
-        virtual void unbind() = 0;
+
+        void setup();
+        void detach();
 
         virtual void bindElementBuffer(Buffer* buffer, const DataType& indicesType) = 0;
 
         void addAttribute(const VertexAttributeDef& vertexAttributeDef);
-
-        virtual void bindAttribute(Shader* shader, const hash& nameHash) = 0;
-
-        virtual void enableAttribute(Shader* shader, const hash &nameHash) = 0;
-        virtual void disableAttribute(Shader* shader, const hash &nameHash) = 0;
 
         Buffer* getBoundVertexBuffer() const;
 
@@ -45,9 +41,14 @@ namespace blitz
 
         virtual ~VertexArray();
 
-      private:
-
       protected:
+        virtual void bind() = 0;
+        virtual void unbind() = 0;
+
+        virtual void bindAttribute(const hash& nameHash) = 0;
+        virtual void enableAttribute(const hash& nameHash) = 0;
+        virtual void disableAttribute(const hash& nameHash) = 0;
+
         const VertexAttributeDef& getAttribute(const hash& nameHash) const;
 
         Buffer* vertexBuffer = nullptr;
@@ -55,6 +56,7 @@ namespace blitz
         DataType indicesType = DataType::UINT;
         Buffer* elementBuffer = nullptr;
 
+      private:
         std::unordered_map<hash, VertexAttributeDef> attributes;
     };
 

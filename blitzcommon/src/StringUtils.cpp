@@ -5,16 +5,17 @@ namespace blitz
     size_t lastIndexOf(const char* str, const char chr)
     {
         int idx = 0;
+        int lastIdx = -1;
         while (true)
         {
             if (str[idx] == '\0')
             {
-                return -1;
+                return lastIdx;
             }
 
             if (str[idx] == chr)
             {
-                return idx;
+                lastIdx = idx;
             }
 
             ++idx;

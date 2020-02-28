@@ -8,25 +8,33 @@ namespace blitz::front
         rotation = { 0, 0, 0 };
     }
 
+    Vector3f Camera::getDirection() const { return direction; }
+
     void Camera::move(const Vector3f& displacement) { position += displacement; }
 
     void Camera::rotate(const Vector3f& angles)
     {
-        rotation.x = std::max(rotation.x + angles.x, 90.f);
-        rotation.y = std::max(rotation.y + angles.y, 90.f);
-        rotation.z = std::max(rotation.z + angles.z, 90.f);
+        rotation.x = rotation.x + angles.x;
+        rotation.y = rotation.y + angles.y;
+        rotation.z = rotation.z + angles.z;
 
         direction.x = cos(toRadians(rotation.x)) * cos(toRadians(rotation.y));
-        direction.y = sin(toRadians(rotation.x));
+        direction.y = sin(toRadians(rotation.y));
         direction.z = sin(toRadians(rotation.x)) * cos(toRadians(rotation.y));
         direction.Normalize();
+    }
+    
+    Vector3f Camera::calculateRightVector() const 
+    {
+        auto vec = Vector3f::CrossProduct(direction.Normalized(), worldUp);
+        vec.Normalize();
+        return vec; 
     }
 
     Matrix4f Camera::calculateViewMatrix() const
     {
         auto cameraFront = direction.Normalized();
-        Vector3f cameraRight = Vector3f::CrossProduct(cameraFront, worldUp);
-        cameraRight.Normalize();
+        Vector3f cameraRight = calculateRightVector();
         Vector3f cameraUp = Vector3f::CrossProduct(cameraRight, cameraFront);
         cameraUp.Normalize();
         return Matrix4f::LookAt(position, position + cameraFront, cameraUp);

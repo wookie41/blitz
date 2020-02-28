@@ -12,6 +12,7 @@ extern blitz::Device* BLITZ_DEVICE;
 
 namespace blitz
 {
+    ModelLoader::ModelLoader(Context& ctx, TextureLoader* tLoader) :context(ctx), textureLoader(tLoader) {}
 
     // position + normal + texture
     constexpr const uint8 SINGLE_VERTEX_DATA_SIZE = 3 * sizeof(float) + 3 * sizeof(float) + 2 * sizeof(float);
@@ -26,8 +27,8 @@ namespace blitz
 
     Model* ModelLoader::load(const ResourceLocation& location)
     {
-        // TODO
-        if (location.locationInMemory == nullptr)
+        // TODO loading from memory
+        if (location.pathToFile == nullptr)
         {
             return nullptr;
         }
@@ -58,7 +59,7 @@ namespace blitz
         {
             const auto mesh = scene->mMeshes[modelNode->mMeshes[meshIdx]];
             vertexBufferSize += mesh->mNumVertices * SINGLE_VERTEX_DATA_SIZE;
-            elementBufferSize += mesh->mNumVertices * SINGLE_INDEX_DATA_SIZE * 3; // 3 because it's triangulated
+            elementBufferSize += mesh->mNumFaces * SINGLE_INDEX_DATA_SIZE * 3;
         }
 
         if (vertexBufferSize > 0)
@@ -69,7 +70,7 @@ namespace blitz
 
             if (elementBufferSize > 0)
             {
-                elementData = new char[vertexBufferSize];
+                elementData = new char[elementBufferSize];
             }
 
             uint64 totalFacesCount = 0;
@@ -95,15 +96,15 @@ namespace blitz
 
                 for (int vertexIdx = 0; vertexIdx < mesh->mNumVertices; ++vertexIdx)
                 {
-                    memcpy(vertexData + offsetInElementData, &mesh->mVertices[vertexIdx], ASSIMP_3D_VECTOR_SIZE);
-                    memcpy(vertexData + offsetInElementData + ASSIMP_3D_VECTOR_SIZE, &mesh->mNormals[vertexIdx], ASSIMP_3D_VECTOR_SIZE);
+                    memcpy(vertexData + offsetInVertexData, &mesh->mVertices[vertexIdx], ASSIMP_3D_VECTOR_SIZE);
+                    memcpy(vertexData + offsetInVertexData + ASSIMP_3D_VECTOR_SIZE, &mesh->mNormals[vertexIdx], ASSIMP_3D_VECTOR_SIZE);
 
                     // TODO
                     // here we assume that the mesh can have only one set of texture coordinates
                     // add support for multiple textures coordinates if needed in future
-                    memcpy(vertexData + offsetInElementData + (ASSIMP_3D_VECTOR_SIZE * 2),
+                    memcpy(vertexData + offsetInVertexData + (ASSIMP_3D_VECTOR_SIZE * 2),
                            &mesh->mTextureCoords[0][vertexIdx], ASSIMP_2D_VECTOR_SIZE);
-                    offsetInVertexData += ASSIMP_3D_VECTOR_SIZE * 2 + ASSIMP_3D_VECTOR_SIZE;
+                    offsetInVertexData += ASSIMP_3D_VECTOR_SIZE * 2 + ASSIMP_2D_VECTOR_SIZE;
                 }
 
                 for (unsigned int faceIdx = 0; faceIdx < mesh->mNumFaces; ++faceIdx)
@@ -127,17 +128,21 @@ namespace blitz
 
             auto vertexArray = context.createVertexArray();
             vertexArray->addAttribute({ vertexBuffer, POSITION, blitz::DataType::FLOAT, 3, false, 8 * sizeof(float), 0, 0 });
-            vertexArray->addAttribute(
-            { vertexBuffer, NORMALS, blitz::DataType::FLOAT, 3, false, 8 * sizeof(float), 3 * sizeof(float), 0 });
+            //vertexArray->addAttribute(
+            //{ vertexBuffer, NORMALS, blitz::DataType::FLOAT, 3, false, 8 * sizeof(float), 3 * sizeof(float), 0 });
             vertexArray->addAttribute(
             { vertexBuffer, TEXTURE_COORDS, blitz::DataType::FLOAT, 2, false, 8 * sizeof(float), 6 * sizeof(float), 0 });
-
+        
             if (elementData != nullptr)
             {
                 auto elementBuffer = context.createBuffer(
-                { elementBufferSize, blitz::UsageHint::STATIC, 0, blitz::BindHint::INDEX, vertexData, false, true });
-                vertexArray->bindElementBuffer(elementBuffer, DataType::INT);
+                { elementBufferSize, blitz::UsageHint::STATIC, 0, blitz::BindHint::INDEX, elementData, false, true });
+                vertexArray->bindElementBuffer(elementBuffer, DataType::UINT
+                );
             }
+            // todo delete vertex buffer and element buffer
+
+            blitzModel->vertexArray = vertexArray;
         }
 
         for (unsigned int childIdx = 0; childIdx < modelNode->mNumChildren; ++childIdx)
@@ -145,6 +150,7 @@ namespace blitz
             blitzModel->children.push_back(loadModel(modelNode->mChildren[childIdx], scene, modelPath));
         }
 
+    	
         return blitzModel;
     }
 

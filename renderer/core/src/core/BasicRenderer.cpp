@@ -53,7 +53,7 @@ namespace blitz
             RenderCommand* renderCommand = renderPass->getNextCommand();
             while (renderCommand != nullptr)
             {
-                renderCommand->vertexArray->bind();
+                renderCommand->vertexArray->setup();
 
                 for (const auto bufferBinding : renderCommand->buffers)
                 {
@@ -65,6 +65,8 @@ namespace blitz
 
                 run(renderCommand);
 
+                renderCommand->vertexArray->detach();
+                
                 delete renderCommand;
                 renderCommand = renderPass->getNextCommand();
             }
@@ -127,6 +129,9 @@ namespace blitz
     {
         T* castedValue = (T*)(value);
         UniformVariable<T>* uniformVariable = shader->getUniformVariable<T>(uniformNameHash);
-        *uniformVariable = *castedValue;
+        if (uniformVariable != nullptr)
+        {
+            *uniformVariable = *castedValue;
+        }
     }
 } // namespace blitz

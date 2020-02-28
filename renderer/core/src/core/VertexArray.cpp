@@ -27,4 +27,25 @@ namespace blitz
         free(vertexBuffer);
         free(elementBuffer);
     }
+
+    void VertexArray::setup()
+    {
+        bind();
+
+    	for (const auto attribute : attributes)
+        {
+            bindAttribute(attribute.first);
+            enableAttribute(attribute.first);
+        }
+    }
+
+    void VertexArray::detach()
+    {
+        for (const auto attribute : attributes)
+        {
+            disableAttribute(attribute.first);
+        }
+
+    	unbind();
+    }
 } // namespace blitz

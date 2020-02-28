@@ -5,7 +5,7 @@
 
 namespace blitz::front
 {
-
+    static bool useTex = true;
     static const auto DIFFUSE_SAMPLER_UNIFORM_HASH = hashString("diffuseMap");
     static const auto SPECULAR_SAMPLER_UNIFORM_HASH = hashString("specularMap");
     static const auto NORMAL_SAMPLER_UNIFORM_HASH = hashString("normalMap");
@@ -22,7 +22,7 @@ namespace blitz::front
             renderCommand->vertexArray = model->vertexArray;
             renderCommand->drawMode = model->totalFacesCount > 0 ? DrawMode::INDEXED : DrawMode::NORMAL;
             renderCommand->primitiveType = PrimitiveType::TRIANGLES;
-            renderCommand->startIndex = vertiecsDrawn;
+            renderCommand->startVertex = vertiecsDrawn;
             renderCommand->startIndex = indiciesDrawn;
             renderCommand->numberOfIndicesToDraw = mesh->facesCount * 3;
             renderCommand->numberOfVerticesToDraw = mesh->verticesCount;
@@ -47,9 +47,11 @@ namespace blitz::front
                 new UniformState(DataType::SAMPLER2D, NORMAL_SAMPLER_UNIFORM_HASH, (void*)&mesh->normalMapSampler));
             }
 
+        	renderCommand->uniformsState.push_back(new blitz::UniformState{ blitz::DataType::BOOL, blitz::hashString("useTexture"), (void*)&useTex });
+
             vertiecsDrawn += renderCommand->numberOfVerticesToDraw;
             indiciesDrawn += renderCommand->numberOfIndicesToDraw;
-            renderCommands.push_back(renderCommand);
+            renderCommands.push_back(std::move(renderCommand));
         }
 
         for (const auto child : model->children)

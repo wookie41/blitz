@@ -5,7 +5,6 @@
 #include <core/Logger.h>
 #include <core/Renderer.h>
 
-
 #include <core/Shader.h>
 #include <core/ShaderSource.h>
 #include <core/VertexArray.h>
@@ -16,10 +15,13 @@
 #include <core/ogl/uniforms/OpenGLSamplerUniformVariable.h>
 #include <iostream>
 #include <resources/texture/TextureLoader.h>
+#include <resources/model/ModelLoader.h>
+#include <resources/model/Model.h>
 
 char* v = "#version 330 core\n"
-          "layout (location = 0) in vec3 pos;\n"
-          "layout (location = 1) in vec2 texCoords;\n"
+          "layout (location = 0) in vec3 position;\n"
+          "layout (location = 1) in vec3 normals;\n"
+          "layout (location = 2) in vec2 textureCoords;\n"
           "out vec2 TexCoords;\n"
           "uniform mat4 _bView;\n"
           "uniform mat4 _bProjection;\n"
@@ -27,8 +29,8 @@ char* v = "#version 330 core\n"
           "{\n"
           "\n"
           "    mat4 model = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));\n"
-          "    TexCoords = texCoords;\n"
-          "    gl_Position = _bProjection * _bView * model* vec4(pos, 1.0);\n"
+          "    TexCoords = textureCoords;\n"
+          "    gl_Position = _bProjection * _bView * model* vec4(position, 1.0);\n"
           "}";
 
 
@@ -37,13 +39,13 @@ char* f = "#version 330 core\n"
           "\n"
           "in vec2 TexCoords;"
           "uniform vec3 color;\n"
-          "uniform sampler2D tex;\n"
+          "uniform sampler2D diffuseMap;\n"
           "uniform bool useTexture;\n"
           "void main()\n"
           "{\n"
           "if (useTexture)\n"
           "{\n"
-          " FragColor = texture(tex, TexCoords);\n"
+          " FragColor = texture(diffuseMap, TexCoords);\n"
           "}\n"
           "else"
           "{\n"
@@ -68,22 +70,18 @@ namespace blitz::front
 
         basicVertexArray = window->getContext().createVertexArray();
 
-        basicVertexArray->addAttribute({ vertexBuffer, "pos", blitz::DataType::FLOAT, 3, false, 5 * sizeof(float), 0, 0 });
+        basicVertexArray->addAttribute({ vertexBuffer, "position", blitz::DataType::FLOAT, 3, false, 5 * sizeof(float), 0, 0 });
         basicVertexArray->addAttribute(
-        { vertexBuffer, "texCoords", blitz::DataType::FLOAT, 2, false, 5 * sizeof(float), 3 * sizeof(float), 0 });
+        { vertexBuffer, "textureCoords", blitz::DataType::FLOAT, 2, false, 5 * sizeof(float), 3 * sizeof(float), 0 });
 
         blitz::ShaderSource shaderSource = { "myshader", v, nullptr, f };
         shader = BLITZ_DEVICE->createShader(shaderSource);
 
-        basicVertexArray->bindAttribute(shader, blitz::hashString("pos"));
-        basicVertexArray->enableAttribute(shader, blitz::hashString("pos"));
-
-        basicVertexArray->bindAttribute(shader, blitz::hashString("texCoords"));
-        basicVertexArray->enableAttribute(shader, blitz::hashString("texCoords"));
-
-        TextureLoader textureLoader;
         char textureLocation[] = "container.jpg";
         tex = textureLoader.loadTexture({ nullptr, textureLocation });
+
+        modelLoader = new ModelLoader(window->getContext(), &textureLoader);
+        rockModel = modelLoader->load({ nullptr, "D:\\Projects\\LearnOpenGL\\resources\\objects\\rock\\rock.obj"});
 
         shouldUseTexture = true;
         sampler = new blitz::ogl::OpenGLTextureSampler{ tex };
@@ -104,8 +102,7 @@ namespace blitz::front
             basicVertexArray, {}, uniforms, blitz::DrawMode::NORMAL, blitz::PrimitiveType::TRIANGLE_STRIP, 0, 0, 4, 0
         };
 
-
-        return new Renderable{ { drawCubeCommand } };
+        return modelRenderer.makeRenderable(rockModel);
     }
 
 } // namespace blitz::front
