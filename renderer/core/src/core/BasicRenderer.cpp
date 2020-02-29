@@ -53,6 +53,9 @@ namespace blitz
             RenderCommand* renderCommand = renderPass->getNextCommand();
             while (renderCommand != nullptr)
             {
+                // TODO this doesn't have to happen every time
+                // ideally we would like to have vertex attributes description
+                // that can be compared here and allow to determine wether the layout changed
                 renderCommand->vertexArray->setup();
 
                 for (const auto bufferBinding : renderCommand->buffers)
@@ -65,8 +68,8 @@ namespace blitz
 
                 run(renderCommand);
 
-                renderCommand->vertexArray->detach();
-                
+                renderCommand->vertexArray->unbind();
+
                 delete renderCommand;
                 renderCommand = renderPass->getNextCommand();
             }

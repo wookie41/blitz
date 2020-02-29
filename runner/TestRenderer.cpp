@@ -14,9 +14,10 @@
 #include <core/ogl/texture/OpenGLTextureSampler.h>
 #include <core/ogl/uniforms/OpenGLSamplerUniformVariable.h>
 #include <iostream>
-#include <resources/texture/TextureLoader.h>
-#include <resources/model/ModelLoader.h>
 #include <resources/model/Model.h>
+#include <resources/model/ModelLoader.h>
+#include <resources/texture/TextureLoader.h>
+
 
 char* v = "#version 330 core\n"
           "layout (location = 0) in vec3 position;\n"
@@ -66,13 +67,14 @@ namespace blitz::front
     TestRenderer::TestRenderer(Window* window)
     {
         auto vertexBuffer = window->getContext().createBuffer(
-        { sizeof(vertexData), blitz::UsageHint::STATIC, 0, blitz::BindHint::VERTEX, vertexData, false, true });
+        { sizeof(vertexData), blitz::UsageHint::STATIC, blitz::BindHint::VERTEX, vertexData, false, true });
 
-        basicVertexArray = window->getContext().createVertexArray();
+        basicVertexArray = window->getContext().createVertexArray(2);
 
-        basicVertexArray->addAttribute({ vertexBuffer, "position", blitz::DataType::FLOAT, 3, false, 5 * sizeof(float), 0, 0 });
         basicVertexArray->addAttribute(
-        { vertexBuffer, "textureCoords", blitz::DataType::FLOAT, 2, false, 5 * sizeof(float), 3 * sizeof(float), 0 });
+        { vertexBuffer, copyStr("position"), blitz::DataType::FLOAT, 3, false, 5 * sizeof(float), 0, 0 });
+        basicVertexArray->addAttribute({ vertexBuffer, copyStr("textureCoords"), blitz::DataType::FLOAT, 2, false,
+                                         5 * sizeof(float), 3 * sizeof(float), 0 });
 
         blitz::ShaderSource shaderSource = { "myshader", v, nullptr, f };
         shader = BLITZ_DEVICE->createShader(shaderSource);
@@ -81,7 +83,7 @@ namespace blitz::front
         tex = textureLoader.loadTexture({ nullptr, textureLocation });
 
         modelLoader = new ModelLoader(window->getContext(), &textureLoader);
-        rockModel = modelLoader->load({ nullptr, "D:\\Projects\\LearnOpenGL\\resources\\objects\\rock\\rock.obj"});
+        rockModel = modelLoader->load({ nullptr, "/home/wookie/resources/models/rock/rock.obj" });
 
         shouldUseTexture = true;
         sampler = new blitz::ogl::OpenGLTextureSampler{ tex };
@@ -92,7 +94,7 @@ namespace blitz::front
     Renderable* TestRenderer::getTestRenderable()
     {
         blitz::UniformState* textureUniformState =
-        new blitz::UniformState{ blitz::DataType::SAMPLER2D, blitz::hashString("tex"), (void*)&sampler };
+        new blitz::UniformState{ blitz::DataType::SAMPLER2D, blitz::hashString("diffuseMap"), (void*)&sampler };
         blitz::UniformState* textureFlagUniformState =
         new blitz::UniformState{ blitz::DataType::BOOL, blitz::hashString("useTexture"), (void*)&shouldUseTexture };
 
@@ -102,7 +104,9 @@ namespace blitz::front
             basicVertexArray, {}, uniforms, blitz::DrawMode::NORMAL, blitz::PrimitiveType::TRIANGLE_STRIP, 0, 0, 4, 0
         };
 
-        return modelRenderer.makeRenderable(rockModel);
+        auto renderables = modelRenderer.makeRenderable(rockModel);
+        renderables->renderCommands.push_back(drawCubeCommand);
+        return renderables;
     }
 
 } // namespace blitz::front

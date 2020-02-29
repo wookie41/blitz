@@ -16,6 +16,7 @@ namespace blitz::front
 
         int32 indiciesDrawn = 0;
         int32 vertiecsDrawn = 0;
+
         for (const auto mesh : model->meshes)
         {
             auto renderCommand = new RenderCommand{};
@@ -47,11 +48,12 @@ namespace blitz::front
                 new UniformState(DataType::SAMPLER2D, NORMAL_SAMPLER_UNIFORM_HASH, (void*)&mesh->normalMapSampler));
             }
 
-        	renderCommand->uniformsState.push_back(new blitz::UniformState{ blitz::DataType::BOOL, blitz::hashString("useTexture"), (void*)&useTex });
+            renderCommand->uniformsState.push_back(
+            new blitz::UniformState{ blitz::DataType::BOOL, blitz::hashString("useTexture"), (void*)&useTex });
 
             vertiecsDrawn += renderCommand->numberOfVerticesToDraw;
             indiciesDrawn += renderCommand->numberOfIndicesToDraw;
-            renderCommands.push_back(std::move(renderCommand));
+            renderCommands.push_back(renderCommand);
         }
 
         for (const auto child : model->children)

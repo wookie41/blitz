@@ -1,6 +1,6 @@
-#include <core/Precompiled.h>
 #include <core/Buffer.h>
 #include <core/Context.h>
+#include <core/Precompiled.h>
 #include <core/ogl/texture/OpenGLSyncReadTexture.h>
 
 namespace blitz::ogl
@@ -13,8 +13,8 @@ namespace blitz::ogl
         explicit OpenGLContext();
 
         Buffer* createBuffer(const BufferSpec& bufferSpec) override;
-        VertexArray* createVertexArray() override;
-        Framebuffer *createFramebuffer() override;
+        VertexArray* createVertexArray(const uint& numAttributes) override;
+        Framebuffer* createFramebuffer() override;
 
 
         const BufferFiller* getBufferFiller() override;

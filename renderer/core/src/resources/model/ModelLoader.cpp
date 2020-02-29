@@ -12,7 +12,7 @@ extern blitz::Device* BLITZ_DEVICE;
 
 namespace blitz
 {
-    ModelLoader::ModelLoader(Context& ctx, TextureLoader* tLoader) :context(ctx), textureLoader(tLoader) {}
+    ModelLoader::ModelLoader(Context& ctx, TextureLoader* tLoader) : context(ctx), textureLoader(tLoader) {}
 
     // position + normal + texture
     constexpr const uint8 SINGLE_VERTEX_DATA_SIZE = 3 * sizeof(float) + 3 * sizeof(float) + 2 * sizeof(float);
@@ -65,7 +65,7 @@ namespace blitz
         if (vertexBufferSize > 0)
         {
             // allocate the data for buffers
-            auto vertexData = new char[vertexBufferSize];
+            char* vertexData = new char[vertexBufferSize];
             char* elementData = nullptr;
 
             if (elementBufferSize > 0)
@@ -124,23 +124,26 @@ namespace blitz
             blitzModel->totalVerticesCount = totalVerticesCount;
 
             auto vertexBuffer = context.createBuffer(
-            { vertexBufferSize, blitz::UsageHint::STATIC, 0, blitz::BindHint::VERTEX, vertexData, false, true });
+            { vertexBufferSize, blitz::UsageHint::STATIC, blitz::BindHint::VERTEX, vertexData, false, true });
 
-            auto vertexArray = context.createVertexArray();
-            vertexArray->addAttribute({ vertexBuffer, POSITION, blitz::DataType::FLOAT, 3, false, 8 * sizeof(float), 0, 0 });
-            //vertexArray->addAttribute(
-            //{ vertexBuffer, NORMALS, blitz::DataType::FLOAT, 3, false, 8 * sizeof(float), 3 * sizeof(float), 0 });
+            auto vertexArray = context.createVertexArray(2);
             vertexArray->addAttribute(
-            { vertexBuffer, TEXTURE_COORDS, blitz::DataType::FLOAT, 2, false, 8 * sizeof(float), 6 * sizeof(float), 0 });
-        
+            { vertexBuffer, copyStr(POSITION), blitz::DataType::FLOAT, 3, false, 8 * sizeof(float), 0, 0 });
+            // vertexArray->addAttribute(
+            //{ vertexBuffer, NORMALS, blitz::DataType::FLOAT, 3, false, 8 * sizeof(float), 3 * sizeof(float), 0 });
+            vertexArray->addAttribute({ vertexBuffer, copyStr(TEXTURE_COORDS), blitz::DataType::FLOAT, 2, false,
+                                        8 * sizeof(float), 6 * sizeof(float), 0 });
+
+            delete[] vertexData;
+
             if (elementData != nullptr)
             {
                 auto elementBuffer = context.createBuffer(
-                { elementBufferSize, blitz::UsageHint::STATIC, 0, blitz::BindHint::INDEX, elementData, false, true });
-                vertexArray->bindElementBuffer(elementBuffer, DataType::UINT
-                );
+                { elementBufferSize, blitz::UsageHint::STATIC, blitz::BindHint::INDEX, elementData, false, true });
+                vertexArray->bindElementBuffer(elementBuffer, DataType::UINT);
+
+                delete[] elementData;
             }
-            // todo delete vertex buffer and element buffer
 
             blitzModel->vertexArray = vertexArray;
         }
@@ -150,7 +153,6 @@ namespace blitz
             blitzModel->children.push_back(loadModel(modelNode->mChildren[childIdx], scene, modelPath));
         }
 
-    	
         return blitzModel;
     }
 

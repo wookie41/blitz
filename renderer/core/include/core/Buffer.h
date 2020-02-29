@@ -1,7 +1,7 @@
 #pragma once
 
-#include <core/Range.h>
 #include <blitzcommon/DataType.h>
+#include <core/Range.h>
 
 // TODO
 // 1. Consider adding some inner lock, as the Buffer can be shared between several contextes
@@ -39,7 +39,6 @@ namespace blitz
     {
         uint32 size;
         UsageHint usageHint;
-        size_t multiBuffersCount;
         BindHint bindHint;
         void* initialData;
         bool readable;
@@ -63,7 +62,7 @@ namespace blitz
 
         bool IsWriteable() const;
 
-        void setSize(const uint32 &sizeInBytes);
+        void setSize(const uint32& sizeInBytes);
 
         virtual ~Buffer() = default;
 
