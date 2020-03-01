@@ -4,7 +4,6 @@
 #include <unordered_map>
 
 
-
 // TODO right now we'are ignoring wether mouse click occur in our window or not
 // we probably should ignore click outside of our window, but the main task right now
 // it to get the input system to work at all
@@ -36,7 +35,7 @@ namespace blitz::platform
 
     void SDLInputManager::handleKeyUpEvent(const SDL_KeyboardEvent* keyboardEvent)
     {
-        setDown(keyboardState, keyCodesMapping[keyboardEvent->keysym.sym]);
+        setUp(keyboardState, keyCodesMapping[keyboardEvent->keysym.sym]);
     }
 
     void SDLInputManager::handleMouseMovementEvent(const SDL_MouseMotionEvent* mouseMovementEvent)
@@ -61,5 +60,17 @@ namespace blitz::platform
     void SDLInputManager::handleMouseWheelEvent(const SDL_MouseWheelEvent* mouseWheelEvent)
     {
         mouseState->wheelProgress += mouseWheelEvent->y;
+    }
+
+    SDLInputManager::~SDLInputManager()
+    {
+        delete keyboardState;
+        delete mouseState;
+    }
+
+    void SDLInputManager::tick()
+    {
+        mouseState->relativePos.x = 0;
+        mouseState->relativePos.y = 0;
     }
 } // namespace blitz::platform

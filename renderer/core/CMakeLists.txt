@@ -51,10 +51,8 @@ add_library(${PROJECT_NAME} STATIC
         src/core/BasicRenderer.cpp
         src/core/BasicRenderPass.cpp 
         src/core/ogl/BasicOpenGLRenderer.cpp
-        src/resources/STBImage2DTextureLoader.cpp
-        src/resources/Texture.cpp
-        src/resources/TextureLoader.cpp
-        src/resources/model/AssimpModelLoader.cpp)
+        src/resources/texture/TextureLoader.cpp
+        src/resources/model/ModelLoader.cpp)
 
 set_target_properties(${PROJECT_NAME}
         PROPERTIES
@@ -74,9 +72,8 @@ target_link_libraries(${PROJECT_NAME}
         assimp
         blitz::common
         blitz::memory
-        blitz::resources
 )
-target_link_libraries(${PROJECT_NAME} blitz::common blitz::memory stbimage blitz::resources)
+target_link_libraries(${PROJECT_NAME} blitz::common blitz::memory stbimage)
 
 if (WIN32)
 	target_include_directories(${PROJECT_NAME} PRIVATE ${GLEW_INCLUDE_DIRS})
@@ -87,7 +84,3 @@ elseif(UNIX)
 endif()
 
 mathfu_configure_flags(${PROJECT_NAME})
-
-##add_executable(blitz-renderer-core-tests) #TODO
-#target_link_libraries(blitz-renderer-core-tests blitz-renderer-core)
-#add_test(blitz-renderer-core-tests blitz-renderer-core-tests)

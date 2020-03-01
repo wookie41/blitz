@@ -1,4 +1,3 @@
-#include <core/ogl/shader/OpenGLShader.h>
 #include <core/BufferRange.h>
 #include <core/Framebuffer.h>
 #include <core/UniformBlock.h>
@@ -6,9 +5,10 @@
 #include <core/VertexArray.h>
 #include <core/ogl/buffer/OpenGLBuffer.h>
 #include <core/ogl/framebuffer/OpenGLTextureAttachment.h>
+#include <core/ogl/shader/OpenGLShader.h>
 #include <core/ogl/texture/OpenGLTexture.h>
-#include <core/ogl/uniforms/OpenGLUniformVariable.h>
 #include <core/ogl/uniforms/OpenGLSamplerUniformVariable.h>
+#include <core/ogl/uniforms/OpenGLUniformVariable.h>
 
 namespace blitz::ogl
 {
@@ -24,11 +24,7 @@ namespace blitz::ogl
     {
     }
 
-    void OpenGLShader::use()
-    {
-        DLOG_F(INFO, "[OpenGL] Using shader %d", shaderID);
-        glUseProgram(shaderID);
-    }
+    void OpenGLShader::use() { glUseProgram(shaderID); }
 
     void OpenGLShader::bindUniformBlock(const hash& blockNameHash, const BufferRange* bufferRange)
     {
@@ -42,8 +38,7 @@ namespace blitz::ogl
             const auto bufferIt = uniformBlocksBuffers.find(glBindPoint.first);
             if (bufferIt == uniformBlocksBuffers.end())
             {
-                DLOG_F(ERROR, "[OpenGL] No buffer specified for binding point %d in shader '%s'", glBindPoint.second,
-                       shaderName);
+                DLOG_F(ERROR, "[OpenGL] No buffer specified for binding point %d in shader '%s'", glBindPoint.second, shaderName);
                 continue;
             }
 
@@ -145,8 +140,5 @@ namespace blitz::ogl
         bindSamplers();
     }
 
-    void OpenGLShader::disable()
-    {
-        glUseProgram(0);
-    }
+    void OpenGLShader::disable() { glUseProgram(0); }
 } // namespace blitz::ogl

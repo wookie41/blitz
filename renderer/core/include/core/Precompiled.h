@@ -1,23 +1,26 @@
-#ifndef BLITZ_PRECOMPILED_H
-#define BLITZ_PRECOMPILED_H
+#ifndef BLITZ_CORE_PRECOMPILED_H
+#define BLITZ_CORE_PRECOMPILED_H
+#pragma once
 
 #include <GL/glew.h>
-#include <blitzcommon/DataType.h>
 #include <blitzcommon/Collections.h>
-#include <blitzcommon/NonCopyable.h>
+#include <blitzcommon/DataType.h>
 #include <blitzcommon/HashUtils.h>
-#include <unordered_map>
-#include <mathfu/vector.h>
-#include <mathfu/matrix.h>
+#include <blitzcommon/NonCopyable.h>
+#include <blitzcommon/PlatformUtils.h>
+#include <blitzcommon/StringUtils.h>
+#include <cassert>
+#include <cstring>
 #include <deque>
-#include <vector>
-#include <mutex>
 #include <functional>
 #include <loguru.hpp>
-#include <unordered_set>
+#include <mathfu/matrix.h>
+#include <mathfu/vector.h>
+#include <mutex>
 #include <string>
+#include <unordered_map>
+#include <unordered_set>
 #include <utility>
-#include <cstring>
-#include <cassert>
+#include <vector>
 
-#endif //BLITZ_PRECOMPILED_H
+#endif

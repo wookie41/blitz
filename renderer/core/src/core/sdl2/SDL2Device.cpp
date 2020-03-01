@@ -74,7 +74,7 @@ namespace blitz
     {
         auto window = SDL_CreateWindow(windowDef.title, windowDef.x, windowDef.y,
                                        windowDef.width, windowDef.height,
-                                       SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
+                                       SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI );
         if(window == nullptr)
         {
             DLOG_F(ERROR, "Failed to create window: %s", SDL_GetError());

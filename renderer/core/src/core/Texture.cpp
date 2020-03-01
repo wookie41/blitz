@@ -8,9 +8,9 @@ namespace blitz
     {
         fullTextureRange =
         {
-        	0, textureSpec.dimensions.x,
-        	0, textureSpec.dimensions.y,
-        	0, textureSpec.dimensions.z
+        	0, (size_t)textureSpec.dimensions.x,
+        	0, (size_t)textureSpec.dimensions.y,
+        	0, (size_t)textureSpec.dimensions.z
         };
     }
 

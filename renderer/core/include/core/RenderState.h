@@ -1,13 +1,15 @@
 #pragma once
 
 #include <core/Color.h>
+#include <core/Precompiled.h>
 
 namespace blitz
 {
     struct ViewPort
     {
-        uint16_t x, y;
-        uint16_t width, height;
+        uint16 x, y;
+        uint16 width, height;
+        float near, far;
     };
 
     enum class Projection
@@ -19,16 +21,15 @@ namespace blitz
     class Shader;
     class Framebuffer;
     struct UniformState;
-	
+
     struct RenderState
     {
-        Color clearColor;
         ViewPort viewPort;
+        Projection projection;
         bool enableDepthTest;
         bool enableStencilTest;
         Shader* shader;
         Framebuffer* framebuffer;
-        bool shouldSwapBuffers;
         std::vector<UniformState*> renderPassWideUniforms;
     };
 } // namespace blitz

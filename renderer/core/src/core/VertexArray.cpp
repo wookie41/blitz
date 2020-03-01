@@ -1,30 +1,31 @@
+#include <core/Buffer.h>
 #include <core/VertexArray.h>
 
 namespace blitz
 {
-    Buffer* VertexArray::getBoundElementBuffer() const { return elementBuffer; }
-
-    Buffer* VertexArray::getBoundVertexBuffer() const { return vertexBuffer; }
+    VertexArray::VertexArray(uint8 numAttributes) { attributes = new VertexAttributeDef[numAttributes]; }
 
     void VertexArray::addAttribute(const VertexAttributeDef& vertexAttributeDef)
     {
-        const auto x = vertexAttributeDef.name.c_str();
-        const auto nameHash = hashString(x);
-        attributes[nameHash] = vertexAttributeDef;
+        attributes[attributesCount++] = vertexAttributeDef;
     }
-
-    const VertexAttributeDef& VertexArray::getAttribute(const hash& nameHash) const
-    {
-        const auto attribIt = attributes.find(nameHash);
-        DCHECK_F(attribIt != attributes.end(), "VAO doesn't have attribute '%d'", nameHash);
-        return attribIt->second;
-    }
-
     DataType VertexArray::getIndicesType() const { return indicesType; }
 
     VertexArray::~VertexArray()
     {
-        free(vertexBuffer);
-        free(elementBuffer);
+        delete elementBuffer;
+        for (uint8 attrIdx = 0; attrIdx < attributesCount; ++attrIdx)
+        {
+            // attributes can share the buffer, double delete can happen here!
+            delete attributes[attrIdx].buffer;
+            delete attributes[attrIdx].name;
+        }
+        delete[] attributes;
+    }
+
+    void VertexArray::setup()
+    {
+        bind();
+        setupAttributes();
     }
 } // namespace blitz

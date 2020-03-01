@@ -1,42 +1,29 @@
 #include <core/RenderCommand.h>
 #include <front/ModelRenderer.h>
+#include <front/Renderable.h>
 #include <resources/model/Model.h>
 
 namespace blitz::front
 {
-
+    static bool useTex = true;
     static const auto DIFFUSE_SAMPLER_UNIFORM_HASH = hashString("diffuseMap");
     static const auto SPECULAR_SAMPLER_UNIFORM_HASH = hashString("specularMap");
     static const auto NORMAL_SAMPLER_UNIFORM_HASH = hashString("normalMap");
 
-    BasicModelRenderer::BasicModelRenderer(std::vector<Model*>&& models) : modelsToRender(models){};
-
-    std::vector<RenderCommand*> BasicModelRenderer::produceCommands()
-    {
-        std::vector<RenderCommand*> renderCommands(modelsToRender.size());
-
-        for (const auto modelToRender : modelsToRender)
-        {
-            const auto renderModelCommands = createCommandsFor(modelToRender);
-            renderCommands.insert(renderCommands.end(), renderModelCommands.begin(), renderModelCommands.end());
-        }
-
-        return renderCommands;
-    }
-
-    std::vector<RenderCommand*> BasicModelRenderer::createCommandsFor(const Model* model) const
+    Renderable* BasicModelRenderer::makeRenderable(const Model* model)
     {
         std::vector<RenderCommand*> renderCommands;
 
         int32 indiciesDrawn = 0;
         int32 vertiecsDrawn = 0;
+
         for (const auto mesh : model->meshes)
         {
             auto renderCommand = new RenderCommand{};
             renderCommand->vertexArray = model->vertexArray;
             renderCommand->drawMode = model->totalFacesCount > 0 ? DrawMode::INDEXED : DrawMode::NORMAL;
             renderCommand->primitiveType = PrimitiveType::TRIANGLES;
-            renderCommand->startIndex = vertiecsDrawn;
+            renderCommand->startVertex = vertiecsDrawn;
             renderCommand->startIndex = indiciesDrawn;
             renderCommand->numberOfIndicesToDraw = mesh->facesCount * 3;
             renderCommand->numberOfVerticesToDraw = mesh->verticesCount;
@@ -61,6 +48,8 @@ namespace blitz::front
                 new UniformState(DataType::SAMPLER2D, NORMAL_SAMPLER_UNIFORM_HASH, (void*)&mesh->normalMapSampler));
             }
 
+            renderCommand->uniformsState.push_back(
+            new blitz::UniformState{ blitz::DataType::BOOL, blitz::hashString("useTexture"), (void*)&useTex });
 
             vertiecsDrawn += renderCommand->numberOfVerticesToDraw;
             indiciesDrawn += renderCommand->numberOfIndicesToDraw;
@@ -69,11 +58,13 @@ namespace blitz::front
 
         for (const auto child : model->children)
         {
-            const auto childRenderCommands = createCommandsFor(child);
-            renderCommands.insert(renderCommands.end(), childRenderCommands.begin(), childRenderCommands.end());
+            const auto renderableChild = makeRenderable(child);
+            renderCommands.insert(renderCommands.end(), renderableChild->renderCommands.begin(),
+                                  renderableChild->renderCommands.end());
+            delete renderableChild;
         }
 
-        return renderCommands;
+        return new Renderable{ renderCommands };
     }
 
 } // namespace blitz::front

@@ -4,7 +4,7 @@
 
 namespace blitz::ogl
 {
-    static std::unordered_map<BufferBindTarget, GLenum , EnumClassHash> targetsMapping = {
+    static std::unordered_map<BufferBindTarget, GLenum, EnumClassHash> targetsMapping = {
         { BufferBindTarget::VERTEX, GL_ARRAY_BUFFER },
         { BufferBindTarget::ELEMENT, GL_ELEMENT_ARRAY_BUFFER },
         { BufferBindTarget::WRITE, GL_COPY_WRITE_BUFFER }
@@ -30,7 +30,6 @@ namespace blitz::ogl
         }
 
         auto glTarget = (*targetIt).second;
-        DLOG_F(INFO, "[OpenGL] Binding buffer %d to target %d", glBufferID, glTarget);
         glBindBuffer(glTarget, glBufferID);
     }
 } // namespace blitz::ogl

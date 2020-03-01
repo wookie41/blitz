@@ -16,9 +16,13 @@ namespace blitz
 
         void prepare() override;
 
-        void clearColor(const Color& color) override;
-        void clearDepth(const Color& color) override;
-        void clearStencil(const Color& color) override;
+        void setClearColor(const Color& color) override;
+        void setClearDepth(const float& color) override;
+        void setClearStencil(const int& color) override;
+
+        void clearColor() override;
+        void clearDepth() override;
+        void clearStencil() override;
 
         void swapBuffers() override;
 

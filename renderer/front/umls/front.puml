@@ -17,7 +17,6 @@ node {
     [UIRenderer]
     [SpritesRenderer]
     [LightningManager]
-
 }
 
 note right of [RenderingPath]
@@ -39,9 +38,6 @@ end note
 
 
 RenderingPath --> Renderer:issue RenderPasses
-
-
-
 }
 
 ModelRenderer --> RenderingPath: addGeometry

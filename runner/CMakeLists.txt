@@ -1,6 +1,6 @@
 project(runner C CXX)
 
-add_executable(${PROJECT_NAME} main.cpp)
+add_executable(${PROJECT_NAME} main.cpp TestRenderer.cpp)
 
 set_target_properties(${PROJECT_NAME}
         PROPERTIES
@@ -20,5 +20,4 @@ if(WITH_DEBUG_TOOLS)
 endif()
 
 mathfu_configure_flags(${PROJECT_NAME})
-target_link_libraries(${PROJECT_NAME} blitz-renderer-core blitz-renderer-front blitz-resources assimp blitz-platform)
-
+target_link_libraries(${PROJECT_NAME} blitz-renderer-core blitz-renderer-front assimp blitz-platform)

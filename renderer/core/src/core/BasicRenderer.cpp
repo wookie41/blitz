@@ -13,9 +13,8 @@ namespace blitz
 
     void BasicRenderer::issue(RenderPass* renderPass) { renderPasses.push_back(renderPass); }
 
-    void BasicRenderer::render(Window* window)
+    void BasicRenderer::render()
     {
-        window->prepare();
         Shader* lastShader = nullptr;
         Framebuffer* lastFramebuffer = nullptr;
 
@@ -27,8 +26,11 @@ namespace blitz
             const RenderState& renderState = renderPass->getRenderState();
             setViewPort(&renderState.viewPort);
 
+            setDepthTest(renderState.enableDepthTest);
+            setStencilTest(renderState.enableStencilTest);
+
             Shader* shader = renderState.shader;
-            Framebuffer* framebuffer = renderState.framebuffer == nullptr ? window->getFramebuffer() : renderState.framebuffer;
+            Framebuffer* framebuffer = renderState.framebuffer;
 
             if (framebuffer != lastFramebuffer)
             {
@@ -42,35 +44,35 @@ namespace blitz
                     lastShader->disable();
 
                 updateUniforms(shader, renderState.renderPassWideUniforms);
-            	
+
                 shader->use();
                 shader->setup(framebuffer);
                 lastShader = shader;
             }
 
-            window->clearColor(renderState.clearColor);
-
             RenderCommand* renderCommand = renderPass->getNextCommand();
             while (renderCommand != nullptr)
             {
-                renderCommand->vertexArray->bind();
+                // TODO this doesn't have to happen every time
+                // ideally we would like to have vertex attributes description
+                // that can be compared here and allow to determine wether the layout changed
+                renderCommand->vertexArray->setup();
 
-                for(const auto bufferBinding : renderCommand->buffers)
+                for (const auto bufferBinding : renderCommand->buffers)
                 {
                     bufferBinding->buffer->bind(bufferBinding->bindTarget);
                     delete bufferBinding;
                 }
 
                 updateUniforms(renderState.shader, renderCommand->uniformsState);
-            	
+
                 run(renderCommand);
+
+                renderCommand->vertexArray->unbind();
 
                 delete renderCommand;
                 renderCommand = renderPass->getNextCommand();
             }
-
-            if (renderState.shouldSwapBuffers)
-                window->swapBuffers();
 
             delete renderPass;
         }
@@ -129,10 +131,10 @@ namespace blitz
     void BasicRenderer::updateUniform(Shader* shader, const hash& uniformNameHash, void* value)
     {
         T* castedValue = (T*)(value);
-        if (castedValue == nullptr)
-            return;
-
         UniformVariable<T>* uniformVariable = shader->getUniformVariable<T>(uniformNameHash);
-        *uniformVariable = *castedValue;
+        if (uniformVariable != nullptr)
+        {
+            *uniformVariable = *castedValue;
+        }
     }
 } // namespace blitz

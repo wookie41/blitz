@@ -7,40 +7,9 @@
 
 namespace blitz::ogl
 {
-    void bindBuffer(GLuint vaoIdx, Buffer* buffer, const BufferBindTarget& target)
+    OpenGLVertexArray::OpenGLVertexArray(const uint8& numAttributes, const GLuint& vao, OpenGLContext* openGLContext)
+    : VertexArray::VertexArray(numAttributes), vaoIdx(vao), openGLContext(openGLContext)
     {
-        DLOG_F(ERROR, "[OpenGL] Binding VAO: %d", vaoIdx);
-        glBindVertexArray(vaoIdx);
-        DLOG_F(ERROR, "[OpenGL] Binding target %d to VAO", target);
-        buffer->bind(target);
-        DLOG_F(ERROR, "[OpenGL] Buffer bound, unbinding VAO");
-        glBindVertexArray(0);
-    }
-
-    OpenGLVertexArray::OpenGLVertexArray(GLuint vaoIdx, OpenGLContext* openGLContext)
-    : vaoIdx(vaoIdx), openGLContext(openGLContext)
-    {
-    }
-
-    GLint queryGLShaderID()
-    {
-        GLint shaderID;
-        glGetIntegerv(GL_CURRENT_PROGRAM, &shaderID);
-        return shaderID;
-    }
-
-    GLuint queryAttributeLocation(const GLint& shaderID, const char* name)
-    {
-        auto attributeIdx = glGetAttribLocation(shaderID, name);
-        assert(attributeIdx != -1);
-        return attributeIdx;
-    }
-
-    GLint OpenGLVertexArray::queryAttributeLocationByHash(const hash& nameHash) const
-    {
-        const auto& vertexAttributeDef = getAttribute(nameHash);
-        const auto shaderID = queryGLShaderID();
-        return queryAttributeLocation(shaderID, vertexAttributeDef.name.c_str());
     }
 
     inline void bindIntAttribute(GLuint index, const VertexAttributeDef& def, GLenum type)
@@ -60,70 +29,51 @@ namespace blitz::ogl
 
     void OpenGLVertexArray::bindElementBuffer(Buffer* buffer, const DataType& indicesType)
     {
+        bind();
         elementBuffer = buffer;
         this->indicesType = indicesType;
-        bindBuffer(vaoIdx, elementBuffer, BufferBindTarget::ELEMENT);
+        buffer->bind(BufferBindTarget::ELEMENT);
+        unbind();
     }
 
-    void OpenGLVertexArray::bind()
+    void OpenGLVertexArray::bind() { glBindVertexArray(vaoIdx); }
+
+    void OpenGLVertexArray::unbind() { glBindVertexArray(0); }
+
+    void OpenGLVertexArray::setupAttributes()
     {
-        DLOG_F(INFO, "[OpenGL] Binding VAO %d", vaoIdx);
-        glBindVertexArray(vaoIdx);
-    }
+        GLint shaderID;
+        glGetIntegerv(GL_CURRENT_PROGRAM, &shaderID);
+        assert(shaderID > 0);
 
-    void OpenGLVertexArray::unbind()
-    {
-        DLOG_F(INFO, "[OpenGL] Unbinding VAO %d", vaoIdx);
-        glBindVertexArray(0);
-    }
-
-    void OpenGLVertexArray::bindAttribute(Shader* shader, const hash& nameHash)
-    {
-        shader->use();
-        const auto& vertexAttributeDef = getAttribute(nameHash);
-        const auto shaderID = queryGLShaderID();
-        const auto attributeID = queryAttributeLocation(shaderID, vertexAttributeDef.name.c_str());
-
-        glBindVertexArray(this->vaoIdx);
-        vertexAttributeDef.buffer->bind(BufferBindTarget::VERTEX);
-
-        switch (vertexAttributeDef.dataType)
+        for (uint8 attributeIdx = 0; attributeIdx < attributesCount; ++attributeIdx)
         {
-        case DataType::INT:
-            bindIntAttribute(attributeID, vertexAttributeDef, GL_INT);
-            break;
-        case DataType::UINT:
-            bindIntAttribute(attributeID, vertexAttributeDef, GL_UNSIGNED_INT);
-            break;
-        case DataType::FLOAT:
-            bindFloatAttribute(attributeID, vertexAttributeDef, GL_FLOAT);
-            break;
-        case DataType::DOUBLE:
-            bindDoubleAttribute(attributeID, vertexAttributeDef);
-            break;
+            const VertexAttributeDef& attribute = attributes[attributeIdx];
+            GLint attributeID = glGetAttribLocation(shaderID, attribute.name);
+            assert(attributeIdx != -1);
+
+            // if the buffer is shared among attributes, skip it
+            attribute.buffer->bind(BufferBindTarget::VERTEX);
+
+            switch (attribute.dataType)
+            {
+            case DataType::INT:
+                bindIntAttribute(attributeID, attribute, GL_INT);
+                break;
+            case DataType::UINT:
+                bindIntAttribute(attributeID, attribute, GL_UNSIGNED_INT);
+                break;
+            case DataType::FLOAT:
+                bindFloatAttribute(attributeID, attribute, GL_FLOAT);
+                break;
+            case DataType::DOUBLE:
+                bindDoubleAttribute(attributeID, attribute);
+                break;
+            }
+
+            glVertexAttribDivisor(attributeID, static_cast<GLuint>(attribute.updateDivisor));
+            glEnableVertexAttribArray(attributeID);
         }
-
-        glVertexAttribDivisor(attributeID, static_cast<GLuint>(vertexAttributeDef.updateDivisor));
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-        glBindVertexArray(0);
-        shader->disable();
-    }
-
-    void OpenGLVertexArray::enableAttribute(Shader* shader, const hash& nameHash)
-    {
-        shader->use();
-        glBindVertexArray(this->vaoIdx);
-        glEnableVertexAttribArray(queryAttributeLocationByHash(nameHash));
-        glBindVertexArray(0);
-    }
-
-    void OpenGLVertexArray::disableAttribute(Shader* shader, const hash& nameHash)
-    {
-        shader->use();
-        glBindVertexArray(this->vaoIdx);
-        glDisableVertexAttribArray(queryAttributeLocationByHash(nameHash));
-        glBindVertexArray(0);
-        shader->disable();
     }
 
     OpenGLVertexArray::~OpenGLVertexArray() { glDeleteVertexArrays(1, &vaoIdx); }

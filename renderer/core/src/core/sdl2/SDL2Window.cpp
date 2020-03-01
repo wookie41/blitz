@@ -20,21 +20,33 @@ namespace blitz
 
     void SDL2Window::hide() const { SDL_HideWindow(window); }
 
-    void SDL2Window::clearDepth(const Color& color)
+    void SDL2Window::setClearColor(const Color& color)
     {
         glClearColor(color.red, color.green, color.blue, color.alpha);
+    }
+
+    void SDL2Window::setClearStencil(const int& color)
+    {
+        glClearStencil(color);
+    }
+
+    void SDL2Window::setClearDepth(const float& color)
+    {
+        glClearDepth(color);
+    }
+    
+    void SDL2Window::clearDepth()
+    {
         glClear(GL_DEPTH_BUFFER_BIT);
     }
 
-    void SDL2Window::clearStencil(const Color& color)
+    void SDL2Window::clearStencil()
     {
-        glClearColor(color.red, color.green, color.blue, color.alpha);
         glClear(GL_STENCIL_BUFFER_BIT);
     }
 
-    void SDL2Window::clearColor(const Color& color)
+    void SDL2Window::clearColor()
     {
-        glClearColor(color.red, color.green, color.blue, color.alpha);
         glClear(GL_COLOR_BUFFER_BIT);
     }
 

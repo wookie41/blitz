@@ -56,6 +56,5 @@ add_subdirectory(blitzcommon)
 add_subdirectory(renderer/core)
 add_subdirectory(renderer/front)
 
-add_subdirectory(resources)
 add_subdirectory(runner)
 add_subdirectory(platform)

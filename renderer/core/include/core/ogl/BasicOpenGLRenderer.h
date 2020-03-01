@@ -14,6 +14,8 @@ namespace blitz::ogl
         void run(RenderCommand *renderCommand) override;
 
         void setViewPort(const ViewPort *viewPort) override;
+        void setStencilTest(const bool& enabled);
+        void setDepthTest(const bool& enabled);
 
     private:
         unsigned int mapToGLType(const PrimitiveType& type);

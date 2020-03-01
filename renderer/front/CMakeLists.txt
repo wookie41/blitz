@@ -1,7 +1,10 @@
 project(blitz-renderer-front C CXX)
 
 add_library(${PROJECT_NAME} STATIC
+    src/front/Camera.cpp
     src/front/Precompiled.cpp
+    src/front/RenderingPath.cpp
+    src/front/ForwardRenderingPath.cpp
 	src/front/ModelRenderer.cpp)
 
 set_target_properties(${PROJECT_NAME}
