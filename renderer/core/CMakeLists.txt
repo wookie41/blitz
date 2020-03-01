@@ -52,7 +52,8 @@ add_library(${PROJECT_NAME} STATIC
         src/core/BasicRenderPass.cpp 
         src/core/ogl/BasicOpenGLRenderer.cpp
         src/resources/texture/TextureLoader.cpp
-        src/resources/model/ModelLoader.cpp)
+        src/resources/model/ModelLoader.cpp
+        src/resources/ResourcesHolder.cpp)
 
 set_target_properties(${PROJECT_NAME}
         PROPERTIES
