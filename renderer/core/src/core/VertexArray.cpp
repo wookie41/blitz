@@ -28,5 +28,4 @@ namespace blitz
         bind();
         setupAttributes();
     }
-
 } // namespace blitz

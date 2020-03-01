@@ -8,4 +8,5 @@ namespace blitz
     //char - to look for
     //return idx of 'chr' or -1 if not found
     size_t lastIndexOf(const char* str, const char chr);
+    char* copyStr(const char* toCpy);
 }

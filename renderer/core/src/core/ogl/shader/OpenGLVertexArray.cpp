@@ -29,9 +29,11 @@ namespace blitz::ogl
 
     void OpenGLVertexArray::bindElementBuffer(Buffer* buffer, const DataType& indicesType)
     {
+        bind();
         elementBuffer = buffer;
         this->indicesType = indicesType;
         buffer->bind(BufferBindTarget::ELEMENT);
+        unbind();
     }
 
     void OpenGLVertexArray::bind() { glBindVertexArray(vaoIdx); }

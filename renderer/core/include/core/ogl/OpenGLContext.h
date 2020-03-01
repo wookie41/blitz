@@ -13,9 +13,8 @@ namespace blitz::ogl
         explicit OpenGLContext();
 
         Buffer* createBuffer(const BufferSpec& bufferSpec) override;
-        VertexArray* createVertexArray(const uint& numAttributes) override;
+        VertexArray* createVertexArray(const uint8& numAttributes) override;
         Framebuffer* createFramebuffer() override;
-
 
         const BufferFiller* getBufferFiller() override;
 

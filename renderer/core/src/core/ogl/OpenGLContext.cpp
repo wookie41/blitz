@@ -37,7 +37,7 @@ namespace blitz::ogl
 
     const BufferFiller* OpenGLContext::getBufferFiller() { return bufferFiller; }
 
-    VertexArray* OpenGLContext::createVertexArray(const uint& numAttributes)
+    VertexArray* OpenGLContext::createVertexArray(const uint8& numAttributes)
     {
         GLuint vaoIdx;
         glGenVertexArrays(1, &vaoIdx);

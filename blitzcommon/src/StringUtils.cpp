@@ -21,4 +21,12 @@ namespace blitz
             ++idx;
         };
     };
+
+    char* copyStr(const char* toCpy)
+    {
+        const auto len = strlen(toCpy) + 1;
+        auto copied = new char[len];
+        strncpy(copied, toCpy, len);
+        return copied;
+    }
 } // namespace blitz
