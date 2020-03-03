@@ -1,22 +1,26 @@
 #pragma once
 
-#include <core/Precompiled.h>
 #include <core/Max.h>
+#include <core/Precompiled.h>
 
 namespace blitz
 {
     struct UniformBlockField
     {
-        char name[MAX_UNIFORM_BLOCK_FIELD_NAME_LENGTH];
+        UniformBlockField(const char* name, const DataType& type, const size_t off);        
+        
+        blitz::string fieldName;
         DataType dataType;
-        std::size_t offset;
+        size_t offset;
     };
 
     struct UniformBlock
     {
-        std::uint16_t index;
-        char name[MAX_UNIFORM_BLOCK_NAME_LENGTH];
-        UniformBlockField fields[MAX_NUMBER_OF_FIELDS_IN_UNIFORM];
-        std::uint16_t numberOfFields;
+        UniformBlock(const uint16& idx, const int8& binding, const char* name, Array<UniformBlockField>* field);
+
+        uint16 index;
+        int8 bindingPoint; //-1 if not explicitly specified
+        blitz::string blockName;
+        Array<UniformBlockField>* blockFields;
     };
-}
+} // namespace blitz

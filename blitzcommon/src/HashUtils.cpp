@@ -2,15 +2,14 @@
 
 namespace blitz
 {
-    hash hashString(const char* const str)
+    hash hashString(const char* const str, const size_t strLen)
     {
         unsigned int h;
-        unsigned char* p;
 
         h = 0;
-        for (p = (unsigned char* const)str; *p != '\0'; p++)
-            h = 37 * h + *p;
+        for (size_t idx = 0; str[idx] != '\0' && (strLen > 0 ? idx < strLen : true); ++idx)
+            h = 37 * h + str[idx];
 
         return h;
     }
-}
+} // namespace blitz

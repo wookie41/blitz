@@ -4,9 +4,6 @@
 
 namespace blitz
 {
-    using UniformVariableWatcher = std::function<void(hash)>;
-    const auto noopWatcher = [](hash h) {};
-
     class IUniformVariable : public NonCopyable
     {
       public:
@@ -16,7 +13,7 @@ namespace blitz
         hash getNameHash() const;
         const char* const getName() const;
 
-        void setWatcher(const UniformVariableWatcher& newWatcher);
+        void setWatcher(void (*newWatcher)(const hash& h));
 
         virtual bool isDirty() const = 0;
 
@@ -25,9 +22,11 @@ namespace blitz
       protected:
         explicit IUniformVariable(const char* const name);
 
-        hash nameHash;
+        const hash h;
+
+        //TODO noone is deallocating it right now, but that's okay 
+        //since a string pool is going to be introduced for stuff like that
         const char* const variableName;
-        UniformVariableWatcher watcher;
     };
 
     template <typename T>
@@ -49,7 +48,6 @@ namespace blitz
     UniformVariable<T>& UniformVariable<T>::operator=(const T& newValue)
     {
         value = newValue;
-        watcher(nameHash);
         dirty = true;
         return *this;
     }

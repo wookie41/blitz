@@ -13,11 +13,12 @@ namespace blitz
 
     VertexArray::~VertexArray()
     {
-        delete elementBuffer;
         for (uint8 attrIdx = 0; attrIdx < attributesCount; ++attrIdx)
         {
-            // attributes can share the buffer, double delete can happen here!
-            delete attributes[attrIdx].buffer;
+            // TODO this is okay for now, but allowing each VertexAttributeDef
+            // to hold it's own name will cause many copies of the same string, so
+            // a string pool should be introduced for holding strings like
+            // uniform names, vertex attributes names and etc
             delete attributes[attrIdx].name;
         }
         delete[] attributes;

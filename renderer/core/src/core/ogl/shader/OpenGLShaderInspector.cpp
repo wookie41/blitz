@@ -4,6 +4,7 @@
 #include <core/UniformBlock.h>
 #include <core/ogl/OpenGLDataType.h>
 
+#include <core/ogl/uniforms/OpenGLBoolUniformVariable.h>
 #include <core/ogl/uniforms/OpenGLDoubleUniformVariable.h>
 #include <core/ogl/uniforms/OpenGLFloatUniformVariable.h>
 #include <core/ogl/uniforms/OpenGLIntegerUniformVariable.h>
@@ -12,84 +13,81 @@
 #include <core/ogl/uniforms/OpenGLSamplerUniformVariable.h>
 #include <core/ogl/uniforms/OpenGLVec3UniformVariable.h>
 #include <core/ogl/uniforms/OpenGLVec4UniformVariable.h>
-#include <core/ogl/uniforms/OpenGLBoolUniformVariable.h>
 
 namespace blitz::ogl
 {
-    std::unordered_map<hash, IUniformVariable*>
-    OpenGLShaderInspector::extractUniformVariables(GLuint shaderID, const std::unordered_map<hash, UniformBlock*>& uniformBlocks) const
+    Array<IUniformVariable*> OpenGLShaderInspector::extractUniformVariables(GLuint shaderID, const Array<UniformBlock>* uniformBlocks) const
     {
-        std::unordered_set<hash> blockUniforms;
-        std::unordered_map<hash, IUniformVariable*> uniforms;
+        Array<hash> blockUniformsHashes(uniformBlocks.getSize());
 
-        for (const auto& it : uniformBlocks)
+        for (uint32 idx = 0; idx < uniformBlokcs.getSize(); ++idx)
         {
-            const auto block = it.second;
-            for (uint16_t i = 0; i < block->numberOfFields; ++i)
+            for (uint16_t fieldIdx = 0; fieldIdx < block->numberOfFields; ++fieldIdx)
             {
-                blockUniforms.insert(hashString(block->fields[i].name));
+                blockUniformsHashes.add(block->fields[i].name.getHash());
             }
         }
 
         GLint numberOfUniforms;
         glGetProgramiv(shaderID, GL_ACTIVE_UNIFORMS, &numberOfUniforms);
+        Arary<IUniformVariable*>* uniforms = new Arary<IUniformVariable*>(numberOfUniforms);
 
         GLint size;
         GLenum type;
         GLsizei nameLength;
 
+        char uniformNameBuff[MAX_UNIFORM_VARIABLE_NAME_LENGTH];
+
         for (GLint uniformIdx = 0; uniformIdx < numberOfUniforms; ++uniformIdx)
         {
-            char* name = (char*)malloc(MAX_UNIFORM_VARIABLE_NAME_LENGTH + 1);
             glGetActiveUniform(shaderID, uniformIdx, MAX_UNIFORM_VARIABLE_NAME_LENGTH, &nameLength, &size, &type, name);
 
-            const auto nameHash = hashString(name);
-            if (blockUniforms.find(nameHash) != blockUniforms.end())
+            const auto uniformNameHash = hashString(uniformNameBuff);
+            if (blockUniformsHashes.contains(uniformNameHash))
             {
-                free(name);
                 continue;
             }
 
+            GLint variableLocation = glGetUniformLocation(shaderID, uniformNameBuff);
+            char* name = new char[nameLength];
+            strncpy(name, uniformNameBuff, nameLength);
 
-            auto variableLocation = glGetUniformLocation(shaderID, name);
             switch (type)
             {
             case GL_BOOL:
-                uniforms[nameHash] = new OpenGLBoolUniformVariable(variableLocation, 0, name);
+                uniforms->add(new OpenGLBoolUniformVariable(variableLocation, 0, name)));
                 break;
             case GL_INT:
-                uniforms[nameHash] = new OpenGLIntegerUniformVariable(variableLocation, 0, name);
+                uniforms->add(new OpenGLIntegerUniformVariable(variableLocation, 0, name));
                 break;
             case GL_FLOAT:
-                uniforms[nameHash] = new OpenGLFloatUniformVariable(variableLocation, 0, name);
+                uniforms->add(new OpenGLFloatUniformVariable(variableLocation, 0, name));
                 break;
             case GL_DOUBLE:
-                uniforms[nameHash] = new OpenGLDoubleUniformVariable(variableLocation, 0, name);
+                uniforms->add(new OpenGLDoubleUniformVariable(variableLocation, 0, name));
                 break;
             case GL_FLOAT_VEC3:
-                uniforms[nameHash] = new OpenGLVec3UniformVariable(variableLocation, {}, name);
+                uniforms->add(new OpenGLVec3UniformVariable(variableLocation, {}, name));
                 break;
             case GL_FLOAT_VEC4:
-                uniforms[nameHash] = new OpenGLVec4UniformVariable(variableLocation, {}, name);
+                uniforms->add(new OpenGLVec4UniformVariable(variableLocation, {}, name));
                 break;
             case GL_FLOAT_MAT3:
-                uniforms[nameHash] = new OpenGLMat3UniformVariable(variableLocation, {}, name);
+                uniforms->add(new OpenGLMat3UniformVariable(variableLocation, {}, name));
                 break;
             case GL_FLOAT_MAT4:
-                uniforms[nameHash] = new OpenGLMat4UniformVariable(variableLocation, {}, name);
+                uniforms->add(new OpenGLMat4UniformVariable(variableLocation, {}, name));
                 break;
             case GL_SAMPLER_1D:
-                uniforms[nameHash] = new OpenGLSamplerUniformVariable(variableLocation, nullptr, name, GL_SAMPLER_1D);
+                uniforms->add(new OpenGLSamplerUniformVariable(variableLocation, nullptr, name, GL_SAMPLER_1D));
                 break;
             case GL_SAMPLER_2D:
-                uniforms[nameHash] = new OpenGLSamplerUniformVariable(variableLocation, nullptr, name, GL_SAMPLER_2D);
+                uniforms->add(new OpenGLSamplerUniformVariable(variableLocation, nullptr, name, GL_SAMPLER_2D));
                 break;
             case GL_SAMPLER_3D:
-                uniforms[nameHash] = new OpenGLSamplerUniformVariable(variableLocation, nullptr, name, GL_SAMPLER_3D);
+                uniforms->add(new OpenGLSamplerUniformVariable(variableLocation, nullptr, name, GL_SAMPLER_3D));
                 break;
-
             default:
-                free(name);
                 DLOG_F(ERROR, "[OpenGL] Unsupported uniform variable type for '%s'", name);
             }
         }
@@ -98,111 +96,128 @@ namespace blitz::ogl
         return uniforms;
     }
 
-    std::unordered_map<hash, UniformBlock*> OpenGLShaderInspector::extractUniformBlocks(GLuint shaderID) const
+    Array<UniformBlock>* OpenGLShaderInspector::extractUniformBlocks(const GLuint& shaderID) const
     {
-        std::unordered_map<hash, UniformBlock*> uniformBlocks;
+        GLint uniformBlocksNum;
+        glGetProgramiv(shaderID, GL_ACTIVE_UNIFORM_BLOCKS, &uniformBlocksNum);
+
+        assert(uniformBlocksNum > -1);
+
+        Arary<UniformBlock>* uniformBlocks = new Arary<UniformBlock>(uniformBlocksNum);
+
         GLuint uniformBlockIdx = 0;
 
         GLsizei nameLength;
         GLint type, offset;
-        GLchar* uniformBlockName = (GLchar*)malloc(MAX_UNIFORM_BLOCK_NAME_LENGTH + 1);
-        GLchar* uniformBlockFieldName = (GLchar*)malloc(MAX_UNIFORM_BLOCK_FIELD_NAME_LENGTH + 1);
 
-        while (uniformBlockIdx < GL_ACTIVE_UNIFORM_BLOCKS)
+        GLchar uniformBlockName[MAX_UNIFORM_BLOCK_NAME_LENGTH];
+        GLchar uniformBlockFieldName[MAX_UNIFORM_BLOCK_FIELD_NAME_LENGTH];
+
+        while (uniformBlockIdx < uniformBlocksNum)
         {
             nameLength = 0;
 
-            memset(uniformBlockName, 0, MAX_UNIFORM_BLOCK_NAME_LENGTH);
             glGetActiveUniformBlockName(shaderID, uniformBlockIdx, MAX_UNIFORM_BLOCK_NAME_LENGTH, &nameLength, uniformBlockName);
-            if (nameLength == 0)
-            {
-                return uniformBlocks;
-            }
+            assert(nameLength > 0);
 
-            const auto uniformBlockIndex = glGetUniformBlockIndex(shaderID, uniformBlockName);
+            const GLuint uniformBlockIndex = glGetUniformBlockIndex(shaderID, uniformBlockName);
 
             if (uniformBlockIndex != GL_INVALID_INDEX)
             {
-                const auto nameHash = hashString(uniformBlockName);
-                uniformBlocks[nameHash] = new UniformBlock();
+                char* blockName = new char[nameLength];
+                strncpy(blockName, uniformBlockName, nameLength);
 
-                const auto& uniformBlock = uniformBlocks[nameHash];
-                uniformBlock->index = uniformBlockIndex;
-                strncpy(uniformBlock->name, uniformBlockName, nameLength);
+                int numFieldsInBlock;
+                glGetActiveUniformBlockiv(shaderID, uniformBlockIndex, GL_UNIFORM_BLOCK_ACTIVE_UNIFORMS, &numFieldsInBlock);
+                Array<UniformBlockField>* blockFields = new Array<UniformBlockField>(numFieldsInBlock);
 
-                int activeUniformsInBlock;
-                glGetActiveUniformBlockiv(shaderID, uniformBlockIndex, GL_UNIFORM_BLOCK_ACTIVE_UNIFORMS, &activeUniformsInBlock);
-                uniformBlock->numberOfFields = activeUniformsInBlock;
+                int* fieldsIndicies = new int[numFieldsInBlock];
+                glGetActiveUniformBlockiv(shaderID, uniformBlockIndex, GL_UNIFORM_BLOCK_ACTIVE_UNIFORM_INDICES, fieldsIndicies);
 
-                int* uniformsIndices = new int[activeUniformsInBlock];
-                glGetActiveUniformBlockiv(shaderID, uniformBlockIndex, GL_UNIFORM_BLOCK_ACTIVE_UNIFORM_INDICES, uniformsIndices);
-
-                GLint binding = 999;
-                glGetActiveUniformBlockiv(shaderID, uniformBlockIndex, GL_UNIFORM_BLOCK_BINDING, &binding);
-                for (int i = 0; i < activeUniformsInBlock; ++i)
+                for (int fieldIdx = 0; i < numFieldsInBlock; ++fieldIdx)
                 {
-                    const uint32& index = (uint32)uniformsIndices[i];
+                    const uint32& glFieldIndex = (uint32)fieldsIndicies[fieldIdx];
 
-                    glGetActiveUniformName(shaderID, index, MAX_UNIFORM_BLOCK_FIELD_NAME_LENGTH, &nameLength, uniformBlockFieldName);
+                    glGetActiveUniformName(shaderID, glFieldIndex, MAX_UNIFORM_BLOCK_FIELD_NAME_LENGTH, &nameLength,
+                                           uniformBlockFieldName);
 
-                    glGetActiveUniformsiv(shaderID, 1, &index, GL_UNIFORM_TYPE, &type);
-                    glGetActiveUniformsiv(shaderID, 1, &index, GL_UNIFORM_OFFSET, &offset);
+                    glGetActiveUniformsiv(shaderID, 1, &glFieldIndex, GL_UNIFORM_TYPE, &type);
+                    glGetActiveUniformsiv(shaderID, 1, &glFieldIndex, GL_UNIFORM_OFFSET, &offset);
 
-                    auto& field = uniformBlock->fields[i];
-                    strncpy(field.name, uniformBlockFieldName, nameLength);
-                    field.offset = offset;
-                    field.dataType = mapToBlitzDataType(type);
+                    char* fieldName = new char[nameLength];
+                    strncpy(fieldName, uniformBlockFieldName, nameLength);
+
+                    blockFields->add({ blitz::string(fieldName), mapToBlitzDataType(type), offset })
                 }
+
+                GLint binding = 0;
+                glGetActiveUniformBlockiv(shaderID, uniformBlockIndex, GL_UNIFORM_BLOCK_BINDING, &binding);
+
+                uniformBlocks->add(
+                { uniformBlockIndex, (int8)(binding == 0 ? -1 : bindingPoint), blitz::string(blockName), blockFields });
             }
 
-            ++uniformBlockIdx;
+            uniformBlockIdx++;
         }
 
         return uniformBlocks;
     }
 
-    std::unordered_map<hash, GLuint>
-    OpenGLShaderInspector::createBindingPoints(const GLuint shaderID, const std::unordered_map<hash, UniformBlock*>& uniformBlocks) const
+    Array<GLuint>* OpenGLShaderInspector::createBindingPoints(const GLuint shaderID, const Array<UniformBlock>* uniformBlocks) const
     {
-        GLint freeBinding = 0;
-        std::unordered_map<hash, GLuint> bindings;
-        for (const auto& it : uniformBlocks)
+        int8 bindingsTaken[16];
+        int8 bindingsTakenCount = 0;
+
+        for (size_t blockIdx = 0; blockIdx < uniformBlocks->getSize(); ++blockIdx)
         {
-            const auto block = it.second;
-            GLint bindingPoint = -1;
-            const auto uniformBlockIndex = glGetUniformBlockIndex(shaderID, block->name);
-
-            if (uniformBlockIndex == GL_INVALID_INDEX)
+            int8 uniformBindingPoint = uniformBlocks->get(blockIdx)->bindingPoint;
+            if (uniformBindingPoint != -1)
             {
-                DLOG_F(ERROR, "[OpenGL] Shader %d doesn't declare a uniform block named %s", shaderID, block->name);
+                bindingsTaken[bindingsTakenCount++] = uniformBindingPoint;
+            }
+        }
+
+        int8 nextFreeBinding = 0;
+        for (size_t blockIdx = 0; blockIdx < uniformBlocks->getSize(); ++blockIdx)
+        {
+            if (uniformBlocks[blockIdx]->bindingPoint != -1)
+            {
                 continue;
             }
 
-            glGetActiveUniformBlockiv(shaderID, uniformBlockIndex, GL_UNIFORM_BLOCK_BINDING, &bindingPoint);
-            if (bindingPoint == -1)
+            while (true)
             {
-                DLOG_F(ERROR, "[OpenGL] Failed to query for binding of uniform block %s in shader %d", block->name, shaderID);
-                continue;
+                bool bindingFound = true;
+                for (int8 bindingIdx = 0; bindingIndex < bindingsTakenCount; ++bindingIndex)
+                {
+                    if (bindingsTaken[bindingIdx] == nextFreeBinding)
+                    {
+                        ++nextFreeBinding;
+                        bindingFound = false;
+                        break;
+                    }
+                }
+
+                if (bindingFound)
+                    break;
             }
 
-            bindingPoint = bindingPoint == 0 ? freeBinding++ : bindingPoint;
-            glUniformBlockBinding(shaderID, uniformBlockIndex, static_cast<GLuint>(bindingPoint));
-
-            bindings[it.first] = static_cast<GLuint>(bindingPoint);
+            bindingsTaken[bindingsTakenCount] = nextFreeBinding++;
+            uniformBlocks->get(blockIdx)->bindingPoint = bindingsTaken[bindingsTakenCount++];
         }
 
         return bindings;
     }
 
-    std::unordered_map<hash, ShaderOutput*> OpenGLShaderInspector::extractShaderOutputs(GLuint shaderID) const
+    Array<ShaderOutput>* OpenGLShaderInspector::extractShaderOutputs(GLuint shaderID) const
     {
         static const GLenum propertiesToQuery[] = { GL_TYPE, GL_LOCATION };
-        static char outputName[MAX_FRAGMENT_OUTPUT_NAME_LENGTH];
-
-        std::unordered_map<hash, ShaderOutput*> outputs = {};
+        char outputName[MAX_FRAGMENT_OUTPUT_NAME_LENGTH];
 
         GLint outputsCount;
         glGetProgramInterfaceiv(shaderID, GL_PROGRAM_OUTPUT, GL_ACTIVE_RESOURCES, &outputsCount);
+
+        Array<ShaderOutput>* shaderOutputs = new Array<ShaderOutput>(outputsCount);
 
         GLint properties[2];
         int outputNameLength;
@@ -212,35 +227,22 @@ namespace blitz::ogl
             glGetProgramResourceName(shaderID, GL_PROGRAM_OUTPUT, outputIdx, MAX_FRAGMENT_OUTPUT_NAME_LENGTH,
                                      &outputNameLength, outputName);
 
-            const auto hash = hashString(outputName);
-            outputs[hash] = new ShaderOutput();
-            ShaderOutput* output = outputs[hash];
-            output->name = (char*)malloc(outputNameLength);
-
-            strncpy(output->name, outputName, static_cast<size_t>(outputNameLength));
-            output->texture = nullptr;
+            char* name = new char[outputNameLength];
+            strncpy(name, outputName, outputNameLength);
 
             glGetProgramResourceiv(shaderID, GL_PROGRAM_OUTPUT, outputIdx, 2, propertiesToQuery, 2, nullptr, properties);
-            output->outputIdx = static_cast<uint16>(properties[1]);
 
-            switch (properties[0])
-            {
-            case GL_FLOAT_VEC3:
-                output->textureFormat = TextureFormat::RGB;
-                break;
-            case GL_FLOAT_VEC4:
-                output->textureFormat = TextureFormat::RGBA;
-                break;
-            default:
-                DLOG_F(ERROR, "[OpenGL] Unknown shader output type %s", typeToName(properties[0]));
-                continue;
-            }
+            DLOG_F(ERROR, "[OpenGL] Shader output %d is named '%s' and is of type %s", outputIdx, output->name,
+                   typeToName(properties[0]));
 
-            DLOG_F(ERROR, "[OpenGL] Shader output %d is named '%s' and is of type %s", outputIdx, output->name, typeToName(properties[0]));
             if (outputNameLength > MAX_FRAGMENT_OUTPUT_NAME_LENGTH)
             {
                 DLOG_F(ERROR, "[OpenGL] Output number %d has too long of a name", outputIdx);
             }
+
+            shaderOutputs->add({ static_cast<uint16>(outputIdx), nullptr,
+                                 output->textureFormat == GL_FLOAT_VEC3 ? TextureFormat::RGB : TextureFormat::RGBA,
+                                 blitz::string(name) });
         }
         DLOG_F(INFO, "[OpenGL] Shader %d has %d outputs", shaderID, outputsCount);
 
