@@ -24,120 +24,44 @@ namespace blitz::ogl
     {
     }
 
-    void OpenGLShader::use() { glUseProgram(shaderID); }
-
-    void OpenGLShader::bindUniformBlock(const hash& blockNameHash, const BufferRange* bufferRange)
+    void OpenGLShader::use()
     {
-        uniformBlocksBuffers[blockNameHash] = bufferRange;
-    }
+        glUseProgram(shaderID);
 
-    void OpenGLShader::bindUniformBlocks() const
-    {
-        for (const auto& glBindPoint : glBindPoints)
+        // updating uniform variables if their value has changed and binding textures
+        for (size_t uniformVariableIdx = 0; uniformVariableIndex < uniformVariables.size(), ++uniformVariableIndex)
         {
-            const auto bufferIt = uniformBlocksBuffers.find(glBindPoint.first);
-            if (bufferIt == uniformBlocksBuffers.end())
+            GLenum textureCounter = GL_TEXTURE0;
+
+            IUniformVariable* uniformVariable = *uniformVariables[uniformVariableIdx];
+
+            if (uniformVariable->getType() == DataType::SAMPLER1D ||
+                uniformVariable->getType() == DataType::SAMPLER2D || uniformVariable->getType() == DataType::SAMPLER3D)
             {
-                DLOG_F(ERROR, "[OpenGL] No buffer specified for binding point %d in shader '%s'", glBindPoint.second, shaderName);
+                glActiveTexture(textureCounter++);
+                uniformVariable->bind();
                 continue;
             }
 
-            auto glBuffer = dynamic_cast<OpenGLBuffer*>(bufferIt->second->buffer);
-            if (glBuffer == nullptr)
+            if (uniformVariable->isDirty())
             {
-                DLOG_F(ERROR, "[OpenGL] Couldn't bind uniform block %d in shader '%s', the buffer is not a GL buffer",
-                       glBindPoint.second, shaderName);
+                uniformVariable->bind();
+            }
+        }
+
+        // binding uniform blocks buffers to appropriate bindig points
+        for (size_t blockIdx = 0; blockIdx < uniformBlocks->size(); ++blockIdx)
+        {
+            UniformBlock* uniformBlock = uniformBlocks[blockIdx];
+            Buffer* blockBuffer = uniformBlock->associatedBuffer;
+            if (blockBuffer == nullptr)
+            {
+                DLOG_F(INFO, "Uniform block %s has no associated buffer, skipping it", uniformBlock->blockName);
                 continue;
             }
 
-            const auto& currentBindingIt = currentUniformBlockBindings.find(glBindPoint.first);
-
-            if (currentBindingIt != currentUniformBlockBindings.end() && currentBindingIt->second == glBuffer)
-            {
-                continue;
-            }
-
-            const auto uniformBlock = uniformBlocks.find(glBindPoint.first)->second;
-            DLOG_F(INFO, "[OpenGL] Binding buffer %d to uniform block '%s' in shader '%s'", glBuffer->getId(),
-                   uniformBlock->name, shaderName);
-
-            glUniformBlockBinding(shaderID, uniformBlock->index, glBindPoint.second);
-
-            const auto bufferSize = bufferIt->second->size;
-            const auto bufferOffset = bufferIt->second->offset;
-
-            if (bufferSize > 0 || bufferOffset > 0)
-            {
-                glBindBufferRange(GL_UNIFORM_BUFFER, uniformBlock->index, glBuffer->getId(), bufferOffset, bufferSize);
-            }
-            else
-            {
-                glBindBufferBase(GL_UNIFORM_BUFFER, uniformBlock->index, glBuffer->getId());
-            }
-
-            currentUniformBlockBindings[glBindPoint.first] = glBuffer;
+            blockBuffer->bind({ 0, blockBuffer->getSizeInBytes(), uniformBlock->index, BufferBindTarget::UNIFORM_BLOCK })
         }
-    }
-
-    void OpenGLShader::bindSamplers()
-    {
-        auto textureCount = 0;
-        auto textureCounter = GL_TEXTURE0;
-
-        for (const auto sampler : samplers)
-        {
-            const auto glSampler = dynamic_cast<OpenGLSamplerUniformVariable*>(sampler);
-            if (glSampler == nullptr || !sampler->isDirty())
-                continue;
-            glActiveTexture(textureCounter++);
-            glUniform1i(glSampler->getVariableLocation(), textureCount++);
-            sampler->bind();
-        }
-    }
-
-    void OpenGLShader::setOutputTarget(const hash& outputNameHash, Texture* targetTexture)
-    {
-        Shader::setOutputTarget(outputNameHash, targetTexture);
-        newlyAddedOutputs.push_back(outputNameHash);
-    }
-
-    void OpenGLShader::setupOutputs(Framebuffer* targetFramebuffer)
-    {
-        if (targetFramebuffer == lastFrameBuffer && newlyAddedOutputs.empty())
-            return;
-
-        if (targetFramebuffer != lastFrameBuffer)
-        {
-            for (const auto& output : shaderOutputs)
-                newlyAddedOutputs.push_back(output.first);
-        }
-
-        lastFrameBuffer = targetFramebuffer;
-
-        for (const auto& outputNameHash : newlyAddedOutputs)
-        {
-            const auto output = shaderOutputs[outputNameHash];
-            const auto glTexture = dynamic_cast<OpenGLTexture*>(output->texture);
-            const auto glTextureAttachment = new OpenGLTextureAttachment(glTexture, GL_COLOR_ATTACHMENT0, false);
-
-            targetFramebuffer->setColorAttachment(output->outputIdx, glTextureAttachment);
-        }
-
-        newlyAddedOutputs.clear();
-    }
-
-    void OpenGLShader::setup(Framebuffer* framebuffer)
-    {
-        if (framebuffer == nullptr)
-        {
-            DLOG_F(ERROR, "[OpenGL] Vertex array is null on shader '%s'", shaderName);
-            return;
-        }
-
-        setupOutputs(framebuffer);
-        bindDirtyVariables();
-        bindUniformBlocks();
-        bindSamplers();
     }
 
     void OpenGLShader::disable() { glUseProgram(0); }

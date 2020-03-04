@@ -16,20 +16,19 @@ namespace blitz
         void setStencilAttachment(FramebufferAttachment* stencilAttachment);
         void setDepthStencilAttachment(FramebufferAttachment* depthStencilAttachment);
 
-        virtual // color attachment idx starts with 0
-        void setColorAttachment(uint16 colorAttachmentIdx, FramebufferAttachment* colorAttachment);
-
+        //The framebuffer must be bound for this method to have effect
+        void setColorAttachment(const uint16& colorAttachmentIdx, FramebufferAttachment* colorAttachment);
         virtual ~Framebuffer();
 
       protected:
-        Framebuffer() = default;
+        explicit Framebuffer(const uint16& numColAttachments);
 
         uint8 dirtyFields = 0;
 
+        uint16 numColorAttachments;
         FramebufferAttachment* depthAttachment = nullptr;
         FramebufferAttachment* stencilAttachment = nullptr;
-        FramebufferAttachment* depthStencilAttachment  = nullptr;
-        std::unordered_map<uint16, FramebufferAttachment*> colorAttachments;
-        std::vector<uint16> newlyAddedAttachments;
+        FramebufferAttachment* depthStencilAttachment = nullptr;
+        FramebufferAttachment** colorAttachments = nullptr;
     };
 } // namespace blitz

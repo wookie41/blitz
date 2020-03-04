@@ -11,16 +11,11 @@
 #include <blitzcommon/StringUtils.h>
 #include <cassert>
 #include <cstring>
-#include <deque>
-#include <functional>
 #include <loguru.hpp>
 #include <mathfu/matrix.h>
 #include <mathfu/vector.h>
 #include <mutex>
-#include <string>
-#include <unordered_map>
-#include <unordered_set>
-#include <utility>
 #include <vector>
+#include <deque>
 
 #endif

@@ -5,6 +5,8 @@
 
 namespace blitz
 {
+    struct BufferRange;
+
     struct UniformBlockField
     {
         UniformBlockField(const char* name, const DataType& type, const size_t off);        
@@ -22,5 +24,6 @@ namespace blitz
         int8 bindingPoint; //-1 if not explicitly specified
         blitz::string blockName;
         Array<UniformBlockField>* blockFields;
+        BufferRange* associatedBuffer = nullptr;
     };
 } // namespace blitz

@@ -36,6 +36,7 @@ namespace blitz::ogl
         GLenum type;
         GLsizei nameLength;
 
+        GLint samplersCount = 0;
         char uniformNameBuff[MAX_UNIFORM_VARIABLE_NAME_LENGTH];
 
         for (GLint uniformIdx = 0; uniformIdx < numberOfUniforms; ++uniformIdx)
@@ -80,12 +81,15 @@ namespace blitz::ogl
                 break;
             case GL_SAMPLER_1D:
                 uniforms->add(new OpenGLSamplerUniformVariable(variableLocation, nullptr, name, GL_SAMPLER_1D));
+                glUniform1i(variableLocation, samplersCount++);
                 break;
             case GL_SAMPLER_2D:
                 uniforms->add(new OpenGLSamplerUniformVariable(variableLocation, nullptr, name, GL_SAMPLER_2D));
+                glUniform1i(variableLocation, samplersCount++);
                 break;
             case GL_SAMPLER_3D:
                 uniforms->add(new OpenGLSamplerUniformVariable(variableLocation, nullptr, name, GL_SAMPLER_3D));
+                glUniform1i(variableLocation, samplersCount++);
                 break;
             default:
                 DLOG_F(ERROR, "[OpenGL] Unsupported uniform variable type for '%s'", name);
@@ -203,7 +207,8 @@ namespace blitz::ogl
             }
 
             bindingsTaken[bindingsTakenCount] = nextFreeBinding++;
-            uniformBlocks->get(blockIdx)->bindingPoint = bindingsTaken[bindingsTakenCount++];
+            uniformBlocks[blockIdx]->bindingPoint = bindingsTaken[bindingsTakenCount++];
+            glUniformBlockBinding(shaderID, uniformBlocks[blockIdx]->index, uniformBlocks[blockIdx]->bindingPoint);
         }
 
         return bindings;
@@ -240,7 +245,7 @@ namespace blitz::ogl
                 DLOG_F(ERROR, "[OpenGL] Output number %d has too long of a name", outputIdx);
             }
 
-            shaderOutputs->add({ static_cast<uint16>(outputIdx), nullptr,
+            shaderOutputs->add({ static_cast<uint16>(outputIdx)
                                  output->textureFormat == GL_FLOAT_VEC3 ? TextureFormat::RGB : TextureFormat::RGBA,
                                  blitz::string(name) });
         }

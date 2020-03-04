@@ -1,23 +1,22 @@
 #pragma once
 
-#include <core/Precompiled.h>
 #include <core/Framebuffer.h>
+#include <core/Precompiled.h>
 
 namespace blitz::ogl
 {
     class OpenGLFramebuffer : public Framebuffer
     {
       public:
-
-        OpenGLFramebuffer(GLuint id);
+        OpenGLFramebuffer(const GLuint& id, const uint16& numColAttachments);
 
         void bind() override;
         void unbind() override;
 
         virtual ~OpenGLFramebuffer();
 
-    private:
+      private:
         GLuint framebufferID;
-        std::vector<GLenum> drawBuffers;
+        GLenum* drawBuffers;
     };
 } // namespace blitz::ogl

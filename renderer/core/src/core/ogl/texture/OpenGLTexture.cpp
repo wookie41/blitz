@@ -53,7 +53,6 @@ namespace blitz::ogl
 
     void OpenGLTexture::bind()
     {
-        glActiveTexture(GL_TEXTURE0);
         glBindTexture(glTextureType, textureID);
     }
 

@@ -11,7 +11,6 @@ namespace blitz
     struct ShaderOutput
     {
         uint16 outputIdx;
-        Texture* texture;
         TextureFormat textureFormat;
         blitz::string name;
     };

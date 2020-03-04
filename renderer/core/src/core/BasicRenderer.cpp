@@ -46,7 +46,6 @@ namespace blitz
                 updateUniforms(shader, renderState.renderPassWideUniforms);
 
                 shader->use();
-                shader->setup(framebuffer);
                 lastShader = shader;
             }
 

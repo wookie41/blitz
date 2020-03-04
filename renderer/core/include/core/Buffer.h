@@ -13,12 +13,17 @@ namespace blitz
     {
         VERTEX,
         ELEMENT,
-        WRITE
+        WRITE,
+        UNIFORM_BLOCK
     };
 
-    enum class IndexedBindTarget
+
+    struct BufferBindingSpec
     {
-        UNIFORM_BLOCK
+        uint32 offset = 0;
+        uint32 size;
+        uint32 index;
+        BufferBindTarget bindTarget;
     };
 
     enum class UsageHint
@@ -52,7 +57,7 @@ namespace blitz
       public:
         explicit Buffer(const UsageHint& usageHint);
 
-        virtual void bind(const BufferBindTarget& bindTarget) = 0;
+        virtual void bind(const BufferBindingSpec& bindingSpec) = 0;
 
         UsageHint getUsageHint() const;
 

@@ -1,50 +1,31 @@
 #include <core/FramebufferAttachment.h>
-#include <core/ogl/framebuffer/OpenGLFramebuffer.h>
 #include <core/ogl/OpenGLDataType.h>
+#include <core/ogl/framebuffer/OpenGLFramebuffer.h>
 
 namespace blitz::ogl
 {
-    OpenGLFramebuffer::OpenGLFramebuffer(GLuint id) : framebufferID(id) {}
+    OpenGLFramebuffer::OpenGLFramebuffer(const GLuint& id, const uint16& numColAttachments)
+    : Framebuffer::Framebuffer(numColorAttachments), framebufferID(id)
+    {
+        drawBuffers = new GLenum(numColorAttachments);
+        for (uint16 colAttachmentIdx = 0; colAttachmentIdx < numColorAttachments; ++colorAttachmentIdx)
+        {
+            drawBuffers[colAttachmentIdx] = GL_COLOR_ATTACHMENT0 + colAttachmentIdx;
+        }
+    }
 
     void OpenGLFramebuffer::bind()
     {
+        assert(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE);
         glBindFramebuffer(GL_FRAMEBUFFER, framebufferID);
-
-        if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-        {
-            DLOG_F(ERROR, "[OpenGL] Framebuffer %d is incomplete", framebufferID);
-            glBindFramebuffer(GL_FRAMEBUFFER, 0);
-            return;
-        }
-
-        for (const auto& colorAttachmentIdx : newlyAddedAttachments)
-        {
-            const auto attachment = colorAttachments[colorAttachmentIdx];
-            attachment->bind({ colorAttachmentIdx });
-
-            std::vector<GLenum> boundColorAttachments = {};
-            for (const auto& colorAttachment : colorAttachments)
-                boundColorAttachments.push_back(colorAttachment.first);
-
-            std::sort(boundColorAttachments.begin(), boundColorAttachments.end());
-
-            drawBuffers.clear();
-            for (auto i = 0U; i < boundColorAttachments[0]; ++i)
-                drawBuffers.push_back(0);
-
-            for (auto it = boundColorAttachments.begin(); it != boundColorAttachments.end(); ++it)
-            {
-                drawBuffers.push_back(GL_COLOR_ATTACHMENT0 + *it);
-                for (auto notBoundAttachment = (*it) + 1; notBoundAttachment < (*it) + 1; ++notBoundAttachment)
-                    drawBuffers.push_back(GL_COLOR_ATTACHMENT0 + notBoundAttachment);
-            }
-        }
-
-        if (framebufferID > 0)
-            glDrawBuffers(ToGLSize(drawBuffers.size()), drawBuffers.data());
+        glDrawBuffers(numColorAttachments, drawBuffers);
     }
 
     void OpenGLFramebuffer::unbind() { glBindFramebuffer(GL_FRAMEBUFFER, 0); }
 
-    OpenGLFramebuffer::~OpenGLFramebuffer() { glDeleteFramebuffers(1, &framebufferID); }
+    OpenGLFramebuffer::~OpenGLFramebuffer()
+    {
+        delete drawBuffers;
+        glDeleteFramebuffers(1, &framebufferID);
+    }
 } // namespace blitz::ogl
