@@ -22,8 +22,8 @@ namespace blitz::ogl
         const auto shaderID = compiler->compile(shaderSource);
         const auto uniformBlocks = inspector->extractUniformBlocks(shaderID);
         const auto uniformVariables = inspector->extractUniformVariables(shaderID, uniformBlocks);
-        const auto bindingPoints = inspector->createBindingPoints(shaderID, uniformBlocks);
         const auto outputs = inspector->extractShaderOutputs(shaderID);
-        return new OpenGLShader(shaderSource.name, shaderID, uniformVariables, uniformBlocks, bindingPoints, outputs);
+        inspector->createBindingPoints(shaderID, uniformBlocks);
+        return new OpenGLShader(shaderSource.name, shaderID, uniformVariables, uniformBlocks, outputs);
     }
 } // namespace blitz::ogl

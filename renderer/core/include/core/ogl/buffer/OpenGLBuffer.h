@@ -12,7 +12,7 @@ namespace blitz::ogl
       public:
         GLuint getId() const;
 
-        virtual void bind(const BufferBindingSpec& bindingSpec) = 0;
+        void bind(const BufferBindingSpec& bindingSpec) override;
         virtual ~OpenGLBuffer();
 
       protected:

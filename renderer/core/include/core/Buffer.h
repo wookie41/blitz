@@ -22,7 +22,7 @@ namespace blitz
     {
         uint32 offset = 0;
         uint32 size;
-        uint32 index;
+        uint16 index;
         BufferBindTarget bindTarget;
     };
 

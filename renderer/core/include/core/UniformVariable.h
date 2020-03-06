@@ -22,7 +22,7 @@ namespace blitz
       protected:
         explicit IUniformVariable(const char* const name);
 
-        const hash h;
+        const hash nameHash;
 
         //TODO noone is deallocating it right now, but that's okay 
         //since a string pool is going to be introduced for stuff like that

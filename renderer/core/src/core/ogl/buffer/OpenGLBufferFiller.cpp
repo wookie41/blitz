@@ -50,7 +50,7 @@ namespace blitz::ogl
             break;
         }
 
-        buffer->bind(BufferBindTarget::WRITE);
+        buffer->bind({0, 0, 0, BufferBindTarget::WRITE});
 
         if (fillArgs.shouldInvalidate)
         {

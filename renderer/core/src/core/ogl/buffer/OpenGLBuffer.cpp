@@ -18,16 +18,16 @@ namespace blitz::ogl
         GLenum glTarget;
         switch (bindingSpec.bindTarget)
         {
-        case VERTEX:
+        case BufferBindTarget::VERTEX:
             glTarget = GL_ARRAY_BUFFER;
             break;
-        case ELEMENT:
+        case BufferBindTarget::ELEMENT:
             glTarget = GL_ELEMENT_ARRAY_BUFFER;
             break;
-        case WRITE:
+        case BufferBindTarget::WRITE:
             glTarget = GL_COPY_WRITE_BUFFER;
             break;
-        case UNIFORM_BLOCK:
+        case BufferBindTarget::UNIFORM_BLOCK:
             glTarget = GL_UNIFORM_BUFFER;
             break;
         }
@@ -36,11 +36,11 @@ namespace blitz::ogl
         {
             if (bindingSpec.size > 0 || bindingSpec.offset > 0)
             {
-                glBindBufferRange(GL_UNIFORM_BUFFER, bindingSpec->index, glBufferID, bindingSpec.size, bindingSpec.offset);
+                glBindBufferRange(GL_UNIFORM_BUFFER, bindingSpec.index, glBufferID, bindingSpec.size, bindingSpec.offset);
             }
             else
             {
-                glBindBufferBase(GL_UNIFORM_BUFFER, bindingSpec->index, glBufferID);
+                glBindBufferBase(GL_UNIFORM_BUFFER, bindingSpec.index, glBufferID);
             }
 
             return;

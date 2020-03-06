@@ -32,7 +32,7 @@ namespace blitz::ogl
         bind();
         elementBuffer = buffer;
         this->indicesType = indicesType;
-        buffer->bind(BufferBindTarget::ELEMENT);
+        buffer->bind({0, buffer->getSizeInBytes(), 0, BufferBindTarget::ELEMENT});
         unbind();
     }
 
@@ -53,7 +53,7 @@ namespace blitz::ogl
             assert(attributeIdx != -1);
 
             // if the buffer is shared among attributes, skip it
-            attribute.buffer->bind(BufferBindTarget::VERTEX);
+            attribute.buffer->bind({0, attribute.buffer->getSizeInBytes(), 0, BufferBindTarget::VERTEX});
 
             switch (attribute.dataType)
             {

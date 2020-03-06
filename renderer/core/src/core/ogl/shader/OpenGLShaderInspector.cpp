@@ -167,7 +167,7 @@ namespace blitz::ogl
         return uniformBlocks;
     }
 
-    Array<GLuint>* OpenGLShaderInspector::createBindingPoints(const GLuint shaderID, const Array<UniformBlock>* uniformBlocks) const
+    void OpenGLShaderInspector::createBindingPoints(const GLuint shaderID, const Array<UniformBlock>* uniformBlocks) const
     {
         int8 bindingsTaken[16];
         int8 bindingsTakenCount = 0;
@@ -210,8 +210,6 @@ namespace blitz::ogl
             uniformBlocks[blockIdx]->bindingPoint = bindingsTaken[bindingsTakenCount++];
             glUniformBlockBinding(shaderID, uniformBlocks[blockIdx]->index, uniformBlocks[blockIdx]->bindingPoint);
         }
-
-        return bindings;
     }
 
     Array<ShaderOutput>* OpenGLShaderInspector::extractShaderOutputs(GLuint shaderID) const
