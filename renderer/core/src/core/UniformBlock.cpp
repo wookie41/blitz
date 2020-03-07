@@ -2,12 +2,14 @@
 
 namespace blitz
 {
-    UniformBlockField::UniformBlockField(const char* name, const DataType& type, const size_t off)
+    UniformBlockField::UniformBlockField() {}
+    UniformBlockField::UniformBlockField(char* name, const DataType& type, const size_t off)
     : fieldName(name), dataType(type), offset(off)
     {
     }
 
-    UniformBlock::UniformBlock(const uint16& idx, const int8& binding, const char* name, Array<UniformBlockField>* field)
+    UniformBlock::UniformBlock() {}
+    UniformBlock::UniformBlock(const uint16& idx, const int8& binding, char* name, Array<UniformBlockField>* fields)
     : index(idx), bindingPoint(binding), blockName(name), blockFields(fields)
     {
     }

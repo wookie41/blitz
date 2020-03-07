@@ -4,8 +4,7 @@ project (common)
 add_library(${PROJECT_NAME} STATIC 
         src/HashUtils.cpp 
         src/PlatformUtils.cpp
-        src/StringUtils.cpp
-        src/Collections.cpp)
+        src/StringUtils.cpp)
 
 add_library(blitz::common ALIAS ${PROJECT_NAME})
 

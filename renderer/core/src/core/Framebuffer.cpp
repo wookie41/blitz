@@ -33,7 +33,7 @@ namespace blitz
 
     void Framebuffer::setColorAttachment(const uint16& colorAttachmentIdx, FramebufferAttachment* colorAttachment)
     {
-        assert(colorAttachmentIdx < colorAttachments.size());
+        assert(colorAttachmentIdx < numColorAttachments);
         colorAttachments[colorAttachmentIdx] = colorAttachment;
         colorAttachment->bind({ colorAttachmentIdx });
     }
@@ -43,7 +43,7 @@ namespace blitz
         delete depthAttachment;
         delete stencilAttachment;
         delete depthStencilAttachment;
-        for (uint16 attachmentIdx = 0; attachmentIdx < numColorAttachments, ++attachmentIdx)
+        for (uint16 attachmentIdx = 0; attachmentIdx < numColorAttachments; ++attachmentIdx)
         {
             delete colorAttachments[attachmentIdx];
         }

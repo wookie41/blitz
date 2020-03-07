@@ -8,7 +8,7 @@ namespace blitz::ogl
     : Framebuffer::Framebuffer(numColorAttachments), framebufferID(id)
     {
         drawBuffers = new GLenum(numColorAttachments);
-        for (uint16 colAttachmentIdx = 0; colAttachmentIdx < numColorAttachments; ++colorAttachmentIdx)
+        for (uint16 colAttachmentIdx = 0; colAttachmentIdx < numColorAttachments; ++colAttachmentIdx)
         {
             drawBuffers[colAttachmentIdx] = GL_COLOR_ATTACHMENT0 + colAttachmentIdx;
         }

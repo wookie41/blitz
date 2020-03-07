@@ -9,6 +9,7 @@ namespace blitz
     class string
     {
       public:
+        string() = default;
         explicit string(char* str);
         size_t getLength() const;
         operator char*() const;
@@ -17,9 +18,9 @@ namespace blitz
         hash getHash() const;
 
       private:
-        size_t length;
-        char* strPtr;
-        hash strHash;
+        size_t length = 0;
+        char* strPtr = nullptr;
+        hash strHash = 0;
     };
 
     // str - null terminated string

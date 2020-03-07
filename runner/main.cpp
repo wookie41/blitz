@@ -16,7 +16,7 @@ extern blitz::Renderer* BLITZ_RENDERER;
 
 constexpr const auto TIME_PER_FRAME = 1.f / 60.f;
 
-int wmain(int argc, char** argv)
+int main(int argc, char** argv)
 {
     blitz::Logger::init(argc, argv);
 

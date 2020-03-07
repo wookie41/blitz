@@ -25,6 +25,24 @@ namespace blitz::ogl
     {
         glUseProgram(shaderID);
 
+        // binding uniform blocks buffers to appropriate bindig points
+        for (size_t blockIdx = 0; blockIdx < uniformBlocks->getSize(); ++blockIdx)
+        {
+            UniformBlock* uniformBlock = uniformBlocks->get(blockIdx);
+            BufferRange* blockBufferRange = uniformBlock->associatedBuffer;
+            if (blockBufferRange == nullptr)
+            {
+                DLOG_F(INFO, "Uniform block %s has no associated buffer, skipping it", uniformBlock->blockName);
+                continue;
+            }
+
+            blockBufferRange->buffer->bind(
+            { blockBufferRange->offset, blockBufferRange->size, uniformBlock->index, BufferBindTarget::UNIFORM_BLOCK });
+        }
+    }
+
+    void OpenGLShader::setup()
+    {
         // updating uniform variables if their value has changed and binding textures
         for (size_t uniformVariableIdx = 0; uniformVariableIdx < uniformVariables->getSize(); ++uniformVariableIdx)
         {
@@ -44,25 +62,6 @@ namespace blitz::ogl
             {
                 uniformVariable->bind();
             }
-        }
-
-        // binding uniform blocks buffers to appropriate bindig points
-        for (size_t blockIdx = 0; blockIdx < uniformBlocks->getSize(); ++blockIdx)
-        {
-            UniformBlock* uniformBlock = uniformBlocks->get(blockIdx);
-            BufferRange* blockBufferRange = uniformBlock->associatedBuffer;
-            if (blockBufferRange == nullptr)
-            {
-                DLOG_F(INFO, "Uniform block %s has no associated buffer, skipping it", uniformBlock->blockName);
-                continue;
-            }
-
-            blockBufferRange->buffer->bind({ 
-                blockBufferRange->offset, 
-                blockBufferRange->size, 
-                uniformBlock->index, 
-                BufferBindTarget::UNIFORM_BLOCK }
-            );
         }
     }
 

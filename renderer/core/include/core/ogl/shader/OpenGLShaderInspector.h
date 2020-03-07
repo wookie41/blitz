@@ -15,9 +15,9 @@ namespace blitz::ogl
     {
       public:
         // hashes in the maps are hashes of the names of the attributes/uniforms
-        Array<IUniformVariable*> extractUniformVariables(const GLuint& shaderID, const Array<UniformBlock>* uniformBlocks) const;
+        Array<IUniformVariable*>* extractUniformVariables(const GLuint& shaderID, const Array<UniformBlock>* uniformBlocks) const;
         Array<UniformBlock>* extractUniformBlocks(const GLuint& shaderID) const;
-        Array<GLuint>* createBindingPoints(GLuint shaderID, const Array<UniformBlock>* uniformBlocks) const;
+        void createBindingPoints(GLuint shaderID, const Array<UniformBlock>* uniformBlocks) const;
         Array<ShaderOutput>* extractShaderOutputs(GLuint shaderID) const;
     };
 } // namespace blitz::ogl

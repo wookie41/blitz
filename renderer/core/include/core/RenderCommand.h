@@ -1,8 +1,9 @@
 #pragma once
 
 #include <core/Buffer.h>
-#include <core/UniformVariable.h>
+#include <core/BufferRange.h>
 #include <core/Precompiled.h>
+#include <core/UniformVariable.h>
 
 namespace blitz
 {
@@ -14,7 +15,7 @@ namespace blitz
         : dataType(type), uniformNameHash(hash), value(val)
         {
         }
-    	
+
         DataType dataType;
         hash uniformNameHash;
         void* value;
@@ -44,7 +45,7 @@ namespace blitz
 
     struct BufferBinding
     {
-        Buffer* buffer;
+        BufferRange* bufferRange;
         BufferBindTarget bindTarget;
     };
 

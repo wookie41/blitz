@@ -16,21 +16,23 @@
 
 namespace blitz::ogl
 {
-    Array<IUniformVariable*> OpenGLShaderInspector::extractUniformVariables(GLuint shaderID, const Array<UniformBlock>* uniformBlocks) const
+    Array<IUniformVariable*>*
+    OpenGLShaderInspector::extractUniformVariables(const GLuint& shaderID, const Array<UniformBlock>* uniformBlocks) const
     {
-        Array<hash> blockUniformsHashes(uniformBlocks.getSize());
-
-        for (uint32 idx = 0; idx < uniformBlokcs.getSize(); ++idx)
-        {
-            for (uint16_t fieldIdx = 0; fieldIdx < block->numberOfFields; ++fieldIdx)
-            {
-                blockUniformsHashes.add(block->fields[i].name.getHash());
-            }
-        }
-
         GLint numberOfUniforms;
         glGetProgramiv(shaderID, GL_ACTIVE_UNIFORMS, &numberOfUniforms);
-        Arary<IUniformVariable*>* uniforms = new Arary<IUniformVariable*>(numberOfUniforms);
+
+        Array<hash> blockUniformsHashes(numberOfUniforms);
+        Array<IUniformVariable*>* uniforms = new Array<IUniformVariable*>(numberOfUniforms);
+
+        for (uint32 idx = 0; idx < uniformBlocks->getSize(); ++idx)
+        {
+            UniformBlock* block = uniformBlocks->get(idx);
+            for (uint16_t fieldIdx = 0; fieldIdx < block->blockFields->getSize(); ++fieldIdx)
+            {
+                blockUniformsHashes.add(block->blockFields->get(fieldIdx)->fieldName.getHash());
+            }
+        }
 
         GLint size;
         GLenum type;
@@ -41,7 +43,7 @@ namespace blitz::ogl
 
         for (GLint uniformIdx = 0; uniformIdx < numberOfUniforms; ++uniformIdx)
         {
-            glGetActiveUniform(shaderID, uniformIdx, MAX_UNIFORM_VARIABLE_NAME_LENGTH, &nameLength, &size, &type, name);
+            glGetActiveUniform(shaderID, uniformIdx, MAX_UNIFORM_VARIABLE_NAME_LENGTH, &nameLength, &size, &type, uniformNameBuff);
 
             const auto uniformNameHash = hashString(uniformNameBuff);
             if (blockUniformsHashes.contains(uniformNameHash))
@@ -56,7 +58,7 @@ namespace blitz::ogl
             switch (type)
             {
             case GL_BOOL:
-                uniforms->add(new OpenGLBoolUniformVariable(variableLocation, 0, name)));
+                uniforms->add(new OpenGLBoolUniformVariable(variableLocation, 0, name));
                 break;
             case GL_INT:
                 uniforms->add(new OpenGLIntegerUniformVariable(variableLocation, 0, name));
@@ -96,7 +98,7 @@ namespace blitz::ogl
             }
         }
 
-        DLOG_F(INFO, "[OpenGL] Program %ld has %d uniforms ", shaderID, uniforms.size());
+        DLOG_F(INFO, "[OpenGL] Program %ld has %d uniforms ", shaderID, uniforms->getSize());
         return uniforms;
     }
 
@@ -107,7 +109,7 @@ namespace blitz::ogl
 
         assert(uniformBlocksNum > -1);
 
-        Arary<UniformBlock>* uniformBlocks = new Arary<UniformBlock>(uniformBlocksNum);
+        Array<UniformBlock>* uniformBlocks = new Array<UniformBlock>(uniformBlocksNum);
 
         GLuint uniformBlockIdx = 0;
 
@@ -138,7 +140,7 @@ namespace blitz::ogl
                 int* fieldsIndicies = new int[numFieldsInBlock];
                 glGetActiveUniformBlockiv(shaderID, uniformBlockIndex, GL_UNIFORM_BLOCK_ACTIVE_UNIFORM_INDICES, fieldsIndicies);
 
-                for (int fieldIdx = 0; i < numFieldsInBlock; ++fieldIdx)
+                for (int fieldIdx = 0; fieldIdx < numFieldsInBlock; ++fieldIdx)
                 {
                     const uint32& glFieldIndex = (uint32)fieldsIndicies[fieldIdx];
 
@@ -151,14 +153,13 @@ namespace blitz::ogl
                     char* fieldName = new char[nameLength];
                     strncpy(fieldName, uniformBlockFieldName, nameLength);
 
-                    blockFields->add({ blitz::string(fieldName), mapToBlitzDataType(type), offset })
+                    blockFields->add({ blitz::string(fieldName), mapToBlitzDataType(type), offset });
                 }
 
                 GLint binding = 0;
                 glGetActiveUniformBlockiv(shaderID, uniformBlockIndex, GL_UNIFORM_BLOCK_BINDING, &binding);
 
-                uniformBlocks->add(
-                { uniformBlockIndex, (int8)(binding == 0 ? -1 : bindingPoint), blitz::string(blockName), blockFields });
+                uniformBlocks->add({ uniformBlockIndex, (int8)(binding == 0 ? -1 : binding), blitz::string(blockName), blockFields });
             }
 
             uniformBlockIdx++;
@@ -184,7 +185,7 @@ namespace blitz::ogl
         int8 nextFreeBinding = 0;
         for (size_t blockIdx = 0; blockIdx < uniformBlocks->getSize(); ++blockIdx)
         {
-            if (uniformBlocks[blockIdx]->bindingPoint != -1)
+            if (uniformBlocks->get(blockIdx)->bindingPoint != -1)
             {
                 continue;
             }
@@ -192,7 +193,7 @@ namespace blitz::ogl
             while (true)
             {
                 bool bindingFound = true;
-                for (int8 bindingIdx = 0; bindingIndex < bindingsTakenCount; ++bindingIndex)
+                for (int8 bindingIdx = 0; bindingIdx < bindingsTakenCount; ++bindingIdx)
                 {
                     if (bindingsTaken[bindingIdx] == nextFreeBinding)
                     {
@@ -207,8 +208,8 @@ namespace blitz::ogl
             }
 
             bindingsTaken[bindingsTakenCount] = nextFreeBinding++;
-            uniformBlocks[blockIdx]->bindingPoint = bindingsTaken[bindingsTakenCount++];
-            glUniformBlockBinding(shaderID, uniformBlocks[blockIdx]->index, uniformBlocks[blockIdx]->bindingPoint);
+            uniformBlocks->get(blockIdx)->bindingPoint = bindingsTaken[bindingsTakenCount++];
+            glUniformBlockBinding(shaderID, uniformBlocks->get(blockIdx)->index, uniformBlocks->get(blockIdx)->bindingPoint);
         }
     }
 
@@ -235,7 +236,7 @@ namespace blitz::ogl
 
             glGetProgramResourceiv(shaderID, GL_PROGRAM_OUTPUT, outputIdx, 2, propertiesToQuery, 2, nullptr, properties);
 
-            DLOG_F(ERROR, "[OpenGL] Shader output %d is named '%s' and is of type %s", outputIdx, output->name,
+            DLOG_F(ERROR, "[OpenGL] Shader output %d is named '%s' and is of type %s", outputIdx, outputName,
                    typeToName(properties[0]));
 
             if (outputNameLength > MAX_FRAGMENT_OUTPUT_NAME_LENGTH)
@@ -243,12 +244,11 @@ namespace blitz::ogl
                 DLOG_F(ERROR, "[OpenGL] Output number %d has too long of a name", outputIdx);
             }
 
-            shaderOutputs->add({ static_cast<uint16>(outputIdx)
-                                 output->textureFormat == GL_FLOAT_VEC3 ? TextureFormat::RGB : TextureFormat::RGBA,
-                                 blitz::string(name) });
+            shaderOutputs->add({ static_cast<uint16>(outputIdx),
+                                 properties[0] == GL_FLOAT_VEC3 ? TextureFormat::RGB : TextureFormat::RGBA, blitz::string(name) });
         }
         DLOG_F(INFO, "[OpenGL] Shader %d has %d outputs", shaderID, outputsCount);
 
-        return outputs;
+        return shaderOutputs;
     }
 } // namespace blitz::ogl

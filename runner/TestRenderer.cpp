@@ -83,7 +83,7 @@ namespace blitz::front
         tex = textureLoader.loadTexture({ nullptr, textureLocation });
 
         modelLoader = new ModelLoader(window->getContext(), &textureLoader);
-        rockModel = modelLoader->load({ nullptr, "D:\\Projects\\LearnOpenGL\\resources\\objects\\rock\\rock.obj" });
+        rockModel = modelLoader->load({ nullptr, "/home/wookie/resources/models/rock/rock.obj" });
 
         shouldUseTexture = true;
         sampler = new blitz::ogl::OpenGLTextureSampler{ tex };

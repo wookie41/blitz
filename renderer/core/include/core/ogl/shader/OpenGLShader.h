@@ -12,9 +12,10 @@ namespace blitz::ogl
         friend OpenGLShaderFactory;
 
       public:
-      
         void use() override;
         void disable() override;
+
+        void setup() override;
 
       private:
         OpenGLShader(const blitz::string& name,

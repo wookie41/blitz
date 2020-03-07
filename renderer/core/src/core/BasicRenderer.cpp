@@ -57,13 +57,15 @@ namespace blitz
                 // that can be compared here and allow to determine wether the layout changed
                 renderCommand->vertexArray->setup();
 
-                for (const auto bufferBinding : renderCommand->buffers)
+                for (const BufferBinding* bufferBinding : renderCommand->buffers)
                 {
-                    bufferBinding->buffer->bind(bufferBinding->bindTarget);
-                    delete bufferBinding;
+                    const BufferRange* bufferRange = bufferBinding->bufferRange;
+                    bufferRange->buffer->bind({ bufferRange->offset, bufferRange->size, 0, bufferBinding->bindTarget });
                 }
 
                 updateUniforms(renderState.shader, renderCommand->uniformsState);
+
+                shader->setup();
 
                 run(renderCommand);
 
@@ -122,8 +124,6 @@ namespace blitz
 
             delete uniformState;
         }
-
-        shader->bindDirtyVariables();
     }
 
     template <typename T>

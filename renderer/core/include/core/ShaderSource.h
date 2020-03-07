@@ -4,9 +4,9 @@ namespace blitz
 {
     struct ShaderSource
     {
-        const char* const name;
+        char* name;
         const char* const vertexShaderSource;
         const char* const geometryShaderSource;
         const char* const fragmentShaderSource;
     };
-}
+} // namespace blitz
