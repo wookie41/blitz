@@ -37,7 +37,7 @@ namespace blitz
     template <typename T>
     Array<T>::Array(const uint32& arrCapacity)
     {
-        array = (T*)malloc(sizeof(T) * capacity);
+        array = new T[arrCapacity];
         size = 0;
         capacity = arrCapacity;
     }

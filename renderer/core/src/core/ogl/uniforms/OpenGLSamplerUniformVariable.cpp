@@ -5,7 +5,7 @@ namespace blitz::ogl
 {
     OpenGLSamplerUniformVariable::OpenGLSamplerUniformVariable(const GLint& variableLocation,
                                                                TextureSampler* sampler,
-                                                               const char* const name,
+                                                               const blitz::string& name,
                                                                const GLenum& type)
     : UniformVariable<TextureSampler*>(sampler, name), OpenGLUniformVariable(variableLocation), samplerType(type)
     {

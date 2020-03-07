@@ -32,7 +32,7 @@ namespace blitz::ogl
         bind();
         elementBuffer = buffer;
         this->indicesType = indicesType;
-        buffer->bind({0, buffer->getSizeInBytes(), 0, BufferBindTarget::ELEMENT});
+        buffer->bind({ 0, buffer->getSizeInBytes(), 0, BufferBindTarget::ELEMENT });
         unbind();
     }
 
@@ -46,14 +46,18 @@ namespace blitz::ogl
         glGetIntegerv(GL_CURRENT_PROGRAM, &shaderID);
         assert(shaderID > 0);
 
+#ifndef NDEBUG
+        // check if the underlying array is obund
+#endif
+
         for (uint8 attributeIdx = 0; attributeIdx < attributesCount; ++attributeIdx)
         {
             const VertexAttributeDef& attribute = attributes[attributeIdx];
             GLint attributeID = glGetAttribLocation(shaderID, attribute.name);
             assert(attributeIdx != -1);
 
-            // if the buffer is shared among attributes, skip it
-            attribute.buffer->bind({0, attribute.buffer->getSizeInBytes(), 0, BufferBindTarget::VERTEX});
+            // TODO if the buffer is shared among attributes, skip it
+            attribute.buffer->bind({ 0, attribute.buffer->getSizeInBytes(), 0, BufferBindTarget::VERTEX });
 
             switch (attribute.dataType)
             {

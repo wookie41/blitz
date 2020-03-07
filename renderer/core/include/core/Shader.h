@@ -47,7 +47,7 @@ namespace blitz
         for (size_t uniformIdx = 0; uniformIdx < uniformVariables->getSize(); ++uniformIdx)
         {
             IUniformVariable* variable = (*uniformVariables->get(uniformIdx));
-            if (variable->getNameHash() == nameHash)
+            if (variable->getName()->getHash() == nameHash)
             {
                 return (UniformVariable<T>*)variable;
             }

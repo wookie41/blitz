@@ -10,7 +10,7 @@ namespace blitz::ogl
 
     DataType OpenGLVec4UniformVariable::getType() const { return DataType::VECTOR4F; }
 
-    OpenGLVec4UniformVariable::OpenGLVec4UniformVariable(const GLint& variableLocation, const Vector4f& value, const char* const name)
+    OpenGLVec4UniformVariable::OpenGLVec4UniformVariable(const GLint& variableLocation, const Vector4f& value, const blitz::string& name)
     : UniformVariable<Vector4f>(value, name), OpenGLUniformVariable(variableLocation)
     {
     }

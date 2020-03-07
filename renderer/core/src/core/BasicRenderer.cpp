@@ -43,19 +43,22 @@ namespace blitz
                 if (lastShader != nullptr)
                     lastShader->disable();
 
-                updateUniforms(shader, renderState.renderPassWideUniforms);
-
-                shader->use();
                 lastShader = shader;
+                shader->use();
             }
+
+            updateUniforms(shader, renderState.renderPassWideUniforms);
 
             RenderCommand* renderCommand = renderPass->getNextCommand();
             while (renderCommand != nullptr)
             {
+
+                renderCommand->vertexArray->bind();
                 // TODO this doesn't have to happen every time
                 // ideally we would like to have vertex attributes description
                 // that can be compared here and allow to determine wether the layout changed
-                renderCommand->vertexArray->setup();
+
+                renderCommand->vertexArray->setupAttributes();
 
                 for (const BufferBinding* bufferBinding : renderCommand->buffers)
                 {
@@ -63,12 +66,10 @@ namespace blitz
                     bufferRange->buffer->bind({ bufferRange->offset, bufferRange->size, 0, bufferBinding->bindTarget });
                 }
 
-                updateUniforms(renderState.shader, renderCommand->uniformsState);
-
+                updateUniforms(shader, renderCommand->uniformsState);
                 shader->setup();
 
                 run(renderCommand);
-
                 renderCommand->vertexArray->unbind();
 
                 delete renderCommand;

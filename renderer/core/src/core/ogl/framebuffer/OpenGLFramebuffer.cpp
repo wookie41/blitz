@@ -18,7 +18,11 @@ namespace blitz::ogl
     {
         assert(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE);
         glBindFramebuffer(GL_FRAMEBUFFER, framebufferID);
-        glDrawBuffers(numColorAttachments, drawBuffers);
+
+        if (framebufferID > 0)
+        {
+            glDrawBuffers(numColorAttachments, drawBuffers);
+        }
     }
 
     void OpenGLFramebuffer::unbind() { glBindFramebuffer(GL_FRAMEBUFFER, 0); }

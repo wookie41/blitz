@@ -5,17 +5,18 @@
 namespace blitz
 {
     // custom string class
-    // the member strPtr is assumed not to be null terminated
+    // the member strPtr not null terminated
     class string
     {
       public:
         string() = default;
-        explicit string(char* str);
+        explicit string(char* str, const size_t& len);
         size_t getLength() const;
         operator char*() const;
         bool operator==(const string& rhs) const;
         char operator[](const size_t idx) const;
         hash getHash() const;
+
 
       private:
         size_t length = 0;

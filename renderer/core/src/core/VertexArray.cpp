@@ -23,10 +23,4 @@ namespace blitz
         }
         delete[] attributes;
     }
-
-    void VertexArray::setup()
-    {
-        bind();
-        setupAttributes();
-    }
 } // namespace blitz

@@ -10,30 +10,25 @@ namespace blitz
         virtual void bind() = 0;
         virtual DataType getType() const = 0;
 
-        hash getNameHash() const;
-        const char* const getName() const;
-
-        void setWatcher(void (*newWatcher)(const hash& h));
+        const blitz::string* const getName() const;
 
         virtual bool isDirty() const = 0;
 
         virtual ~IUniformVariable() = default;
 
       protected:
-        explicit IUniformVariable(const char* const name);
+        explicit IUniformVariable(const blitz::string& name);
 
-        const hash nameHash;
-
-        //TODO noone is deallocating it right now, but that's okay 
-        //since a string pool is going to be introduced for stuff like that
-        const char* const variableName;
+        // TODO noone is deallocating it right now, but that's okay
+        // since a string pool is going to be introduced for stuff like that
+        blitz::string variableName;
     };
 
     template <typename T>
     class UniformVariable : public IUniformVariable
     {
       public:
-        UniformVariable(T value, const char* const);
+        UniformVariable(T value, const blitz::string& name);
         UniformVariable& operator=(const T& newValue);
         T* operator*();
 
@@ -53,7 +48,7 @@ namespace blitz
     }
 
     template <typename T>
-    UniformVariable<T>::UniformVariable(T value, const char* const name) : IUniformVariable(name), value(value)
+    UniformVariable<T>::UniformVariable(T value, const blitz::string& name) : IUniformVariable(name), value(value)
     {
     }
 

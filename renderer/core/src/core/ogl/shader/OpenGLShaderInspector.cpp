@@ -44,16 +44,19 @@ namespace blitz::ogl
         for (GLint uniformIdx = 0; uniformIdx < numberOfUniforms; ++uniformIdx)
         {
             glGetActiveUniform(shaderID, uniformIdx, MAX_UNIFORM_VARIABLE_NAME_LENGTH, &nameLength, &size, &type, uniformNameBuff);
+            uniformNameBuff[nameLength] = '\0';
 
-            const auto uniformNameHash = hashString(uniformNameBuff);
+            const auto uniformNameHash = hashString(uniformNameBuff, nameLength);
             if (blockUniformsHashes.contains(uniformNameHash))
             {
                 continue;
             }
 
             GLint variableLocation = glGetUniformLocation(shaderID, uniformNameBuff);
-            char* name = new char[nameLength];
-            strncpy(name, uniformNameBuff, nameLength);
+            char* variableName = new char[nameLength];
+            strncpy(variableName, uniformNameBuff, nameLength);
+
+            blitz::string name(variableName, nameLength);
 
             switch (type)
             {
@@ -153,13 +156,14 @@ namespace blitz::ogl
                     char* fieldName = new char[nameLength];
                     strncpy(fieldName, uniformBlockFieldName, nameLength);
 
-                    blockFields->add({ blitz::string(fieldName), mapToBlitzDataType(type), offset });
+                    blockFields->add({ blitz::string(fieldName, nameLength), mapToBlitzDataType(type), offset });
                 }
 
                 GLint binding = 0;
                 glGetActiveUniformBlockiv(shaderID, uniformBlockIndex, GL_UNIFORM_BLOCK_BINDING, &binding);
 
-                uniformBlocks->add({ uniformBlockIndex, (int8)(binding == 0 ? -1 : binding), blitz::string(blockName), blockFields });
+                uniformBlocks->add({ uniformBlockIndex, (int8)(binding == 0 ? -1 : binding),
+                                     blitz::string(blockName, nameLength), blockFields });
             }
 
             uniformBlockIdx++;
@@ -245,7 +249,8 @@ namespace blitz::ogl
             }
 
             shaderOutputs->add({ static_cast<uint16>(outputIdx),
-                                 properties[0] == GL_FLOAT_VEC3 ? TextureFormat::RGB : TextureFormat::RGBA, blitz::string(name) });
+                                 properties[0] == GL_FLOAT_VEC3 ? TextureFormat::RGB : TextureFormat::RGBA,
+                                 blitz::string(name, outputNameLength) });
         }
         DLOG_F(INFO, "[OpenGL] Shader %d has %d outputs", shaderID, outputsCount);
 

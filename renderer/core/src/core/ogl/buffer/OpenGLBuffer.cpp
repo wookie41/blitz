@@ -32,7 +32,7 @@ namespace blitz::ogl
             break;
         }
 
-        if (glTarget = GL_UNIFORM_BUFFER)
+        if (glTarget == GL_UNIFORM_BUFFER)
         {
             if (bindingSpec.size > 0 || bindingSpec.offset > 0)
             {

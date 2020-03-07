@@ -9,9 +9,7 @@ namespace blitz::ogl
     class OpenGLFloatUniformVariable : public UniformVariable<float>, public OpenGLUniformVariable
     {
       public:
-        OpenGLFloatUniformVariable(const GLint& variableLocation,
-                                     const float& value,
-                                     const char* const name);
+        OpenGLFloatUniformVariable(const GLint& variableLocation, const float& value, const blitz::string& name);
 
         void bind() override;
 

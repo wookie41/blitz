@@ -19,19 +19,29 @@
 #include <resources/texture/TextureLoader.h>
 
 
+// char* v = "#version 330 core\n"
+//           "layout (location = 0) in vec3 position;\n"
+//           "layout (location = 1) in vec2 textureCoords;\n"
+//           "out vec2 TexCoords;\n"
+//           "uniform mat4 _bView;\n"
+//           "uniform mat4 _bProjection;\n"
+//           "void main()\n"
+//           "{\n"
+//           "\n"
+//           "    mat4 model = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));\n"
+//           "    TexCoords = textureCoords;\n"
+//           "    gl_Position = _bProjection * _bView * model * vec4(position, 1.0);\n"
+//           "}";
+
 char* v = "#version 330 core\n"
           "layout (location = 0) in vec3 position;\n"
-          "layout (location = 1) in vec3 normals;\n"
-          "layout (location = 2) in vec2 textureCoords;\n"
+          "layout (location = 1) in vec2 textureCoords;\n"
           "out vec2 TexCoords;\n"
-          "uniform mat4 _bView;\n"
-          "uniform mat4 _bProjection;\n"
           "void main()\n"
           "{\n"
           "\n"
-          "    mat4 model = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));\n"
           "    TexCoords = textureCoords;\n"
-          "    gl_Position = _bProjection * _bView * model* vec4(position, 1.0);\n"
+          "    gl_Position = vec4(position, 1.0);\n"
           "}";
 
 
@@ -76,7 +86,7 @@ namespace blitz::front
         basicVertexArray->addAttribute({ vertexBuffer, copyStr("textureCoords"), blitz::DataType::FLOAT, 2, false,
                                          5 * sizeof(float), 3 * sizeof(float), 0 });
 
-        blitz::ShaderSource shaderSource = { "myshader", v, nullptr, f };
+        blitz::ShaderSource shaderSource = { blitz::string("myshader", 8), v, nullptr, f };
         shader = BLITZ_DEVICE->createShader(shaderSource);
 
         char textureLocation[] = "container.jpg";
@@ -106,7 +116,6 @@ namespace blitz::front
 
         auto renderables = modelRenderer.makeRenderable(rockModel);
         renderables->renderCommands.push_back(drawCubeCommand);
-        return renderables;
+        return new Renderable{ { drawCubeCommand } };
     }
-
 } // namespace blitz::front
