@@ -19,7 +19,7 @@ namespace blitz::ogl
 
       private:
         OpenGLShader(const blitz::string& name,
-                     const GLuint& shaderID,
+                     const GLuint& id,
                      Array<IUniformVariable*>* uniforms,
                      Array<UniformBlock>* uniformBlocks,
                      Array<ShaderOutput>* outputs);

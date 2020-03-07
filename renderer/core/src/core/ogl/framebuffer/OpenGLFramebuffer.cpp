@@ -7,6 +7,13 @@ namespace blitz::ogl
     OpenGLFramebuffer::OpenGLFramebuffer(const GLuint& id, const uint16& numColAttachments)
     : Framebuffer::Framebuffer(numColorAttachments), framebufferID(id)
     {
+        if (id == 0)
+        {
+            drawBuffers = new GLenum;
+            *drawBuffers = GL_COLOR_ATTACHMENT0;
+            return;
+        }
+
         drawBuffers = new GLenum(numColorAttachments);
         for (uint16 colAttachmentIdx = 0; colAttachmentIdx < numColorAttachments; ++colAttachmentIdx)
         {
@@ -30,6 +37,9 @@ namespace blitz::ogl
     OpenGLFramebuffer::~OpenGLFramebuffer()
     {
         delete drawBuffers;
-        glDeleteFramebuffers(1, &framebufferID);
+        if (framebufferID > 0)
+        {
+            glDeleteFramebuffers(1, &framebufferID);
+        }
     }
 } // namespace blitz::ogl

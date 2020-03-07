@@ -1,8 +1,6 @@
 #include <blitzmemory/Heap.h>
 static blitz::memory::Heap* heap;
 
-#define USE_LIBC_MALLOC
-
 void* operator new(std::size_t count) { return heap->allocate(count); }
 
 void* operator new[](std::size_t count) { return heap->allocate(count); }

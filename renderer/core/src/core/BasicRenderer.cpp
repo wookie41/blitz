@@ -64,6 +64,7 @@ namespace blitz
                 {
                     const BufferRange* bufferRange = bufferBinding->bufferRange;
                     bufferRange->buffer->bind({ bufferRange->offset, bufferRange->size, 0, bufferBinding->bindTarget });
+                    delete bufferBinding;
                 }
 
                 updateUniforms(shader, renderCommand->uniformsState);

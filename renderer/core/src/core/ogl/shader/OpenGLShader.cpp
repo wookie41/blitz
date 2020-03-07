@@ -13,11 +13,11 @@
 namespace blitz::ogl
 {
     OpenGLShader::OpenGLShader(const blitz::string& name,
-                               const GLuint& shaderID,
+                               const GLuint& id,
                                Array<IUniformVariable*>* uniforms,
                                Array<UniformBlock>* uniformBlocks,
                                Array<ShaderOutput>* outputs)
-    : Shader(name, uniforms, uniformBlocks, outputs), shaderID(shaderID)
+    : Shader(name, uniforms, uniformBlocks, outputs), shaderID(id)
     {
     }
 
