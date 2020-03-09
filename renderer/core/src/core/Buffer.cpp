@@ -6,11 +6,11 @@ namespace blitz
 
     Buffer::Buffer(const blitz::UsageHint& usageHint) : usageHint(usageHint) {}
 
-    size_t Buffer::getSizeInBytes() const { return size; }
+    uint32 Buffer::getSizeInBytes() const { return size; }
 
     bool Buffer::IsReadable() const { return isReadable; }
 
     bool Buffer::IsWriteable() const { return isWriteable; }
 
-    void Buffer::setSize(const size_t& sizeInBytes) { Buffer::size = sizeInBytes; }
+    void Buffer::setSize(const uint32& sizeInBytes) { Buffer::size = sizeInBytes; }
 } // namespace blitz

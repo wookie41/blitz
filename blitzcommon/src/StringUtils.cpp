@@ -25,13 +25,17 @@ namespace blitz
     char* copyStr(const char* toCpy)
     {
         const auto len = strlen(toCpy);
-        auto copied = new char[len + 1];
+        char* copied = (char*)malloc(len + 1);
         strncpy(copied, toCpy, len);
         copied[len] = '\0';
         return copied;
     }
 
-    string::string(char* str, const size_t& len) : strPtr(str), length(len) { strHash = hashString(str, length); }
+    string::string(char* str) : strPtr(str)
+    {
+        length = strlen(str);
+        strHash = hashString(strPtr);
+    }
 
     size_t string::getLength() const { return length; }
     string::operator char*() const { return strPtr; }

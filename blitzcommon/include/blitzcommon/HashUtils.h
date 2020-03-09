@@ -14,5 +14,5 @@ namespace blitz
     };
 
     using hash = size_t;
-    hash hashString(const char* str, const size_t strLen = -1);
+    hash hashString(const char* str);
 } // namespace blitz

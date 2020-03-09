@@ -1,16 +1,17 @@
 #pragma once
 
+#include <stdlib.h>
 #include <blitzcommon/HashUtils.h>
 
 namespace blitz
 {
     // custom string class
-    // the member strPtr not null terminated
+    // the member strPtr is terminated
     class string
     {
       public:
         string() = default;
-        explicit string(char* str, const size_t& len);
+        explicit string(char* str);
         size_t getLength() const;
         operator char*() const;
         bool operator==(const string& rhs) const;
@@ -19,7 +20,7 @@ namespace blitz
 
 
       private:
-        size_t length = 0;
+        size_t length = 0; //doesn't include the terminator
         char* strPtr = nullptr;
         hash strHash = 0;
     };

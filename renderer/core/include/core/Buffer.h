@@ -20,8 +20,8 @@ namespace blitz
 
     struct BufferBindingSpec
     {
-        size_t offset = 0;
-        size_t size;
+        uint32 offset = 0;
+        uint32 size;
         uint16 index;
         BufferBindTarget bindTarget;
     };
@@ -61,18 +61,18 @@ namespace blitz
 
         UsageHint getUsageHint() const;
 
-        size_t getSizeInBytes() const;
+        uint32 getSizeInBytes() const;
 
         bool IsReadable() const;
 
         bool IsWriteable() const;
 
-        void setSize(const size_t& sizeInBytes);
+        void setSize(const uint32& sizeInBytes);
 
         virtual ~Buffer() = default;
 
       protected:
-        size_t size;
+        uint32 size;
         BindHint bindHint;
         bool isReadable;
         bool isWriteable;
