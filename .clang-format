@@ -47,3 +47,4 @@ UseTab: Never
 DerivePointerAlignment: false
 PointerAlignment: Left
 AlwaysBreakTemplateDeclarations: true
+SortIncludes: false

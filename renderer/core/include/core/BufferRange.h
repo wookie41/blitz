@@ -12,5 +12,4 @@ namespace blitz
         uint32 offset;
         uint32 size;
     };
-
 }

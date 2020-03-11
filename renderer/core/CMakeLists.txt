@@ -43,16 +43,18 @@ add_library(${PROJECT_NAME} STATIC
         src/core/ogl/texture/OpenGLSyncReadWriteTexture.cpp
         src/core/ogl/texture/OpenGLTextureSampler.cpp
         src/core/ogl/uniforms/OpenGLUniformVariable.cpp
+        src/core/UniformBlock.cpp
         src/core/Framebuffer.cpp
         src/core/ogl/framebuffer/OpenGLTextureAttachment.cpp
         src/core/ogl/framebuffer/OpenGLFramebuffer.cpp
         src/core/ogl/framebuffer/OpenGLRenderBufferAttachment.cpp
         src/core/RenderPass.cpp
-        src/core/BasicRenderer.cpp
         src/core/BasicRenderPass.cpp 
+        src/core/BasicRenderer.cpp
         src/core/ogl/BasicOpenGLRenderer.cpp
         src/resources/texture/TextureLoader.cpp
-        src/resources/model/ModelLoader.cpp)
+        src/resources/model/ModelLoader.cpp
+        src/resources/ResourcesHolder.cpp)
 
 set_target_properties(${PROJECT_NAME}
         PROPERTIES

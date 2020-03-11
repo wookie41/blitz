@@ -13,9 +13,9 @@ namespace blitz::ogl
         if (texture == nullptr)
             return;
 
-        GLenum attachmentTarget = attachmentType;
+        GLenum attachmentTarget;
 
-        if (attachmentTarget == GL_COLOR_ATTACHMENT0)
+        if (attachmentType == GL_COLOR_ATTACHMENT0)
             attachmentTarget = static_cast<GLenum>(GL_COLOR_ATTACHMENT0 + attachmentSpec.attachmentIdx);
 
         // TODO In future, we should allow for mipmap level to be specified

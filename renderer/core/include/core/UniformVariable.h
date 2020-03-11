@@ -4,37 +4,31 @@
 
 namespace blitz
 {
-    using UniformVariableWatcher = std::function<void(hash)>;
-    const auto noopWatcher = [](hash h) {};
-
     class IUniformVariable : public NonCopyable
     {
       public:
         virtual void bind() = 0;
         virtual DataType getType() const = 0;
 
-        hash getNameHash() const;
-        const char* const getName() const;
-
-        void setWatcher(const UniformVariableWatcher& newWatcher);
+        const blitz::string* const getName() const;
 
         virtual bool isDirty() const = 0;
 
         virtual ~IUniformVariable() = default;
 
       protected:
-        explicit IUniformVariable(const char* const name);
+        explicit IUniformVariable(const blitz::string& name);
 
-        hash nameHash;
-        const char* const variableName;
-        UniformVariableWatcher watcher;
+        // TODO noone is deallocating it right now, but that's okay
+        // since a string pool is going to be introduced for stuff like that
+        blitz::string variableName;
     };
 
     template <typename T>
     class UniformVariable : public IUniformVariable
     {
       public:
-        UniformVariable(T value, const char* const);
+        UniformVariable(T value, const blitz::string& name);
         UniformVariable& operator=(const T& newValue);
         T* operator*();
 
@@ -49,13 +43,12 @@ namespace blitz
     UniformVariable<T>& UniformVariable<T>::operator=(const T& newValue)
     {
         value = newValue;
-        watcher(nameHash);
         dirty = true;
         return *this;
     }
 
     template <typename T>
-    UniformVariable<T>::UniformVariable(T value, const char* const name) : IUniformVariable(name), value(value)
+    UniformVariable<T>::UniformVariable(T value, const blitz::string& name) : IUniformVariable(name), value(value)
     {
     }
 

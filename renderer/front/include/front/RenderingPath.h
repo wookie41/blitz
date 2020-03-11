@@ -1,13 +1,14 @@
 #pragma once
 
-#include <core/RenderState.h>
 #include <front/Precompiled.h>
-
+#include <core/RenderState.h>
+#include <core/RenderCommand.h>
 
 namespace blitz
 {
     class Renderer;
-}
+    class Framebuffer;
+} // namespace blitz
 
 namespace blitz::front
 {
@@ -16,23 +17,26 @@ namespace blitz::front
 
     class Camera;
 
+    struct RenderList
+    {
+        ViewPort viewPort;
+        Camera* camera = nullptr;
+        Framebuffer* framebuffer = nullptr; 
+        Array<RenderCommand>* geometry = nullptr;
+        Array<Light*>* lights = nullptr;
+    };
+
     class RenderingPath : public NonCopyable
     {
       public:
-        RenderingPath(Camera* cameraToRenderFrom, blitz::Renderer* renderer);
+        RenderingPath(Renderer* renderer);
 
-        void setViewPort(const ViewPort& viewPort);
-
-        virtual void render() = 0;
-
-        virtual void addGeometry(Renderable* geometry) = 0;
-        virtual void addUIElement(Renderable* geometry) = 0;
-        virtual void addLight(Light* light) = 0;
+        virtual void render(RenderList* renderList) = 0;
 
         virtual ~RenderingPath() = default;
 
       protected:
-        inline Matrix4f calculateProjectionMatrix(const Projection& projection, const float& fov)
+        inline Matrix4f calculateProjectionMatrix(const ViewPort& viewPort, const Projection& projection, const float& fov)
         {
             return projection == Projection::PERSPECTIVE ?
                    Matrix4f::Perspective(toRadians(fov), (float)viewPort.width / (float)viewPort.height, viewPort.near,
@@ -40,8 +44,6 @@ namespace blitz::front
                    Matrix4f::Ortho(viewPort.x, viewPort.width, viewPort.y, viewPort.height, viewPort.near, viewPort.far);
         }
 
-        ViewPort viewPort;
-        Camera* camera;
-        blitz::Renderer* backendRenderer;
+        Renderer* backend;
     };
 } // namespace blitz::front

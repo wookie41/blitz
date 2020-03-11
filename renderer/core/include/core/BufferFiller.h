@@ -9,14 +9,14 @@ namespace blitz
     struct FillArgs
     {
         void* data;
-        uint32 offset;
-        uint32 dataSizeInBytes;
+        size_t offset;
+        size_t dataSizeInBytes;
         bool shouldInvalidate;
     };
 
-    class BufferFiller :NonCopyable
+    class BufferFiller : NonCopyable
     {
-    public:
+      public:
         virtual void fill(Buffer* buffer, const FillArgs& fillArgs) = 0;
     };
 } // namespace blitz

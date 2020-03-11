@@ -1,12 +1,12 @@
 #include <blitzcommon/DataType.h>
 #include <core/BasicRenderer.h>
 #include <core/Framebuffer.h>
-#include <core/RenderCommand.h>
 #include <core/RenderPass.h>
 #include <core/RenderState.h>
 #include <core/Shader.h>
 #include <core/VertexArray.h>
 #include <core/Window.h>
+#include <core/Buffer.h>
 
 namespace blitz
 {
@@ -23,14 +23,14 @@ namespace blitz
             RenderPass* renderPass = renderPasses.front();
             renderPasses.pop_front();
 
-            const RenderState& renderState = renderPass->getRenderState();
-            setViewPort(&renderState.viewPort);
+            const RenderState* renderState = renderPass->getRenderState();
+            setViewPort(&renderState->viewPort);
 
-            setDepthTest(renderState.enableDepthTest);
-            setStencilTest(renderState.enableStencilTest);
+            setDepthTest(renderState->enableDepthTest);
+            setStencilTest(renderState->enableStencilTest);
 
-            Shader* shader = renderState.shader;
-            Framebuffer* framebuffer = renderState.framebuffer;
+            Shader* shader = renderState->shader;
+            Framebuffer* framebuffer = renderState->framebuffer;
 
             if (framebuffer != lastFramebuffer)
             {
@@ -43,45 +43,48 @@ namespace blitz
                 if (lastShader != nullptr)
                     lastShader->disable();
 
-                updateUniforms(shader, renderState.renderPassWideUniforms);
-
-                shader->use();
-                shader->setup(framebuffer);
                 lastShader = shader;
+                shader->use();
             }
+
+            updateUniforms(shader, renderState->renderPassWideUniforms);
 
             RenderCommand* renderCommand = renderPass->getNextCommand();
             while (renderCommand != nullptr)
             {
+
+                renderCommand->vertexArray->bind();
                 // TODO this doesn't have to happen every time
                 // ideally we would like to have vertex attributes description
                 // that can be compared here and allow to determine wether the layout changed
-                renderCommand->vertexArray->setup();
 
-                for (const auto bufferBinding : renderCommand->buffers)
+                renderCommand->vertexArray->setupAttributes();
+                if (renderCommand->buffers != nullptr)
                 {
-                    bufferBinding->buffer->bind(bufferBinding->bindTarget);
-                    delete bufferBinding;
+                    for (uint32 bindingIdx = 0; bindingIdx < renderCommand->buffers->getSize(); ++bindingIdx)
+                    {
+                        BufferBinding* binding = renderCommand->buffers->get(bindingIdx);
+                        binding->bufferRange->buffer->bind(
+                        { binding->bufferRange->offset, binding->bufferRange->size, 0, binding->bindTarget });
+                    }
                 }
 
-                updateUniforms(renderState.shader, renderCommand->uniformsState);
+                updateUniforms(shader, renderCommand->uniformsState);
+                shader->setup();
 
                 run(renderCommand);
-
                 renderCommand->vertexArray->unbind();
 
-                delete renderCommand;
                 renderCommand = renderPass->getNextCommand();
             }
-
-            delete renderPass;
         }
     }
 
-    void BasicRenderer::updateUniforms(Shader* shader, const std::vector<UniformState*>& uniformsState)
+    void BasicRenderer::updateUniforms(Shader* shader, Array<UniformState>* uniformsState)
     {
-        for (const auto uniformState : uniformsState)
+        for (uint32 uniformIdx = 0; uniformIdx < uniformsState->getSize(); ++uniformIdx)
         {
+            UniformState* uniformState = uniformsState->get(uniformIdx);
             switch (uniformState->dataType)
             {
             case DataType::BOOL:
@@ -120,11 +123,7 @@ namespace blitz
             default:
                 assert(false);
             }
-
-            delete uniformState;
         }
-
-        shader->bindDirtyVariables();
     }
 
     template <typename T>

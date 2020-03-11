@@ -3,7 +3,7 @@
 #include <core/sdl2/SDL2Context.h>
 #include <core/sdl2/SDL2Window.h>
 
-static blitz::ogl::OpenGLFramebuffer defaultFramebuffer{ 0 }; // NOLINT(cert-err58-cpp)
+static blitz::ogl::OpenGLFramebuffer defaultFramebuffer{ 0, 0 }; // NOLINT(cert-err58-cpp)
 
 namespace blitz
 {

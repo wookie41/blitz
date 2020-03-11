@@ -24,8 +24,6 @@ namespace blitz
       public:
         explicit VertexArray(uint8 numAttributes);
 
-        void setup();
-
         virtual void bind() = 0;
         virtual void unbind() = 0;
         virtual void setupAttributes() = 0;

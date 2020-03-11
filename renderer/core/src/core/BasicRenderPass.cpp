@@ -1,24 +1,22 @@
 #include <core/BasicRenderPass.h>
-#include <stdio.h>
+#include <core/RenderState.h>
+
 namespace blitz
 {
-    BasicRenderPass::BasicRenderPass(RenderState* renderState) : RenderPass(renderState) {}
-
-    void BasicRenderPass::add(RenderCommand* renderCommand)
+    BasicRenderPass::BasicRenderPass(RenderState* renderState, Array<RenderCommand>* commands)
+    : RenderPass(renderState, commands)
     {
-        if (!isFinished)
-            renderCommands.push_back(renderCommand);
     }
+
+    void BasicRenderPass::prepare() {}
 
     RenderCommand* BasicRenderPass::getNextCommand()
     {
-        if (renderCommands.empty() || !isFinished)
+        if (commandsIssued == renderCommands->getSize())
+        {
             return nullptr;
+        }
 
-        auto nextCommand = renderCommands.front();
-        renderCommands.pop_front();
-        return nextCommand;
+        return renderCommands->get(commandsIssued++);
     }
-
-    void BasicRenderPass::finish() { isFinished = true; }
 } // namespace blitz

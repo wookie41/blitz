@@ -6,12 +6,10 @@
 
 namespace blitz::ogl
 {
-    class OpenGLVec3UniformVariable: public UniformVariable<Vector3f>, public OpenGLUniformVariable
+    class OpenGLVec3UniformVariable : public UniformVariable<Vector3f>, public OpenGLUniformVariable
     {
       public:
-        OpenGLVec3UniformVariable(const GLint& variableLocation,
-                                     const Vector3f& value,
-                                     const char* const name);
+        OpenGLVec3UniformVariable(const GLint& variableLocation, const Vector3f& value, const blitz::string& name);
 
         void bind() override;
 

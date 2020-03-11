@@ -50,6 +50,7 @@ namespace blitz
     Model* ModelLoader::loadModel(const aiNode* modelNode, const aiScene* scene, const fs::FilePath* modelPath)
     {
         auto blitzModel = new Model;
+        blitzModel->meshes = new Array<Mesh>(modelNode->mNumMeshes);
 
         // calculate the amount of space needed for the vertex and element buffers
         uint32 vertexBufferSize = 0;
@@ -82,16 +83,18 @@ namespace blitz
 
             for (int meshIdx = 0; meshIdx < modelNode->mNumMeshes; ++meshIdx)
             {
-                auto blitzMesh = new Mesh;
-
                 const auto mesh = scene->mMeshes[modelNode->mMeshes[meshIdx]];
                 const auto meshMaterial = scene->mMaterials[mesh->mMaterialIndex];
 
                 totalFacesCount += mesh->mNumFaces;
                 totalVerticesCount += mesh->mNumVertices;
 
+                blitzModel->meshes->add(Mesh{});
+                
+                Mesh* blitzMesh = blitzModel->meshes->get(meshIdx);
                 blitzMesh->facesCount = mesh->mNumFaces;
                 blitzMesh->verticesCount = mesh->mNumVertices;
+                
                 loadMaterial(blitzModel, blitzMesh, meshMaterial, modelPath);
 
                 for (int vertexIdx = 0; vertexIdx < mesh->mNumVertices; ++vertexIdx)
@@ -117,7 +120,6 @@ namespace blitz
                     }
                 }
 
-                blitzModel->meshes.push_back(blitzMesh);
             }
 
             blitzModel->totalFacesCount = totalFacesCount;
@@ -148,9 +150,13 @@ namespace blitz
             blitzModel->vertexArray = vertexArray;
         }
 
+        blitzModel->totalNodesCount = 1;
+        blitzModel->children = new Array<Model*>(modelNode->mNumChildren);
         for (unsigned int childIdx = 0; childIdx < modelNode->mNumChildren; ++childIdx)
         {
-            blitzModel->children.push_back(loadModel(modelNode->mChildren[childIdx], scene, modelPath));
+            auto child = loadModel(modelNode->mChildren[childIdx], scene, modelPath);
+            blitzModel->totalNodesCount += child->totalNodesCount;
+            blitzModel->children->add(child);
         }
 
         return blitzModel;

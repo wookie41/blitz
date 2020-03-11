@@ -8,9 +8,7 @@ namespace blitz::ogl
     class OpenGLDoubleUniformVariable : public UniformVariable<double>, public OpenGLUniformVariable
     {
       public:
-        OpenGLDoubleUniformVariable(const GLint& variableLocation,
-                                     const double& value,
-                                     const char* const name);
+        OpenGLDoubleUniformVariable(const GLint& variableLocation, const double& value, const blitz::string& name);
 
         void bind() override;
 

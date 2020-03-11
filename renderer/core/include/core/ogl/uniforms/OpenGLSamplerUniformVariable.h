@@ -15,7 +15,7 @@ namespace blitz::ogl
     class OpenGLSamplerUniformVariable : public UniformVariable<TextureSampler*>, public OpenGLUniformVariable
     {
       public:
-        OpenGLSamplerUniformVariable(const GLint& variableLocation, TextureSampler* sampler, const char* const name, const GLenum& type);
+        OpenGLSamplerUniformVariable(const GLint& variableLocation, TextureSampler* sampler, const blitz::string& name, const GLenum& type);
 
         void bind() override;
 

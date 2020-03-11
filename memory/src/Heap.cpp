@@ -20,7 +20,7 @@ namespace blitz::memory
     void Heap::Init() {}
     void Heap::Shutdown() {}
 
-    void* Heap::allocate(const size_t& amount)
+    void* Heap::allocate(const std::size_t& amount)
     {
 #ifdef USE_LIBC_MALLOC
         return malloc(amount);
@@ -28,7 +28,7 @@ namespace blitz::memory
 
         assert(0); // TODO
     }
-    void* Heap::allocate8(const size_t& amount)
+    void* Heap::allocate8(const std::size_t& amount)
     {
 #ifdef USE_LIBC_MALLOC
         return malloc(amount);
@@ -37,7 +37,7 @@ namespace blitz::memory
         assert(0); // TODO
     }
 
-    void* Heap::allocate16(const size_t& amount)
+    void* Heap::allocate16(const std::size_t& amount)
     {
 #ifdef USE_LIBC_MALLOC
         return malloc(amount);
@@ -45,14 +45,14 @@ namespace blitz::memory
 
         assert(0); // TODO
     }
-    void* Heap::allocate32(const size_t& amount)
+    void* Heap::allocate32(const std::size_t& amount)
     {
 #ifdef USE_LIBC_MALLOC
         return malloc(amount);
 #endif
         assert(0); // TODO
     }
-    void* Heap::allocate64(const size_t& amount)
+    void* Heap::allocate64(const std::size_t& amount)
     {
 #ifdef USE_LIBC_MALLOC
         return malloc(amount);

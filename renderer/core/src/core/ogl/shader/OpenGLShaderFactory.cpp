@@ -1,7 +1,7 @@
-#include <core/ogl/shader/OpenGLShaderFactory.h>
-#include <core/ogl/shader/OpenGLShaderCompiler.h>
-#include <core/ogl/shader/OpenGLShaderInspector.h>
 #include <core/ogl/shader/OpenGLShader.h>
+#include <core/ogl/shader/OpenGLShaderCompiler.h>
+#include <core/ogl/shader/OpenGLShaderFactory.h>
+#include <core/ogl/shader/OpenGLShaderInspector.h>
 
 namespace blitz::ogl
 {
@@ -19,11 +19,11 @@ namespace blitz::ogl
 
     Shader* OpenGLShaderFactory::createShader(const ShaderSource& shaderSource)
     {
-        const auto shaderID = compiler->compile(shaderSource);
-        const auto uniformBlocks = inspector->extractUniformBlocks(shaderID);
-        const auto uniformVariables = inspector->extractUniformVariables(shaderID, uniformBlocks);
-        const auto bindingPoints = inspector->createBindingPoints(shaderID, uniformBlocks);
-        const auto outputs = inspector->extractShaderOutputs(shaderID);
-        return new OpenGLShader(shaderSource.name, shaderID, uniformVariables, uniformBlocks, bindingPoints, outputs);
+        auto shaderID = compiler->compile(shaderSource);
+        auto uniformBlocks = inspector->extractUniformBlocks(shaderID);
+        auto uniformVariables = inspector->extractUniformVariables(shaderID, uniformBlocks);
+        auto outputs = inspector->extractShaderOutputs(shaderID);
+        inspector->createBindingPoints(shaderID, uniformBlocks);
+        return new OpenGLShader(shaderSource.name, shaderID, uniformVariables, uniformBlocks, outputs);
     }
 } // namespace blitz::ogl

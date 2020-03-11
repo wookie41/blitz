@@ -1,8 +1,9 @@
 #pragma once
 
 #include <core/Buffer.h>
-#include <core/UniformVariable.h>
+#include <core/BufferRange.h>
 #include <core/Precompiled.h>
+#include <core/UniformVariable.h>
 
 namespace blitz
 {
@@ -10,11 +11,12 @@ namespace blitz
 
     struct UniformState
     {
+        UniformState() {}
         UniformState(const DataType& type, const hash& hash, void* val)
         : dataType(type), uniformNameHash(hash), value(val)
         {
         }
-    	
+
         DataType dataType;
         hash uniformNameHash;
         void* value;
@@ -44,15 +46,15 @@ namespace blitz
 
     struct BufferBinding
     {
-        Buffer* buffer;
+        BufferRange* bufferRange;
         BufferBindTarget bindTarget;
     };
 
     struct RenderCommand
     {
         VertexArray* vertexArray;
-        std::vector<BufferBinding*> buffers;
-        std::vector<UniformState*> uniformsState;
+        Array<BufferBinding>* buffers;
+        Array<UniformState>* uniformsState;
         DrawMode drawMode;
         PrimitiveType primitiveType;
         int32 startVertex;

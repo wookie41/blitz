@@ -1,16 +1,8 @@
-#include <front/RenderingPath.h>
-#include <front/Camera.h>
 #include <core/Renderer.h>
+#include <front/Camera.h>
+#include <front/RenderingPath.h>
 
 namespace blitz::front
 {
-    RenderingPath::RenderingPath(Camera* cameraToRenderFrom, blitz::Renderer* renderer)
-    : camera(cameraToRenderFrom), backendRenderer(renderer)
-    {
-    }
-
-    void RenderingPath::setViewPort(const ViewPort& viewPort)
-    {
-        this->viewPort = viewPort;
-    };
-} // namespace blitz
+    RenderingPath::RenderingPath(Renderer* renderer) : backend(renderer) {}
+} // namespace blitz::front

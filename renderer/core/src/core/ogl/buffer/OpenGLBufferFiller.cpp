@@ -43,14 +43,13 @@ namespace blitz::ogl
         {
         case UsageHint::STREAM:
         case UsageHint::IMMUTABLE:
-            usageHint = GL_STREAM_DRAW;
-            break;
         case UsageHint::STATIC:
             usageHint = GL_STATIC_DRAW;
             break;
         }
 
-        buffer->bind(BufferBindTarget::WRITE);
+        buffer->bind({ 0, 0, 0, BufferBindTarget::WRITE });
+
 
         if (fillArgs.shouldInvalidate)
         {
@@ -61,10 +60,14 @@ namespace blitz::ogl
         }
 
         glBufferData(GL_COPY_WRITE_BUFFER, fillArgs.dataSizeInBytes, fillArgs.data, usageHint);
+
+#ifndef NDEBUG
+        GLint bufferSize;
+        glGetBufferParameteriv(GL_COPY_WRITE_BUFFER, GL_BUFFER_SIZE, &bufferSize);
+        DLOG_F(INFO, "[OpenGL] Buffer %d filled with %d bytes", buffer->getId(), bufferSize);
+#endif
+
         glBindBuffer(GL_COPY_WRITE_BUFFER, 0);
-
         buffer->setSize(fillArgs.dataSizeInBytes);
-        DLOG_F(INFO, "[OpenGL] Buffer with id %d filled", buffer->getId());
-
     }
 } // namespace blitz::ogl

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <core/Max.h>
+#include <core/Precompiled.h>
 #include <core/TextureSpec.h>
 
 namespace blitz
@@ -10,10 +11,8 @@ namespace blitz
     struct ShaderOutput
     {
         ShaderOutput() = default;
-
         uint16 outputIdx;
-        Texture* texture;
         TextureFormat textureFormat;
-        char* name;
+        blitz::string name;
     };
 } // namespace blitz

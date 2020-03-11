@@ -9,7 +9,7 @@ namespace blitz::ogl
     class OpenGLVec4UniformVariable : public UniformVariable<Vector4f>, public OpenGLUniformVariable
     {
       public:
-        OpenGLVec4UniformVariable(const GLint& variableLocation, const Vector4f& value, const char* const name);
+        OpenGLVec4UniformVariable(const GLint& variableLocation, const Vector4f& value, const blitz::string& name);
 
         void bind() override;
 

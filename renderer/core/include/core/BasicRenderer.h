@@ -1,23 +1,21 @@
 #pragma once
 
 #include <core/Precompiled.h>
-#include <core/Renderer.h>
 #include <core/RenderCommand.h>
+#include <core/Renderer.h>
 
 namespace blitz
 {
     class Shader;
 
-    class BasicRenderer: public Renderer
+    class BasicRenderer : public Renderer
     {
-    public:
-
-        void issue(RenderPass *renderPass) override;
+      public:
+        void issue(RenderPass* renderPass) override;
         void render() override;
 
-    private:
-
-        void updateUniforms(Shader* shader, const std::vector<UniformState*>& uniformsState);
+      private:
+        void updateUniforms(Shader* shader, Array<UniformState>* uniformsState);
 
         template <typename T>
         void updateUniform(Shader* shader, const hash& uniformNameHash, void* value);
@@ -25,4 +23,4 @@ namespace blitz
         std::mutex mx;
         std::deque<RenderPass*> renderPasses;
     };
-}
+} // namespace blitz

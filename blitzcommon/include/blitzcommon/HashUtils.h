@@ -1,6 +1,5 @@
 #pragma once
 
-#include <functional>
 #include <blitzcommon/DataType.h>
 
 namespace blitz
@@ -16,4 +15,4 @@ namespace blitz
 
     using hash = size_t;
     hash hashString(const char* str);
-}
+} // namespace blitz

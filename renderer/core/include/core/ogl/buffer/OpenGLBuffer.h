@@ -1,7 +1,7 @@
 #pragma once
 
+#include <core/Buffer.h>
 #include <core/Precompiled.h>
-#include "core/Buffer.h"
 
 namespace blitz::ogl
 {
@@ -12,8 +12,7 @@ namespace blitz::ogl
       public:
         GLuint getId() const;
 
-        void bind(const BufferBindTarget& bindTarget) override;
-
+        void bind(const BufferBindingSpec& bindingSpec) override;
         virtual ~OpenGLBuffer();
 
       protected:

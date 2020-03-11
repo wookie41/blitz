@@ -9,7 +9,7 @@ namespace blitz::ogl
     class OpenGLIntegerUniformVariable : public UniformVariable<int32>, public OpenGLUniformVariable
     {
       public:
-        OpenGLIntegerUniformVariable(const GLint& variableLocation, const int32& value, const char* const name);
+        OpenGLIntegerUniformVariable(const GLint& variableLocation, const int32& value, const blitz::string& name);
 
         void bind() override;
 

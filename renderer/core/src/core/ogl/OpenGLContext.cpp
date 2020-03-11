@@ -44,11 +44,11 @@ namespace blitz::ogl
         return new OpenGLVertexArray(numAttributes, vaoIdx, this);
     }
 
-    Framebuffer* OpenGLContext::createFramebuffer()
+    Framebuffer* OpenGLContext::createFramebuffer(const uint16& numColorAttachments)
     {
         GLuint framebufferID;
         glCreateFramebuffers(1, &framebufferID);
         assert(framebufferID > 0);
-        return new OpenGLFramebuffer(framebufferID);
+        return new OpenGLFramebuffer(framebufferID, numColorAttachments);
     }
 } // namespace blitz::ogl

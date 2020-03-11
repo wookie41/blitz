@@ -1,4 +1,5 @@
 #pragma once
+#include <core/RenderCommand.h>
 
 namespace blitz
 {
@@ -7,12 +8,10 @@ namespace blitz
 
 namespace blitz::front
 {
-    struct Renderable;
-
     class BasicModelRenderer
     {
       public:
         // whoever requested the renderable for the model is responsible for freeing the ptr
-        Renderable* makeRenderable(const Model* model);
+        Array<RenderCommand>* makeRenderable(const Model* model, Array<RenderCommand>* commandsBuffer = nullptr);
     };
 } // namespace blitz::front

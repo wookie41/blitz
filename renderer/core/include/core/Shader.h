@@ -12,66 +12,46 @@ namespace blitz
     class TextureSampler;
     class VertexArray;
 
-	struct UniformBlock;
+    struct UniformBlock;
     struct BufferRange;
 
     class Shader : public NonCopyable
     {
       public:
-        explicit Shader(const char* shaderName,
-                        const std::unordered_map<hash, IUniformVariable*>& uniforms,
-                        const std::unordered_map<hash, UniformBlock*>& uniformBlocks,
-                        const std::unordered_map<hash, ShaderOutput*>& outputs);
+        Shader(const blitz::string& name, Array<IUniformVariable*>* uniforms, Array<UniformBlock>* uniformBlocks, Array<ShaderOutput>* outputs);
 
         virtual void use() = 0;
         virtual void disable() = 0;
 
-        virtual void setup(Framebuffer* framebuffer) = 0;
+        virtual void setup() = 0;
+
+        void setUniformBlockBuffer(const hash& blockNameHash, BufferRange* bufferRange);
 
         template <typename T>
         UniformVariable<T>* getUniformVariable(const hash& nameHash);
 
-        template <typename T>
-        UniformVariable<T>* getUniformVariable(const char* const name);
-
-        virtual const std::unordered_map<hash, ShaderOutput*>& getShaderOutputs() const;
-
-        virtual void bindUniformBlock(const hash& blockNameHash, const BufferRange* bufferRange) = 0;
-
-        virtual void setOutputTarget(const hash& outputNameHash, Texture* targetTexture);
-
-        void bindDirtyVariables();
-
         virtual ~Shader();
 
       protected:
-        void markAsDirty(const hash& uniformNameHash);
-
-        const char* const shaderName;
-        std::unordered_map<hash, IUniformVariable*> uniformVariables;
-        std::unordered_set<hash> dirtyUniforms;
-        std::unordered_map<hash, UniformBlock*> uniformBlocks;
-        std::unordered_map<hash, ShaderOutput*> shaderOutputs;
-        std::vector<IUniformVariable*> samplers;
+        blitz::string shaderName;
+        Array<IUniformVariable*>* uniformVariables;
+        Array<UniformBlock>* uniformBlocks;
+        Array<ShaderOutput>* shaderOutputs;
     };
+
 
     template <typename T>
     UniformVariable<T>* Shader::getUniformVariable(const hash& nameHash)
     {
-        const auto variableIt = uniformVariables.find(nameHash);
-        if (variableIt == uniformVariables.end())
+        // todo totally could use a hash table
+        for (size_t uniformIdx = 0; uniformIdx < uniformVariables->getSize(); ++uniformIdx)
         {
-            DLOG_F(ERROR, "Shader '%s' doesn't have uniform with hash %lld", shaderName, nameHash);
-            return nullptr;
+            IUniformVariable* variable = (*uniformVariables->get(uniformIdx));
+            if (variable->getName()->getHash() == nameHash)
+            {
+                return (UniformVariable<T>*)variable;
+            }
         }
-
-        auto uniformVariable = variableIt->second;
-        return dynamic_cast<UniformVariable<T>*>(uniformVariable);
-    }
-
-    template <typename T>
-    UniformVariable<T>* Shader::getUniformVariable(const char* const name)
-    {
-        return getUniformVariable<T>(hashString(name));
+        return nullptr;
     }
 } // namespace blitz

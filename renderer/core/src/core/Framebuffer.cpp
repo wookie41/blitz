@@ -1,12 +1,18 @@
 #include <core/Framebuffer.h>
 #include <core/FramebufferAttachment.h>
 
-static auto depthAttachmentDirty = 0b00000001;
-static auto stencilAttachmentDirty = 0b00000010;
-static auto depthStencilAttachmentDirty = 0b00000011;
-
 namespace blitz
 {
+    static uint8 depthAttachmentDirty = 0b00000001;
+    static uint8 stencilAttachmentDirty = 0b00000010;
+    static uint8 depthStencilAttachmentDirty = 0b00000011;
+
+    Framebuffer::Framebuffer(const uint16& numColAttachments)
+    {
+        numColorAttachments = numColAttachments;
+        colorAttachments = new FramebufferAttachment*[numColAttachments];
+    }
+
     void Framebuffer::setDepthAttachment(FramebufferAttachment* depthAttachment)
     {
         dirtyFields |= depthAttachmentDirty;
@@ -25,10 +31,11 @@ namespace blitz
         this->depthStencilAttachment = depthStencilAttachment;
     }
 
-    void Framebuffer::setColorAttachment(uint16 colorAttachmentIdx, FramebufferAttachment* colorAttachment)
+    void Framebuffer::setColorAttachment(const uint16& colorAttachmentIdx, FramebufferAttachment* colorAttachment)
     {
+        assert(colorAttachmentIdx < numColorAttachments);
         colorAttachments[colorAttachmentIdx] = colorAttachment;
-        newlyAddedAttachments.push_back(colorAttachmentIdx);
+        colorAttachment->bind({ colorAttachmentIdx });
     }
 
     Framebuffer::~Framebuffer()
@@ -36,8 +43,10 @@ namespace blitz
         delete depthAttachment;
         delete stencilAttachment;
         delete depthStencilAttachment;
-
-        for (const auto& colorAttachment : colorAttachments)
-            delete colorAttachment.second;
+        for (uint16 attachmentIdx = 0; attachmentIdx < numColorAttachments; ++attachmentIdx)
+        {
+            delete colorAttachments[attachmentIdx];
+        }
+        delete colorAttachments;
     }
 } // namespace blitz
