@@ -15,7 +15,6 @@
 #include <mathfu/matrix.h>
 #include <mathfu/vector.h>
 #include <mutex>
-#include <vector>
 #include <deque>
 
 #endif

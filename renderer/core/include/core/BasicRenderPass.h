@@ -1,6 +1,5 @@
 #pragma once
 
-#include <core/Precompiled.h>
 #include <core/RenderPass.h>
 
 namespace blitz
@@ -8,16 +7,12 @@ namespace blitz
     class BasicRenderPass : public RenderPass
     {
       public:
+        BasicRenderPass(RenderState* renderState, Array<RenderCommand>* commands);
 
-        explicit BasicRenderPass(RenderState* renderState);
+        void prepare() override;
 
-        void finish() override;
-
-        void add(RenderCommand* renderCommand) override;
         RenderCommand* getNextCommand() override;
-
     private:
-        bool isFinished = false;
-        std::deque<RenderCommand*> renderCommands;
+        uint64 commandsIssued = 0;
     };
 } // namespace blitz

@@ -3,13 +3,13 @@
 #include <core/Precompiled.h>
 #include <core/RenderCommand.h>
 #include <core/RenderState.h>
+#include <core/RenderPass.h>
 
 namespace blitz
 {
 
     class Window;
     struct ViewPort;
-    class RenderPass;
 
     class Renderer: NonCopyable
     {

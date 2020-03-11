@@ -23,8 +23,9 @@ namespace blitz
         uint64 totalFacesCount;
         uint64 totalVerticesCount;
         VertexArray* vertexArray;
-        std::vector<Mesh*> meshes;
-        std::vector<Model*> children;
+        Array<Mesh>* meshes;
+        Array<Model*>* children;
+        uint32 totalNodesCount; //includes children of children...
     };
 }
 

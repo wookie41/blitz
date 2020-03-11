@@ -1,6 +1,7 @@
 #pragma once
 
 #include <core/Precompiled.h>
+#include <core/RenderCommand.h>
 
 namespace blitz
 {
@@ -9,20 +10,14 @@ namespace blitz
     // it can be drawn to a texture and used for later processing
 
     struct RenderState;
-    struct RenderCommand;
 
     class RenderPass : NonCopyable
     {
       public:
-        explicit RenderPass(RenderState* renderState);
+        RenderPass(RenderState* state, Array<RenderCommand>* commands);
 
-        virtual void add(RenderCommand* renderCommand) = 0;
-
-        virtual const RenderState& getRenderState() const;
-
-        //this method should be called before the first call to getNextCommand
-        //so RenderPass can optimize the order of commands to be issued
-        virtual void finish() = 0;
+        //this should be called if the commands should be reorder
+        virtual void prepare() = 0;
 
         // Returns a pointer to the next RenderCommand that should be issued
         // if no more commands are available, a nullptr is returned.
@@ -31,11 +26,14 @@ namespace blitz
         // For example, the RenderPass can sort commands by the shader used, to minimize the amount of
         // switches between different shaders.
 
+        const RenderState* getRenderState() const;
+
         virtual RenderCommand* getNextCommand() = 0;
 
         virtual ~RenderPass();
 
-      private:
+      protected:
+        Array<RenderCommand>* renderCommands;
         RenderState* renderState;
     };
 } // namespace blitz

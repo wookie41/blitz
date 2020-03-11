@@ -16,7 +16,7 @@ extern blitz::Renderer* BLITZ_RENDERER;
 
 constexpr const auto TIME_PER_FRAME = 1.f / 60.f;
 
-int main(int argc, char** argv)
+int wmain(int argc, char** argv)
 {
     blitz::Logger::init(argc, argv);
 
@@ -31,13 +31,12 @@ int main(int argc, char** argv)
     blitz::platform::SDLInputManager inputManager;
     blitz::platform::SDLEventPooler pooler{ &inputManager };
 
-    blitz::front::TestRenderer testRenderer{ window };
-
     blitz::front::Camera camera{ { 0, 0, 1 }, { 0, 0, -1 }, { 0, 1, 0 }, 75.f };
     camera.setProjection(blitz::Projection::PERSPECTIVE);
 
-    blitz::front::ForwardRenderingPath renderingPath{ &camera, BLITZ_RENDERER, window->getFramebuffer(), testRenderer.getShader() };
-    renderingPath.setViewPort({ 0, 0, 800, 600, 0.1f, 100.f });
+    blitz::front::TestRenderer testRenderer{ window, &camera, {0, 0, 800, 800, .1f, 100.f} };
+
+    blitz::front::ForwardRenderingPath renderingPath{ BLITZ_RENDERER, testRenderer.getShader() };
 
     float deltaTime = 0;
     unsigned int lastUpdateTime = SDL_GetTicks();
@@ -90,8 +89,7 @@ int main(int argc, char** argv)
         window->clearDepth();
         window->clearColor();
 
-        renderingPath.addGeometry(testRenderer.getTestRenderable());
-        renderingPath.render();
+        renderingPath.render(testRenderer.getTestRenderList());
 
         window->swapBuffers();
     }

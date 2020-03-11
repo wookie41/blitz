@@ -25,7 +25,7 @@ namespace blitz
     char* copyStr(const char* toCpy)
     {
         const auto len = strlen(toCpy);
-        char* copied = (char*)malloc(len + 1);
+        char* copied = new char[len + 1];
         strncpy(copied, toCpy, len);
         copied[len] = '\0';
         return copied;

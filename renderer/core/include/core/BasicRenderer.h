@@ -15,7 +15,7 @@ namespace blitz
         void render() override;
 
       private:
-        void updateUniforms(Shader* shader, const std::vector<UniformState*>& uniformsState);
+        void updateUniforms(Shader* shader, Array<UniformState>* uniformsState);
 
         template <typename T>
         void updateUniform(Shader* shader, const hash& uniformNameHash, void* value);

@@ -49,8 +49,8 @@ add_library(${PROJECT_NAME} STATIC
         src/core/ogl/framebuffer/OpenGLFramebuffer.cpp
         src/core/ogl/framebuffer/OpenGLRenderBufferAttachment.cpp
         src/core/RenderPass.cpp
-        src/core/BasicRenderer.cpp
         src/core/BasicRenderPass.cpp 
+        src/core/BasicRenderer.cpp
         src/core/ogl/BasicOpenGLRenderer.cpp
         src/resources/texture/TextureLoader.cpp
         src/resources/model/ModelLoader.cpp

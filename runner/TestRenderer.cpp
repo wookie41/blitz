@@ -1,5 +1,4 @@
 #include <TestRenderer.h>
-#include <front/Renderable.h>
 
 #include <core/Device.h>
 #include <core/Logger.h>
@@ -19,30 +18,30 @@
 #include <resources/texture/TextureLoader.h>
 
 
+char* v = "#version 330 core\n"
+          "layout (location = 0) in vec3 position;\n"
+          "layout (location = 2) in vec2 textureCoords;\n"
+          "out vec2 TexCoords;\n"
+          "uniform mat4 _bView;\n"
+          "uniform mat4 _bProjection;\n"
+          "void main()\n"
+          "{\n"
+          "\n"
+          "    mat4 model = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));\n"
+          "    TexCoords = textureCoords;\n"
+          "    gl_Position = _bProjection * _bView * model * vec4(position, 1.0);\n"
+          "}";
+
 // char* v = "#version 330 core\n"
 //           "layout (location = 0) in vec3 position;\n"
 //           "layout (location = 1) in vec2 textureCoords;\n"
 //           "out vec2 TexCoords;\n"
-//           "uniform mat4 _bView;\n"
-//           "uniform mat4 _bProjection;\n"
 //           "void main()\n"
 //           "{\n"
 //           "\n"
-//           "    mat4 model = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));\n"
 //           "    TexCoords = textureCoords;\n"
-//           "    gl_Position = _bProjection * _bView * model * vec4(position, 1.0);\n"
+//           "    gl_Position = vec4(position, 1.0);\n"
 //           "}";
-
-char* v = "#version 330 core\n"
-          "layout (location = 0) in vec3 position;\n"
-          "layout (location = 1) in vec2 textureCoords;\n"
-          "out vec2 TexCoords;\n"
-          "void main()\n"
-          "{\n"
-          "\n"
-          "    TexCoords = textureCoords;\n"
-          "    gl_Position = vec4(position, 1.0);\n"
-          "}";
 
 
 char* f = "#version 330 core\n"
@@ -74,7 +73,7 @@ extern blitz::Renderer* BLITZ_RENDERER;
 
 namespace blitz::front
 {
-    TestRenderer::TestRenderer(Window* window)
+    TestRenderer::TestRenderer(Window* window, Camera* camera, const ViewPort& viewPort)
     {
         auto vertexBuffer = window->getContext().createBuffer(
         { sizeof(vertexData), blitz::UsageHint::STATIC, blitz::BindHint::VERTEX, vertexData, false, true });
@@ -86,36 +85,40 @@ namespace blitz::front
         basicVertexArray->addAttribute({ vertexBuffer, copyStr("textureCoords"), blitz::DataType::FLOAT, 2, false,
                                          5 * sizeof(float), 3 * sizeof(float), 0 });
 
-        blitz::ShaderSource shaderSource = { blitz::string("myshader", 8), v, nullptr, f };
+        blitz::ShaderSource shaderSource = { blitz::string(copyStr("myshader")), v, nullptr, f };
         shader = BLITZ_DEVICE->createShader(shaderSource);
 
         char textureLocation[] = "container.jpg";
         tex = textureLoader.loadTexture({ nullptr, textureLocation });
 
-        modelLoader = new ModelLoader(window->getContext(), &textureLoader);
-        rockModel = modelLoader->load({ nullptr, "/home/wookie/resources/models/rock/rock.obj" });
-
         shouldUseTexture = true;
         sampler = new blitz::ogl::OpenGLTextureSampler{ tex };
+
+        cubeUniforms = new Array<UniformState>(2);
+        cubeUniforms->add({ blitz::DataType::SAMPLER2D, blitz::hashString("diffuseMap"), (void*)&sampler });
+        cubeUniforms->add({ blitz::DataType::BOOL, blitz::hashString("useTexture"), (void*)&shouldUseTexture });
+
+        renderCubeCommands = new Array<RenderCommand>(1);
+        renderCubeCommands->add(
+        { basicVertexArray, {}, cubeUniforms, blitz::DrawMode::NORMAL, blitz::PrimitiveType::TRIANGLE_STRIP, 0, 0, 4, 0 });
+        modelLoader = new ModelLoader(window->getContext(), &textureLoader);
+        rockModel = modelLoader->load({ nullptr, "D:\\Projects\\LearnOpenGL\\resources\\objects\\rock\\rock.obj" });
+
+        Array<RenderCommand>* modelRenderCommands = modelRenderer.makeRenderable(rockModel);
+
+        testRenderList = new RenderList();
+        testRenderList->camera = camera;
+        testRenderList->framebuffer = window->getFramebuffer();
+        testRenderList->geometry = modelRenderCommands;
+        testRenderList->viewPort.x = viewPort.x;
+        testRenderList->viewPort.y = viewPort.y;
+        testRenderList->viewPort.width = viewPort.width;
+        testRenderList->viewPort.height = viewPort.height;
+        testRenderList->viewPort.near = viewPort.near;
+        testRenderList->viewPort.far = viewPort.far;
     }
 
     Shader* TestRenderer::getShader() const { return shader; }
 
-    Renderable* TestRenderer::getTestRenderable()
-    {
-        blitz::UniformState* textureUniformState =
-        new blitz::UniformState{ blitz::DataType::SAMPLER2D, blitz::hashString("diffuseMap"), (void*)&sampler };
-        blitz::UniformState* textureFlagUniformState =
-        new blitz::UniformState{ blitz::DataType::BOOL, blitz::hashString("useTexture"), (void*)&shouldUseTexture };
-
-        std::vector<blitz::UniformState*> uniforms{ textureUniformState, textureFlagUniformState };
-
-        blitz::RenderCommand* drawCubeCommand = new blitz::RenderCommand{
-            basicVertexArray, {}, uniforms, blitz::DrawMode::NORMAL, blitz::PrimitiveType::TRIANGLE_STRIP, 0, 0, 4, 0
-        };
-
-        auto renderables = modelRenderer.makeRenderable(rockModel);
-        renderables->renderCommands.push_back(drawCubeCommand);
-        return new Renderable{ { drawCubeCommand } };
-    }
+    RenderList* TestRenderer::getTestRenderList() { return testRenderList; }
 } // namespace blitz::front

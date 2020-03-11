@@ -1,59 +1,40 @@
+#include <front/ForwardRenderingPath.h>
 #include <core/BasicRenderPass.h>
-#include <core/Framebuffer.h>
 #include <core/Renderer.h>
 #include <core/Shader.h>
 #include <front/Camera.h>
-#include <front/ForwardRenderingPath.h>
-#include <front/Renderable.h>
-
+#include <front/Camera.h>
 
 namespace blitz::front
 {
     const auto viewMatrixUniformName = hashString("_bView");
     const auto projectionMatrixUniformName = hashString("_bProjection");
 
-    ForwardRenderingPath::ForwardRenderingPath(Camera* cameraToRenderFrom, blitz::Renderer* renderer, Framebuffer* targetFrameBuffer, Shader* shaderToUse)
-    : RenderingPath(cameraToRenderFrom, renderer), framebuffer(targetFrameBuffer), shader(shaderToUse)
+    ForwardRenderingPath::ForwardRenderingPath(Renderer* renderer, Shader* shaderToUse)
+    : RenderingPath(renderer), shader(shaderToUse)
     {
     }
 
-    void ForwardRenderingPath::render()
+    void ForwardRenderingPath::render(RenderList* renderList)
     {
-        auto viewMatrix = camera->calculateViewMatrix();
-        //TODO this changes only when viewPort changes, we should use this fact
-        auto projectionMatrix = calculateProjectionMatrix(camera->getProjection(), camera->getFieldOfView());
-        auto viewMatrixUniformState = new UniformState{ DataType::MATRIX4F, viewMatrixUniformName, &viewMatrix };
-        auto projectionMatrixUniformState = new UniformState{ DataType::MATRIX4F, projectionMatrixUniformName, &projectionMatrix };
-        std::vector<UniformState*> forwardRenderingPathUniforms;
-        forwardRenderingPathUniforms.push_back(viewMatrixUniformState);
-        forwardRenderingPathUniforms.push_back(projectionMatrixUniformState);
+        const Camera* camera = renderList->camera;
+        const ViewPort& viewPort = renderList->viewPort;
 
-        auto renderState = new RenderState{ viewPort, camera->getProjection(), true, false, shader,
-                                            framebuffer, forwardRenderingPathUniforms };
+        Matrix4f viewMatrix = camera->calculateViewMatrix();
 
-        blitz::RenderPass* forwardRenderPass = new blitz::BasicRenderPass(renderState);
+        // TODO this changes only when viewPort changes, we should use this fact
+        auto projectionMatrix = calculateProjectionMatrix(viewPort, camera->getProjection(), camera->getFieldOfView());
 
-        for (const auto geometry : geometryToRender)
-        {
-            for (const auto command : geometry->renderCommands)
-            {
-                forwardRenderPass->add(command);
-            }
-        }
+        Array<UniformState> renderPassWideUniform(2);
+        renderPassWideUniform.add({ DataType::MATRIX4F, viewMatrixUniformName, &viewMatrix });
+        renderPassWideUniform.add({ DataType::MATRIX4F, projectionMatrixUniformName, &projectionMatrix });
 
-        geometryToRender.clear();
+        RenderState renderState { viewPort, camera->getProjection(), true, false, shader, renderList->framebuffer, &renderPassWideUniform };
+        BasicRenderPass forwardRenderPass { &renderState,  renderList->geometry } ;
+        
+        forwardRenderPass.prepare();
 
-        // TODO add UI, Lights
-
-        forwardRenderPass->finish();
-
-        backendRenderer->issue(forwardRenderPass);
-        backendRenderer->render();
+        backend->issue(&forwardRenderPass);
+        backend->render();        
     }
-
-    void ForwardRenderingPath::addGeometry(Renderable* geometry) { geometryToRender.push_back(geometry); }
-
-    void ForwardRenderingPath::addUIElement(Renderable* uiElement) { uiElementsToRender.push_back(uiElement); }
-
-    void ForwardRenderingPath::addLight(Light* light) { lights.push_back(light); }
 } // namespace blitz::front

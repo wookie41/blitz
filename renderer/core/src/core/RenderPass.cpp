@@ -1,11 +1,13 @@
 #include <core/RenderPass.h>
-#include <core/RenderState.h>
 
 namespace blitz
 {
-    RenderPass::RenderPass(RenderState* renderState) : renderState(renderState) {}
+    RenderPass::RenderPass(RenderState* state, Array<RenderCommand>* commands)
+    : renderState(state), renderCommands(commands)
+    {
+    }
 
-    RenderPass::~RenderPass() { delete renderState; }
+    const RenderState* RenderPass::getRenderState() const { return renderState; }
 
-    const RenderState& RenderPass::getRenderState() const { return *renderState; }
+    RenderPass::~RenderPass() {}
 } // namespace blitz

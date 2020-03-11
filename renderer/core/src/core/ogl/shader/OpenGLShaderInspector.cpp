@@ -53,7 +53,7 @@ namespace blitz::ogl
             }
 
             GLint variableLocation = glGetUniformLocation(shaderID, uniformNameBuff);
-            char* variableName = (char*)malloc(nameLength + 1);
+            char* variableName = new char[nameLength + 1];
             variableName[nameLength] = '\0';
             strncpy(variableName, uniformNameBuff, nameLength);
 

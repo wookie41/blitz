@@ -2,6 +2,7 @@
 
 #include <core/Color.h>
 #include <core/Precompiled.h>
+#include <core/RenderCommand.h>
 
 namespace blitz
 {
@@ -20,7 +21,6 @@ namespace blitz
 
     class Shader;
     class Framebuffer;
-    struct UniformState;
 
     struct RenderState
     {
@@ -30,6 +30,6 @@ namespace blitz
         bool enableStencilTest;
         Shader* shader;
         Framebuffer* framebuffer;
-        std::vector<UniformState*> renderPassWideUniforms;
+        Array<UniformState>* renderPassWideUniforms;
     };
 } // namespace blitz

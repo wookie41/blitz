@@ -22,7 +22,7 @@ namespace blitz
         T* getArray() const;
 
         void add(T* val);
-        void add(T&& val);
+        void add(const T& val);
 
         uint32 getSize() const;
         uint32 getCapacity() const;
@@ -100,7 +100,7 @@ namespace blitz
     }
 
     template <typename T>
-    void Array<T>::add(T&& val)
+    void Array<T>::add(const T& val)
     {
         assert(size < capacity);
         array[size++] = std::move(val);
