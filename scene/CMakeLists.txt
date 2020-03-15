@@ -1,8 +1,7 @@
+cmake_minimum_required(VERSION 3.12)
 project(blitz-scene C CXX)
 
-add_library(${PROJECT_NAME} STATIC
-    src/Sprite.cpp
-)
+add_library(${PROJECT_NAME} STATIC src/null.cpp)
 
 add_library(blitz::scene ALIAS ${PROJECT_NAME})
 
@@ -15,7 +14,7 @@ set_target_properties(${PROJECT_NAME}
         LINKER_LANGUAGE CXX)
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
-target_link_libraries(${PROJECT_NAME} blitz::common)
+target_link_libraries(${PROJECT_NAME} blitz-renderer-core blitz::common)
 
 if(WITH_DEBUG_TOOLS)
     target_link_libraries(${PROJECT_NAME} loguru)

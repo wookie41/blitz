@@ -7,15 +7,17 @@
 
 extern blitz::Device* BLITZ_DEVICE;
 
-namespace blitz::shapes2d
+namespace blitz
 {
     static const char POSITION_ATTR_NAME[] = "_bPosition";
-    static const char TEXTURE_COORDS_ATTR_NAME[] = "_bTextureCoords";
+    static const char TEXTURE_COORDS_ATTR_NAME[] = "_bTexCoords";
 
     // position + texCoords
     static float quadData[] = {
-        -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, -1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
-        1.0f,  1.0f, 0.0f, 1.0f, 1.0f, 1.0f,  -1.0f, 0.0f, 1.0f, 0.0f,
+        -1.0f, 1.0f, 0.0f, 1.0f, 
+        -1.0f, -1.0f, 0.0f, 0.0f,
+        1.0f,  1.0f, 1.0f, 1.0f, 
+        1.0f,  -1.0f, 1.0f, 0.0f,
     };
 
     VertexArray* quadVertexArray = nullptr;

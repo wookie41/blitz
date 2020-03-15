@@ -6,5 +6,6 @@ namespace blitz
 {
     struct Canvas : CanvasItem
     {
+        inline const CanvasItemType& getType() const override { return CanvasItemType::CANVAS; }
     };
 } // namespace blitz

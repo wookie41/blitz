@@ -25,7 +25,6 @@ target_link_libraries(${PROJECT_NAME}
 	blitz-renderer-core
 )
 
-
 if (WIN32)
 	target_include_directories(${PROJECT_NAME} PRIVATE ${GLEW_INCLUDE_DIRS})
 	target_include_directories(${PROJECT_NAME} PRIVATE ${SDL2_INCLUDE_DIR})

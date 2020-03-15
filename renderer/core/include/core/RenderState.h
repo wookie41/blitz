@@ -24,7 +24,7 @@ namespace blitz
 
     struct RenderState
     {
-        ViewPort viewPort;
+        const ViewPort* viewPort;
         Projection projection;
         bool enableDepthTest;
         bool enableStencilTest;

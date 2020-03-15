@@ -8,8 +8,9 @@ namespace blitz
 
     struct Sprite : CanvasItem
     {
-        Vector2i texRegion;
-        Vector2i size;
+        Vector2i texRegionSize;
+        Vector2i texRegionIndex;
+        Vector2i spriteSize;
         Texture* texture;
 
         inline const CanvasItemType& getType() const override

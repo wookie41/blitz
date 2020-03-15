@@ -24,7 +24,7 @@ namespace blitz
             renderPasses.pop_front();
 
             const RenderState* renderState = renderPass->getRenderState();
-            setViewPort(&renderState->viewPort);
+            setViewPort(renderState->viewPort);
 
             setDepthTest(renderState->enableDepthTest);
             setStencilTest(renderState->enableStencilTest);

@@ -13,7 +13,7 @@ namespace blitz
         string() = default;
         explicit string(const char* str);
         size_t getLength() const;
-        operator char*() const;
+        operator const char*() const;
         bool operator==(const string& rhs) const;
         char operator[](const size_t idx) const;
         hash getHash() const;
@@ -21,7 +21,7 @@ namespace blitz
 
       private:
         size_t length = 0; //doesn't include the terminator
-        char* strPtr = nullptr;
+        const char* strPtr = nullptr;
         hash strHash = 0;
     };
 

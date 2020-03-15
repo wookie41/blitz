@@ -38,7 +38,7 @@ namespace blitz
     }
 
     size_t string::getLength() const { return length; }
-    string::operator char*() const { return strPtr; }
+    string::operator const  char*() const { return strPtr; }
 
     bool string::operator==(const string& rhs) const { return strHash == rhs.strHash; }
 

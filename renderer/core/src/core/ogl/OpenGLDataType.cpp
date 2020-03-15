@@ -20,7 +20,7 @@ namespace blitz::ogl
             return GL_FLOAT;
         case DataType::VECTOR2I:
             return GL_INT_VEC2;
-        case DataType::VECTOR2I:
+        case DataType::VECTOR2F:
             return GL_FLOAT_VEC2;
         case DataType::VECTOR3F:
             return GL_FLOAT_VEC3;
@@ -80,6 +80,10 @@ namespace blitz::ogl
         case DataType::FLOAT:
             return 4;
         case DataType::DOUBLE:
+            return 8;
+        case DataType::VECTOR2F:
+        case DataType::VECTOR2I:
+            return 8;
             return 8;
         case DataType::VECTOR3F:
             return 12;

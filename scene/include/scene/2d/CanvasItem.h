@@ -6,7 +6,8 @@ namespace blitz
 {
     enum class CanvasItemType
     {
-        SPRITE
+        SPRITE,
+        CANVAS
     };
 
     struct CanvasItem;

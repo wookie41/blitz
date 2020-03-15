@@ -8,13 +8,19 @@
 #include <core/RenderCommand.h>
 #include <front/ForwardRenderingPath.h>
 
-extern blitz::VertexArray* quadVertexArray;
-extern blitz::memory::Allocator* allocator;
-extern blitz::Renderer* BLITZ_RENDERER;
-extern blitz::Device* BLITZ_DEVICE;
 
 namespace blitz
 {
+    extern VertexArray* quadVertexArray;
+    extern Renderer* BLITZ_RENDERER;
+    extern Device* BLITZ_DEVICE;
+
+    namespace memory
+    {
+        extern Allocator* allocator;
+        void resetAllocator();
+    } // namespace memory
+
     static const uint8 MAX_CANVAS_COUNT = 255;
 
     static char DEFAULT_2D_SHADER_NAME[] = "default2Dshader";
@@ -107,13 +113,9 @@ namespace blitz
         canvasItem->childrenTail = canvasItem->children;
     }
 
-    void VisualServer2D::render(
-        const Framebuffer* target, 
-        const ViewPort* viewPort, 
-        const front::Camera* camera, 
-        const CanvasID& canvasID) const
+    void VisualServer2D::render(Framebuffer* target, const ViewPort* viewPort, const front::Camera* camera, const CanvasID& canvasID) const
     {
-        allocator = renderFramePool;
+        memory::allocator = renderFramePool;
 
         assert(canvasID < canvases->getSize());
 
@@ -146,15 +148,18 @@ namespace blitz
         memory::resetAllocator();
     }
 
-    void VisualServer2D::renderSprite(const Framebuffer* target,
+    void VisualServer2D::renderSprite(Framebuffer* target,
                                       const Transform2D& parentTransfrom,
                                       const Sprite* sprite,
                                       Array<RenderCommand>* commandsBuffer) const
     {
-        static const hash SPRITE_TEXTURE_UNIFORM_HASH = hashString("_bSpriteTexture");
+
         static const hash SPRITE_POSITION_UNIFORM_HASH = hashString("_bSpritePosition");
-        static const hash SPRITE_DIMENSIONS_UNIFORM_HASH = hashString("_bSpriteDimensions");
-        static const hash SPRITE_TEXTURE_REGION_UNIFORM_HASH = hashString("_bSpriteTextureRegion");
+        static const hash SPRITE_SIZE_UNIFORM_HASH = hashString("_bSpriteSize");
+
+        static const hash SPRITE_TEXTURE_UNIFORM_HASH = hashString("_bSpriteTexture");
+        static const hash SPRITE_TEXTURE_REGION_SIZE = hashString("_bSpriteTexRegionSize");
+        static const hash SPRITE_TEXTURE_REGION_INDEX = hashString("_bSpriteTexRegionIndex");
 
         commandsBuffer->add({});
         RenderCommand* renderCommand = commandsBuffer->get(commandsBuffer->getSize() - 1);
@@ -165,12 +170,15 @@ namespace blitz
         renderCommand->numberOfIndicesToDraw = 0;
         renderCommand->primitiveType = PrimitiveType::TRIANGLES;
         renderCommand->vertexArray = quadVertexArray;
-        renderCommand->uniformsState = new Array<UniformState>(4);
+        renderCommand->uniformsState = new Array<UniformState>(5);
 
         Array<UniformState>* uniformsStates = renderCommand->uniformsState;
-        uniformsStates->add({ DataType::SAMPLER2D, SPRITE_TEXTURE_UNIFORM_HASH, BLITZ_DEVICE->createSampler(sprite->texture) });
-        uniformsStates->add({ DataType::VECTOR2I, SPRITE_TEXTURE_REGION_UNIFORM_HASH, (void*)&sprite->texRegion });
+
         uniformsStates->add({ DataType::VECTOR2F, SPRITE_POSITION_UNIFORM_HASH, (void*)&sprite->transform.translate });
-        uniformsStates->add({ DataType::VECTOR2I, SPRITE_DIMENSIONS_UNIFORM_HASH, (void*)&sprite->size });
+        uniformsStates->add({ DataType::VECTOR2I, SPRITE_SIZE_UNIFORM_HASH, (void*)&sprite->spriteSize });
+
+        uniformsStates->add({ DataType::SAMPLER2D, SPRITE_TEXTURE_UNIFORM_HASH, BLITZ_DEVICE->createSampler(sprite->texture) });
+        uniformsStates->add({ DataType::VECTOR2I, SPRITE_TEXTURE_REGION_INDEX, (void*)&sprite->texRegionIndex });
+        uniformsStates->add({ DataType::VECTOR2I, SPRITE_TEXTURE_REGION_SIZE, (void*)&sprite->texRegionSize });
     }
 } // namespace blitz

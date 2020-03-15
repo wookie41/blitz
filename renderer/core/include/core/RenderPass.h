@@ -14,7 +14,7 @@ namespace blitz
     class RenderPass : NonCopyable
     {
       public:
-        RenderPass(RenderState* state, Array<RenderCommand>* commands);
+        RenderPass(const RenderState* state, const Array<RenderCommand>* commands);
 
         //this should be called if the commands should be reorder
         virtual void prepare() = 0;
@@ -33,7 +33,7 @@ namespace blitz
         virtual ~RenderPass();
 
       protected:
-        Array<RenderCommand>* renderCommands;
-        RenderState* renderState;
+        const Array<RenderCommand>* renderCommands;
+        const RenderState* renderState;
     };
 } // namespace blitz

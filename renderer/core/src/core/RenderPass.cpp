@@ -2,7 +2,7 @@
 
 namespace blitz
 {
-    RenderPass::RenderPass(RenderState* state, Array<RenderCommand>* commands)
+    RenderPass::RenderPass(const RenderState* state, const Array<RenderCommand>* commands)
     : renderState(state), renderCommands(commands)
     {
     }

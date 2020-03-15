@@ -18,7 +18,7 @@ namespace blitz::front
     void ForwardRenderingPath::render(RenderList* renderList)
     {
         const Camera* camera = renderList->camera;
-        const ViewPort& viewPort = renderList->viewPort;
+        const ViewPort* viewPort = renderList->viewPort;
 
         Matrix4f viewMatrix = camera->calculateViewMatrix();
 

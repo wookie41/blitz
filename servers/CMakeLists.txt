@@ -1,8 +1,9 @@
+cmake_minimum_required(VERSION 3.12)
 project(blitz-servers C CXX)
 
 add_library(${PROJECT_NAME} STATIC
-    src/Shapes2D.cpp    
-    src/Sprite.cpp
+    src/Shapes2D.cpp
+    src/VisualServer2D.cpp
 )
 
 add_library(blitz::server ALIAS ${PROJECT_NAME})
@@ -16,7 +17,12 @@ set_target_properties(${PROJECT_NAME}
         LINKER_LANGUAGE CXX)
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
-target_link_libraries(${PROJECT_NAME} blitz::common)
+target_link_libraries(${PROJECT_NAME} blitz-renderer-core blitz-renderer-front blitz-scene blitz::common)
+
+if (WIN32)
+    target_include_directories(${PROJECT_NAME} PRIVATE ${GLEW_INCLUDE_DIRS})
+    target_include_directories(${PROJECT_NAME} PRIVATE ${SDL2_INCLUDE_DIR})
+endif()
 
 if(WITH_DEBUG_TOOLS)
     target_link_libraries(${PROJECT_NAME} loguru)

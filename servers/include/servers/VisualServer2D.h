@@ -4,11 +4,13 @@
 #include <blitzcommon/DataType.h>
 #include <scene/2d/Canvas.h>
 #include <blitzmemory/PoolAllocator.h>
+#include <core/RenderCommand.h>
 
 namespace blitz
 {
     struct Sprite;
     struct CanvasItem;
+    struct ViewPort;
 
     class Framebuffer;
 
@@ -28,7 +30,7 @@ namespace blitz
     class VisualServer2D
     {
       public:
-        void render(const Framebuffer* target, const ViewPort* viewPort, const front::Camera* camera, const CanvasID& canvasID) const;
+        void render(Framebuffer* target, const ViewPort* viewPort, const front::Camera* camera, const CanvasID& canvasID) const;
 
         // TODO add delete canvas method
         CanvasID createCanvas();
@@ -40,12 +42,12 @@ namespace blitz
         void attachToCanvas(CanvasID canvasID, CanvasItem* item);
         void detachFromCanvas(CanvasID canvasID, CanvasItem* item);
 
-        VisualServer2D* getInstance();
+        static VisualServer2D* getInstance();
 
       private:
         inline void initChildren(CanvasItem* canvasItem) const;
 
-        void renderSprite(const Framebuffer* target,
+        void renderSprite(Framebuffer* target,
                           const Transform2D& parentTransfrom,
                           const Sprite* sprite,
                           Array<RenderCommand>* commandsBuffer) const;
