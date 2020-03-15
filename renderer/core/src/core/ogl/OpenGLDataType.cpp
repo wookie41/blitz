@@ -18,6 +18,10 @@ namespace blitz::ogl
             return GL_DOUBLE;
         case DataType::FLOAT:
             return GL_FLOAT;
+        case DataType::VECTOR2I:
+            return GL_INT_VEC2;
+        case DataType::VECTOR2I:
+            return GL_FLOAT_VEC2;
         case DataType::VECTOR3F:
             return GL_FLOAT_VEC3;
         case DataType::VECTOR4F:
@@ -28,8 +32,8 @@ namespace blitz::ogl
             return GL_FLOAT_MAT3;
         }
 
-    	assert(0);
-    	return 0;
+        assert(0);
+        return 0;
     }
 
     DataType mapToBlitzDataType(const GLenum& dataType)
@@ -44,6 +48,8 @@ namespace blitz::ogl
             return DataType::DOUBLE;
         case GL_FLOAT:
             return DataType::FLOAT;
+        case GL_INT_VEC2:
+            return DataType::VECTOR2I;
         case GL_FLOAT_VEC3:
             return DataType::VECTOR3F;
         case GL_FLOAT_VEC4:
@@ -85,8 +91,8 @@ namespace blitz::ogl
             return 48;
         }
 
-    	assert(0);
-    	return 0;
+        assert(0);
+        return 0;
     }
 
 

@@ -15,6 +15,8 @@ namespace blitz
         UINT,
         FLOAT,
         DOUBLE,
+        VECTOR2I,
+        VECTOR2F,
         VECTOR3F,
         VECTOR4F,
         MATRIX3F,

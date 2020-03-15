@@ -19,11 +19,11 @@ namespace blitz::front
 
     struct RenderList
     {
-        ViewPort viewPort;
-        Camera* camera = nullptr;
-        Framebuffer* framebuffer = nullptr; 
-        Array<RenderCommand>* geometry = nullptr;
-        Array<Light*>* lights = nullptr;
+        const ViewPort* viewPort;
+        const Camera* camera = nullptr;
+        const Framebuffer* framebuffer = nullptr; 
+        const Array<RenderCommand>* geometry = nullptr;
+        const Array<Light*>* lights = nullptr;
     };
 
     class RenderingPath : public NonCopyable

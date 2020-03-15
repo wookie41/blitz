@@ -1,13 +1,11 @@
-project(blitz-memory C CXX)
+project(blitz-servers C CXX)
 
 add_library(${PROJECT_NAME} STATIC
-	src/Memory.cpp
-	src/OSHeapAllocator.cpp
-	src/PoolAllocator.cpp
-    src/Precompiled.cpp
+    src/Shapes2D.cpp    
+    src/Sprite.cpp
 )
 
-add_library(blitz::memory ALIAS ${PROJECT_NAME})
+add_library(blitz::server ALIAS ${PROJECT_NAME})
 
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
 set_property(TARGET ${PROJECT_NAME} PROPERTY WINDOWS_EXPORT_ALL_SYMBOLS TRUE)

@@ -11,7 +11,7 @@ namespace blitz
     {
       public:
         string() = default;
-        explicit string(char* str);
+        explicit string(const char* str);
         size_t getLength() const;
         operator char*() const;
         bool operator==(const string& rhs) const;

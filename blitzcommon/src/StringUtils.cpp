@@ -31,7 +31,7 @@ namespace blitz
         return copied;
     }
 
-    string::string(char* str) : strPtr(str)
+    string::string(const char* str) : strPtr(str)
     {
         length = strlen(str);
         strHash = hashString(strPtr);
