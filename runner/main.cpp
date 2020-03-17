@@ -10,9 +10,18 @@
 #include <platform/input/KeyboardState.h>
 #include <platform/input/MouseState.h>
 #include <platform/input/SDLInputManager.h>
+#include <resources/texture/TextureLoader.h>
+#include <servers/VisualServer2D.h>
+#include <scene/2d/Sprite.h>
 
-extern blitz::Device* BLITZ_DEVICE;
-extern blitz::Renderer* BLITZ_RENDERER;
+
+namespace blitz
+{
+    extern Device* BLITZ_DEVICE;
+    extern Renderer* BLITZ_RENDERER;
+
+    void init2DShapes(Context* context);
+} // namespace blitz
 
 constexpr const auto TIME_PER_FRAME = 1.f / 60.f;
 
@@ -21,7 +30,10 @@ int wmain(int argc, char** argv)
     blitz::Logger::init(argc, argv);
 
     auto windowDef = blitz::WindowDef{ 0, 0, 800, 600, "test" };
-    auto window = BLITZ_DEVICE->createWindow(windowDef);
+    auto window = blitz::BLITZ_DEVICE->createWindow(windowDef);
+
+    blitz::init2DShapes(&window->getContext());
+
     window->show();
 
     window->setClearColor({ 0.5f, 0.0f, 0.5f, 1.0f });
@@ -32,11 +44,24 @@ int wmain(int argc, char** argv)
     blitz::platform::SDLEventPooler pooler{ &inputManager };
 
     blitz::front::Camera camera{ { 0, 0, 1 }, { 0, 0, -1 }, { 0, 1, 0 }, 75.f };
-    camera.setProjection(blitz::Projection::PERSPECTIVE);
+    camera.setProjection(blitz::Projection::ORTHOGRAPHIC);
 
-    blitz::front::TestRenderer testRenderer{ window, &camera, {0, 0, 800, 800, .1f, 100.f} };
+    blitz::ViewPort viewPort{ 0, 0, 800, 800, .1f, 100.f };
 
-    blitz::front::ForwardRenderingPath renderingPath{ BLITZ_RENDERER, testRenderer.getShader() };
+    char textureLocation[] = "container.jpg";
+    blitz::Texture* spriteTex = blitz::loadTexture({ nullptr, textureLocation });
+
+    blitz::VisualServer2D* visualServer2D = blitz::VisualServer2D::getInstance();
+    blitz::CanvasID canvasID = visualServer2D->createCanvas();
+    blitz::Sprite* sprite = visualServer2D->createSprite();
+
+    sprite->texture = spriteTex;
+    sprite->texRegionSize = { spriteTex->getSize().x/4, spriteTex->getSize().y/4 };
+    sprite->texRegionIndex = { 1, 1 };
+    sprite->spriteSize = { 64, 54 };
+    sprite->transform.translate = { 400,  300 };
+
+    visualServer2D->attachToCanvas(canvasID, sprite);
 
     float deltaTime = 0;
     unsigned int lastUpdateTime = SDL_GetTicks();
@@ -89,7 +114,7 @@ int wmain(int argc, char** argv)
         window->clearDepth();
         window->clearColor();
 
-        renderingPath.render(testRenderer.getTestRenderList());
+        visualServer2D->render(window->getFramebuffer(), &viewPort, &camera, canvasID);
 
         window->swapBuffers();
     }

@@ -12,7 +12,7 @@ namespace blitz::ogl
 {
     OpenGLContext::OpenGLContext() : Context::Context() { bufferFiller = new OpenGLBufferFiller(this); }
 
-    OpenGLContext::~OpenGLContext() { delete (bufferFiller); }
+    OpenGLContext::~OpenGLContext() { delete bufferFiller; }
 
     Buffer* OpenGLContext::createBuffer(const BufferSpec& bufferSpec)
     {

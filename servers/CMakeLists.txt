@@ -17,7 +17,7 @@ set_target_properties(${PROJECT_NAME}
         LINKER_LANGUAGE CXX)
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
-target_link_libraries(${PROJECT_NAME} blitz-renderer-core blitz-renderer-front blitz-scene blitz::common)
+target_link_libraries(${PROJECT_NAME} blitz-renderer-core blitz-renderer-front blitz-scene blitz-platform blitz::common)
 
 if (WIN32)
     target_include_directories(${PROJECT_NAME} PRIVATE ${GLEW_INCLUDE_DIRS})

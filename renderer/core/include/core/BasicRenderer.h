@@ -19,6 +19,9 @@ namespace blitz
 
         template <typename T>
         void updateUniform(Shader* shader, const hash& uniformNameHash, void* value);
+        
+        template <typename T>
+        void updatePtrUniform(Shader* shader, const hash& uniformNameHash, void* value);
 
         std::mutex mx;
         std::deque<RenderPass*> renderPasses;

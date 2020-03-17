@@ -31,11 +31,11 @@ namespace blitz
 
             quadVertexArray = context->createVertexArray(2);
 
-            quadVertexArray->addAttribute({ vertexBuffer, blitz::string(POSITION_ATTR_NAME), blitz::DataType::FLOAT, 3,
-                                            false, 5 * sizeof(float), 0, 0 });
+            quadVertexArray->addAttribute({ vertexBuffer, blitz::string(POSITION_ATTR_NAME), blitz::DataType::FLOAT, 2,
+                                            false, 4 * sizeof(float), 0, 0 });
 
             quadVertexArray->addAttribute({ vertexBuffer, blitz::string(TEXTURE_COORDS_ATTR_NAME),
-                                            blitz::DataType::FLOAT, 2, false, 5 * sizeof(float), 3 * sizeof(float), 0 });
+                                            blitz::DataType::FLOAT, 2, false, 4 * sizeof(float), 2 * sizeof(float), 0 });
         }
     }
 } // namespace blitz::shapes2d

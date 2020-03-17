@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.12)
 project (blitz-platform)
 
 add_library(${PROJECT_NAME} STATIC
+        src/fs/FileSystem.cpp
         src/event/SDLEventPooler.cpp 
         src/input/SDLInputManager.cpp)
 

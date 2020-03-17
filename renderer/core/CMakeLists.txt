@@ -23,6 +23,9 @@ add_library(${PROJECT_NAME} STATIC
         src/core/ogl/uniforms/OpenGLIntegerUniformVariable.cpp
         src/core/ogl/uniforms/OpenGLFloatUniformVariable.cpp
         src/core/ogl/uniforms/OpenGLDoubleUniformVariable.cpp
+        src/core/ogl/uniforms/OpenGLVec2iUniformVariable.cpp
+        src/core/ogl/uniforms/OpenGLVec3iUniformVariable.cpp
+        src/core/ogl/uniforms/OpenGLVec2UniformVariable.cpp
         src/core/ogl/uniforms/OpenGLVec3UniformVariable.cpp
         src/core/ogl/uniforms/OpenGLVec4UniformVariable.cpp
         src/core/ogl/uniforms/OpenGLMat3UniformVariable.cpp

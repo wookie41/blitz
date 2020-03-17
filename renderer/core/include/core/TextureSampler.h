@@ -4,6 +4,8 @@
 
 namespace blitz
 {
+    class Texture;
+
     enum class TextureWrap
     {
         REPEAT_CLAMP_TO_EDGE,
@@ -20,8 +22,6 @@ namespace blitz
         LINEAR_MIPMAP_NEAREST,
         LINEAR_MIPMAP_LINEAR,
     };
-
-    class Texture;
 
     class TextureSampler : NonCopyable
     {

@@ -1,6 +1,6 @@
-#include <core/Texture.h>
 #include <core/ogl/texture/OpenGLTextureSampler.h>
 #include <core/ogl/texture/OpenGLTextureUtils.h>
+#include <core/Texture.h>
 
 namespace blitz::ogl
 {
