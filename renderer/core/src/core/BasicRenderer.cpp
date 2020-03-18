@@ -52,7 +52,6 @@ namespace blitz
             RenderCommand* renderCommand = renderPass->getNextCommand();
             while (renderCommand != nullptr)
             {
-
                 renderCommand->vertexArray->bind();
                 // TODO this doesn't have to happen every time
                 // ideally we would like to have vertex attributes description

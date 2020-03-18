@@ -16,8 +16,8 @@ namespace blitz::memory
     void* PoolAllocator::memalloc(std::size_t count)
     {
         assert(count + allocated < poolSize);
-        void* mem = pool;
-        pool += count;
+        void* mem = pool + allocated;
+        allocated += count;
         return mem;
     };
 

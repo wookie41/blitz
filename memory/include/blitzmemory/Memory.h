@@ -1,8 +1,12 @@
 #pragma once
 
 #include <blitzmemory/Precompiled.h>
+#include <blitzmemory/OSHeapAllocator.h>
 
 namespace blitz::memory
 {
-    void resetAllocator();
-}
+    class Allocator;
+
+    void setThreadAllocator(Allocator* alloc);
+    void resetThreadAllocator();
+} // namespace blitz::memory

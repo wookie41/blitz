@@ -10,18 +10,13 @@
 #include <front/ForwardRenderingPath.h>
 #include <platform/fs/FileSystem.h>
 #include <core/Texture.h>
+#include <blitzmemory/Memory.h>
 
 namespace blitz
 {
     extern VertexArray* quadVertexArray;
     extern Renderer* BLITZ_RENDERER;
     extern Device* BLITZ_DEVICE;
-
-    namespace memory
-    {
-        extern Allocator* allocator;
-        void resetAllocator();
-    } // namespace memory
 
     static const uint8 MAX_CANVAS_COUNT = 5;
 
@@ -31,11 +26,11 @@ namespace blitz
 
     VisualServer2D::VisualServer2D(uint8 numCanvases)
     {
-        memory::resetAllocator();
+        memory::resetThreadAllocator();
 
         canvases = new Array<Canvas>(numCanvases);
 
-        renderFramePool = new memory::PoolAllocator(4096);
+        renderFramePool = new memory::PoolAllocator(8192);
         renderFramePool->init();
 
         // TODO use custom allocator
@@ -121,7 +116,8 @@ namespace blitz
 
     void VisualServer2D::render(Framebuffer* target, const ViewPort* viewPort, const front::Camera* camera, const CanvasID& canvasID) const
     {
-        memory::allocator = renderFramePool;
+        renderFramePool->reset();
+        memory::setThreadAllocator(renderFramePool);
 
         assert(canvasID < canvases->getSize());
 
@@ -151,7 +147,7 @@ namespace blitz
 
         renderingPath->render(renderList);
 
-        memory::resetAllocator();
+        memory::resetThreadAllocator();
     }
 
     void VisualServer2D::renderSprite(Framebuffer* target,
