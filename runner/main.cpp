@@ -1,6 +1,6 @@
 #include <GL/glew.h>
 #include <SDL2/SDL.h>
-#include <TestRenderer.h>
+#include <core/Texture.h>
 #include <core/Device.h>
 #include <core/Logger.h>
 #include <core/Renderer.h>
@@ -48,24 +48,30 @@ int wmain(int argc, char** argv)
 
     blitz::ViewPort viewPort{ 0, 0, 800, 800, .1f, 100.f };
 
-    char textureLocation[] = "container.jpg";
-    blitz::Texture* spriteTex = blitz::loadTexture({ nullptr, textureLocation });
+    char runSpriteSheetPath[] = "sprite.png";
+    blitz::Texture* runSpriteSheetTexture = blitz::loadTexture({ nullptr, runSpriteSheetPath });
 
     blitz::VisualServer2D* visualServer2D = blitz::VisualServer2D::getInstance();
     blitz::CanvasID canvasID = visualServer2D->createCanvas();
-    blitz::Sprite* sprite = visualServer2D->createSprite();
+    blitz::Sprite* runSprite = visualServer2D->createSprite();
 
-    sprite->texture = spriteTex;
-    sprite->texRegionSize = { spriteTex->getSize().x/4, spriteTex->getSize().y/4 };
-    sprite->texRegionIndex = { 1, 1 };
-    sprite->spriteSize = { 64, 54 };
-    sprite->transform.translate = { 400,  300 };
+    int spriteColCount = 8;
+    int spriteRowCount = 1;
 
-    visualServer2D->attachToCanvas(canvasID, sprite);
+    runSprite->texture = runSpriteSheetTexture;
+    runSprite->texRegionSize = { runSpriteSheetTexture->getSize().x / spriteColCount, runSpriteSheetTexture->getSize().y / 2 };
+    runSprite->texRegionIndex = { 0, 0 };
+    runSprite->spriteSize = runSprite->texRegionSize;
+    runSprite->transform.translate = { 0, 0 };
+
+    visualServer2D->attachToCanvas(canvasID, runSprite);
 
     float deltaTime = 0;
     unsigned int lastUpdateTime = SDL_GetTicks();
     unsigned int currentFrameTime;
+
+    float spriteAcculTime = 0.f;
+    float timePerSprite = 0.085f;
 
     bool isRunning = true;
     while (isRunning)
@@ -78,7 +84,30 @@ int wmain(int argc, char** argv)
 
         while (deltaTime > TIME_PER_FRAME)
         {
+            runSprite->transform.translate.x += 60.f * deltaTime;
+
             deltaTime -= TIME_PER_FRAME;
+
+            spriteAcculTime += TIME_PER_FRAME;
+            if (spriteAcculTime > timePerSprite)
+            {
+                spriteAcculTime = 0;
+
+                if (++runSprite->texRegionIndex.x < spriteColCount)
+                {
+                    continue;
+                }
+
+                runSprite->texRegionIndex.x = 0;
+
+                if (++runSprite->texRegionIndex.y < spriteRowCount)
+                {
+                    continue;
+                }
+
+                runSprite->texRegionIndex.y = 0;
+            }
+
 
             if (blitz::platform::isDown(inputManager.getKeyboardState(), blitz::platform::KEY_ESCAPE))
             {

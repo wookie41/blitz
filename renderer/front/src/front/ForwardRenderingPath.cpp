@@ -33,7 +33,7 @@ namespace blitz::front
         renderPassWideUniform.add({ DataType::MATRIX4F, projectionMatrixUniformName, &projectionMatrix });
 
         RenderState renderState{
-            viewPort, camera->getProjection(), true, false, shader, renderList->framebuffer, &renderPassWideUniform
+            viewPort, camera->getProjection(), true, false, true, shader, renderList->framebuffer, &renderPassWideUniform
         };
         BasicRenderPass forwardRenderPass{ &renderState, renderList->geometry };
 

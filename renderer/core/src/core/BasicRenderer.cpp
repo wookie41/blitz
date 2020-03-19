@@ -28,6 +28,7 @@ namespace blitz
 
             setDepthTest(renderState->enableDepthTest);
             setStencilTest(renderState->enableStencilTest);
+            setBlendTest(renderState->enableBlendTest);
 
             Shader* shader = renderState->shader;
             Framebuffer* framebuffer = renderState->framebuffer;

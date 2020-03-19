@@ -28,6 +28,8 @@ namespace blitz
         Projection projection;
         bool enableDepthTest;
         bool enableStencilTest;
+        bool enableBlendTest;
+        //TODO alpha test function
         Shader* shader;
         Framebuffer* framebuffer;
         Array<UniformState>* renderPassWideUniforms;

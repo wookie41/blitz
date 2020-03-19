@@ -38,6 +38,7 @@ namespace blitz
         DLOG_F(INFO, "GLEW initialized!");
         DLOG_F(INFO, "SDL2Device initialized!");
 
+
         delete tmpWindow;
     }
 
@@ -46,7 +47,7 @@ namespace blitz
         auto sdlWindow = createSDLWindow(windowDef);
         auto context = SDL_GL_CreateContext(sdlWindow);
 
-        if(context == nullptr)
+        if (context == nullptr)
         {
             DLOG_F(ERROR, "Failed to create context: %s", SDL_GetError());
             exit(RendererErrorCode::SDL2DEVICE_CONTEXT_CREATION_ERROR);
@@ -70,12 +71,11 @@ namespace blitz
 
     SDL2Device::~SDL2Device() { SDL_Quit(); }
 
-    SDL_Window *SDL2Device::createSDLWindow(const WindowDef &windowDef) const
+    SDL_Window* SDL2Device::createSDLWindow(const WindowDef& windowDef) const
     {
-        auto window = SDL_CreateWindow(windowDef.title, windowDef.x, windowDef.y,
-                                       windowDef.width, windowDef.height,
-                                       SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI );
-        if(window == nullptr)
+        auto window = SDL_CreateWindow(windowDef.title, windowDef.x, windowDef.y, windowDef.width, windowDef.height,
+                                       SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
+        if (window == nullptr)
         {
             DLOG_F(ERROR, "Failed to create window: %s", SDL_GetError());
             exit(RendererErrorCode::SDL2DEVICE_WINDOW_CREATION_ERROR);
