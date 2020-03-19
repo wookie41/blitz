@@ -7,11 +7,11 @@
 #include <loguru.hpp>
 #include <stb/stb_image.h>
 
-extern blitz::Device* BLITZ_DEVICE;
-
 namespace blitz
 {
-    Texture* TextureLoader::loadTexture(const ResourceLocation& resourceLocation)
+    extern Device* BLITZ_DEVICE;
+
+    Texture* loadTexture(const ResourceLocation& resourceLocation)
     {
         unsigned char* textureData = nullptr;
         int width, height, numOfChannels;
@@ -26,7 +26,7 @@ namespace blitz
         {
             DLOG_F(INFO, "Loading a texture from file %s", resourceLocation.pathToFile);
 
-            textureData = stbi_load(resourceLocation.pathToFile, &width, &height, &numOfChannels, 0);
+            textureData = stbi_load(resourceLocation.pathToFile, &width, &height, &numOfChannels, 4);
         }
 
         assert(textureData != nullptr);

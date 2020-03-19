@@ -24,10 +24,12 @@ namespace blitz
 
     struct RenderState
     {
-        ViewPort viewPort;
+        const ViewPort* viewPort;
         Projection projection;
         bool enableDepthTest;
         bool enableStencilTest;
+        bool enableBlendTest;
+        //TODO alpha test function
         Shader* shader;
         Framebuffer* framebuffer;
         Array<UniformState>* renderPassWideUniforms;

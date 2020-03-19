@@ -10,7 +10,7 @@ namespace blitz
     struct VertexAttributeDef
     {
         Buffer* buffer;
-        char* name;
+        blitz::string name;
         DataType dataType;
         uint32 size;
         bool normalize;

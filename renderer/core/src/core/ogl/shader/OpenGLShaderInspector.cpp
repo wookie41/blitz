@@ -11,6 +11,9 @@
 #include <core/ogl/uniforms/OpenGLMat3UniformVariable.h>
 #include <core/ogl/uniforms/OpenGLMat4UniformVariable.h>
 #include <core/ogl/uniforms/OpenGLSamplerUniformVariable.h>
+#include <core/ogl/uniforms/OpenGLVec2iUniformVariable.h>
+#include <core/ogl/uniforms/OpenGLVec3iUniformVariable.h>
+#include <core/ogl/uniforms/OpenGLVec2UniformVariable.h>
 #include <core/ogl/uniforms/OpenGLVec3UniformVariable.h>
 #include <core/ogl/uniforms/OpenGLVec4UniformVariable.h>
 
@@ -72,6 +75,15 @@ namespace blitz::ogl
                 break;
             case GL_DOUBLE:
                 uniforms->add(new OpenGLDoubleUniformVariable(variableLocation, 0, name));
+                break;
+            case GL_INT_VEC2:
+                uniforms->add(new OpenGLVec2iUniformVariable(variableLocation, {}, name));
+                break;
+            case GL_INT_VEC3:
+                uniforms->add(new OpenGLVec3iUniformVariable(variableLocation, {}, name));
+                break;
+            case GL_FLOAT_VEC2:
+                uniforms->add(new OpenGLVec2UniformVariable(variableLocation, {}, name));
                 break;
             case GL_FLOAT_VEC3:
                 uniforms->add(new OpenGLVec3UniformVariable(variableLocation, {}, name));

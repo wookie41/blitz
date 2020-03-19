@@ -24,10 +24,11 @@ namespace blitz
             renderPasses.pop_front();
 
             const RenderState* renderState = renderPass->getRenderState();
-            setViewPort(&renderState->viewPort);
+            setViewPort(renderState->viewPort);
 
             setDepthTest(renderState->enableDepthTest);
             setStencilTest(renderState->enableStencilTest);
+            setBlendTest(renderState->enableBlendTest);
 
             Shader* shader = renderState->shader;
             Framebuffer* framebuffer = renderState->framebuffer;
@@ -52,7 +53,6 @@ namespace blitz
             RenderCommand* renderCommand = renderPass->getNextCommand();
             while (renderCommand != nullptr)
             {
-
                 renderCommand->vertexArray->bind();
                 // TODO this doesn't have to happen every time
                 // ideally we would like to have vertex attributes description
@@ -102,6 +102,15 @@ namespace blitz
             case DataType::DOUBLE:
                 updateUniform<double>(shader, uniformState->uniformNameHash, uniformState->value);
                 break;
+            case DataType::VECTOR2I:
+                updateUniform<Vector2i>(shader, uniformState->uniformNameHash, uniformState->value);
+                break;
+            case DataType::VECTOR3I:
+                updateUniform<Vector3i>(shader, uniformState->uniformNameHash, uniformState->value);
+                break;
+            case DataType::VECTOR2F:
+                updateUniform<Vector2f>(shader, uniformState->uniformNameHash, uniformState->value);
+                break;
             case DataType::VECTOR3F:
                 updateUniform<Vector3f>(shader, uniformState->uniformNameHash, uniformState->value);
                 break;
@@ -117,7 +126,7 @@ namespace blitz
             case DataType::SAMPLER1D:
             case DataType::SAMPLER2D:
             case DataType::SAMPLER3D:
-                updateUniform<TextureSampler*>(shader, uniformState->uniformNameHash, uniformState->value);
+                updatePtrUniform<TextureSampler>(shader, uniformState->uniformNameHash, uniformState->value);
                 break;
                 // TODO Add more
             default:
@@ -129,11 +138,21 @@ namespace blitz
     template <typename T>
     void BasicRenderer::updateUniform(Shader* shader, const hash& uniformNameHash, void* value)
     {
-        T* castedValue = (T*)(value);
         UniformVariable<T>* uniformVariable = shader->getUniformVariable<T>(uniformNameHash);
         if (uniformVariable != nullptr)
         {
-            *uniformVariable = *castedValue;
+            *uniformVariable = *(T*)(value);
         }
     }
+
+    template <typename T>
+    void BasicRenderer::updatePtrUniform(Shader* shader, const hash& uniformNameHash, void* value)
+    {
+        UniformVariable<T*>* uniformVariable = shader->getUniformVariable<T*>(uniformNameHash);
+        if (uniformVariable != nullptr)
+        {
+            *uniformVariable = (T*)(value);
+        }
+    }
+
 } // namespace blitz

@@ -1,7 +1,9 @@
 project(blitz-memory C CXX)
 
-add_library(${PROJECT_NAME} SHARED
-	src/Heap.cpp
+add_library(${PROJECT_NAME} STATIC
+	src/Memory.cpp
+	src/OSHeapAllocator.cpp
+	src/PoolAllocator.cpp
     src/Precompiled.cpp
 )
 

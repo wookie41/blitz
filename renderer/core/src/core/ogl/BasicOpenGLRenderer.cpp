@@ -7,6 +7,7 @@ namespace blitz::ogl
     void BasicOpenGLRenderer::run(RenderCommand* renderCommand)
     {
         GLenum glPrimitiveType = mapToGLType(renderCommand->primitiveType);
+
         switch (renderCommand->drawMode)
         {
         case DrawMode::NORMAL:
@@ -80,6 +81,19 @@ namespace blitz::ogl
         else
         {
             glDisable(GL_STENCIL_TEST);
+        }
+    }
+
+    void BasicOpenGLRenderer::setBlendTest(const bool& enabled)
+    {
+        if (enabled)
+        {
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        }
+        else
+        {
+            glDisable(GL_BLEND);
         }
     }
 } // namespace blitz::ogl

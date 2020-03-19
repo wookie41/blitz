@@ -130,10 +130,10 @@ namespace blitz
 
             auto vertexArray = context.createVertexArray(2);
             vertexArray->addAttribute(
-            { vertexBuffer, copyStr(POSITION), blitz::DataType::FLOAT, 3, false, 8 * sizeof(float), 0, 0 });
+            { vertexBuffer, blitz::string(POSITION), blitz::DataType::FLOAT, 3, false, 8 * sizeof(float), 0, 0 });
             // vertexArray->addAttribute(
             //{ vertexBuffer, NORMALS, blitz::DataType::FLOAT, 3, false, 8 * sizeof(float), 3 * sizeof(float), 0 });
-            vertexArray->addAttribute({ vertexBuffer, copyStr(TEXTURE_COORDS), blitz::DataType::FLOAT, 2, false,
+            vertexArray->addAttribute({ vertexBuffer, blitz::string(TEXTURE_COORDS), blitz::DataType::FLOAT, 2, false,
                                         8 * sizeof(float), 6 * sizeof(float), 0 });
 
             delete[] vertexData;
@@ -191,7 +191,7 @@ namespace blitz
         // The thing that will be loading the models before each level (or something similar)
         // will have to unload the resources and delete the textures
 
-        auto texture = textureLoader->loadTexture(textureLocation);
+        auto texture = loadTexture(textureLocation);
         delete[] materialTexturePath;
 
         return BLITZ_DEVICE->createSampler(texture);

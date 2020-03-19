@@ -30,6 +30,8 @@ namespace blitz
 
         virtual uint64 getSizeInBytes() = 0;
 
+        const Vector3i& getSize() const;
+
         virtual ~Texture() = default;
 
         const TextureType& getTextureType() const;
@@ -39,5 +41,6 @@ namespace blitz
 
         TextureSpec textureSpec;
         Range3 fullTextureRange;
+        Vector3i texSize;
     };
 } // namespace blitz

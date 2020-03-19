@@ -6,12 +6,6 @@ namespace blitz
 {
     class Texture;
 
-    class TextureLoader
-    {
-      public:
-      
-        Texture* loadTexture(const ResourceLocation& location);
+    Texture* loadTexture(const ResourceLocation& location);
 
-        ~TextureLoader() = default;
-    };
 } // namespace blitz

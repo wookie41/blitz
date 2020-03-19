@@ -22,5 +22,6 @@ namespace blitz
         virtual void setViewPort(const ViewPort* viewPort) = 0;
         virtual void setStencilTest(const bool& enabled) = 0;
         virtual void setDepthTest(const bool& enabled) = 0;
+        virtual void setBlendTest(const bool& enabled) = 0;
     };
 }

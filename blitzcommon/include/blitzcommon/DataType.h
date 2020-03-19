@@ -15,6 +15,9 @@ namespace blitz
         UINT,
         FLOAT,
         DOUBLE,
+        VECTOR2I,
+        VECTOR3I,
+        VECTOR2F,
         VECTOR3F,
         VECTOR4F,
         MATRIX3F,
@@ -35,7 +38,7 @@ namespace blitz
     using uint64 = std::uint64_t;
     using decimal = float;
     using size_t = std::size_t;
-    using Vector2f = mathfu::vec3;
+    using Vector2f = mathfu::vec2;
     using Vector2i = mathfu::vec2i;
     using Vector3f = mathfu::vec3;
     using Vector4f = mathfu::vec4;
