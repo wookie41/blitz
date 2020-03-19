@@ -26,7 +26,7 @@ namespace blitz::front
 
         // TODO this changes only when viewPort changes, we should use this fact
         auto projectionMatrix = calculateProjectionMatrix(viewPort, camera->getProjection(), camera->getFieldOfView());
-
+        
         Array<UniformState> renderPassWideUniform(3);
         renderPassWideUniform.add({ DataType::VECTOR2I, viewPortSizeUniformName, &viewPortSize });
         renderPassWideUniform.add({ DataType::MATRIX4F, viewMatrixUniformName, &viewMatrix });

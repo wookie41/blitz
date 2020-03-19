@@ -117,27 +117,26 @@ int wmain(int argc, char** argv)
 
             if (blitz::platform::isDown(inputManager.getKeyboardState(), blitz::platform::KEY_W))
             {
-                camera.move(camera.getDirection() * TIME_PER_FRAME * 10);
+                camera.move({ 0.f, 300.f * TIME_PER_FRAME, 0.f });
             }
 
             if (blitz::platform::isDown(inputManager.getKeyboardState(), blitz::platform::KEY_S))
             {
-                camera.move(-camera.getDirection() * TIME_PER_FRAME * 10);
+                camera.move({ 0.f, -300.f * TIME_PER_FRAME, 0.f });
             }
 
             if (blitz::platform::isDown(inputManager.getKeyboardState(), blitz::platform::KEY_A))
             {
-                camera.move(-camera.calculateRightVector() * TIME_PER_FRAME * 10);
+                camera.move({ -300.f * TIME_PER_FRAME, 0.f, 0.f });
             }
 
             if (blitz::platform::isDown(inputManager.getKeyboardState(), blitz::platform::KEY_D))
             {
-                camera.move(camera.calculateRightVector() * TIME_PER_FRAME * 10);
+                camera.move({ 300.f * TIME_PER_FRAME, 0.f, 0.f });
             }
 
-
-            const blitz::platform::MouseState* mouseState = inputManager.getMouseState();
-            camera.rotate({ mouseState->relativePos.x * .05f, mouseState->relativePos.y * -.05f, 0 });
+            // const blitz::platform::MouseState* mouseState = inputManager.getMouseState();
+            // camera.rotate({ mouseState->relativePos.x * .05f, mouseState->relativePos.y * -.05f, 0 });
         }
 
         window->clearDepth();
