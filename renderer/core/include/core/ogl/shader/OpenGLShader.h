@@ -18,11 +18,7 @@ namespace blitz::ogl
         void setup() override;
 
       private:
-        OpenGLShader(const blitz::string& name,
-                     const GLuint& id,
-                     Array<IUniformVariable*>* uniforms,
-                     Array<UniformBlock>* uniformBlocks,
-                     Array<ShaderOutput>* outputs);
+        OpenGLShader(const GLuint& id, Array<IUniformVariable*>* uniforms, Array<UniformBlock>* uniformBlocks, Array<ShaderOutput>* outputs);
 
         const GLuint shaderID;
     };

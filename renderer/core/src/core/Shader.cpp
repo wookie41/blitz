@@ -5,8 +5,8 @@
 
 namespace blitz
 {
-    Shader::Shader(const blitz::string& name, Array<IUniformVariable*>* uniforms, Array<UniformBlock>* uniformBlocks, Array<ShaderOutput>* outputs)
-    : shaderName(name), uniformVariables(uniforms), uniformBlocks(uniformBlocks), shaderOutputs(outputs)
+    Shader::Shader(Array<IUniformVariable*>* uniforms, Array<UniformBlock>* uniformBlocks, Array<ShaderOutput>* outputs)
+    : uniformVariables(uniforms), uniformBlocks(uniformBlocks), shaderOutputs(outputs)
     {
     }
 

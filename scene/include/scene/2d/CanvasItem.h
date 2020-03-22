@@ -1,6 +1,7 @@
 #pragma once
 
 #include <scene/2d/Transform2D.h>
+#include <front/Material.h>
 
 namespace blitz
 {
@@ -14,7 +15,7 @@ namespace blitz
 
     struct CanvasChild
     {
-        CanvasItem* child  = nullptr;
+        CanvasItem* child = nullptr;
         CanvasChild* next = nullptr;
     };
 
@@ -23,9 +24,10 @@ namespace blitz
         Transform2D transform;
         bool isVisible;
         CanvasItem* parent;
-        CanvasChild* children; //linked list
+        CanvasChild* children; // linked list
         CanvasChild* childrenTail = nullptr;
+        Material* material;
 
-        inline virtual const CanvasItemType& getType() const = 0;
+        inline virtual const CanvasItemType getType() const = 0;
     };
-}
+} // namespace blitz

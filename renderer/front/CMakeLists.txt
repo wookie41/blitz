@@ -5,7 +5,8 @@ add_library(${PROJECT_NAME} STATIC
     src/front/Precompiled.cpp
     src/front/RenderingPath.cpp
     src/front/ForwardRenderingPath.cpp
-	src/front/ModelRenderer.cpp)
+    src/front/ModelRenderer.cpp
+    src/front/ShadersManager.cpp)
 
 set_target_properties(${PROJECT_NAME}
         PROPERTIES
@@ -22,7 +23,8 @@ endif()
 
 target_link_libraries(${PROJECT_NAME}
     blitz::common
-	blitz-renderer-core
+    blitz::platform
+    blitz-renderer-core
 )
 
 if (WIN32)

@@ -11,10 +11,7 @@ namespace blitz::front
     const auto viewMatrixUniformName = hashString("_bView");
     const auto projectionMatrixUniformName = hashString("_bProjection");
 
-    ForwardRenderingPath::ForwardRenderingPath(Renderer* renderer, Shader* shaderToUse)
-    : RenderingPath(renderer), shader(shaderToUse)
-    {
-    }
+    ForwardRenderingPath::ForwardRenderingPath(Renderer* renderer) : RenderingPath(renderer) {}
 
     void ForwardRenderingPath::render(RenderList* renderList)
     {
@@ -26,14 +23,14 @@ namespace blitz::front
 
         // TODO this changes only when viewPort changes, we should use this fact
         auto projectionMatrix = calculateProjectionMatrix(viewPort, camera->getProjection(), camera->getFieldOfView());
-        
+
         Array<UniformState> renderPassWideUniform(3);
         renderPassWideUniform.add({ DataType::VECTOR2I, viewPortSizeUniformName, &viewPortSize });
         renderPassWideUniform.add({ DataType::MATRIX4F, viewMatrixUniformName, &viewMatrix });
         renderPassWideUniform.add({ DataType::MATRIX4F, projectionMatrixUniformName, &projectionMatrix });
 
         RenderState renderState{
-            viewPort, camera->getProjection(), true, false, true, shader, renderList->framebuffer, &renderPassWideUniform
+            viewPort, camera->getProjection(), true, false, true, renderList->framebuffer, &renderPassWideUniform
         };
         BasicRenderPass forwardRenderPass{ &renderState, renderList->geometry };
 

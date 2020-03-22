@@ -13,7 +13,8 @@
 #include <resources/texture/TextureLoader.h>
 #include <servers/VisualServer2D.h>
 #include <scene/2d/Sprite.h>
-
+#include <front/ShadersManager.h>
+#include <front/Material.h>
 
 namespace blitz
 {
@@ -25,12 +26,26 @@ namespace blitz
 
 constexpr const auto TIME_PER_FRAME = 1.f / 60.f;
 
-int wmain(int argc, char** argv)
+static char DEFAULT_2D_SHADER_NAME[] = "default2Dshader";
+static char DEFAULT_2D_VERTEX_SHADER_PATH[] = "shaders/default2dVert.glsl";
+static char DEFAULT_2D_FRAGMENT_SHADER_PATH[] = "shaders/default2dFrag.glsl";
+
+int main(int argc, char** argv)
 {
     blitz::Logger::init(argc, argv);
 
     auto windowDef = blitz::WindowDef{ 0, 0, 800, 600, "test" };
     auto window = blitz::BLITZ_DEVICE->createWindow(windowDef);
+
+
+    blitz::front::ShadersManager shadersManager;
+
+    blitz::hash default2DShaderName = blitz::hashString(DEFAULT_2D_SHADER_NAME);
+    blitz::front::ShadersPaths default2DShaderPaths{ blitz::string(DEFAULT_2D_VERTEX_SHADER_PATH), blitz::string(""),
+                                                     blitz::string(DEFAULT_2D_FRAGMENT_SHADER_PATH) };
+
+    blitz::Shader* default2DShader = shadersManager.createShader(default2DShaderName, default2DShaderPaths);
+
 
     blitz::init2DShapes(&window->getContext());
 
@@ -63,7 +78,8 @@ int wmain(int argc, char** argv)
     runSprite->texRegionIndex = { 0, 0 };
     runSprite->spriteSize = runSprite->texRegionSize;
     runSprite->transform.translate = { 0, 0 };
-
+    runSprite->material = new blitz::Material;
+    runSprite->material->shader = default2DShader;
     visualServer2D->attachToCanvas(canvasID, runSprite);
 
     float deltaTime = 0;

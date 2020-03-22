@@ -19,7 +19,6 @@ namespace blitz
         PERSPECTIVE
     };
 
-    class Shader;
     class Framebuffer;
 
     struct RenderState
@@ -29,8 +28,7 @@ namespace blitz
         bool enableDepthTest;
         bool enableStencilTest;
         bool enableBlendTest;
-        //TODO alpha test function
-        Shader* shader;
+        // TODO alpha test function
         Framebuffer* framebuffer;
         Array<UniformState>* renderPassWideUniforms;
     };

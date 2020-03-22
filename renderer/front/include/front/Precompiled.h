@@ -8,5 +8,7 @@
 #include <blitzcommon/DataType.h>
 #include <blitzcommon/NonCopyable.h>
 #include <blitzcommon/Math.h>
+#include <blitzcommon/Collections.h>
+#include <blitzcommon/StringUtils.h>
 
-#endif //BLITZ_FRONT_PRECOMPILED_H
+#endif // BLITZ_FRONT_PRECOMPILED_H

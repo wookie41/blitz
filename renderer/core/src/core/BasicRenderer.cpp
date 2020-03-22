@@ -30,7 +30,6 @@ namespace blitz
             setStencilTest(renderState->enableStencilTest);
             setBlendTest(renderState->enableBlendTest);
 
-            Shader* shader = renderState->shader;
             Framebuffer* framebuffer = renderState->framebuffer;
 
             if (framebuffer != lastFramebuffer)
@@ -39,21 +38,23 @@ namespace blitz
                 lastFramebuffer = framebuffer;
             }
 
-            if (lastShader != shader)
-            {
-                if (lastShader != nullptr)
-                    lastShader->disable();
-
-                lastShader = shader;
-                shader->use();
-            }
-
-            updateUniforms(shader, renderState->renderPassWideUniforms);
-
+            Shader* lastShader = nullptr;
             RenderCommand* renderCommand = renderPass->getNextCommand();
             while (renderCommand != nullptr)
             {
+                Shader* shader = renderCommand->shader;
+                if (shader != lastShader)
+                {
+                    if (lastShader != nullptr)
+                        lastShader->disable();
+
+                    lastShader = shader;
+                    shader->use();
+                    updateUniforms(shader, renderState->renderPassWideUniforms);
+                }
+
                 renderCommand->vertexArray->bind();
+
                 // TODO this doesn't have to happen every time
                 // ideally we would like to have vertex attributes description
                 // that can be compared here and allow to determine wether the layout changed
