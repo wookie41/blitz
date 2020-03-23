@@ -60,7 +60,6 @@ namespace blitz
     Array<T>::Array(const uint32& arrCapacity)
     {
         array = new T[arrCapacity];
-        bzero(array, sizeof(T) * arrCapacity);
         size = 0;
         capacity = arrCapacity;
     }
@@ -71,7 +70,6 @@ namespace blitz
         size_t newSize = size * growFactor;
         T* newArray = new T[newSize];
         memcpy(newArray, array, sizeof(T) * size);
-        bzero(newArray + (size * sizeof(T)), sizeof(T) * (newSize - size));
         delete array;
         array = newArray;
         size = newSize;

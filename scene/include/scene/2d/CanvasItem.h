@@ -21,6 +21,9 @@ namespace blitz
 
     struct CanvasItem
     {
+        CanvasItem() = default;
+        virtual ~CanvasItem() = default;
+
         Transform2D transform;
         bool isVisible;
         CanvasItem* parent;

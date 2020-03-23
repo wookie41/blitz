@@ -67,7 +67,8 @@ int main(int argc, char** argv)
 
     blitz::VisualServer2D* visualServer2D = blitz::VisualServer2D::getInstance();
     blitz::CanvasID canvasID = visualServer2D->createCanvas();
-    blitz::Sprite* runSprite = visualServer2D->createSprite();
+    blitz::SpriteID runSpriteID = visualServer2D->createSprite();
+    blitz::Sprite* runSprite = visualServer2D->getSprite(runSpriteID);
 
     int spriteColCount = 8;
     int spriteRowCount = 1;

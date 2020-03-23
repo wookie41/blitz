@@ -24,42 +24,46 @@ namespace blitz
     {
         memory::resetThreadAllocator();
 
-        canvases = new Array<Canvas>(numCanvases);
-
         renderFramePool = new memory::PoolAllocator(5000000);
         renderFramePool->init();
 
+        canvasItemsPool = new memory::PoolAllocator(8192);
+        canvasItemsPool->init();
+
         renderingPath = new front::ForwardRenderingPath(BLITZ_RENDERER);
+
+        memory::setThreadAllocator(canvasItemsPool);
+
+        canvases = new Array<Canvas>(numCanvases);
+        sprites = new Array<Sprite>(4);
+
+        memory::resetThreadAllocator();
     }
 
     VisualServer2D::~VisualServer2D() { delete canvases; }
 
     CanvasID VisualServer2D::createCanvas()
     {
-        const uint8 canvasID = canvases->getSize();
-        assert(canvasID < MAX_CANVAS_COUNT);
-        canvases->add(Canvas{});
+        CanvasID canvasID = canvases->getSize();
+        canvases->reserve(1);
         Canvas* canvas = canvases->get(canvasID);
         initChildren(canvas);
         return canvasID;
     }
 
-    Canvas* VisualServer2D::getCanvas(CanvasID canvasID) const
-    {
-        assert(canvasID < MAX_CANVAS_COUNT);
-        return canvases->get(canvasID);
-    }
+    Canvas* VisualServer2D::getCanvas(const CanvasID& canvasID) const { return canvases->get(canvasID); }
 
-    void VisualServer2D::attachToCanvas(CanvasID canvasID, CanvasItem* item)
+    void VisualServer2D::attachToCanvas(const CanvasID& canvasID, CanvasItem* item)
     {
-        assert(canvasID < canvases->getSize());
+        memory::setThreadAllocator(canvasItemsPool);
         Canvas* canvas = canvases->get(canvasID);
         canvas->childrenTail->child = item;
         canvas->childrenTail->next = new CanvasChild;
         canvas->childrenTail = canvas->childrenTail->next;
+        memory::resetThreadAllocator();
     }
 
-    void VisualServer2D::detachFromCanvas(CanvasID canvasID, CanvasItem* item)
+    void VisualServer2D::detachFromCanvas(const CanvasID& canvasID, CanvasItem* item)
     {
         assert(canvasID < canvases->getSize());
         Canvas* canvas = canvases->get(canvasID);
@@ -90,28 +94,34 @@ namespace blitz
         return &visualServer2D;
     }
 
-    Sprite* VisualServer2D::createSprite()
+    SpriteID VisualServer2D::createSprite()
     {
-        Sprite* sprite = new Sprite;
-        initChildren(sprite);
-        return sprite;
+        SpriteID spriteIdx = sprites->getSize();
+        sprites->reserve(1);
+        initChildren(sprites->get(spriteIdx));
+        return spriteIdx;
     }
+
+    Sprite* VisualServer2D::getSprite(const SpriteID& spriteID) const { return sprites->get(spriteID); }
 
     void VisualServer2D::initChildren(CanvasItem* canvasItem) const
     {
+        memory::setThreadAllocator(canvasItemsPool);
         canvasItem->children = new CanvasChild;
         canvasItem->childrenTail = canvasItem->children;
+        memory::resetThreadAllocator();
     }
 
     void VisualServer2D::render(Framebuffer* target, const ViewPort* viewPort, const front::Camera* camera, const CanvasID& canvasID) const
     {
-        renderFramePool->reset();
-        memory::setThreadAllocator(renderFramePool);
 
         assert(canvasID < canvases->getSize());
 
         Canvas* canvas = canvases->get(canvasID);
         CanvasChild* nodeToRender = canvas->children;
+
+        renderFramePool->reset();
+        memory::setThreadAllocator(renderFramePool);
 
         Array<RenderCommand>* renderCanvasCommands = new Array<RenderCommand>(128);
 

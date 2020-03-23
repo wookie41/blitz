@@ -8,6 +8,7 @@ namespace blitz
 
     struct Sprite : CanvasItem
     {
+        Sprite() = default;
         Vector2i texRegionSize;
         Vector2i texRegionIndex;
         Vector2i spriteSize;
