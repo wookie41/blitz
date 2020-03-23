@@ -46,7 +46,6 @@ int main(int argc, char** argv)
 
     blitz::Shader* default2DShader = shadersManager.createShader(default2DShaderName, default2DShaderPaths);
 
-
     blitz::init2DShapes(&window->getContext());
 
     window->show();

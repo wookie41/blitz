@@ -74,6 +74,7 @@ namespace blitz
         bzero(newArray + (size * sizeof(T)), sizeof(T) * (newSize - size));
         delete array;
         array = newArray;
+        size = newSize;
     }
 
     template <typename T>
