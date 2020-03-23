@@ -13,9 +13,6 @@ namespace blitz
         Vector2i spriteSize;
         Texture* texture;
 
-        inline const CanvasItemType& getType() const override
-        {
-            return CanvasItemType::SPRITE;
-        }
+        inline const CanvasItemType getType() const override { return CanvasItemType::SPRITE; }
     };
 } // namespace blitz

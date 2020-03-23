@@ -16,17 +16,21 @@ namespace blitz::fs
             return nullptr;
         }
         fseek(fileToRead, 0, SEEK_END);
+
+        char* buffer = nullptr;
+        std::size_t numRead = 0;
+
         unsigned long fileSize = ftell(fileToRead);
         if (fileSize == -1)
         {
             goto readFileEnd;
         }
-        
+
         rewind(fileToRead);
 
-        char* buffer = new char[fileSize + 1];
+        buffer = new char[fileSize + 1];
+        numRead = fread(buffer, 1, fileSize, fileToRead);
 
-        std::size_t numRead = fread(buffer, 1, fileSize, fileToRead);
         if (numRead != fileSize)
         {
             delete[] buffer;

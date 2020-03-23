@@ -18,7 +18,7 @@ namespace blitz
     class Shader : public NonCopyable
     {
       public:
-        Shader(const blitz::string& name, Array<IUniformVariable*>* uniforms, Array<UniformBlock>* uniformBlocks, Array<ShaderOutput>* outputs);
+        Shader(Array<IUniformVariable*>* uniforms, Array<UniformBlock>* uniformBlocks, Array<ShaderOutput>* outputs);
 
         virtual void use() = 0;
         virtual void disable() = 0;
@@ -33,7 +33,6 @@ namespace blitz
         virtual ~Shader();
 
       protected:
-        blitz::string shaderName;
         Array<IUniformVariable*>* uniformVariables;
         Array<UniformBlock>* uniformBlocks;
         Array<ShaderOutput>* shaderOutputs;

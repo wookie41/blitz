@@ -20,27 +20,16 @@ namespace blitz
 
     static const uint8 MAX_CANVAS_COUNT = 5;
 
-    static char DEFAULT_2D_SHADER_NAME[] = "default2Dshader";
-    static char DEFAULT_2D_VERTEX_SHADER_PATH[] = "shaders/default2dVert.glsl";
-    static char DEFAULT_2D_FRAGMENT_SHADER_PATH[] = "shaders/default2dFrag.glsl";
-
     VisualServer2D::VisualServer2D(uint8 numCanvases)
     {
         memory::resetThreadAllocator();
 
         canvases = new Array<Canvas>(numCanvases);
 
-        renderFramePool = new memory::PoolAllocator(8192);
+        renderFramePool = new memory::PoolAllocator(5000000);
         renderFramePool->init();
 
-        // TODO use custom allocator
-        char* vertexShaderSource = fs::readFile(blitz::string(DEFAULT_2D_VERTEX_SHADER_PATH));
-        char* fragmentShaderSource = fs::readFile(blitz::string(DEFAULT_2D_FRAGMENT_SHADER_PATH));
-
-        Shader* default2DShader =
-        BLITZ_DEVICE->createShader({ blitz::string(DEFAULT_2D_SHADER_NAME), vertexShaderSource, nullptr, fragmentShaderSource });
-
-        renderingPath = new front::ForwardRenderingPath(BLITZ_RENDERER, default2DShader);
+        renderingPath = new front::ForwardRenderingPath(BLITZ_RENDERER);
     }
 
     VisualServer2D::~VisualServer2D() { delete canvases; }
@@ -48,7 +37,7 @@ namespace blitz
     CanvasID VisualServer2D::createCanvas()
     {
         const uint8 canvasID = canvases->getSize();
-        // assert(canvasID < MAX_CANVAS_COUNT);
+        assert(canvasID < MAX_CANVAS_COUNT);
         canvases->add(Canvas{});
         Canvas* canvas = canvases->get(canvasID);
         initChildren(canvas);
@@ -136,16 +125,16 @@ namespace blitz
             }
 
             nodeToRender = nodeToRender->next;
+
+            front::RenderList* renderList = new front::RenderList;
+            renderList->viewPort = viewPort;
+            renderList->camera = camera;
+            renderList->framebuffer = target;
+            renderList->geometry = renderCanvasCommands;
+            renderList->lights = nullptr;
+
+            renderingPath->render(renderList);
         }
-
-        front::RenderList* renderList = new front::RenderList;
-        renderList->viewPort = viewPort;
-        renderList->camera = camera;
-        renderList->framebuffer = target;
-        renderList->geometry = renderCanvasCommands;
-        renderList->lights = nullptr;
-
-        renderingPath->render(renderList);
 
         memory::resetThreadAllocator();
     }
@@ -173,11 +162,19 @@ namespace blitz
         renderCommand->numberOfIndicesToDraw = 0;
         renderCommand->primitiveType = PrimitiveType::TRIANGLE_STRIP;
         renderCommand->vertexArray = quadVertexArray;
-        renderCommand->uniformsState = new Array<UniformState>(6);
+        renderCommand->shader = sprite->material->shader;
 
-        //TODO sampler should not have to be created every time it should at least be configurable
+        size_t materialPropertiesCount = sprite->material->properties == nullptr ? 0 : sprite->material->properties->getSize();
+        Array<UniformState>* uniformsStates = new Array<UniformState>(6 + materialPropertiesCount);
+
+        for (size_t materialPropIdx = 0; materialPropIdx < materialPropertiesCount; ++materialPropIdx)
+        {
+            UniformState* materialUniformState = uniformsStates->get(materialPropIdx);
+            uniformsStates->add(materialUniformState);
+        }
+
+        // TODO sampler should not have to be created every time it should at least be configurable
         blitz::TextureSampler* spriteTextureSampler = BLITZ_DEVICE->createSampler(sprite->texture);
-        Array<UniformState>* uniformsStates = renderCommand->uniformsState;
 
         uniformsStates->add({ DataType::VECTOR2F, SPRITE_POSITION_UNIFORM_HASH, (void*)&sprite->transform.translate });
         uniformsStates->add({ DataType::VECTOR2I, SPRITE_SIZE_UNIFORM_HASH, (void*)&sprite->spriteSize });
@@ -186,5 +183,7 @@ namespace blitz
         uniformsStates->add({ DataType::VECTOR2I, SPRITE_TEXTURE_REGION_INDEX, (void*)&sprite->texRegionIndex });
         uniformsStates->add({ DataType::VECTOR2I, SPRITE_TEXTURE_REGION_SIZE, (void*)&sprite->texRegionSize });
         uniformsStates->add({ DataType::VECTOR3I, SPRITE_TEXTURE_SIZE, (void*)&sprite->texture->getSize() });
+
+        renderCommand->uniformsState = uniformsStates;
     }
 } // namespace blitz

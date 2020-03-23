@@ -16,7 +16,7 @@ namespace blitz
       public:
         RenderPass(const RenderState* state, const Array<RenderCommand>* commands);
 
-        //this should be called if the commands should be reorder
+        // this should be called if the commands should be reorder
         virtual void prepare() = 0;
 
         // Returns a pointer to the next RenderCommand that should be issued

@@ -14,11 +14,7 @@ namespace blitz::front
     class ForwardRenderingPath : public RenderingPath
     {
       public:
-        ForwardRenderingPath(Renderer* renderer, Shader* shaderToUse);
-
+        ForwardRenderingPath(Renderer* renderer);
         void render(RenderList* renderList) override;
-
-      private:
-        Shader* shader;
     };
 } // namespace blitz::front

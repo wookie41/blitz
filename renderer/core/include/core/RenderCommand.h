@@ -17,6 +17,13 @@ namespace blitz
         {
         }
 
+        UniformState& operator=(const UniformState& rhs)
+        {
+            dataType = rhs.dataType;
+            uniformNameHash = rhs.uniformNameHash;
+            value = rhs.value;
+        }
+
         DataType dataType;
         hash uniformNameHash;
         void* value;
@@ -50,8 +57,11 @@ namespace blitz
         BufferBindTarget bindTarget;
     };
 
+    class Shader;
+
     struct RenderCommand
     {
+        Shader* shader;
         VertexArray* vertexArray;
         Array<BufferBinding>* buffers;
         Array<UniformState>* uniformsState;

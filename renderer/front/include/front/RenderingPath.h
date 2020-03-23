@@ -21,7 +21,7 @@ namespace blitz::front
     {
         const ViewPort* viewPort;
         const Camera* camera = nullptr;
-        Framebuffer* framebuffer = nullptr; 
+        Framebuffer* framebuffer = nullptr;
         const Array<RenderCommand>* geometry = nullptr;
         const Array<Light*>* lights = nullptr;
     };
@@ -39,8 +39,8 @@ namespace blitz::front
         inline Matrix4f calculateProjectionMatrix(const ViewPort* viewPort, const Projection& projection, const float& fov)
         {
             return projection == Projection::PERSPECTIVE ?
-                   Matrix4f::Perspective(toRadians(fov), (float)viewPort->width / (float)viewPort->height, viewPort->near,
-                                         viewPort->far) :
+                   Matrix4f::Perspective(toRadians(fov), (float)viewPort->width / (float)viewPort->height,
+                                         viewPort->near, viewPort->far) :
                    Matrix4f::Ortho(viewPort->x, viewPort->width, viewPort->y, viewPort->height, viewPort->near, viewPort->far);
         }
 
